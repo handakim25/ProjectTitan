@@ -6,6 +6,8 @@
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
+/[Bb]uild_PC
+/[Bb]uild_Android
 /[Bb]uilds/
 /[Ll]ogs/
 /[Mm]emoryCaptures/
