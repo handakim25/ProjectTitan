@@ -16,7 +16,7 @@ namespace Titan.InventorySystem.Items
         /// Key of ItemDatabase.
         /// If id == -1, Empty Item.
         /// </summary>
-        public int id = -1;
+        public readonly int id = -1;
 
         public Item()
         {
@@ -26,6 +26,10 @@ namespace Titan.InventorySystem.Items
         public Item(ItemObject itemObject)
         {
             id = itemObject.data.id;
+        }
+
+         public static Item NullItem {
+            get => new Item();
         }
     }
 }
