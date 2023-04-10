@@ -6,6 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/ProjectTitan/Scenes/_bootloader.unity
+    guid: 56fd8f4d6766ba14db96774221ce970b
+  - enabled: 1
     path: Assets/ProjectTitan/Scenes/sc_test.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/ProjectTitan/Scenes/sc_Core.unity
+    guid: 9a564e4e8dcb36b4782450ef36b07b21
+  - enabled: 1
+    path: Assets/ProjectTitan/Scenes/level_Test.unity
+    guid: 701057a723c3c9f4593fcc47a62e834b
+  - enabled: 1
+    path: Assets/ProjectTitan/Scenes/sc_Light.unity
+    guid: 3dcb406939a9db44baeb96397b2e2a70
+  - enabled: 1
+    path: Assets/ProjectTitan/Scenes/sc_UI.unity
+    guid: 1a06db82f7dbf0a42bb05d434299a73e
   m_configObjects: {}
