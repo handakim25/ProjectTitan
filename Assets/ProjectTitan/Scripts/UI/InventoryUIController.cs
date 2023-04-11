@@ -12,5 +12,14 @@ namespace Titan.UI.InventorySystem
         {
             gameObject.SetActive(false);
         }
+
+#if UNITY_EDITOR
+        public Titan.InventorySystem.InventoryObject inventoryObject;
+        // Test methods for testing
+        public void AddRandomItem()
+        {
+            inventoryObject.AddRandomItem();
+        }
+#endif
     }
 }

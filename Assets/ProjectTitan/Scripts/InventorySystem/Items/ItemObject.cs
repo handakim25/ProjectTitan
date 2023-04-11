@@ -9,6 +9,7 @@ namespace Titan.InventorySystem.Items
     {
         #region Variables
         public ItemType type;
+        public bool stackable;
 
         [Tooltip("Icon that will be displayed on Inventory UI")]
         public Sprite icon;
