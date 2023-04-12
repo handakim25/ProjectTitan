@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
   m_Name: TestQuestItem
   m_EditorClassIdentifier: 
-  type: 0
+  type: 4
   stackable: 0
   icon: {fileID: 0}
   dropModel: {fileID: 0}

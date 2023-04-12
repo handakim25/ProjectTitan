@@ -13,41 +13,195 @@ MonoBehaviour:
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
   itemDatabase: {fileID: 11400000, guid: d37407e5a8c5b764e8564b734b6313d7, type: 2}
+  _maxCapacity: 500
   inventory:
     slots:
     - item:
         id: 0
       amount: 0
     - item:
-        id: 0
-      amount: 0
+        id: 1
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
     - item:
         id: 0
-      amount: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 1
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
