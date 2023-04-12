@@ -24,6 +24,16 @@ namespace Titan.InventorySystem
 
         #region Methods
 
+        public InventorySlot() => UpdateSlot(new Item(), 0);
+        public InventorySlot(Item item, int amount) => UpdateSlot(item, amount);
+
+        /// <summary>
+        /// Update Slot
+        /// If amount is less then 0, it will be empty slot
+        /// OnPreUpdate and OnPostUpdate will be called
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="amount"></param>
         public void UpdateSlot(Item item, int amount)
         {
             if(amount < 0)

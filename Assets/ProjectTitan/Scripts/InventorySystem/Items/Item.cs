@@ -16,7 +16,7 @@ namespace Titan.InventorySystem.Items
         /// Key of ItemDatabase.
         /// If id == -1, Empty Item.
         /// </summary>
-        public int id = -1;
+        public int id;
 
         public Item()
         {

@@ -16,13 +16,20 @@ namespace Titan.InventorySystem
 
         // @ToDo : Create custom eidtor for Inventory.
         [SerializeField] Inventory inventory;
-        // [SerializeField] 
 
-        // @refactor
-        // Pass changed arguemnts.
-        // So that, it does not need to update all slots.
+        public class SlotCountChangedEventArgs : System.EventArgs
+        {
+            public List<InventorySlot> UpdatedSlots;
+
+            public SlotCountChangedEventArgs(List<InventorySlot> slots)
+            {
+                UpdatedSlots = slots;
+            }
+        }
+
+        public delegate void SlotCountChangedEventHandler(Object sender, SlotCountChangedEventArgs args);
         [System.NonSerialized]
-        public System.Action OnInventoryChanged;
+        public SlotCountChangedEventHandler OnSlotCountChanged;
 
         #endregion Varialbes
 
@@ -42,12 +49,18 @@ namespace Titan.InventorySystem
             InventorySlot slot = FindItemInInventory(item);
             if(!itemDatabase.itemObjects[item.id].stackable || slot == null)
             {
+                // a. stackable true, slot == null : Item does not exist.
+                // b. stackable false, slot == null : Item does not exist.
+                // c. stackable true, slot != null : go to else, Add item to an existing slot.
+                // d. stackable false, slot != null : The item exists but it is not stackable, create a new slot.
                 if(IsFull)
                 {
                     return false;
                 }
 
-                inventory.AddItem();
+                var addedSlot = inventory.AddItem(item, amount);
+                var args = new SlotCountChangedEventArgs(new List<InventorySlot> { addedSlot });
+                OnSlotCountChanged?.Invoke(this, args);
             }
             else
             {
@@ -62,9 +75,11 @@ namespace Titan.InventorySystem
             throw new System.NotImplementedException();
         }
 
+        // As the appropriate access modifer is unclear at this time,
+        // it will be kept private for now.
         private InventorySlot FindItemInInventory(Item item)
         {
-            return Slots.FirstOrDefault(itemSlot => itemSlot.item.id == item.id);
+            return inventory.FindItemInInventory(item);
         }
 
         #endregion Methods
@@ -73,7 +88,6 @@ namespace Titan.InventorySystem
 
         public void AddRandomItem()
         {
-            Debug.Log($"Add random Item");
             if(itemDatabase.itemObjects.Length == 0)
             {
                 return;
@@ -82,6 +96,7 @@ namespace Titan.InventorySystem
             int randomIndex = Random.Range(0, itemDatabase.itemObjects.Length);
             ItemObject newItemObject = itemDatabase.itemObjects[Random.Range(0, itemDatabase.itemObjects.Length)];
             Item newItem = new Item(newItemObject);
+            Debug.Log($"Create item / id : {newItem.id}");
             AddItem(newItem, 1);
         }
 

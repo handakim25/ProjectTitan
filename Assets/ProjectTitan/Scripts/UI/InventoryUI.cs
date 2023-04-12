@@ -21,6 +21,7 @@ namespace Titan.UI.InventorySystem
         [SerializeField] GameObject _detailedSlot;
 
         public Dictionary<GameObject, InventorySlot> slotUIs = new Dictionary<GameObject, InventorySlot>();
+        private int _lastSlotIndex;
 
         #endregion Variables
 
@@ -42,7 +43,17 @@ namespace Titan.UI.InventorySystem
         /// </summary>
         private void OnEnable()
         {
-            CreateSlots();    
+            _lastSlotIndex = 0;
+            CreateSlots();
+            _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
+        }
+
+        /// <summary>
+        /// This function is called when the behaviour becomes disabled or inactive.
+        /// </summary>
+        private void OnDisable()
+        {
+            _inventoryObject.OnSlotCountChanged -= OnSlotCountChangedHandler;
         }
 
         #endregion UnityMethods
@@ -55,23 +66,28 @@ namespace Titan.UI.InventorySystem
             var slots = _inventoryObject.Slots;
 
             Transform parent = _inventoryScroll.content.transform;
-            for(int i = 0; i < slots.Count; ++i)
+            foreach(InventorySlot slot in slots)
             {
-                // Caution : Directly accessing the transform of UI elements is risky.
-                // It can lead to unintended results.
-                GameObject slotGo = Instantiate(_slotPrefab, parent);
+                GameObject slotGo = CreateSlot(parent);
 
-                AddEvent(slotGo, EventTriggerType.PointerEnter, delegate {OnEnter(slotGo);});
-                AddEvent(slotGo, EventTriggerType.PointerExit, delegate {OnExit(slotGo);});
-                AddEvent(slotGo, EventTriggerType.PointerClick, (data) => {OnClick(slotGo, (PointerEventData)data);} );
-                AddEvent(slotGo, EventTriggerType.Scroll, (data) => {OnScroll(slotGo, (PointerEventData)data);} );
-                AddEvent(slotGo, EventTriggerType.BeginDrag, (data) => {OnBeginDrag(slotGo, (PointerEventData)data);} );
-                AddEvent(slotGo, EventTriggerType.Drag, (data) => {OnDrag(slotGo, (PointerEventData)data);} );
-                AddEvent(slotGo, EventTriggerType.EndDrag, (data) => {OnEndDrag(slotGo, (PointerEventData)data);} );
-
-                slotUIs.Add(slotGo, slots[i]);
-                slotGo.name += $": {i}";
+                slotUIs.Add(slotGo, slot);
+                slotGo.name += $": {_lastSlotIndex++}";
             }
+        }
+
+        private GameObject CreateSlot(Transform parent)
+        {
+            GameObject slotGo = Instantiate(_slotPrefab, parent);
+
+            AddEvent(slotGo, EventTriggerType.PointerEnter, delegate {OnEnter(slotGo);});
+            AddEvent(slotGo, EventTriggerType.PointerExit, delegate {OnExit(slotGo);});
+            AddEvent(slotGo, EventTriggerType.PointerClick, (data) => {OnClick(slotGo, (PointerEventData)data);} );
+            AddEvent(slotGo, EventTriggerType.Scroll, (data) => {OnScroll(slotGo, (PointerEventData)data);} );
+            AddEvent(slotGo, EventTriggerType.BeginDrag, (data) => {OnBeginDrag(slotGo, (PointerEventData)data);} );
+            AddEvent(slotGo, EventTriggerType.Drag, (data) => {OnDrag(slotGo, (PointerEventData)data);} );
+            AddEvent(slotGo, EventTriggerType.EndDrag, (data) => {OnEndDrag(slotGo, (PointerEventData)data);} );
+
+            return slotGo;
         }
 
         protected void AddEvent(GameObject go, EventTriggerType type, UnityAction<BaseEventData> action)
@@ -130,9 +146,16 @@ namespace Titan.UI.InventorySystem
 
         #endregion Methods for Slot UI
 
-        protected void OnInventoryChangedHandler()
+        protected void OnSlotCountChangedHandler(object e, InventoryObject.SlotCountChangedEventArgs handler)
         {
-            throw new System.NotImplementedException();
+            Transform parent = _inventoryScroll.content.transform;
+            foreach(InventorySlot slot in handler.UpdatedSlots)
+            {
+                GameObject slotGo = CreateSlot(parent);
+
+                slotUIs.Add(slotGo, slot);
+                slotGo.name += $": {_lastSlotIndex++}";
+            }
         }
     }
 }
