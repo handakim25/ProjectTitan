@@ -398,6 +398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 121537620}
+  - component: {fileID: 121537621}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -420,6 +421,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &121537621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121537619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3410e69a9b5c39d4a9dab5c42fabb278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 2115621304}
 --- !u!1 &134816127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2102,9 +2116,8 @@ GameObject:
   - component: {fileID: 602003193}
   - component: {fileID: 602003192}
   - component: {fileID: 602003191}
-  - component: {fileID: 602003190}
   m_Layer: 5
-  m_Name: Inventory
+  m_Name: InventoryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2131,18 +2144,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 160, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &602003190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 602003188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47a1ec4c4142d2945b24fb5ae2e1549d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &602003191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2186,7 +2187,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 602003192}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 121537620}
+        m_TargetAssemblyTypeName: UnityEngine.Transform, UnityEngine
+        m_MethodName: SetParent
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &602003192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4103,7 +4116,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.0715, y: -1079.9193}
+  m_AnchoredPosition: {x: 960.0714, y: -1079.9193}
   m_SizeDelta: {x: 1920.143, y: 96}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1377549215
@@ -4203,7 +4216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.0715, y: -539.95966}
+  m_AnchoredPosition: {x: 960.0714, y: -539.95966}
   m_SizeDelta: {x: 1920.143, y: 887.9193}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1429261780
@@ -5301,7 +5314,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.0715, y: 0}
+  m_AnchoredPosition: {x: 960.0714, y: 0}
   m_SizeDelta: {x: 1920.143, y: 96}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1875547658
@@ -5703,11 +5716,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2115621304}
-        m_TargetAssemblyTypeName: Titan.UI.InventorySystem.InventoryUIController,
-          Assembly-CSharp
-        m_MethodName: CloseUI
-        m_Mode: 1
+      - m_Target: {fileID: 2115621299}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

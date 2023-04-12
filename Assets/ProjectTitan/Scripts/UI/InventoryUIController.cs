@@ -7,11 +7,6 @@ namespace Titan.UI.InventorySystem
     public class InventoryUIController : UIBase
     {
         [SerializeField] protected InventoryUI inventoryUI;
-        
-        public void CloseUI()
-        {
-            gameObject.SetActive(false);
-        }
 
 #if UNITY_EDITOR
         public Titan.InventorySystem.InventoryObject inventoryObject;
