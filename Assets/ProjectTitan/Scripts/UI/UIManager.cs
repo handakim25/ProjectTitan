@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Titan.Core;
+using Titan.InventorySystem.Items;
 
 namespace Titan.UI
 {
     public sealed class UIManager : MonoSingleton<UIManager>
     {
+        [SerializeField] ItemDatabase itemDatabase;
         // @Refactor
         // Change to scalable design latter
         [SerializeField] private UIBase inventoryUI;
 
         [SerializeField] private List<UIBase> _UIList = new List<UIBase>();
-        
+
         // Memo
         // Think UI as Scene
         // Once one scene open -> other scenes should be closed
@@ -35,6 +37,11 @@ namespace Titan.UI
         public void OnCloseInventory()
         {
             inventoryUI.CloseUI();
+        }
+
+        public ItemObject GetItemObject(int id)
+        {
+            return itemDatabase.itemObjects[id];
         }
 
         // onvalidate?
