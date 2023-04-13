@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.SceneManagement;
 
 using Titan.Core.Scene;
 
@@ -39,7 +40,10 @@ namespace Titan.Editor.Scene
                 return;
             }
             
-            asset.Open();
+            if(EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                asset.Open();
+            }
         }
     }
 }
