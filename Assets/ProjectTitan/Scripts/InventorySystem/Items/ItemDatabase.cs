@@ -13,6 +13,7 @@ namespace Titan.InventorySystem.Items
     {
         public ItemObject[] itemObjects;
 
+#region EditorCode
 #if UNITY_EDITOR
         // @Refactor
         // Refactoring to avoid potential issues with differing ids
@@ -34,5 +35,6 @@ namespace Titan.InventorySystem.Items
             itemObjects = assetList.ToArray();
         }
 #endif
+#endregion EditorCode
     }
 }
