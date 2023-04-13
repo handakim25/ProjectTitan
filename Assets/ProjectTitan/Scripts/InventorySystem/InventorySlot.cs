@@ -12,10 +12,10 @@ namespace Titan.InventorySystem
     {
         #region Variables
 
-        [NonSerialized]
-        public Action<InventorySlot> OnPreUpdate;
-        [NonSerialized]
-        public Action<InventorySlot> OnPostUpdate;
+        [NonSerialized] public GameObject SlotUI;
+
+        [NonSerialized] public Action<InventorySlot> OnPreUpdate;
+        [NonSerialized] public Action<InventorySlot> OnPostUpdate;
 
         public Item item;
         public int amount;    
