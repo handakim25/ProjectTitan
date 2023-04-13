@@ -13,28 +13,33 @@ namespace Titan.Editor.Scene
         [MenuItem("ProjectTitan/Scene/Play")]
         private static void OpenPlayScene()
         {
-            List<SceneCollectionObject> scenes = new List<SceneCollectionObject>();
-            string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(SceneCollectionObject)));
-            for(int i = 0; i < guids.Length; ++i)
+            LoadScene("GamePlayScenes");
+        }
+
+        [MenuItem("ProjectTitan/Scene/Entry")]
+        private static void OpenEntryScene()
+        {
+            LoadScene("EntryScenes");
+        }
+
+        private static void LoadScene(string sceneName)
+        {
+            string[] guid = AssetDatabase.FindAssets(sceneName);
+            if(guid.Length > 1)
             {
-                string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-                SceneCollectionObject asset = AssetDatabase.LoadAssetAtPath<SceneCollectionObject>(assetPath);
-                if(asset != null)
-                {
-                    scenes.Add(asset);
-                }
+                Debug.LogWarning($"{sceneName} is duplicated.");
+                return;
             }
 
-            foreach(SceneCollectionObject scene in scenes)
+            string assetPath = AssetDatabase.GUIDToAssetPath(guid[0]);
+            SceneCollectionObject asset = AssetDatabase.LoadAssetAtPath<SceneCollectionObject>(assetPath);
+            if(asset == null)
             {
-                if(scene.name == "GamePlay")
-                {
-                    scene.Open();
-                    return;
-                }
+                Debug.LogWarning($"Cannot find Scene Asset");
+                return;
             }
-
-            Debug.LogError($"Unalbe to find Play Scene");
+            
+            asset.Open();
         }
     }
 }
