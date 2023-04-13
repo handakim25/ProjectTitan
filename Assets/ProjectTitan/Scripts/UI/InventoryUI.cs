@@ -53,6 +53,7 @@ namespace Titan.UI.InventorySystem
         /// </summary>
         private void OnDisable()
         {
+            DestroySlots();
             _inventoryObject.OnSlotCountChanged -= OnSlotCountChangedHandler;
         }
 
@@ -90,6 +91,21 @@ namespace Titan.UI.InventorySystem
             return slotGo;
         }
 
+        protected void DestroySlots()
+        {
+            // key : SlotGo, value : InventorySlot
+            // Caution: Do not access slot dictionary from other classes during destruction
+            foreach(var pair in slotUIs)
+            {
+                var slot = pair.Value;
+                // slot.OnPostUpdate -= 
+
+                var slotGo = pair.Key;
+                Destroy(slotGo);
+            }
+
+            slotUIs.Clear();
+        }
         protected void AddEvent(GameObject go, EventTriggerType type, UnityAction<BaseEventData> action)
         {
             EventTrigger trigger = go.GetComponent<EventTrigger>();
