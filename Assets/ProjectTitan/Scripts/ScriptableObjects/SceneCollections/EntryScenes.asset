@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1797fe03e84dbf64fb18bffd61761a5d, type: 3}
   m_Name: EntryScenes
   m_EditorClassIdentifier: 
-  scenes: []
+  scenes:
+  - {fileID: 102900000, guid: 56fd8f4d6766ba14db96774221ce970b, type: 3}
