@@ -433,7 +433,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3410e69a9b5c39d4a9dab5c42fabb278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemDatabase: {fileID: 11400000, guid: d37407e5a8c5b764e8564b734b6313d7, type: 2}
   inventoryUI: {fileID: 2115621304}
+  _UIList: []
 --- !u!1 &134816127
 GameObject:
   m_ObjectHideFlags: 0
@@ -2018,7 +2020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &583248943
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2139,10 +2141,10 @@ RectTransform:
   m_Father: {fileID: 583248943}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 80, y: -100}
+  m_SizeDelta: {x: 160, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &602003191
 MonoBehaviour:
@@ -3523,7 +3525,6 @@ MonoBehaviour:
   _slotPrefab: {fileID: 6749776957093161442, guid: 5bdb0020bdc518445b162bd436318850,
     type: 3}
   _inventoryScroll: {fileID: 1820367722}
-  _detailedSlot: {fileID: 0}
 --- !u!1 &1105902606
 GameObject:
   m_ObjectHideFlags: 0
@@ -4116,7 +4117,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.0714, y: -1079.9193}
+  m_AnchoredPosition: {x: 960.0715, y: -1079.9193}
   m_SizeDelta: {x: 1920.143, y: 96}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1377549215
@@ -4216,7 +4217,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.0714, y: -539.95966}
+  m_AnchoredPosition: {x: 960.0715, y: -539.95966}
   m_SizeDelta: {x: 1920.143, y: 887.9193}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1429261780
@@ -5314,7 +5315,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 960.0714, y: 0}
+  m_AnchoredPosition: {x: 960.0715, y: 0}
   m_SizeDelta: {x: 1920.143, y: 96}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1875547658
@@ -6021,6 +6022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 1039399201}
+  DetailSlotUI: {fileID: 7190287991567588276}
   inventoryObject: {fileID: 11400000, guid: 651d14d27d1e0ef4393756b5fb7e3406, type: 2}
 --- !u!1001 &7190287991567588275
 PrefabInstance:
@@ -6216,3 +6218,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5665f948391410b40ac57823d9b71fc6, type: 3}
+--- !u!1 &7190287991567588276 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7190287991919689707, guid: 5665f948391410b40ac57823d9b71fc6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7190287991567588275}
+  m_PrefabAsset: {fileID: 0}

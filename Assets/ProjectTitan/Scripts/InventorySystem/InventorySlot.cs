@@ -47,8 +47,9 @@ namespace Titan.InventorySystem
             OnPostUpdate?.Invoke(this);
         }
 
-        public  void AddAmount(int value) => UpdateSlot(item, amount += value);
-
+        public void AddAmount(int value) => UpdateSlot(item, amount += value);
+        
+        public bool IsValid => item.id >= 0;
         #endregion Methods
     }
 }

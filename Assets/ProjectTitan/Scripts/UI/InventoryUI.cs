@@ -18,10 +18,16 @@ namespace Titan.UI.InventorySystem
         [SerializeField] GameObject _slotPrefab;
 
         [SerializeField] ScrollRect _inventoryScroll;
-        [SerializeField] GameObject _detailedSlot;
 
         public Dictionary<GameObject, InventorySlot> slotUIs = new Dictionary<GameObject, InventorySlot>();
+
         private int _lastSlotIndex;
+
+        private GameObject _selectedSlot;
+        /// <summary>
+        /// Argument : If nothing is selected, it could be null.
+        /// </summary>
+        public System.Action<InventorySlot> OnSlotSelected; // Memo : Be careful when setting up things when the object is activated
 
         #endregion Variables
 
@@ -46,6 +52,13 @@ namespace Titan.UI.InventorySystem
             _lastSlotIndex = 0;
             CreateSlots();
             _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
+
+            if(slotUIs.Count > 0)
+            {
+                var firstObject = _inventoryScroll.content.GetChild(0).gameObject;
+                var selectedSlot = slotUIs[firstObject];
+                OnSlotSelected?.Invoke(selectedSlot);
+            }
         }
 
         /// <summary>
@@ -53,6 +66,7 @@ namespace Titan.UI.InventorySystem
         /// </summary>
         private void OnDisable()
         {
+            Debug.Log($"OnDisable");
             DestroySlots();
             _inventoryObject.OnSlotCountChanged -= OnSlotCountChangedHandler;
         }
@@ -63,6 +77,7 @@ namespace Titan.UI.InventorySystem
 
         protected void CreateSlots()
         {
+            Debug.Log($"Create Slots");
             slotUIs.Clear();
             var slots = _inventoryObject.Slots;
 
@@ -71,6 +86,7 @@ namespace Titan.UI.InventorySystem
             {
                 GameObject slotGo = CreateSlot(parent);
 
+                slot.SlotUI = slotGo;
                 slotUIs.Add(slotGo, slot);
                 slotGo.name += $": {_lastSlotIndex++}";
             }
@@ -99,6 +115,7 @@ namespace Titan.UI.InventorySystem
             {
                 var slot = pair.Value;
                 // slot.OnPostUpdate -= 
+                slot.SlotUI = null;
 
                 var slotGo = pair.Key;
                 Destroy(slotGo);
@@ -106,6 +123,7 @@ namespace Titan.UI.InventorySystem
 
             slotUIs.Clear();
         }
+
         protected void AddEvent(GameObject go, EventTriggerType type, UnityAction<BaseEventData> action)
         {
             EventTrigger trigger = go.GetComponent<EventTrigger>();
@@ -126,17 +144,30 @@ namespace Titan.UI.InventorySystem
         
         public void OnEnter(GameObject go)
         {
-            Debug.Log($"Pointer Enger : {go.name}");
         }
 
         public void OnExit(GameObject go)
         {
-            Debug.Log($"Pointer Exit : {go.name}");
         }
 
         public void OnClick(GameObject go, PointerEventData data)
         {
-            Debug.Log($"Pointer Click : {go.name}");
+            InventorySlot slot = slotUIs[go];
+            if(slot == null)
+            {
+                Debug.LogWarning($"Missing slot UI");
+                return;
+            }
+
+            if(data.button == PointerEventData.InputButton.Left)
+            {
+                OnLeftClick(slot, data);
+            }
+        }   
+
+        protected void OnLeftClick(InventorySlot slot, PointerEventData data)
+        {
+            OnSlotSelected?.Invoke(slot);
         }
 
         public void OnScroll(GameObject go, PointerEventData data)
@@ -173,5 +204,17 @@ namespace Titan.UI.InventorySystem
                 slotGo.name += $": {_lastSlotIndex++}";
             }
         }
+
+        #region Methods
+
+        public InventorySlot GetFirstSlot()
+        {
+            if(slotUIs.Count == 0)
+                return null;
+            var firstSlotGo = _inventoryScroll.content.GetChild(0).gameObject;
+            return slotUIs[firstSlotGo];
+        }
+
+        #endregion Methods
     }
 }
