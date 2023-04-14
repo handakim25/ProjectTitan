@@ -148,7 +148,6 @@ namespace Titan.UI.InventorySystem
 
         public void OnScroll(GameObject go, PointerEventData data)
         {
-            Debug.Log($"On Scroll : {go.name}");
             _inventoryScroll.OnScroll(data);
         }
 
