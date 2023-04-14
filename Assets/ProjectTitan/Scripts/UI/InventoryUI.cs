@@ -81,13 +81,16 @@ namespace Titan.UI.InventorySystem
         private void OnPostUpdate(InventorySlot slot)
         {
             Debug.Log($"OnPostUpdate in inventory UI");
-            if(slot == null || slot.SlotUI == null)
+            if(slot == null || slot.SlotUI == null || slot.amount <= 0)
                 return;
 
-            if(slot.amount <= 0)
+            Transform iconTransform = slot.SlotUI.transform.Find("InventorySlot/IconBackground/IconImage");
+            if(iconTransform != null)
             {
-                return;
+                Image iconImage = iconTransform.gameObject.GetComponent<Image>();
+                
             }
+
         }
 
         private GameObject CreateSlot(Transform parent)

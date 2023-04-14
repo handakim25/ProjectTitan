@@ -101,7 +101,7 @@ namespace Titan.UI.InventorySystem
                 return;
             }
 
-            var itemObject = UIManager.Instance.GetItemObject(slot.item.id);
+            var itemObject = ItemDatabase.GetItemObject(slot.item.id);
             
             var ItemText = _detailSlot.SlotUI.transform.Find("UpperBar/ItemNameText").gameObject;
             if(ItemText != null)

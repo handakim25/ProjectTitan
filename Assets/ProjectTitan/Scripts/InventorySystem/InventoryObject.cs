@@ -11,7 +11,6 @@ namespace Titan.InventorySystem
     public class InventoryObject : ScriptableObject
     {
         #region Varialbes
-        [SerializeField] protected ItemDatabaseObject itemDatabase;
         [SerializeField] protected int _maxCapacity;
 
         // @ToDo : Create custom eidtor for Inventory.
@@ -30,7 +29,7 @@ namespace Titan.InventorySystem
         #endregion Varialbes
 
         #region Properties
-        
+
         public List<InventorySlot> Slots => inventory.Slots;
         public int Capacity => _maxCapacity;
         public int ItemCount => Slots.Count;
@@ -39,24 +38,25 @@ namespace Titan.InventorySystem
         #endregion Properties
 
         #region Methods
-        
+
         public bool AddItem(Item item, int amount)
         {
             InventorySlot slot = FindItemInInventory(item);
-            if(!itemDatabase.itemObjects[item.id].stackable || slot == null)
+            if (!ItemDatabase.GetItemObject(item.id).stackable || slot == null)
             {
                 // a. stackable true, slot == null : Item does not exist.
                 // b. stackable false, slot == null : Item does not exist.
                 // c. stackable true, slot != null : go to else, Add item to an existing slot.
                 // d. stackable false, slot != null : The item exists but it is not stackable, create a new slot.
-                if(IsFull)
+                if (IsFull)
                 {
                     return false;
                 }
 
                 var addedSlot = inventory.AddItem(item, amount);
-                var args = new SlotCountChangedEventArgs() {
-                    UpdatedSlots = new List<InventorySlot>() {addedSlot}
+                var args = new SlotCountChangedEventArgs()
+                {
+                    UpdatedSlots = new List<InventorySlot>() { addedSlot }
                 };
                 OnSlotCountChanged?.Invoke(this, args);
             }
@@ -82,20 +82,21 @@ namespace Titan.InventorySystem
 
         public bool RemoveItem(InventorySlot slotToUse, int amount)
         {
-            if(!slotToUse.IsValid || slotToUse.amount < amount)
+            if (!slotToUse.IsValid || slotToUse.amount < amount)
             {
                 return false;
             }
 
-            ItemObject itemObject = itemDatabase.itemObjects[slotToUse.item.id];
+            ItemObject itemObject = ItemDatabase.GetItemObject(slotToUse.item.id);
             slotToUse.UpdateSlot(slotToUse.item, slotToUse.amount - amount);
-            
-            if(slotToUse.amount <= 0)
+
+            if (slotToUse.amount <= 0)
             {
                 Debug.Log($"Invoke SlotCountChanged");
                 inventory.RemoveSlot(slotToUse);
-                var eventArgs = new SlotCountChangedEventArgs() {
-                    RemovedSlots = new List<InventorySlot> {slotToUse}
+                var eventArgs = new SlotCountChangedEventArgs()
+                {
+                    RemovedSlots = new List<InventorySlot> { slotToUse }
                 };
                 OnSlotCountChanged?.Invoke(this, eventArgs);
             }
@@ -109,13 +110,13 @@ namespace Titan.InventorySystem
 
         public void AddRandomItem()
         {
-            if(itemDatabase.itemObjects.Length == 0)
+            if (ItemDatabase.Length == 0)
             {
                 return;
             }
 
-            int randomIndex = Random.Range(0, itemDatabase.itemObjects.Length);
-            ItemObject newItemObject = itemDatabase.itemObjects[randomIndex];
+            int randomIndex = Random.Range(0, ItemDatabase.Length);
+            ItemObject newItemObject = ItemDatabase.GetItemObject(randomIndex);
             Item newItem = new Item(newItemObject);
             Debug.Log($"Create item / id : {newItem.id}");
             AddItem(newItem, 1);
