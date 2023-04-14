@@ -111,10 +111,13 @@ namespace Titan.UI.InventorySystem
             _inventoryObject.RemoveItem(slectedSlot, 1);
             if(_inventoryUI.SelectedSlot == null)
             {
+                Debug.Log($"Try select first");
                 var firstSlot = _inventoryUI.GetFirstSlotGo();
                 if(firstSlot)
                 {
+                    Debug.Log($"Select first slot");
                     _inventoryUI.SelectSlot(firstSlot);
+                    Debug.Log($"Slected slot : {_inventoryUI.SelectedSlot}");
                 }
                 else
                 {

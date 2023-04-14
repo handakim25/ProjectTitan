@@ -107,6 +107,7 @@ namespace Titan.UI.InventorySystem
         {
             foreach(InventorySlot slot in slotList)
             {
+                Debug.Log($"Destroy slot");
                 DestroySlot(slot);
             }
         }
@@ -211,6 +212,7 @@ namespace Titan.UI.InventorySystem
         {
             if(slotUIs.Count == 0)
                 return null;
+            Debug.Log($"Get First GO : {_inventoryScroll.content.GetChild(0).gameObject.name}");
             return _inventoryScroll.content.GetChild(0).gameObject;
         }
 
