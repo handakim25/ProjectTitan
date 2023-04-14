@@ -47,7 +47,8 @@ namespace Titan.UI.InventorySystem
             _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
             
             var firstSlot = _inventoryUI.GetFirstSlotGo();
-            _inventoryUI.SelectSlot(firstSlot);
+            if(firstSlot!=null)
+                _inventoryUI.SelectSlot(firstSlot);
         }
 
         /// <summary>
