@@ -27,8 +27,9 @@ namespace Titan.UI.InventorySystem
         /// <summary>
         /// Argument : If nothing is selected, it could be null.
         /// </summary>
-        public System.Action<InventorySlot> OnSlotSelected; // Memo : Be careful when setting up things when the object is activated
-
+        public System.Action<InventorySlot> OnSlotSelected;
+        public System.Action<InventoryUI> OnSlotCreated;
+        
         #endregion Variables
 
         #region UnityMethods
@@ -53,12 +54,14 @@ namespace Titan.UI.InventorySystem
             CreateSlots();
             _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
 
-            if(slotUIs.Count > 0)
-            {
-                var firstObject = _inventoryScroll.content.GetChild(0).gameObject;
-                var selectedSlot = slotUIs[firstObject];
-                OnSlotSelected?.Invoke(selectedSlot);
-            }
+            OnSlotCreated?.Invoke(this);
+
+            // if(slotUIs.Count > 0)
+            // {
+            //     var firstObject = _inventoryScroll.content.GetChild(0).gameObject;
+            //     var selectedSlot = slotUIs[firstObject];
+            //     OnSlotSelected?.Invoke(selectedSlot);
+            // }
         }
 
         /// <summary>
@@ -66,7 +69,6 @@ namespace Titan.UI.InventorySystem
         /// </summary>
         private void OnDisable()
         {
-            Debug.Log($"OnDisable");
             DestroySlots();
             _inventoryObject.OnSlotCountChanged -= OnSlotCountChangedHandler;
         }
@@ -77,7 +79,6 @@ namespace Titan.UI.InventorySystem
 
         protected void CreateSlots()
         {
-            Debug.Log($"Create Slots");
             slotUIs.Clear();
             var slots = _inventoryObject.Slots;
 
@@ -207,12 +208,18 @@ namespace Titan.UI.InventorySystem
 
         #region Methods
 
-        public InventorySlot GetFirstSlot()
+        public GameObject GetFirstSlotGo()
         {
             if(slotUIs.Count == 0)
                 return null;
-            var firstSlotGo = _inventoryScroll.content.GetChild(0).gameObject;
-            return slotUIs[firstSlotGo];
+            return _inventoryScroll.content.GetChild(0).gameObject;
+        }
+
+        public InventorySlot GetSlotByGo(GameObject slotGo) => slotUIs.GetValueOrDefault(slotGo);
+        
+        public void SetSlotSelected(GameObject selectedGo)
+        {
+
         }
 
         #endregion Methods

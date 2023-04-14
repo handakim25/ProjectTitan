@@ -28,33 +28,46 @@ namespace Titan.UI.InventorySystem
             _detailSlot.SlotUI = DetailSlotUI;
             _detailSlot.OnPostUpdate += OnDetailSlotPostUpdate;
             
-            Debug.Log($"Awake set emtpy detail");
             _detailSlot.UpdateSlot(new Item(), 0);
+        }
 
+        // Overview
+        // 1. First Open
+        //  a. InventoryUIController, InventryUI Awake, OnEnable
+        //  b. InventoryUIController Start, Listen InventoryUI.OnSlotCreated
+        //  c. InventoryUIController Start, Select First Slot
+        // 2. Second Open
+        //  a. InventoryUIController, InventoryUI OnEnable
+        //  b. InventoryUI OnEnable, CreateSLot -> OnSlotCreated -> InventoryUIController
+        //  c. InvnentoryUIController<- OnSlotCreated : Selct First Slot
+        private void Start()
+        {
             inventoryUI.OnSlotSelected += (slot) => {
                 if(slot!=null)
                 {
                     _detailSlot.UpdateSlot(slot.item, 0);
                 }
-            };            
-        }
+            };   
 
-        /// <summary>
-        /// This function is called when the object becomes enabled and active.
-        /// </summary>
-        private void OnEnable()
-        {
-            InventorySlot firstSlot = inventoryUI.GetFirstSlot();
-            if(firstSlot==null)
-            {
-                Debug.Log($"OnEnable set empty detail");
-                _detailSlot.UpdateSlot(new Item(), 0);
-            }
-            else
-            {
-                Debug.Log($"OnEnable Get first slot");
-                _detailSlot.UpdateSlot(firstSlot.item, firstSlot.amount);
-            }
+            inventoryUI.OnSlotCreated += (InventoryUI inventoryUI) => {
+                GameObject firstSlotGo = inventoryUI.GetFirstSlotGo();
+                if(firstSlotGo == null)
+                {
+                    _detailSlot.UpdateSlot(new Item(), 0);
+                    return;
+                }
+
+                inventoryUI.SetSlotSelected(firstSlotGo);
+                var slot = inventoryUI.GetSlotByGo(firstSlotGo);
+                var item = slot.item.Clone();
+                _detailSlot.UpdateSlot(slot.item, 0);
+            };        
+
+            GameObject firstSlotGo = inventoryUI.GetFirstSlotGo();
+            inventoryUI.SetSlotSelected(firstSlotGo);
+            var slot = inventoryUI.GetSlotByGo(firstSlotGo);
+            var item = slot.item.Clone();
+            _detailSlot.UpdateSlot(slot.item, 0);    
         }
 
         #endregion UnityMethods
@@ -63,10 +76,14 @@ namespace Titan.UI.InventorySystem
         
         private void OnDetailSlotPostUpdate(InventorySlot slot)
         {
-            Debug.Log($"Item id : {slot.item.id}");
             if(!slot.IsValid)
             {
                 Debug.Log($"Deslect is not implemented");
+                var text = _detailSlot.SlotUI.transform.Find("UpperBar/ItemNameText").gameObject;
+                if(text != null)
+                {
+                    text.GetComponent<TMP_Text>().text = "name";
+                }
                 return;
             }
 
@@ -78,7 +95,6 @@ namespace Titan.UI.InventorySystem
                 ItemText.GetComponent<TMP_Text>().text = itemObject.name;
             }
         }
-
 
         #endregion Callback
 #region TestMethods in editor
