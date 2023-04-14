@@ -77,58 +77,16 @@ MonoBehaviour:
         id: 0
       amount: 1
     - item:
-        id: 1
+        id: 0
+      amount: 1
+    - item:
+        id: 2
       amount: 1
     - item:
         id: 0
       amount: 1
     - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
+        id: 2
       amount: 1
     - item:
         id: 1
@@ -137,37 +95,19 @@ MonoBehaviour:
         id: 1
       amount: 1
     - item:
-        id: 0
-      amount: 1
-    - item:
         id: 1
       amount: 1
     - item:
-        id: 1
+        id: 2
       amount: 1
     - item:
         id: 0
       amount: 1
     - item:
-        id: 0
+        id: 2
       amount: 1
     - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
+        id: 2
       amount: 1
     - item:
         id: 0
@@ -182,26 +122,71 @@ MonoBehaviour:
         id: 1
       amount: 1
     - item:
+        id: 3
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 3
+      amount: 1
+    - item:
+        id: 3
+      amount: 1
+    - item:
+        id: 2
+      amount: 1
+    - item:
+        id: 2
+      amount: 1
+    - item:
+        id: 3
+      amount: 1
+    - item:
+        id: 3
+      amount: 1
+    - item:
+        id: 2
+      amount: 1
+    - item:
         id: 1
       amount: 1
     - item:
+        id: 2
+      amount: 1
+    - item:
         id: 0
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 2
+      amount: 1
+    - item:
+        id: 2
+      amount: 1
+    - item:
+        id: 2
+      amount: 1
+    - item:
+        id: 2
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 3
+      amount: 1
+    - item:
+        id: 0
+      amount: 1
+    - item:
+        id: 3
       amount: 1
     - item:
         id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
       amount: 1
