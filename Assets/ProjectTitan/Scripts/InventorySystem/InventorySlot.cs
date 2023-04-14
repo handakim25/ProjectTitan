@@ -16,6 +16,7 @@ namespace Titan.InventorySystem
 
         [NonSerialized] public Action<InventorySlot> OnPreUpdate;
         [NonSerialized] public Action<InventorySlot> OnPostUpdate;
+        [NonSerialized] public Action<InventorySlot> OnEmpty;
 
         public Item item;
         public int amount;    

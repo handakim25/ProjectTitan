@@ -20,11 +20,7 @@ namespace Titan.InventorySystem
         public class SlotCountChangedEventArgs : System.EventArgs
         {
             public List<InventorySlot> UpdatedSlots;
-
-            public SlotCountChangedEventArgs(List<InventorySlot> slots)
-            {
-                UpdatedSlots = slots;
-            }
+            public List<InventorySlot> RemovedSlots;
         }
 
         public delegate void SlotCountChangedEventHandler(Object sender, SlotCountChangedEventArgs args);
@@ -59,7 +55,9 @@ namespace Titan.InventorySystem
                 }
 
                 var addedSlot = inventory.AddItem(item, amount);
-                var args = new SlotCountChangedEventArgs(new List<InventorySlot> { addedSlot });
+                var args = new SlotCountChangedEventArgs() {
+                    UpdatedSlots = new List<InventorySlot>() {addedSlot}
+                };
                 OnSlotCountChanged?.Invoke(this, args);
             }
             else
@@ -80,6 +78,29 @@ namespace Titan.InventorySystem
         private InventorySlot FindItemInInventory(Item item)
         {
             return inventory.FindItemInInventory(item);
+        }
+
+        public bool RemoveItem(InventorySlot slotToUse, int amount)
+        {
+            if(!slotToUse.IsValid || slotToUse.amount < amount)
+            {
+                return false;
+            }
+
+            ItemObject itemObject = itemDatabase.itemObjects[slotToUse.item.id];
+            slotToUse.UpdateSlot(slotToUse.item, slotToUse.amount - amount);
+            
+            if(slotToUse.amount <= 0)
+            {
+                Debug.Log($"Invoke SlotCountChanged");
+                inventory.RemoveSlot(slotToUse);
+                var eventArgs = new SlotCountChangedEventArgs() {
+                    RemovedSlots = new List<InventorySlot> {slotToUse}
+                };
+                OnSlotCountChanged?.Invoke(this, eventArgs);
+            }
+
+            return true;
         }
 
         #endregion Methods

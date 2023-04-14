@@ -11,10 +11,14 @@ namespace Titan.UI.InventorySystem
 {
     public class InventoryUIController : UIBase
     {
+        [Header("Inventory")]
         [SerializeField] InventoryObject _inventoryObject;
+
+        [Header("UI")]
         [SerializeField] protected InventoryUI _inventoryUI;
         [SerializeField] protected GameObject DetailSlotUI;
         private InventorySlot _detailSlot = new InventorySlot();
+        [SerializeField] protected TMP_Text _capacityText;
 
         #region UnityMethods
 
@@ -34,6 +38,10 @@ namespace Titan.UI.InventorySystem
             _detailSlot.UpdateSlot(new Item(), 0);
 
             _inventoryUI.OnSlotSelected += (InventorySlot slot) => {
+                if(slot == null)
+                {
+                    _detailSlot.UpdateSlot(new Item(), 0);
+                }
                 _detailSlot.UpdateSlot(slot.item.Clone(), 0);
             };
         }
@@ -49,6 +57,8 @@ namespace Titan.UI.InventorySystem
             var firstSlot = _inventoryUI.GetFirstSlotGo();
             if(firstSlot!=null)
                 _inventoryUI.SelectSlot(firstSlot);
+
+            
         }
 
         /// <summary>
@@ -65,7 +75,10 @@ namespace Titan.UI.InventorySystem
 
         protected void OnSlotCountChangedHandler(object e, InventoryObject.SlotCountChangedEventArgs handler)
         {
-            _inventoryUI.CreateSlots(handler.UpdatedSlots);
+            if(handler.UpdatedSlots != null)
+                _inventoryUI.CreateSlots(handler.UpdatedSlots);
+            if(handler.RemovedSlots != null)
+                _inventoryUI.RemoveSlots(handler.RemovedSlots);
         }  
 
         private void OnDetailSlotPostUpdate(InventorySlot slot)
@@ -90,21 +103,34 @@ namespace Titan.UI.InventorySystem
             }
         }
 
-        public void OnDetailButtonClicked()
+        public void OnInteractionClick()
         {
-            Debug.Log($"Detail Button");
+            InventorySlot slectedSlot = _inventoryUI.SelectedSlot;
+            Debug.Log($"Selected Item: {_inventoryUI.SelectedSlot.SlotUI.name}");
+
+            _inventoryObject.RemoveItem(slectedSlot, 1);
+            if(_inventoryUI.SelectedSlot == null)
+            {
+                var firstSlot = _inventoryUI.GetFirstSlotGo();
+                if(firstSlot)
+                {
+                    _inventoryUI.SelectSlot(firstSlot);
+                }
+                else
+                {
+                    _detailSlot.UpdateSlot(new Item(), 0);
+                }
+            }
         }
 
         #endregion Callback
     
 #region TestMethods in editor
     #if UNITY_EDITOR
-            [Tooltip("Test object only valid in editor mode")]
-            public Titan.InventorySystem.InventoryObject inventoryObject;
             // Test methods for testing
             public void AddRandomItem()
             {
-                inventoryObject.AddRandomItem();
+                _inventoryObject.AddRandomItem();
             }
     #endif
 #endregion TestMethods    

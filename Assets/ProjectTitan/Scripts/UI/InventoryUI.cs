@@ -30,6 +30,12 @@ namespace Titan.UI.InventorySystem
         
         #endregion Variables
 
+        #region Properties
+        
+        public InventorySlot SelectedSlot => _selectedSlot ? slotUIs[_selectedSlot] : null;
+
+        #endregion Properties
+
         #region UnityMethods
         
         /// <summary>
@@ -63,8 +69,22 @@ namespace Titan.UI.InventorySystem
                 GameObject slotGo = CreateSlot(parent);
 
                 slot.SlotUI = slotGo;
+                slot.OnPostUpdate += OnPostUpdate;
+
                 slotUIs.Add(slotGo, slot);
                 slotGo.name += $": {_lastSlotIndex++}";
+            }
+        }
+
+        private void OnPostUpdate(InventorySlot slot)
+        {
+            Debug.Log($"OnPostUpdate in inventory UI");
+            if(slot == null || slot.SlotUI == null)
+                return;
+
+            if(slot.amount <= 0)
+            {
+                return;
             }
         }
 
@@ -83,6 +103,14 @@ namespace Titan.UI.InventorySystem
             return slotGo;
         }
 
+        public void RemoveSlots(List<InventorySlot> slotList)
+        {
+            foreach(InventorySlot slot in slotList)
+            {
+                DestroySlot(slot);
+            }
+        }
+
         protected void DestroySlots()
         {
             // key : SlotGo, value : InventorySlot
@@ -90,7 +118,7 @@ namespace Titan.UI.InventorySystem
             foreach(var pair in slotUIs)
             {
                 var slot = pair.Value;
-                // slot.OnPostUpdate -= 
+                slot.OnPostUpdate -= OnPostUpdate;
                 slot.SlotUI = null;
 
                 var slotGo = pair.Key;
@@ -98,6 +126,20 @@ namespace Titan.UI.InventorySystem
             }
 
             slotUIs.Clear();
+        }
+
+        private void DestroySlot(InventorySlot slot)
+        {
+            if(!slotUIs.Remove(slot.SlotUI))
+                return;
+            if(slot.SlotUI == _selectedSlot)
+            {
+                _selectedSlot = null;
+            }
+            Destroy(slot.SlotUI);
+
+            slot.OnPostUpdate -= OnPostUpdate;
+            slot.SlotUI = null;
         }
 
         protected void AddEvent(GameObject go, EventTriggerType type, UnityAction<BaseEventData> action)
@@ -137,14 +179,9 @@ namespace Titan.UI.InventorySystem
 
             if(data.button == PointerEventData.InputButton.Left)
             {
-                OnLeftClick(slot, data);
+                SelectSlot(go);
             }
         }   
-
-        protected void OnLeftClick(InventorySlot slot, PointerEventData data)
-        {
-            OnSlotSelected?.Invoke(slot);
-        }
 
         public void OnScroll(GameObject go, PointerEventData data)
         {
@@ -181,8 +218,11 @@ namespace Titan.UI.InventorySystem
         
         public void SelectSlot(GameObject selectedGo)
         {
-            InventorySlot slot = slotUIs[selectedGo];
-            OnSlotSelected?.Invoke(slot);
+            if(!slotUIs.ContainsKey(selectedGo))
+                return;
+
+            _selectedSlot = selectedGo;
+            OnSlotSelected?.Invoke(slotUIs[selectedGo]);
         }
 
         #endregion Methods

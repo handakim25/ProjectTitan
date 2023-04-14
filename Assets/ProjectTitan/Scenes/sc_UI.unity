@@ -6036,7 +6036,7 @@ MonoBehaviour:
   _inventoryObject: {fileID: 11400000, guid: 651d14d27d1e0ef4393756b5fb7e3406, type: 2}
   _inventoryUI: {fileID: 1039399201}
   DetailSlotUI: {fileID: 7190287991567588276}
-  inventoryObject: {fileID: 11400000, guid: 651d14d27d1e0ef4393756b5fb7e3406, type: 2}
+  _capacityText: {fileID: 0}
 --- !u!1001 &7190287991567588275
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -36,6 +36,11 @@ namespace Titan.InventorySystem
             return newSlot;
         }
 
+        public void RemoveSlot(InventorySlot slot)
+        {
+            slots.Remove(slot);
+        }
+
         public InventorySlot FindItemInInventory(Item item)
         {
             return Slots.FirstOrDefault(itemSlot => itemSlot.item.id == item.id);
