@@ -12,7 +12,7 @@ namespace Titan.InventorySystem.Items
     // @refacor
     // Change to singleton class
     [CreateAssetMenu(fileName = "New ItemDatabase", menuName = "Inventory System/Items/Database")]
-    public class ItemDatabase : ScriptableObject
+    public class ItemDatabaseObject : ScriptableObject
     {
         public ItemObject[] itemObjects;
 

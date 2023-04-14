@@ -9,7 +9,7 @@ namespace Titan.UI
 {
     public sealed class UIManager : MonoSingleton<UIManager>
     {
-        [SerializeField] ItemDatabase itemDatabase;
+        [SerializeField] ItemDatabaseObject itemDatabase;
         // @Refactor
         // Change to scalable design latter
         [SerializeField] private UIBase inventoryUI;

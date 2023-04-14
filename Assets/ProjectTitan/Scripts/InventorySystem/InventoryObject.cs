@@ -11,7 +11,7 @@ namespace Titan.InventorySystem
     public class InventoryObject : ScriptableObject
     {
         #region Varialbes
-        [SerializeField] protected ItemDatabase itemDatabase;
+        [SerializeField] protected ItemDatabaseObject itemDatabase;
         [SerializeField] protected int _maxCapacity;
 
         // @ToDo : Create custom eidtor for Inventory.
