@@ -31,5 +31,10 @@ namespace Titan.InventorySystem.Items
          public static Item NullItem {
             get => new Item();
         }
+
+        public Item Clone()
+        {
+            return new Item() {id = this.id};
+        }
     }
 }
