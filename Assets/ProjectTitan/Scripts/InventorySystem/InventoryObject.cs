@@ -94,7 +94,7 @@ namespace Titan.InventorySystem
             }
 
             int randomIndex = Random.Range(0, itemDatabase.itemObjects.Length);
-            ItemObject newItemObject = itemDatabase.itemObjects[Random.Range(0, itemDatabase.itemObjects.Length)];
+            ItemObject newItemObject = itemDatabase.itemObjects[randomIndex];
             Item newItem = new Item(newItemObject);
             Debug.Log($"Create item / id : {newItem.id}");
             AddItem(newItem, 1);

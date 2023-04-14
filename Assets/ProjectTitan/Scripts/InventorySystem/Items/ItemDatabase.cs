@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Titan.InventorySystem.Items
@@ -34,6 +35,10 @@ namespace Titan.InventorySystem.Items
                 }
             }
 
+            for(int i = 0; i < assetList.Count; ++i)
+            {
+                assetList[i].data.id = i;
+            }
             itemObjects = assetList.ToArray();
         }
 #endif
