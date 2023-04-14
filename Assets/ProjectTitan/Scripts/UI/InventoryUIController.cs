@@ -96,7 +96,13 @@ namespace Titan.UI.InventorySystem
             }
         }
 
+        public void OnDetailButtonClicked()
+        {
+            Debug.Log($"Detail Button");
+        }
+        
         #endregion Callback
+    
 #region TestMethods in editor
     #if UNITY_EDITOR
             [Tooltip("Test object only valid in editor mode")]
