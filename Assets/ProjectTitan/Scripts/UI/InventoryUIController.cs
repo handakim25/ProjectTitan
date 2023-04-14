@@ -57,8 +57,6 @@ namespace Titan.UI.InventorySystem
             var firstSlot = _inventoryUI.GetFirstSlotGo();
             if(firstSlot!=null)
                 _inventoryUI.SelectSlot(firstSlot);
-
-            
         }
 
         /// <summary>
@@ -78,7 +76,16 @@ namespace Titan.UI.InventorySystem
             if(handler.UpdatedSlots != null)
                 _inventoryUI.CreateSlots(handler.UpdatedSlots);
             if(handler.RemovedSlots != null)
+            {
+                if(handler.RemovedSlots.Contains(_inventoryUI.SelectedSlot))
+                {
+                    // Select other slot
+                    // move right
+                    
+                }
                 _inventoryUI.RemoveSlots(handler.RemovedSlots);
+                // _inventoryUI.SelectSlot(null);
+            }
         }  
 
         private void OnDetailSlotPostUpdate(InventorySlot slot)
@@ -109,21 +116,6 @@ namespace Titan.UI.InventorySystem
             Debug.Log($"Selected Item: {_inventoryUI.SelectedSlot.SlotUI.name}");
 
             _inventoryObject.RemoveItem(slectedSlot, 1);
-            if(_inventoryUI.SelectedSlot == null)
-            {
-                Debug.Log($"Try select first");
-                var firstSlot = _inventoryUI.GetFirstSlotGo();
-                if(firstSlot)
-                {
-                    Debug.Log($"Select first slot");
-                    _inventoryUI.SelectSlot(firstSlot);
-                    Debug.Log($"Slected slot : {_inventoryUI.SelectedSlot}");
-                }
-                else
-                {
-                    _detailSlot.UpdateSlot(new Item(), 0);
-                }
-            }
         }
 
         #endregion Callback

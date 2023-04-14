@@ -19,6 +19,7 @@ namespace Titan.UI.InventorySystem
         [SerializeField] ScrollRect _inventoryScroll;
 
         public Dictionary<GameObject, InventorySlot> slotUIs = new Dictionary<GameObject, InventorySlot>();
+        private List<GameObject> _slotIndex = new List<GameObject>();
 
         private int _lastSlotIndex;
 
@@ -33,6 +34,7 @@ namespace Titan.UI.InventorySystem
         #region Properties
         
         public InventorySlot SelectedSlot => _selectedSlot ? slotUIs[_selectedSlot] : null;
+        public int SlotCount => _inventoryScroll.content.transform.childCount;
 
         #endregion Properties
 
@@ -171,6 +173,7 @@ namespace Titan.UI.InventorySystem
 
         public void OnClick(GameObject go, PointerEventData data)
         {
+            Debug.Log($"Sibling index : {go.transform.GetSiblingIndex()}");
             InventorySlot slot = slotUIs[go];
             if(slot == null)
             {
@@ -217,7 +220,7 @@ namespace Titan.UI.InventorySystem
         }
 
         public InventorySlot GetSlotByGo(GameObject slotGo) => slotUIs.GetValueOrDefault(slotGo);
-        
+
         public void SelectSlot(GameObject selectedGo)
         {
             if(!slotUIs.ContainsKey(selectedGo))
@@ -227,6 +230,12 @@ namespace Titan.UI.InventorySystem
             OnSlotSelected?.Invoke(slotUIs[selectedGo]);
         }
 
+        public GameObject GetSlotByIndex(int index)
+        {
+            if(index < 0 || index > _inventoryScroll.content.childCount)
+                return null;
+            return _inventoryScroll.transform.GetChild(index).gameObject;
+        }
         #endregion Methods
     }
 }
