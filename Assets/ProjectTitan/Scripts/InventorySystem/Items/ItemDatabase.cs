@@ -8,6 +8,8 @@ namespace Titan.InventorySystem.Items
         using UnityEditor;
 #endif
 
+    // @refacor
+    // Change to singleton class
     [CreateAssetMenu(fileName = "New ItemDatabase", menuName = "Inventory System/Items/Database")]
     public class ItemDatabase : ScriptableObject
     {
