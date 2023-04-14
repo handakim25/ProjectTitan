@@ -14,7 +14,6 @@ namespace Titan.UI.InventorySystem
     {
         #region Variables
         
-        [SerializeField] InventoryObject _inventoryObject;
         [SerializeField] GameObject _slotPrefab;
 
         [SerializeField] ScrollRect _inventoryScroll;
@@ -28,7 +27,6 @@ namespace Titan.UI.InventorySystem
         /// Argument : If nothing is selected, it could be null.
         /// </summary>
         public System.Action<InventorySlot> OnSlotSelected;
-        public System.Action<InventoryUI> OnSlotCreated;
         
         #endregion Variables
 
@@ -40,28 +38,8 @@ namespace Titan.UI.InventorySystem
         private void Awake()
         {
             // Expect value is not null
-            Assert.IsNotNull(_inventoryObject, "Inventory is not assigned in the inspector");
             Assert.IsNotNull(_inventoryScroll, "Content is not assigned in the inspector");
             Assert.IsNotNull(_slotPrefab, "Slot prefab is not assigned in the inspector");
-        }
-
-        /// <summary>
-        /// This function is called when the object becomes enabled and active.
-        /// </summary>
-        private void OnEnable()
-        {
-            _lastSlotIndex = 0;
-            CreateSlots();
-            _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
-
-            OnSlotCreated?.Invoke(this);
-
-            // if(slotUIs.Count > 0)
-            // {
-            //     var firstObject = _inventoryScroll.content.GetChild(0).gameObject;
-            //     var selectedSlot = slotUIs[firstObject];
-            //     OnSlotSelected?.Invoke(selectedSlot);
-            // }
         }
 
         /// <summary>
@@ -69,21 +47,18 @@ namespace Titan.UI.InventorySystem
         /// </summary>
         private void OnDisable()
         {
+            _lastSlotIndex = 0;
             DestroySlots();
-            _inventoryObject.OnSlotCountChanged -= OnSlotCountChangedHandler;
         }
 
         #endregion UnityMethods
 
         #region Methods
 
-        protected void CreateSlots()
+        public void CreateSlots(List<InventorySlot> slotList)
         {
-            slotUIs.Clear();
-            var slots = _inventoryObject.Slots;
-
             Transform parent = _inventoryScroll.content.transform;
-            foreach(InventorySlot slot in slots)
+            foreach(InventorySlot slot in slotList)
             {
                 GameObject slotGo = CreateSlot(parent);
 
@@ -194,18 +169,6 @@ namespace Titan.UI.InventorySystem
 
         #endregion Methods for Slot UI
 
-        protected void OnSlotCountChangedHandler(object e, InventoryObject.SlotCountChangedEventArgs handler)
-        {
-            Transform parent = _inventoryScroll.content.transform;
-            foreach(InventorySlot slot in handler.UpdatedSlots)
-            {
-                GameObject slotGo = CreateSlot(parent);
-
-                slotUIs.Add(slotGo, slot);
-                slotGo.name += $": {_lastSlotIndex++}";
-            }
-        }
-
         #region Methods
 
         public GameObject GetFirstSlotGo()
@@ -217,9 +180,10 @@ namespace Titan.UI.InventorySystem
 
         public InventorySlot GetSlotByGo(GameObject slotGo) => slotUIs.GetValueOrDefault(slotGo);
         
-        public void SetSlotSelected(GameObject selectedGo)
+        public void SelectSlot(GameObject selectedGo)
         {
-
+            InventorySlot slot = slotUIs[selectedGo];
+            OnSlotSelected?.Invoke(slot);
         }
 
         #endregion Methods

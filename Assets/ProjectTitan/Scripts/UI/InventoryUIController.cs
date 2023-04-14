@@ -11,7 +11,8 @@ namespace Titan.UI.InventorySystem
 {
     public class InventoryUIController : UIBase
     {
-        [SerializeField] protected InventoryUI inventoryUI;
+        [SerializeField] InventoryObject _inventoryObject;
+        [SerializeField] protected InventoryUI _inventoryUI;
         [SerializeField] protected GameObject DetailSlotUI;
         private InventorySlot _detailSlot = new InventorySlot();
 
@@ -22,58 +23,50 @@ namespace Titan.UI.InventorySystem
         /// </summary>
         private void Awake()
         {
-            UnityEngine.Assertions.Assert.IsNotNull(inventoryUI, "Inventory ui is not set");
+            UnityEngine.Assertions.Assert.IsNotNull(_inventoryObject, "Inventory is not set");
+            UnityEngine.Assertions.Assert.IsNotNull(_inventoryUI, "Inventory ui is not set");
             UnityEngine.Assertions.Assert.IsNotNull(DetailSlotUI, "Detail Slot Ui is not set");
 
+            // setup detail slot
             _detailSlot.SlotUI = DetailSlotUI;
             _detailSlot.OnPostUpdate += OnDetailSlotPostUpdate;
             
             _detailSlot.UpdateSlot(new Item(), 0);
+
+            _inventoryUI.OnSlotSelected += (InventorySlot slot) => {
+                _detailSlot.UpdateSlot(slot.item.Clone(), 0);
+            };
         }
 
-        // Overview
-        // 1. First Open
-        //  a. InventoryUIController, InventryUI Awake, OnEnable
-        //  b. InventoryUIController Start, Listen InventoryUI.OnSlotCreated
-        //  c. InventoryUIController Start, Select First Slot
-        // 2. Second Open
-        //  a. InventoryUIController, InventoryUI OnEnable
-        //  b. InventoryUI OnEnable, CreateSLot -> OnSlotCreated -> InventoryUIController
-        //  c. InvnentoryUIController<- OnSlotCreated : Selct First Slot
-        private void Start()
+        /// <summary>
+        /// This function is called when the object becomes enabled and active.
+        /// </summary>
+        private void OnEnable()
         {
-            inventoryUI.OnSlotSelected += (slot) => {
-                if(slot!=null)
-                {
-                    _detailSlot.UpdateSlot(slot.item, 0);
-                }
-            };   
+            _inventoryUI.CreateSlots(_inventoryObject.Slots); // slots will be destroyed OnDisable
+            _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
+            
+            var firstSlot = _inventoryUI.GetFirstSlotGo();
+            _inventoryUI.SelectSlot(firstSlot);
+        }
 
-            inventoryUI.OnSlotCreated += (InventoryUI inventoryUI) => {
-                GameObject firstSlotGo = inventoryUI.GetFirstSlotGo();
-                if(firstSlotGo == null)
-                {
-                    _detailSlot.UpdateSlot(new Item(), 0);
-                    return;
-                }
-
-                inventoryUI.SetSlotSelected(firstSlotGo);
-                var slot = inventoryUI.GetSlotByGo(firstSlotGo);
-                var item = slot.item.Clone();
-                _detailSlot.UpdateSlot(slot.item, 0);
-            };        
-
-            GameObject firstSlotGo = inventoryUI.GetFirstSlotGo();
-            inventoryUI.SetSlotSelected(firstSlotGo);
-            var slot = inventoryUI.GetSlotByGo(firstSlotGo);
-            var item = slot.item.Clone();
-            _detailSlot.UpdateSlot(slot.item, 0);    
+        /// <summary>
+        /// This function is called when the behaviour becomes disabled or inactive.
+        /// </summary>
+        private void OnDisable()
+        {
+            _inventoryObject.OnSlotCountChanged -= OnSlotCountChangedHandler;
         }
 
         #endregion UnityMethods
 
         #region Callback
-        
+
+        protected void OnSlotCountChangedHandler(object e, InventoryObject.SlotCountChangedEventArgs handler)
+        {
+            _inventoryUI.CreateSlots(handler.UpdatedSlots);
+        }  
+
         private void OnDetailSlotPostUpdate(InventorySlot slot)
         {
             if(!slot.IsValid)
@@ -100,7 +93,7 @@ namespace Titan.UI.InventorySystem
         {
             Debug.Log($"Detail Button");
         }
-        
+
         #endregion Callback
     
 #region TestMethods in editor

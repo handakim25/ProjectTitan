@@ -2252,7 +2252,7 @@ GameObject:
   - component: {fileID: 624532173}
   - component: {fileID: 624532172}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: InteractionText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3521,7 +3521,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83ee94a994294f140a8bb9180947b215, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventoryObject: {fileID: 11400000, guid: 651d14d27d1e0ef4393756b5fb7e3406, type: 2}
   _slotPrefab: {fileID: 6749776957093161442, guid: 5bdb0020bdc518445b162bd436318850,
     type: 3}
   _inventoryScroll: {fileID: 1820367722}
@@ -4037,7 +4036,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1227979675}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2115621304}
+        m_TargetAssemblyTypeName: Titan.UI.InventorySystem.InventoryUIController,
+          Assembly-CSharp
+        m_MethodName: OnDetailButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1227979675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6021,7 +6033,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 783ff91a85cd78c44865dee8723a0bba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryUI: {fileID: 1039399201}
+  _inventoryObject: {fileID: 11400000, guid: 651d14d27d1e0ef4393756b5fb7e3406, type: 2}
+  _inventoryUI: {fileID: 1039399201}
   DetailSlotUI: {fileID: 7190287991567588276}
   inventoryObject: {fileID: 11400000, guid: 651d14d27d1e0ef4393756b5fb7e3406, type: 2}
 --- !u!1001 &7190287991567588275
