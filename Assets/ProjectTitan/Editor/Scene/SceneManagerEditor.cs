@@ -25,10 +25,15 @@ namespace Titan.Editor.Scene
 
         private static void LoadScene(string sceneName)
         {
-            string[] guid = AssetDatabase.FindAssets(sceneName);
-            if(guid.Length > 1)
+            string[] guid = AssetDatabase.FindAssets($"t:{typeof(SceneCollectionObject).Name} {sceneName}");
+            if(guid.Length == 0)
             {
-                Debug.LogWarning($"{sceneName} is duplicated.");
+                Debug.LogWarning($"Cannot find {sceneName}.");
+                return;
+            }
+            else if(guid.Length > 1)
+            {
+                Debug.LogWarning($"{sceneName} is duplicated. Length:{guid.Length}");
                 return;
             }
 
