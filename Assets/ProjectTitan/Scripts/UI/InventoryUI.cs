@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
 using Titan.InventorySystem;
+using Titan.InventorySystem.Items;
 
 namespace Titan.UI.InventorySystem
 {
@@ -75,22 +76,25 @@ namespace Titan.UI.InventorySystem
 
                 slotUIs.Add(slotGo, slot);
                 slotGo.name += $": {_lastSlotIndex++}";
+                slot.UpdateSlot(slot.item, slot.amount);
             }
         }
 
         private void OnPostUpdate(InventorySlot slot)
         {
-            Debug.Log($"OnPostUpdate in inventory UI");
             if(slot == null || slot.SlotUI == null || slot.amount <= 0)
                 return;
 
-            Transform iconTransform = slot.SlotUI.transform.Find("InventorySlot/IconBackground/IconImage");
-            if(iconTransform != null)
-            {
-                Image iconImage = iconTransform.gameObject.GetComponent<Image>();
-                
-            }
+            ItemObject itemObject = ItemDatabase.GetItemObject(slot.item.id);
 
+            if(slot.SlotUI.TryGetComponent<SlotUI>(out var slotUi))
+            {
+                slotUi.IconImage = itemObject.icon;
+            }
+            else
+            {
+                Debug.LogWarning($"Slot UI is missing");
+            }
         }
 
         private GameObject CreateSlot(Transform parent)

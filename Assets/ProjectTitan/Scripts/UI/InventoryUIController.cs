@@ -103,10 +103,10 @@ namespace Titan.UI.InventorySystem
 
             var itemObject = ItemDatabase.GetItemObject(slot.item.id);
             
-            var ItemText = _detailSlot.SlotUI.transform.Find("UpperBar/ItemNameText").gameObject;
-            if(ItemText != null)
+            if(_detailSlot.SlotUI.TryGetComponent<SlotUI>(out var slotUI))
             {
-                ItemText.GetComponent<TMP_Text>().text = itemObject.name;
+                slotUI.ItemNameText = itemObject.name;
+                slotUI.IconImage = itemObject.icon;
             }
         }
 
