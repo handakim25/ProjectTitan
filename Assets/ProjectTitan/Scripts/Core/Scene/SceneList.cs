@@ -8,7 +8,6 @@ namespace Titan.Core.Scene
     /// Scene Data of Runtime
     /// Created from SceneCollectionObject
     /// </summary>
-    [CreateAssetMenu(fileName = "SceneList", menuName = "Scene/SceneList")]
     public class SceneList : ScriptableObject
     {
         public string[] scenes;
