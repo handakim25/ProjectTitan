@@ -18,9 +18,9 @@ namespace Titan.UI.InventorySystem
         [SerializeField] GameObject _slotPrefab;
 
         [SerializeField] ScrollRect _inventoryScroll;
+        [SerializeField] List<ItemType> _allowedType;
 
         public Dictionary<GameObject, InventorySlot> slotUIs = new Dictionary<GameObject, InventorySlot>();
-        private List<GameObject> _slotIndex = new List<GameObject>();
 
         private int _lastSlotIndex;
 
@@ -184,10 +184,12 @@ namespace Titan.UI.InventorySystem
         
         public void OnEnter(GameObject go)
         {
+
         }
 
         public void OnExit(GameObject go)
         {
+            
         }
 
         public void OnClick(GameObject go, PointerEventData data)
@@ -255,6 +257,12 @@ namespace Titan.UI.InventorySystem
                 return null;
             return _inventoryScroll.transform.GetChild(index).gameObject;
         }
+
+        public void SetFilter(ItemType type)
+        {
+
+        }
+
         #endregion Methods
     }
 }

@@ -433,7 +433,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3410e69a9b5c39d4a9dab5c42fabb278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemDatabase: {fileID: 11400000, guid: d37407e5a8c5b764e8564b734b6313d7, type: 2}
   inventoryUI: {fileID: 2115621304}
   _UIList: []
 --- !u!1 &134816127
@@ -3524,6 +3523,7 @@ MonoBehaviour:
   _slotPrefab: {fileID: 6749776957093161442, guid: 5bdb0020bdc518445b162bd436318850,
     type: 3}
   _inventoryScroll: {fileID: 1820367722}
+  _allowedType: 0000000001000000020000000300000004000000
 --- !u!1 &1105902606
 GameObject:
   m_ObjectHideFlags: 0
