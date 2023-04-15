@@ -24,7 +24,25 @@ namespace Titan
             }
         }
 
+        public string ItemDescText {
+            set {
+                if(!_desc)
+                    return;
+                _desc.text = value;
+            }
+        }
+
+        public string ItemTypeText {
+            set {
+                if(!_type)
+                    return;
+                _type.text = value;
+            }
+        }
+
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _text;
+        [SerializeField] private TMP_Text _desc;
+        [SerializeField] private TMP_Text _type;
     }
 }

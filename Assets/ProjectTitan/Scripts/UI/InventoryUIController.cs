@@ -107,6 +107,8 @@ namespace Titan.UI.InventorySystem
             {
                 slotUI.ItemNameText = itemObject.name;
                 slotUI.IconImage = itemObject.icon;
+                slotUI.ItemDescText = itemObject.description;
+                slotUI.ItemTypeText = itemObject.type.ToString();
             }
         }
 
