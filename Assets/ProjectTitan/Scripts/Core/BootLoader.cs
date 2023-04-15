@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Titan
+using UnityScene = UnityEngine.SceneManagement.Scene;
+
+namespace Titan.Core
 {
     public class BootLoader : MonoBehaviour
     {
