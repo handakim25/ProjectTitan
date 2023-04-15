@@ -6,7 +6,7 @@ using Titan.Core;
 
 namespace Titan.InventorySystem.Items
 {
-    public class ItemDatabase : MonoSingleton<ItemDatabase>
+    public sealed class ItemDatabase : MonoSingleton<ItemDatabase>
     {
         [SerializeField] private ItemDatabaseObject itemDatabase;
         
