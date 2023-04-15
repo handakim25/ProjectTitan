@@ -66,6 +66,7 @@ namespace Titan.UI.InventorySystem
 
         public void CreateSlots(List<InventorySlot> slotList)
         {
+            // slotList.Sort((slotA, slotB) => ItemSort.CompareByID(slotA.item, slotB.item));
             Transform parent = _inventoryScroll.content.transform;
             foreach(InventorySlot slot in slotList)
             {
@@ -77,6 +78,17 @@ namespace Titan.UI.InventorySystem
                 slotUIs.Add(slotGo, slot);
                 slotGo.name += $": {_lastSlotIndex++}";
                 slot.UpdateSlot(slot.item, slot.amount);
+            }
+            OrderSlot();
+        }
+
+        private void OrderSlot()
+        {
+            var slots = new List<InventorySlot>(slotUIs.Values);
+            slots.Sort((slotA, slotB) => ItemSort.CompareByID(slotA.item, slotB.item));
+            for(int i = 0; i < slots.Count; ++i)
+            {
+                slots[i].SlotUI.transform.SetSiblingIndex(i);
             }
         }
 
