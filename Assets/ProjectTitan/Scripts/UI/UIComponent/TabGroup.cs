@@ -6,7 +6,7 @@ namespace Titan.UI
 {
     public class TabGroup : MonoBehaviour
     {
-        public List<TabButton> tabButtons;
+        private List<TabButton> tabButtons;
 
         [SerializeField] protected Sprite tabIdle;
         [SerializeField] protected Sprite tabHover;
@@ -28,16 +28,16 @@ namespace Titan.UI
 
         public void OnTabEnter(TabButton button)
         {
-            ResetTabs();
-            if(selectedTab == null || button != selectedTab)
-            {
-                button.background.sprite = tabHover;
-            }
+            // ResetTabs();
+            // if(selectedTab == null || button != selectedTab)
+            // {
+            //     button.background.sprite = tabHover;
+            // }
         }
 
         public void OnTabExit(TabButton button)
         {
-            ResetTabs();
+            // ResetTabs();
         }
 
         public void OnTabSelected(TabButton button)
@@ -48,10 +48,10 @@ namespace Titan.UI
             }
 
             selectedTab = button;
-            selectedTab.Select();
+            // selectedTab.Select();
 
-            ResetTabs();
-            button.background.sprite = tabActive;
+            // ResetTabs();
+            // button.background.sprite = tabActive;
 
             OnTabSelectedEvent?.Invoke(button);
         }
@@ -62,11 +62,11 @@ namespace Titan.UI
         
         public void ResetTabs()
         {
-            foreach(TabButton button in tabButtons)
-            {
-                if(selectedTab != null && button == selectedTab) {continue;}
-                button.background.sprite = tabIdle;
-            }
+            // foreach(TabButton button in tabButtons)
+            // {
+            //     if(selectedTab != null && button == selectedTab) {continue;}
+            //     button.background.sprite = tabIdle;
+            // }
         }
 
         #endregion Methods
