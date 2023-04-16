@@ -394,3 +394,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 4301413112453364714}
+  _text: {fileID: 0}
+  _desc: {fileID: 0}
+  _type: {fileID: 0}
