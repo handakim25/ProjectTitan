@@ -41,7 +41,7 @@ namespace Titan.UI
 
         private void Start()
         {
-            _background = GetComponent<Image>();
+            // _background = GetComponent<Image>();
             tabGroup?.Subscribe(this);
         }
 
