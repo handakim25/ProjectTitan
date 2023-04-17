@@ -9,7 +9,7 @@ using Titan.InventorySystem.Items;
 
 namespace Titan.UI.InventorySystem
 {
-    public class InventoryUIController : UIBase
+    public class InventoryUIController : UIScene
     {
         [Header("Inventory")]
         [SerializeField] InventoryObject _inventoryObject;
