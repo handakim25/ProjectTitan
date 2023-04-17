@@ -4,15 +4,17 @@ using UnityEngine;
 
 namespace Titan.UI
 {
-    public abstract class UIBase : MonoBehaviour
+    // Component?
+    // Inheritence?
+    public abstract class UIScene : MonoBehaviour
     {
-        public virtual void OpenUI()
+        public virtual void OpenUI(float transitionTime)
         {
             Debug.Log($"Open UI");
             gameObject.SetActive(true);
         }
 
-        public virtual void CloseUI()
+        public virtual void CloseUI(float transitionTime)
         {
             Debug.Log($"Close UI");
             gameObject.SetActive(false);
