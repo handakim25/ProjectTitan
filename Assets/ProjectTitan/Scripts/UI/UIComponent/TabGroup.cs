@@ -8,10 +8,6 @@ namespace Titan.UI
     {
         private List<TabButton> tabButtons;
 
-        [SerializeField] protected Sprite tabIdle;
-        [SerializeField] protected Sprite tabHover;
-        [SerializeField] protected Sprite tabActive;
-
         private TabButton selectedTab;
         public System.Action<TabButton> OnTabSelectedEvent;
 
@@ -24,50 +20,29 @@ namespace Titan.UI
 
             tabButtons.Add(button);
         }
+
         #region UnityEventSystem Methods
-
-        public void OnTabEnter(TabButton button)
-        {
-            // ResetTabs();
-            // if(selectedTab == null || button != selectedTab)
-            // {
-            //     button.background.sprite = tabHover;
-            // }
-        }
-
-        public void OnTabExit(TabButton button)
-        {
-            // ResetTabs();
-        }
 
         public void OnTabSelected(TabButton button)
         {
-            if(selectedTab != null)
+            if(selectedTab != null && button != selectedTab)
             {
                 selectedTab.Deselect();
             }
 
             selectedTab = button;
-            // selectedTab.Select();
-
-            // ResetTabs();
-            // button.background.sprite = tabActive;
 
             OnTabSelectedEvent?.Invoke(button);
+        }
+
+        public void OnTabDeslected(TabButton button)
+        {
+            
         }
         
         #endregion UnityEventSystem Methods
 
         #region Methods
-        
-        public void ResetTabs()
-        {
-            // foreach(TabButton button in tabButtons)
-            // {
-            //     if(selectedTab != null && button == selectedTab) {continue;}
-            //     button.background.sprite = tabIdle;
-            // }
-        }
 
         #endregion Methods
     }
