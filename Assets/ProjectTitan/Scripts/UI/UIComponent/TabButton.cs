@@ -80,7 +80,6 @@ namespace Titan.UI
                 enterSequence.Append(_targetImage.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), TransitionTime));
                 enterSequence.Join(_targetImage.DOColor(_hightlightedColor, TransitionTime));
                 enterSequence.SetTarget(transform);
-                Debug.Log($"To hilight color");
             }
             // Button was clicked before enter.
             // Go to clicked state
@@ -90,13 +89,11 @@ namespace Titan.UI
                 enterClickSequence.Append(_targetImage.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), TransitionTime));
                 enterClickSequence.Join(_targetImage.DOColor(_pressedColor, TransitionTime));
                 enterClickSequence.SetTarget(transform);
-                Debug.Log($"To pressed color");
             }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            Debug.Log($"Tab Pointer Exit");
             if(_isSelected)
                 return;
 
@@ -105,9 +102,8 @@ namespace Titan.UI
             {
                 Sequence exitSequence = DOTween.Sequence();
                 exitSequence.Append(_targetImage.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), TransitionTime));
-                exitSequence.Join(_targetImage.DOColor(_normalColor, 1.0f));
+                exitSequence.Join(_targetImage.DOColor(_normalColor, TransitionTime));
                 exitSequence.SetTarget(transform);
-                Debug.Log($"To normal color");
             }
         }
 
@@ -123,11 +119,8 @@ namespace Titan.UI
             {
                 Sequence pressedSequence = DOTween.Sequence();
                 pressedSequence.Append(_targetImage.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), TransitionTime));
-                pressedSequence.Join(_targetImage.DOColor(_pressedColor, 1.0f));
+                pressedSequence.Join(_targetImage.DOColor(_pressedColor, TransitionTime));
                 pressedSequence.SetTarget(transform);
-                Debug.Log($"Pressed target : {pressedSequence.target}");
-                
-                Debug.Log($"To pressed color");
             }
         }
         
