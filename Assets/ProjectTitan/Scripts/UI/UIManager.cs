@@ -11,9 +11,9 @@ namespace Titan.UI
     {
         // @Refactor
         // Change to scalable design latter
-        [SerializeField] private UIBase inventoryUI;
+        [SerializeField] private UIScene inventoryUI;
 
-        [SerializeField] private List<UIBase> _UIList = new List<UIBase>();
+        [SerializeField] private List<UIScene> _UIList = new List<UIScene>();
 
         // Memo
         // Think UI as Scene
@@ -30,12 +30,12 @@ namespace Titan.UI
 
         public void OnOpenInventory()
         {
-            inventoryUI.OpenUI();
+            inventoryUI.OpenUI(1.0f);
         }
 
         public void OnCloseInventory()
         {
-            inventoryUI.CloseUI();
+            inventoryUI.CloseUI(1.0f);
         }
     }
 }
