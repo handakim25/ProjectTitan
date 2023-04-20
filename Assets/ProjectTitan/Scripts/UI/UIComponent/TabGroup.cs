@@ -4,12 +4,16 @@ using UnityEngine;
 
 namespace Titan.UI
 {
+    // @Note
+    // Expand to general cases
+    // For instance multiple tab
     public class TabGroup : MonoBehaviour
     {
         private List<TabButton> tabButtons;
 
-        private TabButton selectedTab;
+        private TabButton _selectedTab;
         public System.Action<TabButton> OnTabSelectedEvent;
+        public System.Action<TabButton> OnTabDeselectedEvent;
 
         public void Subscribe(TabButton button)
         {
@@ -25,19 +29,19 @@ namespace Titan.UI
 
         public void OnTabSelected(TabButton button)
         {
-            if(selectedTab != null && button != selectedTab)
+            if(_selectedTab != null && button != _selectedTab)
             {
-                selectedTab.Deselect();
+                _selectedTab.Deselect(); // button.Deselect -> OnTabDeselected -> OnTabDeselectedEvent
             }
 
-            selectedTab = button;
+            _selectedTab = button;
 
             OnTabSelectedEvent?.Invoke(button);
         }
 
         public void OnTabDeslected(TabButton button)
         {
-            
+            OnTabDeselectedEvent?.Invoke(button);
         }
         
         #endregion UnityEventSystem Methods
