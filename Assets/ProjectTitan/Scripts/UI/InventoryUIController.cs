@@ -19,7 +19,7 @@ namespace Titan.UI.InventorySystem
         [SerializeField] protected InventoryUI _inventoryUI;
         [SerializeField] protected GameObject _detailSlotUI;
         private InventorySlot _detailSlot = new InventorySlot();
-        [SerializeField] protected TMP_Text _capacityText;
+        [SerializeField] protected FormatString _capacityText;
 
         #region UnityMethods
 
@@ -66,6 +66,8 @@ namespace Titan.UI.InventorySystem
             var firstSlot = _inventoryUI.GetFirstSlotGo();
             if(firstSlot!=null)
                 _inventoryUI.SelectSlot(firstSlot);
+
+            _capacityText.Format(_inventoryObject.ItemCount, _inventoryObject.Capacity);
         }
 
         /// <summary>
@@ -95,6 +97,9 @@ namespace Titan.UI.InventorySystem
                 _inventoryUI.RemoveSlots(handler.RemovedSlots);
                 // _inventoryUI.SelectSlot(null);
             }
+
+            InventoryObject inventory = e as InventoryObject;
+            _capacityText.Format(inventory.ItemCount, inventory.Capacity);
         }  
 
         private void OnDetailSlotPostUpdate(InventorySlot slot)
