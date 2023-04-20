@@ -18,13 +18,13 @@ namespace Titan.UI.InventorySystem
         [SerializeField] GameObject _slotPrefab;
 
         [SerializeField] ScrollRect _inventoryScroll;
-        [SerializeField] List<ItemType> _allowedType;
+        // None : Show all
+        [SerializeField] List<ItemType> _allowedType = new List<ItemType>();
 
         public Dictionary<GameObject, InventorySlot> slotUIs = new Dictionary<GameObject, InventorySlot>();
-
         private int _lastSlotIndex;
-
         private GameObject _selectedSlot;
+
         /// <summary>
         /// Argument : If nothing is selected, it could be null.
         /// </summary>
@@ -80,6 +80,29 @@ namespace Titan.UI.InventorySystem
                 slot.UpdateSlot(slot.item, slot.amount);
             }
             OrderSlot();
+            ApplyFilter();
+        }
+
+        // First version : 효율성은 생각하지 않는다.
+        private void ApplyFilter()
+        {
+            if(_allowedType.Contains(ItemType.None) || _allowedType.Count == 0)
+            {
+                return;
+            }
+
+            foreach(var slot in slotUIs.Values)
+            {
+                // get type
+                var item = ItemDatabase.GetItemObject(slot.item.id);
+                if(item == null)
+                {
+                    Debug.LogWarning($"Invalid Item");
+                }
+
+                bool isActive = _allowedType.Contains(item.type);
+                slot.SlotUI.SetActive(isActive);
+            }
         }
 
         private void OrderSlot()
@@ -230,7 +253,7 @@ namespace Titan.UI.InventorySystem
 
         #endregion Methods for Slot UI
 
-        #region Methods
+        #region public Methods
 
         public GameObject GetFirstSlotGo()
         {
@@ -260,7 +283,19 @@ namespace Titan.UI.InventorySystem
 
         public void SetFilter(ItemType type)
         {
+            if(_allowedType.Contains(type))
+            {   
+                return;
+            }
 
+            _allowedType.Add(type);
+            ApplyFilter();
+        }
+
+        public void RemoveFilter(ItemType type)
+        {
+            _allowedType.Remove(type);
+            ApplyFilter();
         }
 
         #endregion Methods

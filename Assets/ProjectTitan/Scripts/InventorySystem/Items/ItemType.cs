@@ -4,8 +4,10 @@ using UnityEngine;
 
 namespace Titan.InventorySystem.Items
 {
+    [SerializeField]
     public enum ItemType
     {
+        None,
         Weapon,
         Core,
         Food,
