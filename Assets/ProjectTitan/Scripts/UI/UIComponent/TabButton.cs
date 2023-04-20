@@ -42,15 +42,17 @@ namespace Titan.UI
         {
             // _background = GetComponent<Image>();
             tabGroup?.Subscribe(this);
+            if(_targetImage)
+            {
+                _targetImage.color = _isSelected ? _selectedColor : _normalColor;
+            }
         }
 
+        // 다른 오브젝트들의 OnEnable과 순서가 보장되지 않는다.
+        // 최대한 독립적으로 작동하도록 작성할 것.
         private void OnEnable()
         {
             _isClicked = false;
-            if(_targetImage)
-            {
-                _targetImage.color = _normalColor;
-            }
         }
 
         #region EventSystem Callback

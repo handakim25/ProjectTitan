@@ -15,6 +15,7 @@ namespace Titan.UI.InventorySystem
         [SerializeField] InventoryObject _inventoryObject;
 
         [Header("UI")]
+        [SerializeField] protected GameObject _cartegoryTab;
         [SerializeField] protected InventoryUI _inventoryUI;
         [SerializeField] protected GameObject _detailSlotUI;
         private InventorySlot _detailSlot = new InventorySlot();
@@ -28,6 +29,8 @@ namespace Titan.UI.InventorySystem
         private void Awake()
         {
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryObject, "Inventory is not set");
+            UnityEngine.Assertions.Assert.IsNotNull(_cartegoryTab, "Cartegory is not set");
+            UnityEngine.Assertions.Assert.IsNotNull(_cartegoryTab.GetComponent<TabGroup>(), "Cartegory tab should have TabGroupd");
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryUI, "Inventory ui is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_detailSlotUI, "Detail Slot Ui is not set");
 
@@ -46,13 +49,19 @@ namespace Titan.UI.InventorySystem
             };
         }
 
-        /// <summary>
-        /// This function is called when the object becomes enabled and active.
-        /// </summary>
+        // 순서에 주의할 것
+        // OnEnable의 경우, UI 특성상 열고 닫히는 구조니까 세심하게 관리해야 한다.
+        // 인벤토리 슬롯을 만들고, Cartegory를 선택해서 보여질 것들을 정리하고, 선택한다.
         private void OnEnable()
         {
             _inventoryUI.CreateSlots(_inventoryObject.Slots); // slots will be destroyed OnDisable
             _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
+
+            if(_cartegoryTab.transform.childCount > 0)
+            {
+                var firstCartegoryGo = _cartegoryTab.transform.GetChild(0);
+                firstCartegoryGo.GetComponent<TabButton>()?.Select();
+            }
             
             var firstSlot = _inventoryUI.GetFirstSlotGo();
             if(firstSlot!=null)
