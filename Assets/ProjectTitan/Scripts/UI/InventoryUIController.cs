@@ -16,7 +16,7 @@ namespace Titan.UI.InventorySystem
 
         [Header("UI")]
         [SerializeField] protected InventoryUI _inventoryUI;
-        [SerializeField] protected GameObject DetailSlotUI;
+        [SerializeField] protected GameObject _detailSlotUI;
         private InventorySlot _detailSlot = new InventorySlot();
         [SerializeField] protected TMP_Text _capacityText;
 
@@ -29,10 +29,10 @@ namespace Titan.UI.InventorySystem
         {
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryObject, "Inventory is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryUI, "Inventory ui is not set");
-            UnityEngine.Assertions.Assert.IsNotNull(DetailSlotUI, "Detail Slot Ui is not set");
+            UnityEngine.Assertions.Assert.IsNotNull(_detailSlotUI, "Detail Slot Ui is not set");
 
             // setup detail slot
-            _detailSlot.SlotUI = DetailSlotUI;
+            _detailSlot.SlotUI = _detailSlotUI;
             _detailSlot.OnPostUpdate += OnDetailSlotPostUpdate;
             
             _detailSlot.UpdateSlot(new Item(), 0);
@@ -77,11 +77,11 @@ namespace Titan.UI.InventorySystem
                 _inventoryUI.CreateSlots(handler.UpdatedSlots);
             if(handler.RemovedSlots != null)
             {
+                // @To-Do : Selection code.
                 if(handler.RemovedSlots.Contains(_inventoryUI.SelectedSlot))
                 {
                     // Select other slot
                     // move right
-                    
                 }
                 _inventoryUI.RemoveSlots(handler.RemovedSlots);
                 // _inventoryUI.SelectSlot(null);

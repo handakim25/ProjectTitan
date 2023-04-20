@@ -139,7 +139,7 @@ namespace Titan.UI
 
             if(_targetImage)
             {
-                DOTween.Kill(transform);
+                DOTween.Kill(transform); // DoTween을 Kill하려면 Start 이후에서 호출해야한다.
                 _targetImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 _targetImage.color = _selectedColor;
             }
