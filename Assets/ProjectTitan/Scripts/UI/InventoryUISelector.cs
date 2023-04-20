@@ -9,7 +9,9 @@ namespace Titan.UI.InventorySystem
     [RequireComponent(typeof(InventoryUI))]
     public class InventoryUISelector : MonoBehaviour
     {
-        InventoryUI target;
+        // SerializeField로 노출하지 않으면
+        // Scene에 저장이 되지 않는다.
+        [SerializeField] InventoryUI target;
         public ItemType type;
 
         public void SetFilter()
