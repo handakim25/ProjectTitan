@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
   m_Name: TestSword
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   stackable: 0
   icon: {fileID: 21300000, guid: 4f4b3730cb977d144b41fcd8e14597c6, type: 3}
   dropModel: {fileID: 0}
   description: 
   data:
-    id: -1
+    id: 8

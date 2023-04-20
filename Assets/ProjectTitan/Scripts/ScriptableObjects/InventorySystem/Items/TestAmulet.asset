@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
   m_Name: TestAmulet
   m_EditorClassIdentifier: 
-  type: 0
+  type: 1
   stackable: 0
   icon: {fileID: 21300000, guid: aa223d7ef99edc14086f85672a896f1f, type: 3}
   dropModel: {fileID: 0}
