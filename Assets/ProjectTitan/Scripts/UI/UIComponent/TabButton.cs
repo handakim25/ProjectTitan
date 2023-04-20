@@ -23,7 +23,6 @@ namespace Titan.UI
     {
         public TabGroup tabGroup;
 
-        [SerializeField] private Image _background;
         [SerializeField] private Image _targetImage; // image in child
 
         [field : SerializeField] public float TransitionTime {get; protected set;} = 1.0f;
@@ -145,11 +144,6 @@ namespace Titan.UI
                 _targetImage.color = _selectedColor;
             }
 
-            if(_background)
-            {
-                _background.color = _background.color.WithAlpha(1.0f);
-            }
-
             OnTabSelected?.Invoke();
             tabGroup?.OnTabSelected(this);
         }
@@ -164,11 +158,6 @@ namespace Titan.UI
                 int killTransform = DOTween.Kill(transform);
                 _targetImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 _targetImage.color = _normalColor;
-            }
-
-            if(_background)
-            {
-                _background.color = _background.color.WithAlpha(0.0f);
             }
             
             OnTabDeslected?.Invoke();
