@@ -8,8 +8,8 @@ namespace Titan
     [RequireComponent(typeof(TMP_Text))]
     public class FormatString : MonoBehaviour
     {
-        private TMP_Text _target;
-        private string _formatStr;
+        [SerializeField] private TMP_Text _target;
+        [SerializeField] private string _formatStr;
 
         public void Format(params object[] args)
         {
