@@ -16,5 +16,5 @@ MonoBehaviour:
   - level_Test
   - sc_Core
   - sc_Light
-  - sc_test
+  - sc_player
   - sc_UI
