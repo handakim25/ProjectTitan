@@ -134,6 +134,25 @@ namespace Titan.UI.InventorySystem
             _inventoryObject.RemoveItem(slectedSlot, 1);
         }
 
+        public void OnCartegoryButton(bool isLeft)
+        {
+            int tabCount = _cartegoryTab.transform.childCount;
+            if(tabCount == 0)
+            {
+                return;
+            }
+
+            TabButton selectedButton = _cartegoryTab.GetComponent<TabGroup>().SelectedTab;
+            int index = selectedButton.transform.GetSiblingIndex();
+            int newIndex = index + (isLeft ? -1 : 1);
+
+            if(newIndex < 0) newIndex = tabCount - 1;
+            else if(newIndex >= tabCount) newIndex = 0;
+
+            GameObject selectedTab = _cartegoryTab.transform.GetChild(newIndex).gameObject;
+            selectedTab.GetComponent<TabButton>()?.Select();
+        }
+
         #endregion Callback
     
 #region TestMethods in editor

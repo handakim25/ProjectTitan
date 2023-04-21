@@ -15,6 +15,12 @@ namespace Titan.UI
         public System.Action<TabButton> OnTabSelectedEvent;
         public System.Action<TabButton> OnTabDeselectedEvent;
 
+        #region Property
+        
+        public TabButton SelectedTab => _selectedTab;
+        
+        #endregion Property
+
         public void Subscribe(TabButton button)
         {
             if(tabButtons == null)
