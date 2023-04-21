@@ -6,18 +6,16 @@ namespace Titan.UI
 {
     // Component?
     // Inheritence?
-    public abstract class UIScene : MonoBehaviour
+    public class UIScene : MonoBehaviour
     {
-        public virtual void OpenUI(float transitionTime)
+        public virtual void OpenUI()
         {
             Debug.Log($"Open UI");
-            gameObject.SetActive(true);
         }
 
-        public virtual void CloseUI(float transitionTime)
+        public virtual void CloseUI()
         {
             Debug.Log($"Close UI");
-            gameObject.SetActive(false);
         }
     }
 }

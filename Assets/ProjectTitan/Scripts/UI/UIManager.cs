@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace Titan.UI
         // Change to scalable design latter
         [SerializeField] private UIScene inventoryUI;
 
+        [SerializeField] private UIScene _HudScene;
         [SerializeField] private List<UIScene> _UIList = new List<UIScene>();
 
         // Memo
@@ -28,14 +30,21 @@ namespace Titan.UI
         // or
         // UI Open UI -> Callback UIManager
 
-        public void OnOpenInventory()
+        public void OpenUIScene(UIScene targetScene)
         {
-            inventoryUI.OpenUI(1.0f);
+            foreach(UIScene scene in _UIList)
+            {
+                if(scene == targetScene)
+                {
+                    continue;
+                }
+                scene.CloseUI();
+            }
         }
 
-        public void OnCloseInventory()
+        public void CloseUISceneHandler()
         {
-            inventoryUI.CloseUI(1.0f);
+            _HudScene.OpenUI();
         }
     }
 }
