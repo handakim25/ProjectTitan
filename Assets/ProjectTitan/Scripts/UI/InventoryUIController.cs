@@ -20,6 +20,7 @@ namespace Titan.UI.InventorySystem
         [SerializeField] protected GameObject _detailSlotUI;
         private InventorySlot _detailSlot = new InventorySlot();
         [SerializeField] protected FormatString _capacityText;
+        [SerializeField] protected Button _interactButton;
 
         #region UnityMethods
 
@@ -40,12 +41,34 @@ namespace Titan.UI.InventorySystem
             
             _detailSlot.UpdateSlot(new Item(), 0);
 
+            // @To-Do
+            // 시나리오를 나누어서 생각할 것
             _inventoryUI.OnSlotSelected += (InventorySlot slot) => {
                 if(slot == null)
                 {
                     _detailSlot.UpdateSlot(new Item(), 0);
+                    _interactButton.gameObject.SetActive(false);
+                    return;
                 }
                 _detailSlot.UpdateSlot(slot.item.Clone(), 0);
+
+                _interactButton.gameObject.SetActive(true);
+                ItemObject item = ItemDatabase.GetItemObject(slot.item.id);
+                TextMeshProUGUI text = _interactButton.GetComponentInChildren<TextMeshProUGUI>();
+                text.text = item.type switch
+                    {
+                        ItemType.Weapon => "착용",
+                        ItemType.Food => "사용",
+                        _ => "상세",
+                    };
+            };
+
+            // tab button -> Select -> Filter Inventory UI 
+            // ->  TabGroup.OntabSelected -> OnTabSelectedEvent -> Select Slot
+            // If cartegory is changed, select first slot
+            _cartegoryTab.GetComponent<TabGroup>().OnTabSelectedEvent += (tabButton) => {
+                var firstSlot = _inventoryUI.GetFirstSlotGo();
+                _inventoryUI.SelectSlot(firstSlot);
             };
         }
 
@@ -62,10 +85,6 @@ namespace Titan.UI.InventorySystem
                 var firstCartegoryGo = _cartegoryTab.transform.GetChild(0);
                 firstCartegoryGo.GetComponent<TabButton>()?.Select();
             }
-            
-            var firstSlot = _inventoryUI.GetFirstSlotGo();
-            if(firstSlot!=null)
-                _inventoryUI.SelectSlot(firstSlot);
 
             _capacityText.Format(_inventoryObject.ItemCount, _inventoryObject.Capacity);
         }
@@ -88,19 +107,39 @@ namespace Titan.UI.InventorySystem
                 _inventoryUI.CreateSlots(handler.UpdatedSlots);
             if(handler.RemovedSlots != null)
             {
-                // @To-Do : Selection code.
-                if(handler.RemovedSlots.Contains(_inventoryUI.SelectedSlot))
-                {
-                    // Select other slot
-                    // move right
-                }
+                int index = _inventoryUI.SelectedSlot.SlotUI.transform.GetSiblingIndex();
                 _inventoryUI.RemoveSlots(handler.RemovedSlots);
-                // _inventoryUI.SelectSlot(null);
+                if(_inventoryUI.SelectedSlot == null)
+                {
+                    GameObject nextSelectedSlot = SelectNextSlot(index);
+                    _inventoryUI.SelectSlot(nextSelectedSlot);
+                }
             }
 
             InventoryObject inventory = e as InventoryObject;
             _capacityText.Format(inventory.ItemCount, inventory.Capacity);
         }  
+
+        private GameObject SelectNextSlot(int startIndex)
+        {
+            for(int i = startIndex; i < _inventoryUI.SlotCount; i++)
+            {
+                GameObject nextSlot = _inventoryUI.GetSlotByIndex(i);
+                if(_inventoryUI.IsValidSlot(nextSlot))
+                {
+                    return nextSlot;
+                }
+            }
+            for(int i = startIndex -1 ; i >= 0; i--)
+            {
+                GameObject nextSlot = _inventoryUI.GetSlotByIndex(i);
+                if(_inventoryUI.IsValidSlot(nextSlot))
+                {
+                    return nextSlot;
+                }
+            }
+            return null;
+        }
 
         private void OnDetailSlotPostUpdate(InventorySlot slot)
         {
@@ -111,6 +150,11 @@ namespace Titan.UI.InventorySystem
                 if(text != null)
                 {
                     text.GetComponent<TMP_Text>().text = "name";
+                }
+                var icon = _detailSlot.SlotUI.transform.Find("DetailIcon/IconImage");
+                if(icon != null)
+                {
+                    icon.GetComponent<Image>().sprite = null;
                 }
                 return;
             }
@@ -126,12 +170,16 @@ namespace Titan.UI.InventorySystem
             }
         }
 
+        #endregion Callback
+
+        #region Button Callback
+
         public void OnInteractionClick()
         {
             InventorySlot slectedSlot = _inventoryUI.SelectedSlot;
-            Debug.Log($"Selected Item: {_inventoryUI.SelectedSlot.SlotUI.name}");
 
-            _inventoryObject.RemoveItem(slectedSlot, 1);
+            if(slectedSlot != null)
+                _inventoryObject.RemoveItem(slectedSlot, 1);
         }
 
         public void OnCartegoryButton(bool isLeft)
@@ -153,7 +201,7 @@ namespace Titan.UI.InventorySystem
             selectedTab.GetComponent<TabButton>()?.Select();
         }
 
-        #endregion Callback
+        #endregion Button Callback
     
 #region TestMethods in editor
     #if UNITY_EDITOR

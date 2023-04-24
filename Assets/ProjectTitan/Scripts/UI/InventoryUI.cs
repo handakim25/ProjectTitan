@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace Titan.UI.InventorySystem
         private GameObject _selectedSlot;
 
         /// <summary>
-        /// Argument : If nothing is selected, it could be null.
+        /// Argument : If nothing is selected, slot is null.
         /// </summary>
         public System.Action<InventorySlot> OnSlotSelected;
         
@@ -93,14 +94,7 @@ namespace Titan.UI.InventorySystem
 
             foreach(var slot in slotUIs.Values)
             {
-                // get type
-                var item = ItemDatabase.GetItemObject(slot.item.id);
-                if(item == null)
-                {
-                    Debug.LogWarning($"Invalid Item");
-                }
-
-                bool isActive = _allowedType.Contains(item.type);
+                bool isActive = IsFilteredSlot(slot);
                 slot.SlotUI.SetActive(isActive);
             }
         }
@@ -180,6 +174,7 @@ namespace Titan.UI.InventorySystem
             if(slot.SlotUI == _selectedSlot)
             {
                 _selectedSlot = null;
+                OnSlotSelected?.Invoke(null);
             }
             Destroy(slot.SlotUI);
 
@@ -255,18 +250,33 @@ namespace Titan.UI.InventorySystem
 
         #region public Methods
 
+        /// <summary>
+        /// Get first slot Game object
+        /// </summary>
+        /// <returns>First slot Object. If there is no slots, return null. </returns>
         public GameObject GetFirstSlotGo()
         {
             if(slotUIs.Count == 0)
                 return null;
-            Debug.Log($"Get First GO : {_inventoryScroll.content.GetChild(0).gameObject.name}");
-            return _inventoryScroll.content.GetChild(0).gameObject;
+
+            // I cannot find that linq gaurantees the order
+            // If there is a problem on order, change to for loop.
+            var slot = _inventoryScroll.content.Cast<Transform>()
+                            .Select(child => child.gameObject)
+                            .FirstOrDefault(slogGo => slogGo.activeSelf);
+            return slot;
         }
 
         public InventorySlot GetSlotByGo(GameObject slotGo) => slotUIs.GetValueOrDefault(slotGo);
 
         public void SelectSlot(GameObject selectedGo)
         {
+            if(selectedGo == null)
+            {
+                _selectedSlot = null;
+                OnSlotSelected?.Invoke(null);
+                return;
+            }
             if(!slotUIs.ContainsKey(selectedGo))
                 return;
 
@@ -278,7 +288,27 @@ namespace Titan.UI.InventorySystem
         {
             if(index < 0 || index > _inventoryScroll.content.childCount)
                 return null;
-            return _inventoryScroll.transform.GetChild(index).gameObject;
+            return _inventoryScroll.content.transform.GetChild(index).gameObject;
+        }
+
+        public bool IsValidSlot(GameObject slotUI)
+        {
+            if(slotUI == null)
+            {
+                return false;
+            }
+            if(!slotUIs.ContainsKey(slotUI))
+            {
+                return false;
+            }
+
+            InventorySlot slot = slotUIs[slotUI];
+            ItemObject item = ItemDatabase.GetItemObject(slot.item.id);
+            if(_allowedType.Contains(ItemType.None) || _allowedType.Count ==0)
+            {
+                return true;
+            }
+            return _allowedType.Contains(item.type);
         }
 
         public void SetFilter(ItemType type)
@@ -296,6 +326,12 @@ namespace Titan.UI.InventorySystem
         {
             _allowedType.Remove(type);
             ApplyFilter();
+        }
+
+        private bool IsFilteredSlot(InventorySlot slot)
+        {
+            ItemObject item = ItemDatabase.GetItemObject(slot.item.id);
+            return _allowedType.Contains(item.type);
         }
 
         #endregion Methods
