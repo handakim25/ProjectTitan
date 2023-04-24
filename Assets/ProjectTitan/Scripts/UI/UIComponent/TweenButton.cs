@@ -26,8 +26,8 @@ namespace Titan
         [SerializeField] protected Vector3 _pressedScale = new Vector3(1, 1, 1);
         [SerializeField] protected Vector3 _selectedScale = new Vector3(1, 1, 1);
 
-        public UnityEvent OnTabSelected;
-        public UnityEvent OnTabDeslected;
+        public UnityEvent OnButtonSelected;
+        public UnityEvent OnButtonDeslected;
 
         bool _isClicked = false;
         bool _isSelected = false;
@@ -147,7 +147,7 @@ namespace Titan
                 _targetImage.color = _selectedColor;
             }
 
-            OnTabSelected?.Invoke();
+            OnButtonSelected?.Invoke();
         }
 
         public virtual void Deselect()
@@ -162,7 +162,7 @@ namespace Titan
                 _targetImage.color = _normalColor;
             }
             
-            OnTabDeslected?.Invoke();
+            OnButtonDeslected?.Invoke();
         }
 
         public void OnPointerUp(PointerEventData eventData)
