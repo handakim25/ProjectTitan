@@ -271,6 +271,10 @@ namespace Titan.UI.InventorySystem
 
         public void SelectSlot(GameObject selectedGo)
         {
+            if(_selectedSlot != null)
+            {
+                _selectedSlot.GetComponent<TweenButton>().Deselect();
+            }
             if(selectedGo == null)
             {
                 _selectedSlot = null;
@@ -281,6 +285,7 @@ namespace Titan.UI.InventorySystem
                 return;
 
             _selectedSlot = selectedGo;
+            _selectedSlot.GetComponent<TweenButton>().Select();
             OnSlotSelected?.Invoke(slotUIs[selectedGo]);
         }
 

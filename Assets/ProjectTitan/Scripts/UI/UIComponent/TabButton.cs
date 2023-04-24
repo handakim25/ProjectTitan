@@ -18,169 +18,26 @@ namespace Titan.UI
         }
     }
 
-    [RequireComponent(typeof(Image))]   
-    public class TabButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+    public class TabButton : TweenButton
     {
         public TabGroup tabGroup;
 
-        [SerializeField] private Image _targetImage; // image in child
-
-        [field : SerializeField] public float TransitionTime {get; protected set;} = 1.0f;
-
-        [SerializeField] Color _normalColor;
-        [SerializeField] Color _hightlightedColor;
-        [SerializeField] Color _pressedColor;
-        [SerializeField] Color _selectedColor;
-
-        public UnityEvent OnTabSelected;
-        public UnityEvent OnTabDeslected;
-
-        bool _isClicked = false;
-        bool _isSelected = false;
-
-        private void Start()
+        protected override void Start()
         {
-            // _background = GetComponent<Image>();
+            base.Start();
             tabGroup?.Subscribe(this);
-            if(_targetImage)
-            {
-                _targetImage.color = _isSelected ? _selectedColor : _normalColor;
-            }
         }
 
-        // 다른 오브젝트들의 OnEnable과 순서가 보장되지 않는다.
-        // 최대한 독립적으로 작동하도록 작성할 것.
-        private void OnEnable()
+        public override void Select()
         {
-            _isClicked = false;
-        }
-
-        #region EventSystem Callback
-        
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if(_isSelected)
-                return;
-            
-            Select();
-        }
-
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            if(_isSelected)
-                return;
-
-            // 만약 PointerExit 등의 Tween이 있으면 취소
-            DOTween.Kill(transform);
-
-            // Button is not clicked yet.
-            // Hover image
-            if(_targetImage && !_isClicked)
-            {
-                Sequence enterSequence = DOTween.Sequence();
-                enterSequence.Append(_targetImage.transform.DOScale(new Vector3(1.5f, 1.5f, 1.5f), TransitionTime));
-                enterSequence.Join(_targetImage.DOColor(_hightlightedColor, TransitionTime));
-                enterSequence.SetTarget(transform);
-            }
-            // Button was clicked before enter.
-            // Go to clicked state
-            else if(_targetImage && _isClicked)
-            {
-                Sequence enterClickSequence = DOTween.Sequence();
-                enterClickSequence.Append(_targetImage.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), TransitionTime));
-                enterClickSequence.Join(_targetImage.DOColor(_pressedColor, TransitionTime));
-                enterClickSequence.SetTarget(transform);
-            }
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            if(_isSelected)
-                return;
-
-            // Go to normal state
-            if(_targetImage)
-            {
-                Sequence exitSequence = DOTween.Sequence();
-                exitSequence.Append(_targetImage.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), TransitionTime));
-                exitSequence.Join(_targetImage.DOColor(_normalColor, TransitionTime));
-                exitSequence.SetTarget(transform);
-            }
-        }
-
-        // Change to pressed button
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            if(_isSelected)
-                return;
-
-            _isClicked = true;
-
-            if(_targetImage)
-            {
-                Sequence pressedSequence = DOTween.Sequence();
-                pressedSequence.Append(_targetImage.transform.DOScale(new Vector3(1.0f, 1.0f, 1.0f), TransitionTime));
-                pressedSequence.Join(_targetImage.DOColor(_pressedColor, TransitionTime));
-                pressedSequence.SetTarget(transform);
-            }
-        }
-        
-        #endregion EventSystem Callback        
-
-        #region Methods
-        
-        // Select can be called from outside
-        public void Select()
-        {
-            if(_isSelected)
-            {
-                return;
-            }
-
-            _isSelected = true;
-
-            if(_targetImage)
-            {
-                DOTween.Kill(transform); // DoTween을 Kill하려면 Start 이후에서 호출해야한다.
-                _targetImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                _targetImage.color = _selectedColor;
-            }
-
-            OnTabSelected?.Invoke();
+            base.Select();
             tabGroup?.OnTabSelected(this);
         }
 
-        public void Deselect()
+        public override void Deselect()
         {
-            _isSelected = false;
-            _isClicked = false;
-
-            if(_targetImage)
-            {
-                int killTransform = DOTween.Kill(transform);
-                _targetImage.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                _targetImage.color = _normalColor;
-            }
-            
-            OnTabDeslected?.Invoke();
+            base.Deselect();
             tabGroup?.OnTabDeslected(this);
         }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            _isClicked = false;
-        }
-
-        #endregion Methods
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if(_targetImage)
-            {
-                _targetImage.color = _normalColor;
-            }
-        }
-#endif
     }
 }
