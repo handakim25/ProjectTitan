@@ -12,9 +12,15 @@ namespace Titan.Core.Scene
     sealed public class SceneManager : MonoSingleton<SceneManager>
     {        
         [SerializeField] private SceneList defaultScene;
+        public Camera CoreCamera;
+        public GameObject LoadingScreen;
+        UnityScene activeScene;
+        List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
 
         public void LoadScenes(SceneList list)
         {
+            LoadingScreen.gameObject.SetActive(true);
+
             var curScenes = GetAllOpenScenes();
             string[] curSceneNames = curScenes.Select(scene => scene.name).ToArray();
 
@@ -23,12 +29,12 @@ namespace Titan.Core.Scene
             var sceneToClose = curSceneNames.Except(targetSceneNames).ToArray();
             var sceneToOpen = targetSceneNames.Except(curSceneNames).ToArray();
 
-            Debug.Log($"Scene To Close");
+            Debug.Log($"--Scene To Close--");
             foreach(var sceneName in sceneToClose)
             {
                 Debug.Log($"name:{sceneName}");
             }
-            Debug.Log($"Scene To Open");
+            Debug.Log($"--Scene To Open--");
             foreach(var sceneName in sceneToOpen)
             {
                 Debug.Log($"name:{sceneName}");
@@ -36,19 +42,37 @@ namespace Titan.Core.Scene
 
             for(int i = 0; i < sceneToClose.Length; ++i)
             {
-                UnitySceneManger.UnloadSceneAsync(sceneToClose[i]);
+                scenesLoading.Add(UnitySceneManger.UnloadSceneAsync(sceneToClose[i]));
             }
 
             for(int i = 0; i < sceneToOpen.Length; ++i)
             {
-                UnitySceneManger.LoadScene(sceneToOpen[i],LoadSceneMode.Additive);
+                scenesLoading.Add(UnitySceneManger.LoadSceneAsync(sceneToOpen[i],LoadSceneMode.Additive));
             }
 
             if(UnitySceneManger.sceneCount > 0)
             {
-                UnityScene activeScene = UnitySceneManger.GetSceneByName(sceneToOpen[0]);
-                // UnitySceneManger.SetActiveScene(activeScene);
+                activeScene = UnitySceneManger.GetSceneByName(sceneToOpen[0]);
             }
+
+            StartCoroutine(GetSceneLoadProgress());
+        }
+
+        private IEnumerator GetSceneLoadProgress()
+        {
+            CoreCamera.gameObject.SetActive(true);
+            for(int i = 0; i < scenesLoading.Count; i++)
+            {
+                while(!scenesLoading[i].isDone)
+                {
+                    yield return null;
+                }
+            }
+
+            CoreCamera.gameObject.SetActive(false);
+            LoadingScreen.gameObject.SetActive(false);
+            UnitySceneManger.SetActiveScene(activeScene);
+            GameManager.Instance.SetCameraStack();
         }
 
         public void LoadDefaultScene()
@@ -78,6 +102,8 @@ namespace Titan.Core.Scene
         /// </summary>
         private void Start()
         {
+            UnitySceneManger.sceneLoaded += (scene, mode) => {Debug.Log($"Delegate : name:{scene.name}, mode : {mode}");};
+
             if(UnitySceneManger.GetActiveScene().name == "sc_Core")
                 LoadDefaultScene();
         }

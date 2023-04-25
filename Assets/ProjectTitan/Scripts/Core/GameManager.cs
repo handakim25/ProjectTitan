@@ -5,12 +5,12 @@ using UnityEngine.Rendering.Universal;
 
 namespace Titan.Core
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoSingleton<GameManager>
     {
-        /// <summary>
-        /// Start is called on the frame when a script is enabled just before
-        /// any of the Update methods is called the first time.
-        /// </summary>
+        private GameStatus _status;
+        public GameStatus Status => _status;
+
+        // If referece between Scenes, cannot be done in start
         private void Start()
         {
             SetCameraStack();
@@ -19,7 +19,11 @@ namespace Titan.Core
         public void SetCameraStack()
         {
             Camera mainCamera = Camera.main;
+            if(mainCamera == null)
+                return;
+
             var cameraData = mainCamera.GetUniversalAdditionalCameraData();
+            cameraData.cameraStack.Clear();
 
             var cameras = Camera.allCameras;
             foreach(Camera camera in cameras)
