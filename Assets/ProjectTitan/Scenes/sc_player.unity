@@ -502,7 +502,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 610791922}
-  m_LocalRotation: {x: -0.051689662, y: -0.000000017712217, z: -9.167641e-10, w: 0.9986632}
+  m_LocalRotation: {x: -0.051689662, y: 0.000000017712228, z: 9.1676466e-10, w: 0.9986632}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -589,67 +589,12 @@ Transform:
   m_Father: {fileID: 152528018}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1350630622 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2424509217307483542, guid: 4a42935cf2d4b774d95792ac0826b401,
-    type: 3}
-  m_PrefabInstance: {fileID: 2424509218121130312}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1350630623 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2424509217307483543, guid: 4a42935cf2d4b774d95792ac0826b401,
     type: 3}
   m_PrefabInstance: {fileID: 2424509218121130312}
   m_PrefabAsset: {fileID: 0}
---- !u!143 &1350630626
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350630622}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1350630628
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1350630622}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 6cde39c3dc479f2429702fc15f757af1,
-    type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!4 &1485273478 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2424509217173035214, guid: 4a42935cf2d4b774d95792ac0826b401,
@@ -852,7 +797,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1788220621}
-  m_LocalRotation: {x: -0.015379161, y: -5.376358e-10, z: -8.269366e-12, w: 0.99988174}
+  m_LocalRotation: {x: -0.01537916, y: 5.376359e-10, z: 8.269367e-12, w: 0.99988174}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1122,6 +1067,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1350630626, guid: 4a42935cf2d4b774d95792ac0826b401, type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630626, guid: 4a42935cf2d4b774d95792ac0826b401, type: 3}
+      propertyPath: m_Center.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630626, guid: 4a42935cf2d4b774d95792ac0826b401, type: 3}
+      propertyPath: m_SkinWidth
+      value: 0.03
+      objectReference: {fileID: 0}
     - target: {fileID: 2424509217307483542, guid: 4a42935cf2d4b774d95792ac0826b401,
         type: 3}
       propertyPath: m_Name
@@ -1182,5 +1139,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3514882187645235930, guid: 4a42935cf2d4b774d95792ac0826b401,
+        type: 3}
+      propertyPath: _control
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 6cde39c3dc479f2429702fc15f757af1,
+        type: 3}
+    - target: {fileID: 3514882187645235930, guid: 4a42935cf2d4b774d95792ac0826b401,
+        type: 3}
+      propertyPath: _inputAsset
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 6cde39c3dc479f2429702fc15f757af1,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a42935cf2d4b774d95792ac0826b401, type: 3}

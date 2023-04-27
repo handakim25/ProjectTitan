@@ -56,7 +56,6 @@ namespace Titan.Character
         {
             Vector3 curMoveDir = new Vector3(faceDir.x, 0, faceDir.z);
             _controller.Move(curMoveDir * Time.deltaTime * 2.0f);   
-            Debug.Log($"cur mvoe dir : {curMoveDir.magnitude}");
         }
 
         public void OnMove(InputAction.CallbackContext context)
