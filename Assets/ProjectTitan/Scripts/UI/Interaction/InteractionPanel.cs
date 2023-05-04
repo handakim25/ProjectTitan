@@ -27,6 +27,7 @@ namespace Titan.UI.Interaction
         {
             if(args.RemovedObjects != null)
             {
+                
                 _view.RemoveSlot(args.RemovedObjects);
             }
             if(args.AddedObjects != null)

@@ -7,6 +7,7 @@ using UnityEngine.Assertions;
 using TMPro;
 
 using Titan.Interaction;
+using Titan.Utility;
 
 namespace Titan.UI.Interaction
 {
@@ -16,14 +17,28 @@ namespace Titan.UI.Interaction
     [RequireComponent(typeof(ScrollRect))]
     public class InteractionView : MonoBehaviour
     {
+        #region Varaibles
+        
         [SerializeField] private GameObject _slotPrefab;
+        [SerializeField] private GameObject _interactIcon;
+        private Color _normalColor;
+        [SerializeField] private Color _hightlightColor = Color.cyan;
+
         private ScrollRect _scrollRect;
         // Gameobject : Interact Object, index : Sibling index of contents
         // Add / Remove -> remove from list and remove ui by index
         // interact select -> get interact object by sibling index
         private List<GameObject> _interactionList = new List<GameObject>();
+        /// <summary>
+        /// if _selectionIndex < 0 : unselected
+        /// 0-base
+        /// </summary>
         private int _selectedIndex = -1;
+        
+        #endregion Varaibles
 
+        #region Unity Methods
+        
         private void Awake()
         {
             Assert.IsNotNull(_slotPrefab);
@@ -32,14 +47,19 @@ namespace Titan.UI.Interaction
 
         private void OnEnable()
         {
-            
+            _selectedIndex = -1;
+            _normalColor = _slotPrefab.GetComponent<Image>().color;
         }
 
         private void OnDisable()
         {
             
         }
+        
+        #endregion Unity Methods
 
+        #region Methods
+        
         public void AddSlot(GameObject[] interactObjects)
         {
             Transform parent = _scrollRect.content.transform;
@@ -54,7 +74,11 @@ namespace Titan.UI.Interaction
 
             if(_selectedIndex < 0)
             {
-
+                SelectSlot(0);
+            }
+            if(_interactionList.Count > 0)
+            {
+                _interactIcon.SetActive(true);
             }
         }
 
@@ -78,9 +102,15 @@ namespace Titan.UI.Interaction
 
         public void RemoveSlot(GameObject[] interactObjects)
         {
+            int startIndex = _selectedIndex;
+
             foreach(GameObject removedObject in interactObjects)
             {
                 int removedIndex = _interactionList.FindIndex(interact => interact == removedObject);
+                if(removedIndex == _selectedIndex)
+                {
+                    _selectedIndex = -1;
+                }
                 Destroy(_scrollRect.content.GetChild(removedIndex).gameObject);
             }
 
@@ -88,21 +118,37 @@ namespace Titan.UI.Interaction
             {
                 _interactionList.Remove(removedObject);
             }
+
+            if(_interactionList.Count == 0)
+            {
+                _interactIcon.SetActive(false);
+            }
         }
 
         public void SelectSlot(int index)
         {
+            if(index < 0 || _scrollRect.content.transform.childCount <= index)
+            {
+                return;
+            }
+
             Transform content = _scrollRect.content.transform;
             if(_selectedIndex >= 0)
             {
                 GameObject prevSelected = content.GetChild(_selectedIndex).gameObject;
-                if(prevSelected.TryGetComponent<Image>(out var image))
+                if(prevSelected.TryGetComponent<Image>(out var prevImage))
                 {
-                    
+                    prevImage.color = _normalColor;
                 }
             }
-            GameObject selectedSlot = _scrollRect.content.transform.GetChild(index).gameObject;
-            
+
+            GameObject selectedSlot = content.GetChild(index).gameObject;
+            if(selectedSlot.TryGetComponent<Image>(out var selectedImage))
+            {
+                selectedImage.color = _hightlightColor;
+            }
         }
+        
+        #endregion Methods
     }
 }
