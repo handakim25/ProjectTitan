@@ -26,6 +26,7 @@ namespace Titan.UI.Interaction
         
         [SerializeField] private GameObject _slotPrefab;
         [SerializeField] private GameObject _interactIcon;
+        [SerializeField] private RectTransform _interactCursor;
         private Color _normalColor;
         [SerializeField] private Color _hightlightColor = Color.cyan;
 
@@ -83,6 +84,7 @@ namespace Titan.UI.Interaction
             {
                 _interactIcon.SetActive(true);
             }
+            SetCursorPos();
         }
 
         // Think
@@ -119,12 +121,15 @@ namespace Titan.UI.Interaction
             {
                 _interactIcon.SetActive(false);
             }
+            SetCursorPos();
         }
 
         public void SelectSlot(GameObject selectedSlot)
         {
             if(selectedSlot == _selectedSlot)
             {
+                Debug.Log($"Select Same slot");
+                SetCursorPos();
                 return;
             }
 
@@ -141,15 +146,49 @@ namespace Titan.UI.Interaction
             {
                 image.color = _hightlightColor;
             }
+            SetCursorPos();
+        }
+
+        public void SetCursorPos()
+        {
+            if(_selectedSlot == null)
+            {
+                _interactCursor.gameObject.SetActive(false);
+                return;
+            }
+            else
+            {
+                _interactCursor.gameObject.SetActive(true);
+            }
+
+            Canvas.ForceUpdateCanvases();
+            // var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position);
+            var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position);
+            // Debug.Log($"Size y : {size.y}");
+            _interactCursor.anchoredPosition = new Vector2(_interactCursor.anchoredPosition.x, size.y);
         }
 
         public GameObject GetSlotUIByIndex(int index)
         {
+            if(index < 0)
+            {
+                Debug.Log($"index invalid");
+                Debug.Log($"index : {index}");
+                Debug.Log($"Count : {SlotCount}");
+            }
+            if(_scrollRect.content.transform.childCount <= index)
+            {
+                Debug.Log($"Index invalid");
+                Debug.Log($"index : {index}");
+                Debug.Log($"Count : {SlotCount}");
+            }
             return _scrollRect.content.transform.GetChild(index).gameObject;
         }
 
         public bool IsValidSlot(GameObject slotUI)
         {
+            if(slotUI == null)
+                return false;
             GameObject slotInteracObject = slotUI.GetComponent<InteractionUI>().Interactable;
             return _interactionUIs.ContainsKey(slotInteracObject);
         }

@@ -40,6 +40,7 @@ namespace Titan.UI.Interaction
                 {
                     _view.SelectSlot(FindNextSelect(startIndex));
                 }
+                _view.SetCursorPos();
             }
             if(args.AddedObjects != null)
             {
@@ -57,7 +58,7 @@ namespace Titan.UI.Interaction
                     return interactionUI;
                 }
             }
-            for(int i = startIndex - 1; i >= 0; ++i)
+            for(int i = startIndex - 1; i >= 0; --i)
             {
                 GameObject interactionUI = _view.GetSlotUIByIndex(i);
                 if(_view.IsValidSlot(interactionUI))
@@ -79,7 +80,12 @@ namespace Titan.UI.Interaction
 
         public void OnInteractScrollHandler(Vector2 scroll)
         {
-            
+            if(_view.SelectedSlot == null)
+                return;
+            int selectedIndex = _view.SelectedSlot.transform.GetSiblingIndex();
+            selectedIndex += scroll.y > 0 ? -1 : 1;
+            selectedIndex = Mathf.Clamp(selectedIndex, 0, _view.SlotCount - 1);
+            _view.SelectSlot(_view.GetSlotUIByIndex(selectedIndex));
         }     
         
         #endregion InputSystem Callback

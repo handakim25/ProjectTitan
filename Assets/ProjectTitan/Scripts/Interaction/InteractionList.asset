@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd6d95fb4e8d2f74683ab6b19a3164c6, type: 3}
   m_Name: InteractionList
   m_EditorClassIdentifier: 
+  _maxInteractObjects: 8
