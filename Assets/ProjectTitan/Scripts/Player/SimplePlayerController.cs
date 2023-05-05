@@ -67,10 +67,5 @@ namespace Titan.Character
         {
             var mouseDelat = context.ReadValue<Vector2>();
         }
-
-        public void OnInteract(InputAction.CallbackContext context)
-        {
-
-        }
     }
 }

@@ -329,7 +329,6 @@ GameObject:
   m_Component:
   - component: {fileID: 121537620}
   - component: {fileID: 121537621}
-  - component: {fileID: 121537622}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -364,70 +363,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3410e69a9b5c39d4a9dab5c42fabb278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputAsset: {fileID: -944628639613478452, guid: 6cde39c3dc479f2429702fc15f757af1,
+    type: 3}
   inventoryUI: {fileID: 0}
   _HudScene: {fileID: 1445979887}
   _UIList:
   - {fileID: 2115621306}
   - {fileID: 1445979887}
---- !u!114 &121537622
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 121537619}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 6cde39c3dc479f2429702fc15f757af1,
-    type: 3}
-  m_NotificationBehavior: 3
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 6edae91a-8c67-4a50-8506-ef6863d3f337
-    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e11df0b3-8960-49d0-bcba-734cd715291c
-    m_ActionName: Player/Look[/Mouse/delta,/Pen/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 616c91a9-7f26-4870-810f-44ba20074c4e
-    m_ActionName: Player/Interact[/Keyboard/f]
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: cb37d035-6a35-42ff-bd33-0de7de30765c
-    m_ActionName: UI/Inventory[/Keyboard/i]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: PC
-  m_DefaultActionMap: UI
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &134816127
 GameObject:
   m_ObjectHideFlags: 0

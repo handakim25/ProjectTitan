@@ -14,6 +14,11 @@ namespace Titan.UI.Interaction
     // @Think
     // Slot 객체가 필요한가?
     // 없이 작업할려니까 조금 불편한데
+    // Note : Interact로 사라지는 것과 거리 밖으로 넘어가서 없어지는 것은 다르다.
+    // @refactor
+    // Selection 부분 개선할 것
+    // 문제점1. 순서에 너무 민감하게 작동하고 있는 점
+    // 문제점2. List가 과연 맞는 선택인가 하는 점
     [RequireComponent(typeof(ScrollRect))]
     public class InteractionView : MonoBehaviour
     {
@@ -25,15 +30,11 @@ namespace Titan.UI.Interaction
         [SerializeField] private Color _hightlightColor = Color.cyan;
 
         private ScrollRect _scrollRect;
-        // Gameobject : Interact Object, index : Sibling index of contents
-        // Add / Remove -> remove from list and remove ui by index
-        // interact select -> get interact object by sibling index
-        private List<GameObject> _interactionList = new List<GameObject>();
-        /// <summary>
-        /// if _selectionIndex < 0 : unselected
-        /// 0-base
-        /// </summary>
-        private int _selectedIndex = -1;
+        // key : Interactable Objects, Value : Interact UI
+        private Dictionary<GameObject, InteractionUI> _interactionUIs = new Dictionary<GameObject, InteractionUI>();
+        private GameObject _selectedSlot = null;
+        public GameObject SelectedSlot => _selectedSlot;
+        public int SlotCount => _scrollRect.content.transform.childCount;
         
         #endregion Varaibles
 
@@ -47,7 +48,7 @@ namespace Titan.UI.Interaction
 
         private void OnEnable()
         {
-            _selectedIndex = -1;
+            _selectedSlot = null;
             _normalColor = _slotPrefab.GetComponent<Image>().color;
         }
 
@@ -68,15 +69,17 @@ namespace Titan.UI.Interaction
                 GameObject slotUI = CreateSlot(parent);
                 
                 SetInteractSlot(slotUI, interactObject.GetComponent<Interactable>());
+                var interactionUI = slotUI.GetComponent<InteractionUI>();
+                interactionUI.Interactable = interactObject;
+                _interactionUIs[interactObject] = slotUI.GetComponent<InteractionUI>();
                 slotUI.name += $"_{interactObject.name}";
-                _interactionList.Add(interactObject);
             }
 
-            if(_selectedIndex < 0)
+            if(_selectedSlot == null)
             {
-                SelectSlot(0);
+                SelectSlot(parent.GetChild(0).gameObject);
             }
-            if(_interactionList.Count > 0)
+            if(_interactIcon.activeSelf == false)
             {
                 _interactIcon.SetActive(true);
             }
@@ -102,53 +105,55 @@ namespace Titan.UI.Interaction
 
         public void RemoveSlot(GameObject[] interactObjects)
         {
-            int startIndex = _selectedIndex;
-
             foreach(GameObject removedObject in interactObjects)
             {
-                int removedIndex = _interactionList.FindIndex(interact => interact == removedObject);
-                if(removedIndex == _selectedIndex)
+                if(_interactionUIs[removedObject].gameObject == _selectedSlot)
                 {
-                    _selectedIndex = -1;
+                    SelectSlot(null);
                 }
-                Destroy(_scrollRect.content.GetChild(removedIndex).gameObject);
+                Destroy(_interactionUIs[removedObject].gameObject);
+                _interactionUIs.Remove(removedObject);
             }
 
-            foreach(GameObject removedObject in interactObjects)
-            {
-                _interactionList.Remove(removedObject);
-            }
-
-            if(_interactionList.Count == 0)
+            if(_interactionUIs.Count == 0)
             {
                 _interactIcon.SetActive(false);
             }
         }
 
-        public void SelectSlot(int index)
+        public void SelectSlot(GameObject selectedSlot)
         {
-            if(index < 0 || _scrollRect.content.transform.childCount <= index)
+            if(selectedSlot == _selectedSlot)
             {
                 return;
             }
 
-            Transform content = _scrollRect.content.transform;
-            if(_selectedIndex >= 0)
+            if(_selectedSlot != null)
             {
-                GameObject prevSelected = content.GetChild(_selectedIndex).gameObject;
-                if(prevSelected.TryGetComponent<Image>(out var prevImage))
+                if(_selectedSlot.TryGetComponent<Image>(out var prevImage))
                 {
                     prevImage.color = _normalColor;
                 }
             }
 
-            GameObject selectedSlot = content.GetChild(index).gameObject;
-            if(selectedSlot.TryGetComponent<Image>(out var selectedImage))
+            _selectedSlot = selectedSlot;
+            if(_selectedSlot != null && _selectedSlot.TryGetComponent<Image>(out var image))
             {
-                selectedImage.color = _hightlightColor;
+                image.color = _hightlightColor;
             }
         }
-        
+
+        public GameObject GetSlotUIByIndex(int index)
+        {
+            return _scrollRect.content.transform.GetChild(index).gameObject;
+        }
+
+        public bool IsValidSlot(GameObject slotUI)
+        {
+            GameObject slotInteracObject = slotUI.GetComponent<InteractionUI>().Interactable;
+            return _interactionUIs.ContainsKey(slotInteracObject);
+        }
+
         #endregion Methods
     }
 }

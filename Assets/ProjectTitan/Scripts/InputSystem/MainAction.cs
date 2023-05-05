@@ -27,10 +27,11 @@ namespace Titan.Core
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-            m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
+            m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
+            m_UI_InteractScroll = m_UI.FindAction("InteractScroll", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -94,14 +95,12 @@ namespace Titan.Core
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Look;
-        private readonly InputAction m_Player_Interact;
         public struct PlayerActions
         {
             private @MainAction m_Wrapper;
             public PlayerActions(@MainAction wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
-            public InputAction @Interact => m_Wrapper.m_Player_Interact;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -117,9 +116,6 @@ namespace Titan.Core
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
-                @Interact.started += instance.OnInteract;
-                @Interact.performed += instance.OnInteract;
-                @Interact.canceled += instance.OnInteract;
             }
 
             private void UnregisterCallbacks(IPlayerActions instance)
@@ -130,9 +126,6 @@ namespace Titan.Core
                 @Look.started -= instance.OnLook;
                 @Look.performed -= instance.OnLook;
                 @Look.canceled -= instance.OnLook;
-                @Interact.started -= instance.OnInteract;
-                @Interact.performed -= instance.OnInteract;
-                @Interact.canceled -= instance.OnInteract;
             }
 
             public void RemoveCallbacks(IPlayerActions instance)
@@ -155,11 +148,15 @@ namespace Titan.Core
         private readonly InputActionMap m_UI;
         private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
         private readonly InputAction m_UI_Inventory;
+        private readonly InputAction m_UI_Interact;
+        private readonly InputAction m_UI_InteractScroll;
         public struct UIActions
         {
             private @MainAction m_Wrapper;
             public UIActions(@MainAction wrapper) { m_Wrapper = wrapper; }
             public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
+            public InputAction @Interact => m_Wrapper.m_UI_Interact;
+            public InputAction @InteractScroll => m_Wrapper.m_UI_InteractScroll;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -172,6 +169,12 @@ namespace Titan.Core
                 @Inventory.started += instance.OnInventory;
                 @Inventory.performed += instance.OnInventory;
                 @Inventory.canceled += instance.OnInventory;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
+                @InteractScroll.started += instance.OnInteractScroll;
+                @InteractScroll.performed += instance.OnInteractScroll;
+                @InteractScroll.canceled += instance.OnInteractScroll;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -179,6 +182,12 @@ namespace Titan.Core
                 @Inventory.started -= instance.OnInventory;
                 @Inventory.performed -= instance.OnInventory;
                 @Inventory.canceled -= instance.OnInventory;
+                @Interact.started -= instance.OnInteract;
+                @Interact.performed -= instance.OnInteract;
+                @Interact.canceled -= instance.OnInteract;
+                @InteractScroll.started -= instance.OnInteractScroll;
+                @InteractScroll.performed -= instance.OnInteractScroll;
+                @InteractScroll.canceled -= instance.OnInteractScroll;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -218,11 +227,12 @@ namespace Titan.Core
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
-            void OnInteract(InputAction.CallbackContext context);
         }
         public interface IUIActions
         {
             void OnInventory(InputAction.CallbackContext context);
+            void OnInteract(InputAction.CallbackContext context);
+            void OnInteractScroll(InputAction.CallbackContext context);
         }
     }
 }
