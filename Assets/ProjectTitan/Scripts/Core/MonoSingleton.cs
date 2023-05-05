@@ -7,11 +7,16 @@ namespace Titan.Core
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T s_instance = null;
+        private static bool appIsClosing = false;
 
         public static T Instance
         {
             get
             {
+                if(appIsClosing)
+                {
+                    return null;
+                }
                 if(s_instance == null)
                 {
                     s_instance = FindObjectOfType<T>();
@@ -48,6 +53,7 @@ namespace Titan.Core
         private void OnApplicationQuit()
         {
             s_instance = null;
+            appIsClosing = true;
         }
     }
 }
