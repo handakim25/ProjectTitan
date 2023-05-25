@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 4209bae04bb8c8844bba85e9c69800c9
 ModelImporter:
-  serializedVersion: 19301
+  serializedVersion: 21300
   internalIDToNameTable:
   - first:
       1: 100000
@@ -713,6 +713,7 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: Motion
     rigImportErrors: 
     rigImportWarnings: 
@@ -722,16 +723,16 @@ ModelImporter:
       to improve retargeting quality.\n\t'B_Spine' has translation animation that
       will be discarded.\n"
     animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
-      average position error 3.2 mm and maximum position error 5.6 mm at time 0:
-      0 (0.0%) Frame 0\n\tLeftLowerArm average position error 3.2 mm and maximum
+      average position error 3.2 mm and maximum position error 5.6 mm at time 0:24
+      (100.0%) Frame 24\n\tLeftLowerArm average position error 3.2 mm and maximum
       position error 5.7 mm at time 0:24 (100.0%) Frame 24\n\tLeftHand average position
       error 3.2 mm and maximum position error 5.6 mm at time 0:24 (100.0%) Frame
       24\n\tRightUpperArm average position error 3.2 mm and maximum position error
-      5.6 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average position error
+      5.6 mm at time 0:24 (100.0%) Frame 24\n\tRightLowerArm average position error
       3.2 mm and maximum position error 5.6 mm at time 0:12 (50.0%) Frame 12\n\tRightHand
       average position error 3.2 mm and maximum position error 5.6 mm at time 0:24
       (100.0%) Frame 24\n\tHead average position error 3.2 mm and maximum position
-      error 5.6 mm at time 0: 0 (0.0%) Frame 0\n"
+      error 5.6 mm at time 0:24 (100.0%) Frame 24\n"
     animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
@@ -798,21 +799,27 @@ ModelImporter:
     importBlendShapes: 0
     importCameras: 0
     importLights: 0
+    nodeNameCollisionStrategy: 0
     fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 0
+    bakeAxisConversion: 0
     preserveHierarchy: 0
     skinWeightsMode: 0
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
+    optimizeBones: 1
     meshOptimizationFlags: 0
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 0
   tangentSpace:
@@ -1538,6 +1545,8 @@ ModelImporter:
   animationType: 3
   humanoidOversampling: 1
   avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
