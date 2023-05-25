@@ -10,6 +10,7 @@ namespace Titan.Character
         {
             public static readonly int MoveSpeed = Animator.StringToHash("MoveSpeed");
             public static readonly int IsMoving = Animator.StringToHash("IsMoving");
+            public static readonly int IsWalk = Animator.StringToHash("IsWalk");
         }
     }
 }
