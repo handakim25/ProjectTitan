@@ -8,7 +8,8 @@ namespace Titan.Character
     {
         public static class Player
         {
-            public static readonly int Idle = Animator.StringToHash("Idle");
+            public static readonly int MoveSpeed = Animator.StringToHash("MoveSpeed");
+            public static readonly int IsMoving = Animator.StringToHash("IsMoving");
         }
     }
 }
