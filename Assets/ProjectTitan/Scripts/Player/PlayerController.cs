@@ -11,14 +11,10 @@ namespace Titan
     {
         public bool IsWalk;
 
-        /// <summary>
-        /// Start is called on the frame when a script is enabled just before
-        /// any of the Update methods is called the first time.
-        /// </summary>
-        private void Start()
+        public void SetLastDirection(Vector3 dir, bool isImmedate = false)
         {
-
+            // player.transform.rotation = Quaternion.Slerp(player.transform.rotation, Quaternion.LookRotation(faceDir), player.LookRotationDamp * Time.deltaTime);
+            
         }
-
     }
 }

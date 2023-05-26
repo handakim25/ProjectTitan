@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +15,8 @@ namespace Titan.Character.Player
         // Replace with editor code later.
         [field : SerializeField] public Vector2 MoveDir {get; private set;}
 
+        public event System.Action OnJumpPerformed;
+
         private void Awake()
         {
             _action = new MainAction(_asset);
@@ -33,5 +33,14 @@ namespace Titan.Character.Player
         {
             MoveDir = context.ReadValue<Vector2>();
         }
+
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            // Debug.Log($"Context : {context.phase}");
+            if(context.started)
+            {
+                OnJumpPerformed?.Invoke();
+            }
+        }        
     }
 }

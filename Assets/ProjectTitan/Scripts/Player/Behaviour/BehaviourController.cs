@@ -47,6 +47,15 @@ namespace Titan.Character.Player
         public PlayerMove PlayerMove {get; private set;}
         public PlayerController Controller {get; private set;}
 
+        /// <summary>
+        /// 현재 프레임에서의 그라운드에 있는 지의 여부
+        /// </summary>
+        /// <value></value>
+        [field : SerializeField] public bool IsGround {get; private set;}
+        public bool ShowIsGround;
+        public event System.Action OnGroundEnter;
+        public event System.Action OnGroundExit;
+
         // Ground Check
 
         #endregion Variables
@@ -66,9 +75,20 @@ namespace Titan.Character.Player
             PlayerMove = GetComponent<PlayerMove>();
             Controller = GetComponent<PlayerController>();
         }
+        
+        /// <summary>
+        /// Start is called on the frame when a script is enabled just before
+        /// any of the Update methods is called the first time.
+        /// </summary>
+        private void Start()
+        {
+            IsGround = GroundChecker.IsGround();
+        }
 
         private void Update()
         {
+            UpdatGroundState();
+
             // 주의해야할 점은 등록된 behaviour들 중에서만 호출 되는 것이다.
             // 여기에 등록되지 않고 독자적으로 작동하는 것은 여기에 호출되지 않는다.
             if(_behaviourLocked > 0 || _overrideBehaviours.Count == 0)
@@ -88,6 +108,7 @@ namespace Titan.Character.Player
             }
 
             PlayerMove.Move();
+            Animator.SetBool(AnimatorKey.Player.IsGround, CharacterController.isGrounded);
         }
 
         private void FixedUpdate()
@@ -269,5 +290,24 @@ namespace Titan.Character.Player
         }
         
         #endregion Conroller Methods
+
+        #region Common Logics
+        
+        void UpdatGroundState()
+        {
+            bool curGround = CharacterController.isGrounded;
+            if(!curGround && IsGround)
+            {
+                OnGroundExit?.Invoke();
+            }
+            else if(curGround && !IsGround)
+            {
+                OnGroundEnter?.Invoke();
+            }
+
+            IsGround = curGround;
+        }
+        
+        #endregion Common Logics
     }
 }

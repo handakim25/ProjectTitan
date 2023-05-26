@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -66,6 +64,11 @@ namespace Titan.Character
         public void OnLook(InputAction.CallbackContext context)
         {
             var mouseDelat = context.ReadValue<Vector2>();
+        }
+
+        public void OnJump(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }
