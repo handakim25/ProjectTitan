@@ -18,7 +18,9 @@ namespace Titan.Character.Player
         [SerializeField] private float _fallMultiplier = 2f;
         [SerializeField] private float _terminalSpeed = 20f;
 
-        public float Speed {get; set;}
+        // @refactor
+        // Mvoe to editor code
+        [field : SerializeField] public float Speed {get; set;}
         /// <summary>
         /// Normalized Move Vector
         /// </summary>

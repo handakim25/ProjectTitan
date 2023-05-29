@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4209bae04bb8c8844bba85e9c69800c9
+guid: 6f9d9b5dde069034282820e10db8b748
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable:
@@ -686,7 +686,10 @@ ModelImporter:
     second: RPG-Character-Mesh
   - first:
       74: 7400000
-    second: Relax-Walk-Forward
+    second: Unarmed-Roll-Forward
+  - first:
+      74: 7400002
+    second: Unarmed-Land
   - first:
       95: 9500000
     second: //RootNode
@@ -722,18 +725,8 @@ ModelImporter:
       might lower retargeting quality:\nNote: Activate translation DOF on avatar
       to improve retargeting quality.\n\t'B_Spine' has translation animation that
       will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
-      average position error 3.2 mm and maximum position error 5.6 mm at time 0:24
-      (100.0%) Frame 24\n\tLeftLowerArm average position error 3.2 mm and maximum
-      position error 5.7 mm at time 0:24 (100.0%) Frame 24\n\tLeftHand average position
-      error 3.2 mm and maximum position error 5.6 mm at time 0:24 (100.0%) Frame
-      24\n\tRightUpperArm average position error 3.2 mm and maximum position error
-      5.6 mm at time 0:24 (100.0%) Frame 24\n\tRightLowerArm average position error
-      3.2 mm and maximum position error 5.6 mm at time 0:12 (50.0%) Frame 12\n\tRightHand
-      average position error 3.2 mm and maximum position error 5.6 mm at time 0:24
-      (100.0%) Frame 24\n\tHead average position error 3.2 mm and maximum position
-      error 5.6 mm at time 0:24 (100.0%) Frame 24\n"
-    animationDoRetargetingWarnings: 1
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
     animationCompression: 3
@@ -745,19 +738,19 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Relax-Walk-Forward
+      name: Unarmed-Roll-Forward
       takeName: Take 001
       internalID: 7400000
-      firstFrame: 0
-      lastFrame: 24
+      firstFrame: 2
+      lastFrame: 26
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 1
+      loopTime: 0
+      loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
       loopBlendPositionXZ: 0
@@ -768,24 +761,10 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.34464204
-        functionName: FootL
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.8321796
-        functionName: FootR
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
-      maskSource: {fileID: 101100000, guid: 4ebc95c8618479f4d8251c7dafa10029, type: 2}
+      maskSource: {fileID: 101100000, guid: 3e4e408fdcc93ee468a1275b69104d63, type: 2}
       additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
@@ -827,7 +806,7 @@ ModelImporter:
     normalImportMode: 2
     tangentImportMode: 2
     normalCalculationMode: 0
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 2
     normalSmoothingSource: 0
   referencedClips: []

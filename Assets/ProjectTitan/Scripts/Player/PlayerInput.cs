@@ -16,6 +16,7 @@ namespace Titan.Character.Player
         [field : SerializeField] public Vector2 MoveDir {get; private set;}
 
         public event System.Action OnJumpPerformed;
+        public event System.Action OnDashPerformed;
 
         private void Awake()
         {
@@ -41,6 +42,14 @@ namespace Titan.Character.Player
             {
                 OnJumpPerformed?.Invoke();
             }
-        }        
+        }
+
+        public void OnDash(InputAction.CallbackContext context)
+        {
+            if(context.started)
+            {
+                OnDashPerformed?.Invoke();
+            }
+        }
     }
 }

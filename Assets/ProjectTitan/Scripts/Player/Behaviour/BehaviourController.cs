@@ -56,6 +56,10 @@ namespace Titan.Character.Player
         public event System.Action OnGroundEnter;
         public event System.Action OnGroundExit;
 
+#if UNITY_EDITOR
+        public bool DebugMode = false;
+#endif
+
         // Ground Check
 
         #endregion Variables
@@ -93,7 +97,10 @@ namespace Titan.Character.Player
             // 여기에 등록되지 않고 독자적으로 작동하는 것은 여기에 호출되지 않는다.
             if(_behaviourLocked > 0 || _overrideBehaviours.Count == 0)
             {
-                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehavriouCode == _currentBehaviour);
+                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => 
+                    behaviour.isActiveAndEnabled && 
+                    behaviour.BehavriouCode == _currentBehaviour);
+
                 if(curBehaviour != null)
                 {
                     curBehaviour.LocalUpdate();
@@ -109,6 +116,7 @@ namespace Titan.Character.Player
 
             PlayerMove.Move();
             Animator.SetBool(AnimatorKey.Player.IsGround, CharacterController.isGrounded);
+            Animator.SetBool(AnimatorKey.Player.HasMoveInput, PlayerInput.MoveDir != Vector2.zero ? true : false);
         }
 
         private void FixedUpdate()
@@ -171,6 +179,9 @@ namespace Titan.Character.Player
         {
             _defaultBehaviour = behaivourCode;
             _currentBehaviour = behaivourCode;
+
+            var curBehaviour = GetCurrentBehaviour();
+            curBehaviour?.OnEnter();
         }
 
         /// <summary>
@@ -182,7 +193,21 @@ namespace Titan.Character.Player
         {
             if(_currentBehaviour == _defaultBehaviour)
             {
+#if UNITY_EDITOR
+                if(DebugMode)
+                {
+                    Debug.Log($"{GetCurrentBehaviour().GetType()} : Exit");
+                }
+#endif
+                GetCurrentBehaviour()?.OnExit();
                 _currentBehaviour = behaviourCode;
+#if UNITY_EDITOR
+                if(DebugMode)
+                {
+                    Debug.Log($"{GetCurrentBehaviour().GetType()} : Enter");
+                }                
+#endif
+                GetCurrentBehaviour()?.OnEnter();
             }
         }
 
@@ -195,7 +220,21 @@ namespace Titan.Character.Player
         {
             if(_currentBehaviour == behaivourCode)
             {
+#if UNITY_EDITOR
+                if(DebugMode)
+                {
+                    Debug.Log($"{GetCurrentBehaviour().GetType()} : Exit");
+                }
+#endif                
+                GetCurrentBehaviour()?.OnExit();
                 _currentBehaviour = _defaultBehaviour;
+#if UNITY_EDITOR
+                if(DebugMode)
+                {
+                    Debug.Log($"{GetCurrentBehaviour().GetType()} : Enter");
+                }
+#endif                
+                GetCurrentBehaviour()?.OnEnter();
             }
         }
 
@@ -248,6 +287,7 @@ namespace Titan.Character.Player
         }
 
         public bool IsCurrentBehaviour(int behaivourCode) => _currentBehaviour == behaivourCode;
+        
         /// <summary>
         /// Lock 상황을 확인한다.
         /// 
@@ -288,10 +328,17 @@ namespace Titan.Character.Player
                 _behaviourLocked = 0;
             }
         }
+
+        public GenericBehaviour GetCurrentBehaviour()
+        {
+            return _behaviours.FirstOrDefault((behaviour) =>
+                behaviour.isActiveAndEnabled &&
+                behaviour.BehavriouCode == _currentBehaviour);
+        }
         
         #endregion Conroller Methods
 
-        #region Common Logics
+        #region Update Controller
         
         void UpdatGroundState()
         {
@@ -306,6 +353,26 @@ namespace Titan.Character.Player
             }
 
             IsGround = curGround;
+        }
+        
+        #endregion Update Controller
+
+        #region Common Logics
+        
+        public Vector3 GetCameraFaceDir()
+        {
+            Transform cameraTr = Camera.transform;
+            // Direction from camera
+            // World 기준에서의 Transform의 forward를 구한다.
+            Vector3 cameraForward = new(cameraTr.forward.x, 0, cameraTr.forward.z);
+            Debug.DrawRay(transform.position, cameraForward, Color.blue);
+            Vector3 cameraRigth = new(cameraTr.right.x, 0, cameraTr.right.z);
+            Debug.DrawRay(transform.position, cameraRigth, Color.green); // Editor Code로 변경
+
+            // MoveDir.x : ad Input, go left or right            
+            // MoveDir.y : ws Input, go forward or backward
+            // PlayerInput에서 Normalize된 상태로 넘어오기 때문에 대각성 이동은 문제 없다.
+            return cameraForward.normalized * PlayerInput.MoveDir.y + cameraRigth.normalized * PlayerInput.MoveDir.x;
         }
         
         #endregion Common Logics

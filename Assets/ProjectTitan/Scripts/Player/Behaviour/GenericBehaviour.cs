@@ -35,5 +35,6 @@ namespace Titan.Character.Player
         public virtual void OnOverride() {}
 
         public virtual void OnEnter() {}
+        public virtual void OnExit() {}
     }
 }

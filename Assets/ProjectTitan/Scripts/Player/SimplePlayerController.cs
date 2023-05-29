@@ -70,5 +70,10 @@ namespace Titan.Character
         {
             throw new System.NotImplementedException();
         }
+
+        public void OnDash(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

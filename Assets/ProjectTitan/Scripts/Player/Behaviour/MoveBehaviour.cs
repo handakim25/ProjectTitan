@@ -31,7 +31,6 @@ namespace Titan.Character.Player
         /// Jump 진행 중인지
         /// </summary>
         private bool startJump = false;
-        int stamp = 0;
 
         #endregion Variables
         private void Start()
@@ -47,6 +46,17 @@ namespace Titan.Character.Player
             _controller.PlayerMove.IsApplyGravity = true;
         }
 
+        /// <summary>
+        /// OnControllerColliderHit is called when the controller hits a
+        /// collider while performing a Move.
+        /// </summary>
+        /// <param name="hit">The ControllerColliderHit data associated with this collision.</param>
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            Debug.DrawRay(hit.point, hit.normal, Color.red);
+            Debug.Log($"name : {hit.collider.name} / hit normal : {hit.normal} / frame count : {Time.frameCount}");
+        }
+
         // 이동에 관한 정리 사항
         // 1. Speed
         // 이동 판정의 경우 적절한 보간이 있어야 중간에 IsMoving이 False가 되지 않는다.
@@ -59,13 +69,17 @@ namespace Titan.Character.Player
             }
             else if(!_controller.CharacterController.isGrounded)
             {
-
+                // In Air
             }
+        }
+
+        public override void OnEnter()
+        {
+            _controller.PlayerMove.Speed = 0f;
         }
 
         private void PlaneMove()
         {
-            Debug.Log($"Player Move");
             // Calculate Target Speed
             float targetSpeed = _controller.Controller.IsWalk ? WalkSpeed : RunSpeed;
             targetSpeed = _controller.PlayerInput.MoveDir == Vector2.zero ? 0 : targetSpeed;
@@ -78,7 +92,6 @@ namespace Titan.Character.Player
             _controller.Controller.SetLastDirection(moveDir);
 
             // Update Animation
-            _controller.Animator.SetBool(AnimatorKey.Player.IsMoving, targetSpeed == 0 ? false : true);
             _controller.Animator.SetFloat(AnimatorKey.Player.MoveSpeed, _controller.PlayerMove.Speed);
         }
 
@@ -135,6 +148,11 @@ namespace Titan.Character.Player
             
         }
 
+        void Land()
+        {
+
+        }
+
         #region Callbacks
         
         private void OnJumpPerformedHandler()
@@ -151,13 +169,18 @@ namespace Titan.Character.Player
                 startJump = true;
                 _controller.PlayerMove.SetYSpeed(JumpForce);
                 _controller.PlayerMove.Speed = JumpForwardSpeed;
+
+                _controller.Animator.SetBool(AnimatorKey.Player.IsJump, true);
             }
         }
 
+        // Land
         private void OnGroundEnterHandler()
         {
             _controller.PlayerMove.Speed = 0;
             startJump = false;
+
+            _controller.Animator.SetBool(AnimatorKey.Player.IsJump, false);
         }
 
         // Fall or Jump
