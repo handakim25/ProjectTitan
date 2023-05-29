@@ -54,7 +54,7 @@ namespace Titan.Character.Player
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
             Debug.DrawRay(hit.point, hit.normal, Color.red);
-            Debug.Log($"name : {hit.collider.name} / hit normal : {hit.normal} / frame count : {Time.frameCount}");
+            // Debug.Log($"name : {hit.collider.name} / hit normal : {hit.normal} / frame count : {Time.frameCount}");
         }
 
         // 이동에 관한 정리 사항
