@@ -17,6 +17,8 @@ namespace Titan.Character.Player
 
         public event System.Action OnJumpPerformed;
         public event System.Action OnDashPerformed;
+        public event System.Action OnSkillPerformed;
+        public event System.Action OnHyperPerformed;
 
         private void Awake()
         {
@@ -49,6 +51,22 @@ namespace Titan.Character.Player
             if(context.started)
             {
                 OnDashPerformed?.Invoke();
+            }
+        }
+
+        public void OnSkill(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                OnSkillPerformed?.Invoke();
+            }
+        }
+
+        public void OnHyper(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                OnHyperPerformed?.Invoke();
             }
         }
     }

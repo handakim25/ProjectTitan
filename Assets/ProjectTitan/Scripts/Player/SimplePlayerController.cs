@@ -75,5 +75,15 @@ namespace Titan.Character
         {
             throw new System.NotImplementedException();
         }
+
+        public void OnSkill(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void OnHyper(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -14,15 +14,13 @@ namespace Titan.Character.Player
     {
         protected BehaviourController _controller;
         protected int _behaviourCode;
-        public int BehavriouCode => _behaviourCode;
+        public int BehaviourCode => _behaviourCode;
 
         protected virtual void Awake()
         {
             _controller = GetComponent<BehaviourController>();
 
             _behaviourCode = GetType().GetHashCode();
-
-            Debug.Log($"Parent class / Type : {GetType().Name}");
         }
 
         public virtual void LocalUpdate() {}

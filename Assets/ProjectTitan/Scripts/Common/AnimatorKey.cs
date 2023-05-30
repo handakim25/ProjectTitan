@@ -17,6 +17,7 @@ namespace Titan.Character
             public static readonly int DashTrigger = Animator.StringToHash("DashTrigger");
             public static readonly int IsDash = Animator.StringToHash("IsDash");
             public static readonly int IsArmed = Animator.StringToHash("IsArmed");
+            public static readonly int AttackIndex = Animator.StringToHash("AttackIndex");
         }
     }
 }

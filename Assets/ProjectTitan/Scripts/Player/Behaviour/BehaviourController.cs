@@ -99,7 +99,7 @@ namespace Titan.Character.Player
             {
                 var curBehaviour = _behaviours.FirstOrDefault((behaviour) => 
                     behaviour.isActiveAndEnabled && 
-                    behaviour.BehavriouCode == _currentBehaviour);
+                    behaviour.BehaviourCode == _currentBehaviour);
 
                 if(curBehaviour != null)
                 {
@@ -124,7 +124,7 @@ namespace Titan.Character.Player
             bool isAnyBehaviourUpdate = false;
             if(_behaviourLocked > 0 || _overrideBehaviours.Count == 0)
             {
-                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehavriouCode == _currentBehaviour);
+                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehaviourCode == _currentBehaviour);
                 if(curBehaviour != null)
                 {
                     curBehaviour.LocalFixedUpdate();
@@ -154,7 +154,7 @@ namespace Titan.Character.Player
             // 잠긴 상태에서 넘어갔을 경우 어찌되든 자기 자신이 풀어주어야 한다.
             if(_behaviourLocked > 0 || _overrideBehaviours.Count == 0)
             {
-                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehavriouCode == _currentBehaviour);
+                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehaviourCode == _currentBehaviour);
                 curBehaviour?.LocalLateUpdate();
             }
             else
@@ -252,7 +252,7 @@ namespace Titan.Character.Player
             }
             if(_overrideBehaviours.Count == 0)
             {
-                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled &&behaviour.BehavriouCode == _currentBehaviour);
+                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled &&behaviour.BehaviourCode == _currentBehaviour);
                 curBehaviour?.OnOverride();
             }
 
@@ -333,7 +333,7 @@ namespace Titan.Character.Player
         {
             return _behaviours.FirstOrDefault((behaviour) =>
                 behaviour.isActiveAndEnabled &&
-                behaviour.BehavriouCode == _currentBehaviour);
+                behaviour.BehaviourCode == _currentBehaviour);
         }
         
         #endregion Conroller Methods

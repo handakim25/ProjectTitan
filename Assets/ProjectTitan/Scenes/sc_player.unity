@@ -683,6 +683,22 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1350630641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 590247103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3eff46160701514fb9fe41ac7c61750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillType: 1
+  _coolTime: 5
+  _initialCoolTime: 0
+  _requireEnergy: 0
 --- !u!4 &1485273478 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4407937264646147526, guid: 3a687de01db43c4498cf4d707b9281bd,

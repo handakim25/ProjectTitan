@@ -30,7 +30,7 @@ namespace Titan.Character.Player
             _dashTime += Time.deltaTime;
             if(_dashTime > _dashDuration)
             {
-                _controller.UnregisterBehaviour(BehavriouCode);
+                _controller.UnregisterBehaviour(BehaviourCode);
             }
 
             _controller.PlayerMove.Speed = _dashSpeed * _dashSpeedCurve.Evaluate(_dashTime / _dashDuration);
@@ -62,7 +62,7 @@ namespace Titan.Character.Player
         {
             if(_controller.IsGround)
             {
-                _controller.RegisterBehaviour(BehavriouCode);
+                _controller.RegisterBehaviour(BehaviourCode);
             }
         }
 

@@ -36,7 +36,7 @@ namespace Titan.Character.Player
         private void Start()
         {
             _controller.SubscribeGenericBehaviour(this);
-            _controller.RegisterDefaultBehaviour(BehavriouCode);
+            _controller.RegisterDefaultBehaviour(BehaviourCode);
 
             // Callbacks
             _controller.PlayerInput.OnJumpPerformed += OnJumpPerformedHandler;
@@ -157,7 +157,7 @@ namespace Titan.Character.Player
         
         private void OnJumpPerformedHandler()
         {
-            if(!_controller.IsCurrentBehaviour(BehavriouCode))
+            if(!_controller.IsCurrentBehaviour(BehaviourCode))
             {
                 Debug.Log($"Not current");
                 return;
