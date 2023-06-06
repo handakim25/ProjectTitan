@@ -19,12 +19,16 @@ namespace Titan.Character.Player
         [SerializeField] private float _terminalSpeed = 20f;
 
         // @refactor
-        // Mvoe to editor code
+        // Move to editor code
         [field : SerializeField] public float Speed {get; set;}
         /// <summary>
         /// Normalized Move Vector
         /// </summary>
         public Vector3 MoveDir {get; set;}
+        /// <summary>
+        /// Whether Apply Gravity or not
+        /// </summary>
+        /// <value></value>
         public bool IsApplyGravity {get; set;}
         // @refactor
         // Move to editor code
@@ -51,6 +55,7 @@ namespace Titan.Character.Player
                 UpdateFallSpeed();
                 Velocity.y = _fallSpeed;
             }
+            Debug.Log($"Player Move : {Velocity}");
             _characterController.Move(Velocity * Time.deltaTime);
         }
 

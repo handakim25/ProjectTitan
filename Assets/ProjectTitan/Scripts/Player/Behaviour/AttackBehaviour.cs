@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,27 +10,31 @@ namespace Titan.Character.Player
     public abstract class AttackBehaviour : GenericBehaviour
     {
         [Header("Skill Data")]
-        [SerializeField] private SkillType _skillType = SkillType.Basic;
+        [SerializeField] private AttackType _attackType = AttackType.Basic;
         [SerializeField] public float _coolTime = 10f;
         [Range(0, 1)]
         [Tooltip("0 : 초기 쿨타임 없음 / 1 : 처음부터 쿨타임 다 차 있음")]
         [SerializeField] public float _initialCoolTime = 0f;
         [SerializeField] public int _requireEnergy = 0;
+        [SerializeField] protected int _animationIndex = 0;
 
         private float _curCoolTime;
         public bool CanFire => _curCoolTime >= _coolTime;
 
-        [SerializeField] private int _attackIndex = 0;
-
         private void Start()
         {
-            Debug.Log($"Attack Start");
-            switch(_skillType)
+            _controller.SubscribeGenericBehaviour(this);
+
+            var behaviours = _controller.Animator.GetBehaviours<AttackStateMachineBehaviour>();
+            var behaviour = behaviours.FirstOrDefault((behaviour) => behaviour.AttackType == _attackType);
+            behaviour.OnAttackEnd += AttackEndHandler;
+
+            switch(_attackType)
             {
-                case SkillType.Skill:
+                case AttackType.Skill:
                     _controller.PlayerInput.OnSkillPerformed += AttackPerformedHandler;
                     break;
-                case SkillType.Hyper:
+                case AttackType.Hyper:
                     _controller.PlayerInput.OnHyperPerformed += AttackPerformedHandler;
                     break;
             }
@@ -55,6 +60,30 @@ namespace Titan.Character.Player
             }
 
             _controller.RegisterBehaviour(BehaviourCode);
+        }
+
+        protected virtual void AttackEndHandler()
+        {
+            _controller.UnregisterBehaviour(BehaviourCode);
+        }
+
+        protected int GetAnimIndexParam()
+        {
+            return _attackType switch
+            {
+                AttackType.Basic => AnimatorKey.Player.BasicIndex,
+                AttackType.Skill => AnimatorKey.Player.SkillIndex,
+                _ => AnimatorKey.Player.BasicIndex,
+            };
+        }
+
+        protected int GetAnimTriggerParam()
+        {
+            return _attackType switch
+            {
+                AttackType.Skill => AnimatorKey.Player.SkillTrigger,
+                _ => AnimatorKey.Player.SkillTrigger,
+            };
         }
     }
 }

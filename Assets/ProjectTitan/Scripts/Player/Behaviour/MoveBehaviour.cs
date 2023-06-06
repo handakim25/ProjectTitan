@@ -75,7 +75,13 @@ namespace Titan.Character.Player
 
         public override void OnEnter()
         {
+            _controller.PlayerMove.ResetFall();
             _controller.PlayerMove.Speed = 0f;
+        }
+
+        public override void OnExit()
+        {
+            _controller.Animator.SetFloat(AnimatorKey.Player.MoveSpeed, 0.0f);
         }
 
         private void PlaneMove()

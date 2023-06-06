@@ -13,7 +13,9 @@ namespace Titan.Character.Player
     public abstract class GenericBehaviour : MonoBehaviour
     {
         protected BehaviourController _controller;
-        protected int _behaviourCode;
+        // @TO-DO
+        // Debug Code. Change to editor code
+        [SerializeField] protected int _behaviourCode;
         public int BehaviourCode => _behaviourCode;
 
         protected virtual void Awake()
@@ -22,6 +24,10 @@ namespace Titan.Character.Player
 
             _behaviourCode = GetType().GetHashCode();
         }
+
+        // Start
+        // Subscribe Generic Behaviour
+        // Subscribe Input
 
         public virtual void LocalUpdate() {}
 
@@ -34,7 +40,15 @@ namespace Titan.Character.Player
         /// </summary>
         public virtual void OnOverride() {}
 
+        /// <summary>
+        /// Called When Behavioiur Start
+        /// 1. Handle Player Move
+        /// 2. Handle Animation
+        /// </summary>
         public virtual void OnEnter() {}
+        /// <summary>
+        /// Called When Behaviour End
+        /// </summary>
         public virtual void OnExit() {}
     }
 }

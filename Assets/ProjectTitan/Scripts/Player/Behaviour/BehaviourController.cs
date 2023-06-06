@@ -52,7 +52,6 @@ namespace Titan.Character.Player
         /// </summary>
         /// <value></value>
         [field : SerializeField] public bool IsGround {get; private set;}
-        public bool ShowIsGround;
         public event System.Action OnGroundEnter;
         public event System.Action OnGroundExit;
 
@@ -191,6 +190,16 @@ namespace Titan.Character.Player
         /// <param name="behaviourCode">등록하기 위한 행동의 코드</param>
         public void RegisterBehaviour(int behaviourCode)
         {
+            if(SearchBehaviour(behaviourCode) == null)
+            {
+#if UNITY_EDITOR
+                if(DebugMode)
+                {
+                    Debug.Log($"Not registered Code");
+                }
+#endif
+                return;
+            }            
             if(_currentBehaviour == _defaultBehaviour)
             {
 #if UNITY_EDITOR
@@ -215,10 +224,10 @@ namespace Titan.Character.Player
         /// 동작을 등록 해제한다. 등록 해제는 현재 등록한 상태만 해제할 수 있다.
         /// 등록을 해제하면 기본 상태로 돌아온다.
         /// </summary>
-        /// <param name="behaivourCode">등록하기 위한 행동의 코드</param>
-        public void UnregisterBehaviour(int behaivourCode)
+        /// <param name="behaviourCode">등록하기 위한 행동의 코드</param>
+        public void UnregisterBehaviour(int behaviourCode)
         {
-            if(_currentBehaviour == behaivourCode)
+            if(_currentBehaviour == behaviourCode)
             {
 #if UNITY_EDITOR
                 if(DebugMode)
@@ -331,11 +340,16 @@ namespace Titan.Character.Player
 
         public GenericBehaviour GetCurrentBehaviour()
         {
-            return _behaviours.FirstOrDefault((behaviour) =>
-                behaviour.isActiveAndEnabled &&
-                behaviour.BehaviourCode == _currentBehaviour);
+            return SearchBehaviour(_currentBehaviour);
         }
         
+        private GenericBehaviour SearchBehaviour(int behaviourCode)
+        {
+            return _behaviours.FirstOrDefault((behaviour) =>
+                behaviour.isActiveAndEnabled && 
+                behaviour.BehaviourCode == behaviourCode);
+        }
+
         #endregion Conroller Methods
 
         #region Update Controller
@@ -345,6 +359,7 @@ namespace Titan.Character.Player
             bool curGround = CharacterController.isGrounded;
             if(!curGround && IsGround)
             {
+                Debug.Log($"Ground Exit");
                 OnGroundExit?.Invoke();
             }
             else if(curGround && !IsGround)
