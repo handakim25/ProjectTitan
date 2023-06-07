@@ -54,6 +54,7 @@ namespace Titan.Character.Player
         [field : SerializeField] public bool IsGround {get; private set;}
         public event System.Action OnGroundEnter;
         public event System.Action OnGroundExit;
+        private bool _applyGravity;
 
 #if UNITY_EDITOR
         public bool DebugMode = false;
@@ -90,6 +91,9 @@ namespace Titan.Character.Player
 
         private void Update()
         {
+            // Ground State 정리
+            // 1. Animtion : Fall Animation에 사용
+            // 2. Fall 상태가 되면 Jump 불가능, Move 불가능
             UpdatGroundState();
 
             // 주의해야할 점은 등록된 behaviour들 중에서만 호출 되는 것이다.
@@ -114,7 +118,7 @@ namespace Titan.Character.Player
             }
 
             PlayerMove.Move();
-            Animator.SetBool(AnimatorKey.Player.IsGround, CharacterController.isGrounded);
+            Animator.SetBool(AnimatorKey.Player.IsGround, IsGround);
             Animator.SetBool(AnimatorKey.Player.HasMoveInput, PlayerInput.MoveDir != Vector2.zero ? true : false);
         }
 
@@ -354,20 +358,53 @@ namespace Titan.Character.Player
 
         #region Update Controller
         
+        // @Note
+        // Player Controller로 옮겨도 될지도 모른다
+        // 혹은 Gravity Checker로 다른 컴포넌트로 분리
+
+        // @Note
+        // CharacterController는 이전 프레임의 Ground 상태인 것에 주의
+
+        // @Note
+        // Update Ground State에서 State를 Update하고
+        // 플레이어 로직에서 이를 기반으로 처리(Condition, Apply Gravity, Move)
+        // 만약에 로직을 처리하고 다시 Update Ground State로 들어오게 된다면
+        // 상황에 따라 Ground Exit / Ground Enter 등을 호출한다
         void UpdatGroundState()
         {
             bool curGround = CharacterController.isGrounded;
+            // Fall or Jump
             if(!curGround && IsGround)
             {
-                Debug.Log($"Ground Exit");
+                if(DebugMode)
+                {
+                    Debug.Log($"Ground Exit");
+                }
                 OnGroundExit?.Invoke();
             }
+            // Land
             else if(curGround && !IsGround)
             {
+                if(DebugMode)
+                {
+                    Debug.Log($"Ground Enter");
+                }
                 OnGroundEnter?.Invoke();
             }
 
             IsGround = curGround;
+        }
+
+        public bool ApplyGravity {
+            get
+            {
+                return _applyGravity;
+            }
+            set
+            {
+                _applyGravity = value;
+                PlayerMove.IsApplyGravity = _applyGravity;
+            }
         }
         
         #endregion Update Controller

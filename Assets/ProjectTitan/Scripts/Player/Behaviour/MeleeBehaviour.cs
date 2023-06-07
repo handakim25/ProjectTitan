@@ -16,7 +16,15 @@ namespace Titan.Character.Player
             _controller.Animator.SetInteger(GetAnimIndexParam(), _animationIndex);
             _controller.Animator.SetTrigger(GetAnimTriggerParam());
         }
-        
+
+        public override void LocalUpdate()
+        {
+            if(_controller.IsGround)
+            {
+                _controller.PlayerMove.ResetFall();
+            }
+        }
+
         // @refactor
         // Temp method
         public void ExecuteAttack()

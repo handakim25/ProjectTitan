@@ -43,7 +43,7 @@ namespace Titan.Character.Player
             _controller.OnGroundEnter += OnGroundEnterHandler;
             _controller.OnGroundExit += OnGroundExitHandler;
 
-            _controller.PlayerMove.IsApplyGravity = true;
+            _controller.ApplyGravity = true;
         }
 
         /// <summary>
@@ -63,11 +63,12 @@ namespace Titan.Character.Player
         // 2. Rotation
         public override void LocalUpdate()
         {
-            if(_controller.CharacterController.isGrounded && !startJump)
+            if(_controller.IsGround && !startJump)
             {
+                _controller.PlayerMove.ResetFall();
                 PlaneMove();
             }
-            else if(!_controller.CharacterController.isGrounded)
+            else if(!_controller.IsGround)
             {
                 // In Air
             }
@@ -75,7 +76,7 @@ namespace Titan.Character.Player
 
         public override void OnEnter()
         {
-            _controller.PlayerMove.ResetFall();
+            _controller.ApplyGravity = true;
             _controller.PlayerMove.Speed = 0f;
         }
 
@@ -144,6 +145,8 @@ namespace Titan.Character.Player
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), TurnSmoothingDamp * Time.deltaTime);            
         }
 
+        #region Callbacks
+
         void FootR()
         {
 
@@ -158,8 +161,6 @@ namespace Titan.Character.Player
         {
 
         }
-
-        #region Callbacks
         
         private void OnJumpPerformedHandler()
         {
@@ -169,7 +170,7 @@ namespace Titan.Character.Player
                 return;
             }
 
-            if(_controller.CharacterController.isGrounded)
+            if(_controller.IsGround)
             {
                 Debug.Log($"-------Start Jump");
                 startJump = true;
@@ -193,10 +194,10 @@ namespace Titan.Character.Player
         private void OnGroundExitHandler()
         {
             // Fall
-            if(!startJump)
-            {
-                _controller.PlayerMove.ResetFall();
-            }
+            // if(!startJump)
+            // {
+            //     _controller.PlayerMove.ResetFall();
+            // }
         }
         
         #endregion Callbacks

@@ -33,6 +33,10 @@ namespace Titan.Character.Player
                 _controller.UnregisterBehaviour(BehaviourCode);
             }
 
+            if(_controller.IsGround)
+            {
+                _controller.PlayerMove.ResetFall();
+            }
             _controller.PlayerMove.Speed = _dashSpeed * _dashSpeedCurve.Evaluate(_dashTime / _dashDuration);
         }
 
@@ -46,6 +50,7 @@ namespace Titan.Character.Player
             {
                 _controller.PlayerMove.MoveDir = transform.forward;
             }
+
             _dashTime = 0f;
             _controller.Animator.SetTrigger(AnimatorKey.Player.DashTrigger);
             _controller.Animator.SetBool(AnimatorKey.Player.IsDash, true);

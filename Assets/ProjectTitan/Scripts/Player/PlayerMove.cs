@@ -36,6 +36,10 @@ namespace Titan.Character.Player
 
         protected CharacterController _characterController;
 
+#if UNITY_EDITOR
+        public bool DebugMode = true;
+#endif
+
         private void Awake()
         {
             _characterController = GetComponent<CharacterController>();
@@ -55,7 +59,13 @@ namespace Titan.Character.Player
                 UpdateFallSpeed();
                 Velocity.y = _fallSpeed;
             }
-            Debug.Log($"Player Move : {Velocity}");
+
+#if UNITY_EDITOR
+            if(DebugMode)
+            {
+                Debug.Log($"Player Move : {Velocity}");
+            }
+#endif
             _characterController.Move(Velocity * Time.deltaTime);
         }
 
