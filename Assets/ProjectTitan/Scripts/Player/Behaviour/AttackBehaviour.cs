@@ -16,11 +16,15 @@ namespace Titan.Character.Player
         [Tooltip("0 : 초기 쿨타임 없음 / 1 : 처음부터 쿨타임 다 차 있음")]
         [SerializeField] public float _initialCoolTime = 0f;
         [SerializeField] public int _requireEnergy = 0;
+        [SerializeField] protected List<AttackData> _attackList = new List<AttackData>();
+        protected int curAttackIndex = 0;
         [SerializeField] protected int _animationIndex = 0;
 
         private float _curCoolTime;
         public bool CanFire => _curCoolTime >= _coolTime;
 
+        #region Unity Methods
+        
         private void Start()
         {
             _controller.SubscribeGenericBehaviour(this);
@@ -50,7 +54,11 @@ namespace Titan.Character.Player
                 _curCoolTime += Time.deltaTime;
             }
         }
+        
+        #endregion Unity Methods
 
+        #region Callbacks
+        
         // Charge, Range Attack이랑 구별 지어야 한다
         protected virtual void AttackPerformedHandler()
         {
@@ -58,15 +66,22 @@ namespace Titan.Character.Player
             {
                 return;
             }
-
-            _controller.RegisterBehaviour(BehaviourCode);
         }
 
         protected virtual void AttackEndHandler()
         {
             _controller.UnregisterBehaviour(BehaviourCode);
         }
+        
+        #endregion Callbacks
 
+        protected void PerformAttack(AttackData attack)
+        {
+
+        }
+
+        #region Utility Methods
+        
         protected int GetAnimIndexParam()
         {
             return _attackType switch
@@ -85,5 +100,7 @@ namespace Titan.Character.Player
                 _ => AnimatorKey.Player.SkillTrigger,
             };
         }
+        
+        #endregion Utility Methods
     }
 }

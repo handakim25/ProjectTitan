@@ -21,6 +21,7 @@ namespace Titan.Character
 
             // Attack
             public static readonly int BasicIndex = Animator.StringToHash("BasicIndex");
+            public static readonly int BasicTrigger = Animator.StringToHash("BasicTrigger");
             public static readonly int SkillIndex = Animator.StringToHash("SkillIndex");
             public static readonly int SkillTrigger = Animator.StringToHash("SkillTrigger");
             public static readonly int HasCombo = Animator.StringToHash("HasCombo");
