@@ -63,14 +63,18 @@ namespace Titan.Character.Player
         #region Callbacks
         
         // Charge, Range Attack이랑 구별 지어야 한다
+        // 하지만 그러면 상속으로 처리하면 되지 않을까?
         protected virtual void AttackPerformedHandler()
         {
             if(!_controller.IsGround || !CanFire)
             {
                 return;
             }
+            
+            _controller.RegisterBehaviour(BehaviourCode);
         }
 
+        // Attack 애니메이션이 종료되었을 때 호출되는 함수
         protected virtual void AttackEndHandler()
         {
             _controller.UnregisterBehaviour(BehaviourCode);
