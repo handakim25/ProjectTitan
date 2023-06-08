@@ -85,5 +85,10 @@ namespace Titan.Character
         {
             throw new System.NotImplementedException();
         }
+
+        public void OnBasic(InputAction.CallbackContext context)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

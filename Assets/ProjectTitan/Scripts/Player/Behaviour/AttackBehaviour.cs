@@ -35,6 +35,9 @@ namespace Titan.Character.Player
 
             switch(_attackType)
             {
+                case AttackType.Basic:
+                    _controller.PlayerInput.OnBasicPerformed += AttackPerformedHandler;
+                    break;
                 case AttackType.Skill:
                     _controller.PlayerInput.OnSkillPerformed += AttackPerformedHandler;
                     break;
@@ -96,6 +99,7 @@ namespace Titan.Character.Player
         {
             return _attackType switch
             {
+                AttackType.Basic => AnimatorKey.Player.BasicTrigger,
                 AttackType.Skill => AnimatorKey.Player.SkillTrigger,
                 _ => AnimatorKey.Player.SkillTrigger,
             };

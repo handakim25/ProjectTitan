@@ -42,6 +42,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Basic",
+                    "type": "Button",
+                    "id": "d950a48b-a319-4ec7-923e-bbcd12f6dfca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Skill",
                     "type": "Button",
                     "id": "7ff39638-06b9-4a1e-886c-e201178fe599",
@@ -179,6 +188,17 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "Hyper",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6913860f-cfb2-4089-ae54-87abda4f3767",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Basic",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

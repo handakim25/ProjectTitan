@@ -17,6 +17,7 @@ namespace Titan.Character.Player
 
         public event System.Action OnJumpPerformed;
         public event System.Action OnDashPerformed;
+        public event System.Action OnBasicPerformed;
         public event System.Action OnSkillPerformed;
         public event System.Action OnHyperPerformed;
 
@@ -40,7 +41,7 @@ namespace Titan.Character.Player
         public void OnJump(InputAction.CallbackContext context)
         {
             // Debug.Log($"Context : {context.phase}");
-            if(context.started)
+            if(context.performed)
             {
                 OnJumpPerformed?.Invoke();
             }
@@ -48,11 +49,19 @@ namespace Titan.Character.Player
 
         public void OnDash(InputAction.CallbackContext context)
         {
-            if(context.started)
+            if(context.performed)
             {
                 OnDashPerformed?.Invoke();
             }
         }
+
+        public void OnBasic(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                OnBasicPerformed?.Invoke();
+            }
+        }        
 
         public void OnSkill(InputAction.CallbackContext context)
         {
