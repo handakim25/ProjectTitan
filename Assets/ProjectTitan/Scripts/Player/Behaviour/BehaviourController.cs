@@ -376,19 +376,23 @@ namespace Titan.Character.Player
             // Fall or Jump
             if(!curGround && IsGround)
             {
-                if(DebugMode)
-                {
-                    Debug.Log($"Ground Exit");
-                }
+#if UNITY_EDITOR
+                    if(DebugMode)
+                    {
+                        Debug.Log($"Ground Exit");
+                    }
+#endif
                 OnGroundExit?.Invoke();
             }
             // Land
             else if(curGround && !IsGround)
             {
-                if(DebugMode)
+#if UNITY_EDITOR
+                if (DebugMode)
                 {
                     Debug.Log($"Ground Enter");
                 }
+#endif
                 OnGroundEnter?.Invoke();
             }
 
