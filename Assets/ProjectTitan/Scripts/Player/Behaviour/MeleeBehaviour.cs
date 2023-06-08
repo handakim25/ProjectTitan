@@ -24,12 +24,5 @@ namespace Titan.Character.Player
                 _controller.PlayerMove.ResetFall();
             }
         }
-
-        // @refactor
-        // Temp method
-        public void ExecuteAttack()
-        {
-
-        }
     }
 }

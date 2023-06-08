@@ -66,11 +66,11 @@ namespace Titan.Character.Player
         // 하지만 그러면 상속으로 처리하면 되지 않을까?
         protected virtual void AttackPerformedHandler()
         {
-            if(!_controller.IsGround || !CanFire)
+            if(!CanAttack())
             {
                 return;
             }
-            
+
             _controller.RegisterBehaviour(BehaviourCode);
         }
 
@@ -79,6 +79,13 @@ namespace Titan.Character.Player
         {
             _controller.UnregisterBehaviour(BehaviourCode);
         }
+
+        // @refactor
+        // Temp method
+        public void ExecuteAttack()
+        {
+
+        }        
         
         #endregion Callbacks
 
@@ -107,6 +114,11 @@ namespace Titan.Character.Player
                 AttackType.Skill => AnimatorKey.Player.SkillTrigger,
                 _ => AnimatorKey.Player.SkillTrigger,
             };
+        }
+
+        protected bool CanAttack()
+        {
+            return _controller.IsGround && CanFire;
         }
         
         #endregion Utility Methods
