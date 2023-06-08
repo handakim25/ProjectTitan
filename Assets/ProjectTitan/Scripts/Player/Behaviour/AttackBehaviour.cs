@@ -31,7 +31,14 @@ namespace Titan.Character.Player
 
             var behaviours = _controller.Animator.GetBehaviours<AttackStateMachineBehaviour>();
             var behaviour = behaviours.FirstOrDefault((behaviour) => behaviour.AttackType == _attackType);
-            behaviour.OnAttackEnd += AttackEndHandler;
+            if(behaviour == null)
+            {
+                Debug.LogError($"Attack State Machine is missing");
+            }
+            else
+            {
+                behaviour.OnAttackEnd += AttackEndHandler;
+            }
 
             switch(_attackType)
             {
@@ -59,6 +66,12 @@ namespace Titan.Character.Player
         }
         
         #endregion Unity Methods
+
+        public override void OnEnter()
+        {
+            _controller.Animator.SetBool(AnimatorKey.Player.HasCombo, true);
+            curAttackIndex = 0;
+        }
 
         #region Callbacks
         

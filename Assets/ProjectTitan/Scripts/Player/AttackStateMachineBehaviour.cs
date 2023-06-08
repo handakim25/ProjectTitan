@@ -32,8 +32,11 @@ namespace Titan.Character.Player
         {
 #if UNITY_EDITOR
             DebugDictionary[Animator.StringToHash("None")] = "None";
-            DebugDictionary[Animator.StringToHash("Skill0")] = "Skill0";
             DebugDictionary[Animator.StringToHash("Selector")] = "Selector";
+            DebugDictionary[Animator.StringToHash("Skill0")] = "Skill0";
+            DebugDictionary[Animator.StringToHash("Basic0")] = "Basic0";
+            DebugDictionary[Animator.StringToHash("Basic1")] = "Basic1";
+            DebugDictionary[Animator.StringToHash("Basic2")] = "Basic2";
 #endif
         }
 
@@ -79,7 +82,7 @@ namespace Titan.Character.Player
                 // var animatorStateInfo = animator.GetNextAnimatorStateInfo(layerIndex);
                 // Debug.Log($"{animatorStateInfo.shortNameHash}");
                 var currentAnimatorStateInfoDebug = animator.GetCurrentAnimatorStateInfo(layerIndex);
-                Debug.Log($"Exit : {ChangeToStr(currentAnimatorStateInfoDebug.shortNameHash)}");
+                Debug.Log($"Animator State info : {ChangeToStr(currentAnimatorStateInfoDebug.shortNameHash)}");
             }
 #endif
 

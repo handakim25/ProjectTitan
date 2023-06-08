@@ -10,10 +10,12 @@ namespace Titan.Character.Player
 
         public override void OnEnter()
         {
+            base.OnEnter();
+
             _controller.PlayerMove.Speed = 0f;
 
             // Play Animation
-            _controller.Animator.SetInteger(GetAnimIndexParam(), _animationIndex);
+            _controller.Animator.SetInteger(GetAnimIndexParam(), _attackList[curAttackIndex].animIndex);
             _controller.Animator.SetTrigger(GetAnimTriggerParam());
         }
 

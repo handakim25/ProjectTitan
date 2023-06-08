@@ -172,7 +172,6 @@ namespace Titan.Character.Player
 
             if(_controller.IsGround)
             {
-                Debug.Log($"-------Start Jump");
                 startJump = true;
                 _controller.PlayerMove.SetYSpeed(JumpForce);
                 _controller.PlayerMove.Speed = JumpForwardSpeed;
