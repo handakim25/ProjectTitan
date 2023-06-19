@@ -10,11 +10,5 @@ namespace Titan
     public class PlayerController : MonoBehaviour
     {
         public bool IsWalk;
-
-        public void SetLastDirection(Vector3 dir, bool isImmedate = false)
-        {
-            // player.transform.rotation = Quaternion.Slerp(player.transform.rotation, Quaternion.LookRotation(faceDir), player.LookRotationDamp * Time.deltaTime);
-            
-        }
     }
 }

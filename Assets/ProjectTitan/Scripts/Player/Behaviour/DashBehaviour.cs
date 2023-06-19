@@ -48,8 +48,9 @@ namespace Titan.Character.Player
             }
             else
             {
-                _controller.PlayerMove.MoveDir = transform.forward;
+                _controller.PlayerMove.MoveDir = _controller.GetLastDirection();
             }
+            _controller.FaceDirection(_controller.GetLastDirection(), true);
 
             _dashTime = 0f;
             _controller.Animator.SetTrigger(AnimatorKey.Player.DashTrigger);

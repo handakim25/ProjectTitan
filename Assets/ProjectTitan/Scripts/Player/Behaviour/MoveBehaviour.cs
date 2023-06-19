@@ -16,6 +16,7 @@ namespace Titan.Character.Player
     public class MoveBehaviour : GenericBehaviour
     {
         #region Variables
+
         [Header("Locomotion")]
         [SerializeField] private float RunSpeed = 5f;
         [SerializeField] private float WalkSpeed = 3f;
@@ -33,6 +34,7 @@ namespace Titan.Character.Player
         private bool startJump = false;
 
         #endregion Variables
+
         private void Start()
         {
             _controller.SubscribeGenericBehaviour(this);
@@ -46,11 +48,6 @@ namespace Titan.Character.Player
             _controller.ApplyGravity = true;
         }
 
-        /// <summary>
-        /// OnControllerColliderHit is called when the controller hits a
-        /// collider while performing a Move.
-        /// </summary>
-        /// <param name="hit">The ControllerColliderHit data associated with this collision.</param>
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
             Debug.DrawRay(hit.point, hit.normal, Color.red);
@@ -95,8 +92,8 @@ namespace Titan.Character.Player
             // Rotating
             Vector3 moveDir = CalculateFaceDir();
             _controller.PlayerMove.MoveDir = moveDir;
-            FaceMoveDirection(moveDir);
-            _controller.Controller.SetLastDirection(moveDir);
+            _controller.FaceDirection(moveDir, false, TurnSmoothingDamp);
+            _controller.SetLastDirection(moveDir);
 
             // Update Animation
             _controller.Animator.SetFloat(AnimatorKey.Player.MoveSpeed, _controller.PlayerMove.Speed);
@@ -115,8 +112,9 @@ namespace Titan.Character.Player
         }
 
         // @Refactor
-        // Draw Ray를 Editor Code로 이동
-        private Vector3 CalculateFaceDir()
+        // 1. Draw Ray를 Editor Code로 이동
+        // 2. BehaviourController로 이동할 것
+        protected Vector3 CalculateFaceDir()
         {
             Transform cameraTr = _controller.Camera.transform;
             // Direction from camera
@@ -130,19 +128,6 @@ namespace Titan.Character.Player
             // MoveDir.y : ws Input, go forward or backward
             // PlayerInput에서 Normalize된 상태로 넘어오기 때문에 대각성 이동은 문제 없다.
             return cameraForward.normalized * _controller.PlayerInput.MoveDir.y + cameraRigth.normalized * _controller.PlayerInput.MoveDir.x;
-        }
-
-        // @Think
-        // 다른 곳에서도 사용할 수 있는 코드
-        // 범용적으로 사용할 수 있는 위치로 옮길 수 있는지 고려할 것
-        protected void FaceMoveDirection(Vector3 moveDir, bool isImmedate = false)
-        {
-            if(moveDir == Vector3.zero)
-            {
-                return;
-            }
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDir), TurnSmoothingDamp * Time.deltaTime);            
         }
 
         #region Callbacks
@@ -175,6 +160,7 @@ namespace Titan.Character.Player
                 startJump = true;
                 _controller.PlayerMove.SetYSpeed(JumpForce);
                 _controller.PlayerMove.Speed = JumpForwardSpeed;
+                _controller.FaceDirection(_controller.GetLastDirection(), true);
 
                 _controller.Animator.SetBool(AnimatorKey.Player.IsJump, true);
             }

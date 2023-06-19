@@ -35,10 +35,7 @@ namespace Titan.Character.Player
         private int _defaultBehaviour;
         private int _behaviourLocked;
 
-        /// <summary>
-        /// Cahching 변수들
-        /// 동작에서 여기에 접근해서 사용한다.
-        /// </summary>
+        // Cahching
         public Animator Animator {get; private set;}
         public CharacterController CharacterController {get; private set;}
         public GroundChecker GroundChecker {get; private set;}
@@ -55,6 +52,7 @@ namespace Titan.Character.Player
         public event System.Action OnGroundEnter;
         public event System.Action OnGroundExit;
         private bool _applyGravity;
+        private Vector3 _lastDirection = Vector3.zero;
 
 #if UNITY_EDITOR
         public bool DebugMode = false;
@@ -430,6 +428,30 @@ namespace Titan.Character.Player
             // PlayerInput에서 Normalize된 상태로 넘어오기 때문에 대각성 이동은 문제 없다.
             return cameraForward.normalized * PlayerInput.MoveDir.y + cameraRigth.normalized * PlayerInput.MoveDir.x;
         }
+
+        public void FaceDirection(Vector3 targetDir, bool isImmedate = false, float smoothingDamp = 20f)
+        {
+            if(targetDir == Vector3.zero)
+            {
+                return;
+            }
+
+            if(!isImmedate)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetDir), smoothingDamp * Time.deltaTime);            
+            }
+            else
+            {
+                transform.rotation = Quaternion.LookRotation(targetDir);
+            }
+        }                
+
+        public void SetLastDirection(Vector3 dir)
+        {
+            _lastDirection = dir;
+        }        
+
+        public Vector3 GetLastDirection() => _lastDirection;
         
         #endregion Common Logics
     }
