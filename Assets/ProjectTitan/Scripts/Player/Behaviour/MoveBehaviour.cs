@@ -90,7 +90,7 @@ namespace Titan.Character.Player
             _controller.PlayerMove.Speed = CalculateSpeed(targetSpeed, _controller.PlayerMove.Speed);
 
             // Rotating
-            Vector3 moveDir = CalculateFaceDir();
+            Vector3 moveDir = _controller.GetCameraFaceDir();
             _controller.PlayerMove.MoveDir = moveDir;
             _controller.FaceDirection(moveDir, false, TurnSmoothingDamp);
             _controller.SetLastDirection(moveDir);
@@ -109,25 +109,6 @@ namespace Titan.Character.Player
             {
                 return targetSpeed;
             }
-        }
-
-        // @Refactor
-        // 1. Draw Ray를 Editor Code로 이동
-        // 2. BehaviourController로 이동할 것
-        protected Vector3 CalculateFaceDir()
-        {
-            Transform cameraTr = _controller.Camera.transform;
-            // Direction from camera
-            // World 기준에서의 Transform의 forward를 구한다.
-            Vector3 cameraForward = new(cameraTr.forward.x, 0, cameraTr.forward.z);
-            Debug.DrawRay(transform.position, cameraForward, Color.blue);
-            Vector3 cameraRigth = new(cameraTr.right.x, 0, cameraTr.right.z);
-            Debug.DrawRay(transform.position, cameraRigth, Color.green); // Editor Code로 변경
-
-            // MoveDir.x : ad Input, go left or right            
-            // MoveDir.y : ws Input, go forward or backward
-            // PlayerInput에서 Normalize된 상태로 넘어오기 때문에 대각성 이동은 문제 없다.
-            return cameraForward.normalized * _controller.PlayerInput.MoveDir.y + cameraRigth.normalized * _controller.PlayerInput.MoveDir.x;
         }
 
         #region Callbacks

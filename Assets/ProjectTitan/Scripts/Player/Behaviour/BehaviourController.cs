@@ -413,6 +413,8 @@ namespace Titan.Character.Player
 
         #region Common Logics
         
+        // @Refactor
+        // Draw ray in editor code
         public Vector3 GetCameraFaceDir()
         {
             Transform cameraTr = Camera.transform;
