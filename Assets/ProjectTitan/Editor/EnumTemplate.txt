@@ -1,0 +1,5 @@
+public enum $ENUM$
+{
+    None = -1,
+$DATA$
+}
