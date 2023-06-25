@@ -18,10 +18,10 @@ namespace Titan.Effects
         public EffectClip[] EffectClips = new EffectClip[0];
 
         // Path
-        public string clipPath = "Effects/";
+        private string _clipPath = "Effects/";
+        private string _dataPath = "Data/effectData";
         private string _xmlFilePath = "";
         private string _xmlFileName = "effectData.xml";
-        private string _dataPath = "Data/effectData";
 
         // XML Delimeter
         private const string EFFECT = "effect";
@@ -54,7 +54,10 @@ namespace Titan.Effects
         // ReadElementContentAs - Int, String : Element를 읽기 위해서 사용한다. 읽고 다음 노드로 이동
         // IsStartElement : Element의 시작을 확인하는 함수. 다음으로 안 넘어가기 때문에 직접 읽어주어야 한다.
 
-        public void LoadData()
+        // @Refactor
+        // 지금은 형식 변경에 너무 취약하다. 데이터 포맷은 자주 바뀔 수 있기 때문에
+        // 조금 더 유연한 구조로 만들 필요가 있다.
+        public override void LoadData()
         {
             // Application.dataPath : <Project Folder>/Assets
             // DataDirectory : /ProjectTitan/ResourcesData/Resources/Data/
@@ -104,7 +107,7 @@ namespace Titan.Effects
         // WriteElementString : 중간에 다른 자식이 없을 경우 사용 가능
         // WriteAttributeString : Element가 Attribute를 가질 경우 이 함수를 이용해 출력 가능
 
-        public void SaveData()
+        public override void SaveData()
         {
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
@@ -117,13 +120,13 @@ namespace Titan.Effects
                 for(int i = 0; i < Count; ++i)
                 {
                     EffectClip clip = EffectClips[i];
-                    xml.WriteStartElement(CLIP); // Clip Start
+                    xml.WriteStartElement(CLIP); // CLIP Start
                     xml.WriteElementString("ID", i.ToString());
                     xml.WriteElementString("Name", names[i]);
                     xml.WriteElementString("EffectType", clip.effectType.ToString());
                     xml.WriteElementString("EffectPath", clip.effectPath);
                     xml.WriteElementString("EffectName", clip.effectName);
-                    xml.WriteEndElement(); // Clip End
+                    xml.WriteEndElement(); // CLIP End
                 }
                 xml.WriteEndElement(); // Effect End
                 xml.WriteEndDocument();
@@ -132,7 +135,7 @@ namespace Titan.Effects
 
         #endregion XML
 
-        #region Base Data
+        #region Manage Data
         
         public override int AddData(string newName)
         {
@@ -218,6 +221,6 @@ namespace Titan.Effects
             names = null;
         }
         
-        #endregion Base Data
+        #endregion Manage Data
     }
 }

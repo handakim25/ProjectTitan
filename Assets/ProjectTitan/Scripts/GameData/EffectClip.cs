@@ -65,6 +65,7 @@ namespace Titan.Effects
         {
             if(effectPrefab == null && PreLoad() == false)
             {
+                Debug.LogWarning($"Can not load Effect clip resource : {effectName}");
                 return null;
             }
             return GameObject.Instantiate(effectPrefab, pos, Quaternion.identity);

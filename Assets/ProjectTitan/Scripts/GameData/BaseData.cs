@@ -88,5 +88,15 @@ namespace Titan.Resource
         {
             
         }
+
+        public virtual void SaveData()
+        {
+
+        }
+
+        public virtual void LoadData()
+        {
+
+        }
     }
 }
