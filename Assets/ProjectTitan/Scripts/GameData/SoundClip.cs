@@ -30,7 +30,7 @@ namespace Titan.Audio
         public AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic;
         public float minDistance = 10000.0f;
         public float maxDistance = 50000.0f;
-        public float sparialBlend = 1.0f;
+        public float spartialBlend = 1.0f;
 
         // Loop Feature
         public float[] setTime = new float[0]; // Audio Loop start time
@@ -86,7 +86,7 @@ namespace Titan.Audio
         
         public void AddLoop()
         {
-            // 단점 : checkTime의 형식을 알아야만 작성이 가능하다1
+            // 단점 : checkTime의 형식을 알아야만 작성이 가능하다
             checkTime = checkTime.Concat(new [] {0.0f}).ToArray();
             setTime = setTime.Concat(new [] {0.0f}).ToArray();
         }

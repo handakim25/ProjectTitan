@@ -24,6 +24,7 @@ namespace Titan.Resource
         private static EffectData effectData;
 
         private const string EnumName = "EffectList";
+        
         [MenuItem("Tools/Effect Tool")]
         static void Init()
         {
