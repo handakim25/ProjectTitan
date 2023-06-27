@@ -30,9 +30,9 @@ namespace Titan.Audio
         public AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic;
         public float minDistance = 10000.0f;
         public float maxDistance = 50000.0f;
-        public float spartialBlend = 1.0f;
+        public float spatialBlend = 1.0f;
 
-        // Loop Feature
+        // Loop Feature, 전체 반복인 IsLoop와는 다르다
         public float[] setTime = new float[0]; // Audio Loop start time
         public float[] checkTime = new float[0]; // Audio Loop end time
         public int curLoopIndex = 0;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Titan.Effects;
+using Titan.Audio;
 
 namespace Titan
 {
@@ -11,14 +12,20 @@ namespace Titan
     /// </summary>
     public class DataManager : MonoBehaviour
     {
-        private static EffectData effectData = null;
+        private static EffectData _effectData = null;
+        private static SoundData _soundData = null;
 
         private void Start()
         {
-            if(effectData == null)
+            if(_effectData == null)
             {
-                effectData = ScriptableObject.CreateInstance<EffectData>();
-                effectData.LoadData();
+                _effectData = ScriptableObject.CreateInstance<EffectData>();
+                _effectData.LoadData();
+            }
+            if(_soundData == null)
+            {
+                _soundData = ScriptableObject.CreateInstance<SoundData>();
+                _soundData.LoadData();
             }
         }
 
@@ -26,12 +33,25 @@ namespace Titan
         {
             get
             {
-                if(effectData == null)
+                if(_effectData == null)
                 {
-                    effectData = ScriptableObject.CreateInstance<EffectData>();
-                    effectData.LoadData();
+                    _effectData = ScriptableObject.CreateInstance<EffectData>();
+                    _effectData.LoadData();
                 }
-                return effectData;
+                return _effectData;
+            }
+        }
+
+        public static SoundData SoundData
+        {
+            get
+            {
+                if(_soundData == null)
+                {
+                    _soundData = ScriptableObject.CreateInstance<SoundData>();
+                    _soundData.LoadData();
+                }
+                return _soundData;
             }
         }
     }

@@ -55,7 +55,7 @@ namespace Titan.Audio
                     xml.WriteElementString("RollOffMode", clip.rolloffMode.ToString());
                     xml.WriteElementString("MinDistance", clip.minDistance.ToString());
                     xml.WriteElementString("MaxDistance", clip.maxDistance.ToString());
-                    xml.WriteElementString("SpartialBlend", clip.spartialBlend.ToString());
+                    xml.WriteElementString("SpatialBlend", clip.spatialBlend.ToString());
                     if(clip.IsLoop)
                     {
                         xml.WriteElementString("Loop", "true");
@@ -121,11 +121,11 @@ namespace Titan.Audio
                             curClip.playType = System.Enum.Parse<SoundPlayType>(xml.ReadElementContentAsString("PlayType", ""));
                             curClip.maxVolume = xml.ReadElementContentAsFloat("MaxVolume", "");
                             curClip.pitch = xml.ReadElementContentAsFloat("Pitch", "");
-                            curClip.dopplerLevel = xml.ReadElementContentAsFloat("DopplerLevel", "");
+                            curClip.dopplerLevel = xml.ReadElementContentAsFloat("Doppl!erLevel", "");
                             curClip.rolloffMode = System.Enum.Parse<AudioRolloffMode>(xml.ReadElementContentAsString("RollOffMode", ""));
                             curClip.minDistance = xml.ReadElementContentAsFloat("MinDistance", "");
                             curClip.maxDistance = xml.ReadElementContentAsFloat("MaxDistance", "");
-                            curClip.spartialBlend = xml.ReadElementContentAsFloat("SpartialBlend", "");
+                            curClip.spatialBlend = xml.ReadElementContentAsFloat("SpatialBlend", "");
                             if(xml.Name == "Loop")
                             {
                                 curClip.IsLoop = xml.ReadElementContentAsBoolean("Loop", "");
@@ -201,7 +201,7 @@ namespace Titan.Audio
             SoundClips = SoundClips.Concat(new[] {GetCopy(index)}).ToArray();
         }
 
-        private SoundClip GetCopy(int index)
+        public SoundClip GetCopy(int index)
         {
             if(index < 0 || index >= SoundClips.Length)
             {
@@ -222,7 +222,7 @@ namespace Titan.Audio
             copy.rolloffMode = origin.rolloffMode;
             copy.minDistance = origin.minDistance;
             copy.maxDistance = origin.maxDistance;
-            copy.spartialBlend = origin.spartialBlend;
+            copy.spatialBlend = origin.spatialBlend;
 
             copy.setTime = new float[origin.setTime.Length];
             copy.checkTime = new float[origin.checkTime.Length];

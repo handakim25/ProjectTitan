@@ -70,7 +70,7 @@ namespace Titan.Resource
                                     SoundClip curClip = _soundData.SoundClips[selection];
 
                                     EditorGUILayout.LabelField("ID", selection.ToString(), GUILayout.Width(uiWidthLarge));
-                                    _soundData.names[selection] = EditorGUILayout.TextField("Name", _soundData.names[selection]);
+                                    _soundData.names[selection] = EditorGUILayout.TextField("Name", _soundData.names[selection], GUILayout.Width(uiWidthLarge));
                                     curClip.playType = (SoundPlayType)EditorGUILayout.EnumPopup("PlayType", curClip.playType, GUILayout.Width(uiWidthLarge));
                                     curClip.maxVolume = EditorGUILayout.FloatField("Max Volume", curClip.maxVolume, GUILayout.Width(uiWidthLarge));
                                     curClip.IsLoop = EditorGUILayout.Toggle("Loop Clip", curClip.IsLoop, GUILayout.Width(uiWidthLarge));
@@ -92,7 +92,7 @@ namespace Titan.Resource
                                         curClip.rolloffMode = (AudioRolloffMode)EditorGUILayout.EnumPopup("Volume Rolloff", curClip.rolloffMode, GUILayout.Width(uiWidthLarge));
                                         curClip.minDistance = EditorGUILayout.FloatField("Min Distance", curClip.minDistance, GUILayout.Width(uiWidthLarge));
                                         curClip.maxDistance = EditorGUILayout.FloatField("Max Distance", curClip.maxDistance, GUILayout.Width(uiWidthLarge));
-                                        curClip.spartialBlend = EditorGUILayout.Slider("Pan Level", curClip.spartialBlend, 0.0f, 1.0f, GUILayout.Width(uiWidthLarge));
+                                        curClip.spatialBlend = EditorGUILayout.Slider("Pan Level", curClip.spatialBlend, 0.0f, 1.0f, GUILayout.Width(uiWidthLarge));
                                     }
                                     else
                                     {
