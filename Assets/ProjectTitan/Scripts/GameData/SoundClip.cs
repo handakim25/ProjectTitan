@@ -168,5 +168,8 @@ namespace Titan.Audio
     public enum SoundPlayType
     {
         None = -1,
+        BGM,
+        EFFECT,
+        UI,
     }
 }

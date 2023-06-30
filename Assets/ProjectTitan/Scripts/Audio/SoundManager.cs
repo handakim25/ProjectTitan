@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,6 +57,7 @@ namespace Titan.Audio
         private float[] _effectPlayStartTime;
         private AudioSource _uiSource;
 
+        // 이거 꺼질 때 같이 꺼져야 되지 않나?
         private bool _isTicking = false;
 
         // Fade in / Fade out
@@ -281,6 +283,7 @@ namespace Titan.Audio
         }
 
         // Start Check Loop Coroutine
+        // 이렇게 구현하면 여러군데에서 실행해서 중복 실행되지 않나?
         public void StartCheckLoop()
         {
             StartCoroutine(CheckProcess());
@@ -390,11 +393,144 @@ namespace Titan.Audio
 
             if(_currentPlayingType == BGMPlayingType.SourceA)
             {
-
+                PlayAudioSource(_bgmSourceB, _currentSound, 0.0f);
+                _currentPlayingType = BGMPlayingType.AtoB;
             }
+            else if(_currentPlayingType == BGMPlayingType.SourceB)
+            {
+                PlayAudioSource(_bgmSourceA, _currentSound, 0.0f);
+                _currentPlayingType = BGMPlayingType.BtoA;
+            }
+
+            if(_currentSound.HasLoop)
+            {
+                _isTicking = true;
+                StartCheckLoop();
+            }
+        }
+
+        public void FadeTo(int index, float time, Interpolate.EaseType ease)
+        {
+            // Copy하는 것이 맞을까? unload 정책도 구현해야할 지도 몰라
+            FadeTo(DataManager.SoundData.GetCopy(index), time, ease);
         }
 
         #endregion BGM
 
+        public void PlayBGM(SoundClip clip)
+        {
+            if(IsDifferentSound(clip))
+            {
+                _bgmSourceB.Stop();
+                _lastSound = _currentSound;
+                _currentSound = clip;
+                PlayAudioSource(_bgmSourceA, clip, clip.maxVolume);
+                if(_currentSound.HasLoop)
+                {
+                    _isTicking = true;
+                    StartCheckLoop();
+                }
+            }
+        }
+
+        public void PlayBGM(int index)
+        {
+            SoundClip clip = DataManager.SoundData.GetCopy(index);
+            PlayBGM(clip);
+        }
+
+        public void PlayEffectSound(SoundClip clip)
+        {
+            bool isPlaySuccess = false;
+            for(int i = 0; i < _effectSources.Length; i++)
+            {
+                if(_effectSources[i].isPlaying == false)
+                {
+                    PlayAudioSource(_effectSources[i], clip, clip.maxVolume);
+                    _effectPlayStartTime[i] = Time.realtimeSinceStartup;
+                    isPlaySuccess = true;
+                    break;
+                }
+                else if(_effectSources[i].clip == clip.GetClip())
+                {
+                    _effectSources[i].Stop();
+                    PlayAudioSource(_effectSources[i], clip, clip.maxVolume);
+                    _effectPlayStartTime[i] = Time.realtimeSinceStartup;
+                    isPlaySuccess = true;
+                    break;
+                }
+            }
+
+            if(isPlaySuccess == false)
+            {
+                float maxTime = 0f;
+                int selectIndex = 0;
+                for(int i = 0; i < _effectSources.Length; i++)
+                {
+                    if(_effectPlayStartTime[i] > maxTime)
+                    {
+                        maxTime = _effectPlayStartTime[i];
+                        selectIndex = i;
+                    }
+                }
+                PlayAudioSource(_effectSources[selectIndex], clip, clip.maxVolume);
+            }
+        }
+
+        public void PlayEffectSound(SoundClip clip, Vector3 position)
+        {
+            PlayAudioSourceAtPoint(clip, position, clip.maxVolume);
+        }
+
+        public void PlayOneShotEffect(int index, Vector3 position, float volume)
+        {
+            // if(index == (int))
+
+            SoundClip clip = DataManager.SoundData.GetCopy(index);
+            if(clip == null)
+            {
+                return;
+            }
+            PlayEffectSound(clip, position);
+        }
+
+        public void PlayOneShot(SoundClip clip)
+        {
+            if(clip == null)
+            {
+                return;
+            }
+
+            switch(clip.playType)
+            {
+                case SoundPlayType.BGM:
+                    PlayBGM(clip);
+                    break;
+                case SoundPlayType.EFFECT:
+                    PlayEffectSound(clip);
+                    break;
+                case SoundPlayType.UI:
+                    PlayUISound(clip);
+                    break;
+            }
+        }
+
+        public void PlayUISound(SoundClip clip)
+        {
+            PlayAudioSource(_uiSource, clip, clip.maxVolume);
+        }
+
+        public void Stop(bool allStop = false)
+        {
+            if(allStop)
+            {
+                _bgmSourceA.Stop();
+                _bgmSourceB.Stop();
+            }
+
+            FadeOut(0.5f, Interpolate.EaseType.Linear);
+            _currentPlayingType = BGMPlayingType.None;
+            StopAllCoroutines();
+        }
     }
 }
