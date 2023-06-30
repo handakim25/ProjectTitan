@@ -36,13 +36,17 @@ namespace Titan.Character.Player
         private int _behaviourLocked;
 
         // Cahching
-        public Animator Animator {get; private set;}
+        public Animator Animator {get; private set;} // 이런 방식의 코드 지양할 것. static method 쓰기 어렵게 한다.
         public CharacterController CharacterController {get; private set;}
         public GroundChecker GroundChecker {get; private set;}
         public Camera Camera {get; private set;}
         public PlayerInput PlayerInput {get; private set;}
         public PlayerMove PlayerMove {get; private set;}
         public PlayerController Controller {get; private set;}
+
+        private int BasicAnimatorLayerIndex = 0;
+        private int SkillAnimatorLayerIndex = 0;
+        private int HyperAnimatorLayerIndex = 0;
 
         /// <summary>
         /// 현재 프레임에서의 그라운드에 있는 지의 여부
@@ -76,6 +80,9 @@ namespace Titan.Character.Player
             PlayerInput = GetComponent<PlayerInput>();
             PlayerMove = GetComponent<PlayerMove>();
             Controller = GetComponent<PlayerController>();
+
+            BasicAnimatorLayerIndex = Animator.GetLayerIndex("Basic");
+            SkillAnimatorLayerIndex = Animator.GetLayerIndex("Skill");
         }
         
         /// <summary>
@@ -118,6 +125,8 @@ namespace Titan.Character.Player
             PlayerMove.Move();
             Animator.SetBool(AnimatorKey.Player.IsGround, IsGround);
             Animator.SetBool(AnimatorKey.Player.HasMoveInput, PlayerInput.MoveDir != Vector2.zero ? true : false);
+            // Debug.Log($"Animaotr Layer : {Animator.GetLayerIndex("Basic")}");
+            Animator.SetFloat(AnimatorKey.Player.BasicStateTime, Mathf.Repeat(Animator.GetCurrentAnimatorStateInfo(1).normalizedTime, 1f));
         }
 
         private void FixedUpdate()

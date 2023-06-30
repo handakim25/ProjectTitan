@@ -69,8 +69,8 @@ namespace Titan.Character.Player
 
         public override void OnEnter()
         {
-            _controller.Animator.SetBool(AnimatorKey.Player.HasCombo, true);
-            curAttackIndex = 0;
+            // _controller.Animator.SetBool(AnimatorKey.Player.HasCombo, true);
+            // curAttackIndex = 0;
         }
 
         #region Callbacks

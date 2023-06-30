@@ -25,6 +25,7 @@ namespace Titan.Character
             public static readonly int SkillIndex = Animator.StringToHash("SkillIndex");
             public static readonly int SkillTrigger = Animator.StringToHash("SkillTrigger");
             public static readonly int HasCombo = Animator.StringToHash("HasCombo");
+            public static readonly int BasicStateTime = Animator.StringToHash("BasicStateTime");
         }
     }
 }

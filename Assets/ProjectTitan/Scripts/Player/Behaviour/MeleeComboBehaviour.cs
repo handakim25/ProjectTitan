@@ -23,13 +23,15 @@ namespace Titan.Character.Player
             }
         }
 
+        // @Refactor
+        // 추후에 AttackBehaviour로 옮겨서 General한 케이스에도 작동할 수 있도록 할 것
         protected override void AttackPerformedHandler()
         {
             if(_controller.IsCurrentBehaviour(BehaviourCode))
             {
                 // Check Combo
-                _controller.Animator.SetBool(AnimatorKey.Player.HasCombo, true);
-                _controller.Animator.SetInteger(GetAnimIndexParam(), _animationIndex + 1);
+                _controller.Animator.SetTrigger(GetAnimTriggerParam());
+                // _controller.Animator.SetInteger(GetAnimIndexParam(), _animationIndex + 1);
             }
             else if(!CanAttack())
             {
