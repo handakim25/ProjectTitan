@@ -37,6 +37,7 @@ namespace Titan.Core
             m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
             m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
             m_UI_InteractScroll = m_UI.FindAction("InteractScroll", throwIfNotFound: true);
+            m_UI_ShowCursor = m_UI.FindAction("ShowCursor", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -195,6 +196,7 @@ namespace Titan.Core
         private readonly InputAction m_UI_Inventory;
         private readonly InputAction m_UI_Interact;
         private readonly InputAction m_UI_InteractScroll;
+        private readonly InputAction m_UI_ShowCursor;
         public struct UIActions
         {
             private @MainAction m_Wrapper;
@@ -202,6 +204,7 @@ namespace Titan.Core
             public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
             public InputAction @Interact => m_Wrapper.m_UI_Interact;
             public InputAction @InteractScroll => m_Wrapper.m_UI_InteractScroll;
+            public InputAction @ShowCursor => m_Wrapper.m_UI_ShowCursor;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -220,6 +223,9 @@ namespace Titan.Core
                 @InteractScroll.started += instance.OnInteractScroll;
                 @InteractScroll.performed += instance.OnInteractScroll;
                 @InteractScroll.canceled += instance.OnInteractScroll;
+                @ShowCursor.started += instance.OnShowCursor;
+                @ShowCursor.performed += instance.OnShowCursor;
+                @ShowCursor.canceled += instance.OnShowCursor;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -233,6 +239,9 @@ namespace Titan.Core
                 @InteractScroll.started -= instance.OnInteractScroll;
                 @InteractScroll.performed -= instance.OnInteractScroll;
                 @InteractScroll.canceled -= instance.OnInteractScroll;
+                @ShowCursor.started -= instance.OnShowCursor;
+                @ShowCursor.performed -= instance.OnShowCursor;
+                @ShowCursor.canceled -= instance.OnShowCursor;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -283,6 +292,7 @@ namespace Titan.Core
             void OnInventory(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
             void OnInteractScroll(InputAction.CallbackContext context);
+            void OnShowCursor(InputAction.CallbackContext context);
         }
     }
 }

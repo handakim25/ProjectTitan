@@ -23,15 +23,33 @@ namespace Titan.UI
         public event System.Action OnInteractEvent;
         public event System.Action<Vector2> OnInteractScrollEvent;
 
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
+        #region Unity Methods
+        
         private void Awake()
         {
             _action = new MainAction(_inputAsset);
             _action.UI.SetCallbacks(this);
             _action.UI.Enable();
         }
+
+        private void Start()
+        {
+            ShowCursor();
+        }
+
+        /// <summary>
+        /// Callback sent to all game objects when the player gets or loses focus.
+        /// </summary>
+        /// <param name="focusStatus">The focus state of the application.</param>
+        private void OnApplicationFocus(bool focusStatus)
+        {
+            if(focusStatus)
+            {
+                HideCursor();
+            }
+        }
+        
+        #endregion Unity Methods
 
         // Memo
         // Think UI as Scene
@@ -87,6 +105,30 @@ namespace Titan.UI
             throw new System.NotImplementedException();
         }
 
+        public void OnShowCursor(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                ShowCursor();
+            }
+            else if(context.canceled)
+            {
+                HideCursor();
+            }
+        }
+
         #endregion Input Callback
+
+        public void ShowCursor()
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        // To-Do
+        // 상황에 맞춰서 커서 숨김 여부 처리
+        public void HideCursor()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }
