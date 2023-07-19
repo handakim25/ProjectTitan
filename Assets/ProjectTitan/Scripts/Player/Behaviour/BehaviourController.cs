@@ -196,7 +196,7 @@ namespace Titan.Character.Player
 
         /// <summary>
         /// 일반 동작으로 등록한다. 등록을 하기 위해서는 행동이 비어 있어야 한다.
-        /// 등록을 하면 다른 행동은 등록을 할 수 없다.
+        /// 등록을 하면 다른 행동은 등록을 할 수 없다. 이 경우는 다른 동작을 하지 않는다.
         /// </summary>
         /// <param name="behaviourCode">등록하기 위한 행동의 코드</param>
         public void RegisterBehaviour(int behaviourCode)

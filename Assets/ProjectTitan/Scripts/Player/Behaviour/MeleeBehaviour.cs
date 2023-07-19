@@ -11,7 +11,6 @@ namespace Titan.Character.Player
         public override void OnEnter()
         {
             base.OnEnter();
-
             _controller.PlayerMove.Speed = 0f;
 
             // Play Animation

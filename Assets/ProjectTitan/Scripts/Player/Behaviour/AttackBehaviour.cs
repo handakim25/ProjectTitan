@@ -17,6 +17,8 @@ namespace Titan.Character.Player
         [SerializeField] public float _initialCoolTime = 0f;
         [SerializeField] public int _requireEnergy = 0;
         [SerializeField] protected List<AttackData> _attackList = new List<AttackData>();
+        // @Refactor
+        // Attack index is not used. Remove from code
         protected int curAttackIndex = 0;
         [SerializeField] protected int _animationIndex = 0;
 
@@ -29,15 +31,15 @@ namespace Titan.Character.Player
         {
             _controller.SubscribeGenericBehaviour(this);
 
-            var behaviours = _controller.Animator.GetBehaviours<AttackStateMachineBehaviour>();
-            var behaviour = behaviours.FirstOrDefault((behaviour) => behaviour.AttackType == _attackType);
-            if(behaviour == null)
+            var animatorBehaviours = _controller.Animator.GetBehaviours<AttackStateMachineBehaviour>();
+            var animatorBehaviour = animatorBehaviours.FirstOrDefault((behaviour) => behaviour.AttackType == _attackType);
+            if(animatorBehaviour == null)
             {
                 Debug.LogError($"Attack State Machine is missing");
             }
             else
             {
-                behaviour.OnAttackEnd += AttackEndHandler;
+                animatorBehaviour.OnAttackEnd += AttackEndHandler;
             }
 
             switch(_attackType)
@@ -67,10 +69,13 @@ namespace Titan.Character.Player
         
         #endregion Unity Methods
 
+        // 진입점은 AttackPerformHandler
+        // Attack Perform Handler에서 애니메이션 발생 여부를 선택
+        // OnEnter로 들어가면 Animation 제어
+        // Pre condition : Animatino State가 None 상태로 있어야 한다.
         public override void OnEnter()
         {
-            // _controller.Animator.SetBool(AnimatorKey.Player.HasCombo, true);
-            // curAttackIndex = 0;
+
         }
 
         #region Callbacks
@@ -93,22 +98,29 @@ namespace Titan.Character.Player
             _controller.UnregisterBehaviour(BehaviourCode);
         }
 
-        // @refactor
-        // Temp method
+        // Animation Event Callback
+        // Called attack impact time
         public void ExecuteAttack()
         {
-
+            if(_controller.IsCurrentBehaviour(BehaviourCode))
+            {
+                PerformAttack();
+            }
         }        
         
         #endregion Callbacks
 
-        protected void PerformAttack(AttackData attack)
+        protected virtual void PerformAttack()
         {
-
+            Debug.Log($"Perform Attack is not overided.");
         }
 
         #region Utility Methods
         
+        /// <summary>
+        /// Return Animator index by Object's Attack type
+        /// </summary>
+        /// <returns></returns>
         protected int GetAnimIndexParam()
         {
             return _attackType switch

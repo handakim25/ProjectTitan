@@ -474,6 +474,7 @@ namespace Titan.Audio
                     }
                 }
                 PlayAudioSource(_effectSources[selectIndex], clip, clip.maxVolume);
+                _effectPlayStartTime[selectIndex] = Time.realtimeSinceStartup;
             }
         }
 
