@@ -64,14 +64,18 @@ namespace Titan.Character.Player
 
         protected override void PerformAttack()
         {
-            var attack = _attackList[_comboCount];
+            if(_comboCount >= _attackList.Count)
+            {
+                Debug.LogError($"Attack List is missing!");
+                return;
+            }
+            var attack = _attackList[_comboCount++];
             LayerMask target = LayerMask.GetMask("Enemy");
-            var colliders = attack.damageHitBox?.CheckOverlap(target);
+            var colliders = attack.damageHitBox?.CheckOverlap(target) ?? new Collider[0];
             foreach(var collider in colliders)
             {
                 Debug.Log($"Collider : {collider.name}");
             }
-            _comboCount++;
         }
     }
 }

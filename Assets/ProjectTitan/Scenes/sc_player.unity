@@ -403,8 +403,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.033563957, y: -0.00000003466103, z: -0.0000000011640171,
-    w: 0.9994366}
+  m_LocalRotation: {x: -0.033563957, y: 0.000000034661028, z: 0.000000001164017, w: 0.9994366}
   m_LocalPosition: {x: 0, y: 1.5, z: -6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -594,7 +593,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 610791922}
-  m_LocalRotation: {x: -0.051689666, y: 0.000000017712228, z: 9.167647e-10, w: 0.9986632}
+  m_LocalRotation: {x: -0.051689666, y: -0.000000017712217, z: -9.1676416e-10, w: 0.9986632}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -810,7 +809,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215835013}
-  m_LocalRotation: {x: -0.033563953, y: -0.000000017330514, z: -5.8200844e-10, w: 0.9994366}
+  m_LocalRotation: {x: -0.033563953, y: 0.000000017330512, z: 5.820084e-10, w: 0.9994366}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1339,6 +1338,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[2].animIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[3].animIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[4].animIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1350630641, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
       propertyPath: _attackList.Array.size
       value: 5
@@ -1367,6 +1382,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4407937264780789918, guid: 3a687de01db43c4498cf4d707b9281bd,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4407937264780789919, guid: 3a687de01db43c4498cf4d707b9281bd,
         type: 3}
