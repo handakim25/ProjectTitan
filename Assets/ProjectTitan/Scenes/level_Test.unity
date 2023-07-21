@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &37650099 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8012398028128413185, guid: 1742c251b0b7a2449b52d1c5ee56aba7,
+    type: 3}
+  m_PrefabInstance: {fileID: 586235018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &245381482
 GameObject:
   m_ObjectHideFlags: 0
@@ -687,6 +693,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PP_Barrel_01
       objectReference: {fileID: 0}
+    - target: {fileID: 8012398028128413185, guid: 1742c251b0b7a2449b52d1c5ee56aba7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 8012398028128647713, guid: 1742c251b0b7a2449b52d1c5ee56aba7,
         type: 3}
       propertyPath: m_RootOrder
@@ -715,17 +726,17 @@ PrefabInstance:
     - target: {fileID: 8012398028128647713, guid: 1742c251b0b7a2449b52d1c5ee56aba7,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8012398028128647713, guid: 1742c251b0b7a2449b52d1c5ee56aba7,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8012398028128647713, guid: 1742c251b0b7a2449b52d1c5ee56aba7,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8012398028128647713, guid: 1742c251b0b7a2449b52d1c5ee56aba7,
         type: 3}
@@ -750,6 +761,49 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 586235018}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &586235023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37650099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 239337215987b1f45a7f70a6083e6d40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 586235024}
+        m_TargetAssemblyTypeName: Titan.Destructable, Assembly-CSharp
+        m_MethodName: Dead
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _durability: 1
+--- !u!114 &586235024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37650099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6a4d455075b9e944916aa1272c881a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &696535458
 GameObject:
   m_ObjectHideFlags: 0

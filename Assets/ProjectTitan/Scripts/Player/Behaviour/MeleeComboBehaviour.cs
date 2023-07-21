@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Titan.Battle;
+
 namespace Titan.Character.Player
 {
     public class MeleeComboBehaviour : AttackBehaviour
@@ -69,12 +71,17 @@ namespace Titan.Character.Player
                 Debug.LogError($"Attack List is missing!");
                 return;
             }
+            Debug.Log($"Melee Combo Attack");
             var attack = _attackList[_comboCount++];
-            LayerMask target = LayerMask.GetMask("Enemy");
+            LayerMask target = LayerMask.GetMask("Enemy", "Destructable");
             var colliders = attack.damageHitBox?.CheckOverlap(target) ?? new Collider[0];
             foreach(var collider in colliders)
             {
                 Debug.Log($"Collider : {collider.name}");
+                if(collider.TryGetComponent<UnitHealth>(out var targetHealth))
+                {
+                    targetHealth.TakeDamage(new Vector3(0, 0, 0), new Vector3(0, 0, 0), attack.damageFactor);
+                }
             }
         }
     }

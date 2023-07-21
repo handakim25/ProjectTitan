@@ -15,7 +15,7 @@ namespace Titan.Battle
 
         public Collider[] CheckOverlap(LayerMask layerMask)
         {
-            return Physics.OverlapBox(transform.position + Center, Size * 0.5f, transform.rotation, layerMask);
+            return Physics.OverlapBox(transform.TransformPoint(Center), Size * 0.5f, transform.rotation, layerMask);
         }
 
         /// <summary>
