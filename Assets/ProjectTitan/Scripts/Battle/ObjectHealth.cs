@@ -26,8 +26,7 @@ namespace Titan.Battle
 
         public override void Dead()
         {
-            Debug.Log($"Dead");
-            Destroy(gameObject);
+            OnDeath?.Invoke();
         }
     }
 }
