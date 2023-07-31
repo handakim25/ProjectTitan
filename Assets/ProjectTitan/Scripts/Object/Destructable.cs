@@ -13,7 +13,7 @@ namespace Titan
         // durablity
 
         Animator _animator;
-
+        
         /// <summary>
         /// Awake is called when the script instance is being loaded.
         /// </summary>
@@ -33,6 +33,8 @@ namespace Titan
         public void Dead()
         {
             Debug.Log($"Dead : {gameObject.name}");
+            // Dead Animation
+
         }
     }
 }

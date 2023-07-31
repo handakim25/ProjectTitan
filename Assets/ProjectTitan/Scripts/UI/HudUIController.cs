@@ -12,6 +12,7 @@ namespace Titan.UI
     public class HudUIController : UIScene
     {
         [SerializeField] GameObject _upperBar;
+        [SerializeField] GameObject _healthPannel;
         [SerializeField] float _transitionTime;
 
         #region UIScene
@@ -22,6 +23,11 @@ namespace Titan.UI
             var upperRect = _upperBar.GetComponent<RectTransform>();
             upperRect.DOAnchorPosY(0, _transitionTime)
                 .SetEase(Ease.OutCubic);
+
+            _healthPannel.SetActive(true);
+            var healthRect = _healthPannel.GetComponent<RectTransform>();
+            healthRect.DOAnchorPosY(0, _transitionTime)
+                .SetEase(Ease.OutCubic);
         }
 
         public override void CloseUI()
@@ -30,6 +36,11 @@ namespace Titan.UI
             upperRect.DOAnchorPosY(upperRect.sizeDelta.y, _transitionTime)
                 .SetEase(Ease.InCubic)
                 .OnComplete( () => _upperBar.SetActive(false));
+
+            var healthRect = _healthPannel.GetComponent<RectTransform>();
+            healthRect.DOAnchorPosY(-healthRect.sizeDelta.y, _transitionTime)
+                .SetEase(Ease.InCubic)
+                .OnComplete(() => _healthPannel.SetActive(false));
         }
         
         #endregion UIScene

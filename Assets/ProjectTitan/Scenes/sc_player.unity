@@ -403,8 +403,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_LocalRotation: {x: -0.033563957, y: -0.00000003466103, z: -0.0000000011640171,
-    w: 0.9994366}
+  m_LocalRotation: {x: -0.033563957, y: 0.000000034661028, z: 0.000000001164017, w: 0.9994366}
   m_LocalPosition: {x: 0, y: 1.5, z: -6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -695,6 +694,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Center: {x: 0, y: 0, z: 0}
   Size: {x: 0, y: 0, z: 0}
+--- !u!1 &999234509 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4407937264780789918, guid: 3a687de01db43c4498cf4d707b9281bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 4407937266131383360}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1047906717
 GameObject:
   m_ObjectHideFlags: 0
@@ -810,7 +815,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215835013}
-  m_LocalRotation: {x: -0.033563953, y: -0.000000017330514, z: -5.8200844e-10, w: 0.9994366}
+  m_LocalRotation: {x: -0.033563953, y: 0.000000017330512, z: 5.820084e-10, w: 0.9994366}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -861,6 +866,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4407937266131383360}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1350630636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999234509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68609cb2e1f4a3d48bb28ad19da0fa10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  _playerHealth: {fileID: 11400000, guid: 1603d5d20c60eec47a3081ffed66112f, type: 2}
+  _plyaerMaxHealth: {fileID: 11400000, guid: 1e63a4f0f47b26d4bac57576a2363f0a, type: 2}
+  initHealth: 100
 --- !u!4 &1485273478 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4407937264646147526, guid: 3a687de01db43c4498cf4d707b9281bd,
