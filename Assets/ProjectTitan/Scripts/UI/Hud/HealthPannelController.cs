@@ -13,6 +13,7 @@ namespace Titan.UI
 
         [SerializeField] private Slider _healthSlider;
         [SerializeField] private TextMeshProUGUI _healthText;
+        bool _hasInit = false;
 
         private void Awake()
         {
@@ -36,13 +37,23 @@ namespace Titan.UI
         {
             _playerHealth.OnValueChange += OnHealthChangeHandler;
             _playerMaxHealth.OnValueChange += OnMaxHealthChangeHandler;
-            UpdateHealthUI();
+
+            if(_hasInit)
+            {
+                UpdateHealthUI();
+            }
         }
 
         private void OnDisable()
         {
             _playerHealth.OnValueChange -= OnHealthChangeHandler;
             _playerMaxHealth.OnValueChange -= OnMaxHealthChangeHandler;
+        }
+
+        private void Start()
+        {
+            _hasInit = true;
+            UpdateHealthUI();
         }
 
         private void OnHealthChangeHandler(FloatVariable variable)
