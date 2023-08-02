@@ -126,7 +126,7 @@ namespace Titan.Audio
             isFadeOut = false;
             fadeTimer = 0.0f;
             fadeDuration = duration;
-            interpolateFunc = Interpolate.Ease(easeType);
+            interpolateFunc = Interpolate.GetEase(easeType);
             isFadeIn = true;
         }
 
@@ -135,7 +135,7 @@ namespace Titan.Audio
             isFadeIn = false;
             fadeTimer = 0.0f;
             fadeDuration = duration;
-            interpolateFunc = Interpolate.Ease(easeType);
+            interpolateFunc = Interpolate.GetEase(easeType);
             isFadeOut = true;
         }
 
