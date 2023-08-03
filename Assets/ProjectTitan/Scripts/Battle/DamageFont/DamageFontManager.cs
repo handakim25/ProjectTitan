@@ -12,7 +12,7 @@ namespace Titan.Battle
     /// - Pooling을 이용
     /// - Event bus pattern을 이용해서 작동
     /// </summary>
-    public class DamageFontManager : MonoSingleton<MonoBehaviour>
+    public class DamageFontManager : MonoSingleton<DamageFontManager>
     {
         private const string RootName = "DamageFontRoot";
         private const string TextName = "DamageFont";
@@ -21,16 +21,17 @@ namespace Titan.Battle
         [Header("Object Pool")]
         [SerializeField] private int _initPoolCount = 20;
         private int _capacity;
-        private Stack<DamageFont> _objectPool;
+        private Stack<DamageFont> _objectPool = new();
         public int Capacity => _capacity;
 
         [Header("Damge Font Attribute")]
         [SerializeField] private GameObject _damageFontPrefab;
         [SerializeField] private float _duration = 0.5f;
         [SerializeField] private Vector3 _direction;
+        [SerializeField] private float _moveDist;
         [SerializeField] private Interpolate.EaseType _easeType;        
 
-        private void Awake()
+        private void Start()
         {
             _root = new GameObject(RootName).transform;
             _root.SetParent(transform);
@@ -41,11 +42,9 @@ namespace Titan.Battle
 
         public void SpawnDamageFont(Vector3 worldPos, float damage, bool isBig, Color color)
         {
-            // 1. Get Damage font
             DamageFont newFont = GetDamageFont();
-            // 2. Set Damage font
-
-            // 3. Set Damage font transfrom
+            newFont.transform.position = worldPos;
+            newFont.text = damage.ToString();
 
             newFont.gameObject.SetActive(true);
         }
@@ -72,13 +71,18 @@ namespace Titan.Battle
             for(int i = 0; i < count; i++)
             {
                 var damgeFontGo = Instantiate(_damageFontPrefab, _root);
-                damgeFontGo.name = $"{TextName}_{count : 2}";
+                damgeFontGo.name = $"{TextName}_{index++ : 000}";
                 damgeFontGo.SetActive(false);
 
-                var damgeFont = damgeFontGo.GetComponent<DamageFont>();
-                // setup
+                var damageFont = damgeFontGo.GetComponent<DamageFont>();
+                damageFont.Setup(_duration, _direction, _moveDist, _easeType);
+                damageFont.OnObjectDestroy += (DamageFont font) => {
+                    _objectPool.Push(font);
+                    font.gameObject.SetActive(false);
+                };
+                var renderer = damageFont.GetComponent<MeshRenderer>();
 
-                _objectPool.Push(damgeFont);
+                _objectPool.Push(damageFont);
             }
         }
     }

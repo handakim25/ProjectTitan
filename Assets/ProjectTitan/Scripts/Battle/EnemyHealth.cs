@@ -9,13 +9,25 @@ namespace Titan.Battle
     // Enemy Health UI
     public class EnemyHealth : UnitHealth
     {
+        [Header("Damage Font")]
+        [SerializeField] private HumanBodyBones damageFontTarget = HumanBodyBones.Chest;
+        [SerializeField] private Vector3 _damageFontOffset = new Vector3(0f, 0f, 0f);
+        private Transform _damageFontPos;
+        
+        // Health bar
+        // https://www.youtube.com/watch?v=CA2snUe7ARM
+        private void Awake()
+        {
+            var animator = GetComponentInChildren<Animator>();
+            _damageFontPos = animator.GetBoneTransform(damageFontTarget);
+        }
+
         // Unit health ui
         public override void TakeDamage(Vector3 location, Vector3 direction, float damage, Collider bodyPart = null, GameObject attacker = null)
         {
             // enemy controller로 넘길 것은 넘겨서 해결
             // enemy controller가 animator를 제어할 것
             // controller가 중심이니까 controller를 중심으로 할 것
-            Debug.Log($"Hit");
             // Damage Font
             // Hit Sound
             // Hit Animation
@@ -52,6 +64,10 @@ namespace Titan.Battle
             // - world space
             // - canvas를 따로 쓸까?
             // Timer 구현
+
+            // Temp code
+            // will be replaced with event bus
+            DamageFontManager.Instance.SpawnDamageFont(_damageFontPos.position + _damageFontOffset, damage, false, Color.red);
         }
     }
 }
