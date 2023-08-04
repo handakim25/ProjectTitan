@@ -27,5 +27,10 @@ namespace Titan.Character
             public static readonly int HasCombo = Animator.StringToHash("HasCombo");
             public static readonly int BasicStateTime = Animator.StringToHash("BasicStateTime");
         }
+
+        public static class Enemy
+        {
+            public static readonly int Speed = Animator.StringToHash("Speed");
+        }
     }
 }

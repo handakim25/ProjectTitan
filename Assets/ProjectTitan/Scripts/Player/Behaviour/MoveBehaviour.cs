@@ -112,21 +112,6 @@ namespace Titan.Character.Player
         }
 
         #region Callbacks
-
-        void FootR()
-        {
-
-        }
-
-        void FootL()
-        {
-            
-        }
-
-        void Land()
-        {
-
-        }
         
         private void OnJumpPerformedHandler()
         {

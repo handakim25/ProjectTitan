@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Titan.Enemy.FSM
+namespace Titan.Character.Enemy.FSM
 {
     public abstract class Decision : ScriptableObject
     {
@@ -21,7 +21,9 @@ namespace Titan.Enemy.FSM
 
         public static bool CheckTargetsInRadius(StateController controller, float radius, HandleTargets handleTargets)
         {
-            throw new System.NotImplementedException();
+            // player dead 시에는 체크할 필요가 없다.
+            Collider[] targetsInRadius = Physics.OverlapSphere(controller.transform.position, radius, controller.GeneralStats.targetMask);
+            return handleTargets(controller, targetsInRadius.Length > 0, targetsInRadius);
         }
     }
 }

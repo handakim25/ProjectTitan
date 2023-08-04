@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Titan.Enemy.FSM
+namespace Titan.Character.Enemy.FSM
 {
     // State : one state -> multiple actions, multiple Transitions(decision + target state)
     // Transition : Decision -> result state
@@ -15,6 +15,10 @@ namespace Titan.Enemy.FSM
         public Action[] actions;
         [Tooltip("Update from lower index")]
         public Transition[] transitions;
+#if UNITY_EDITOR
+        [TextArea(2, 5)]
+        [SerializeField] private string Description;
+#endif
 
         public void DoActions(StateController controller)
         {
