@@ -15,10 +15,13 @@ MonoBehaviour:
   PatrolSpeed: 2
   PatrolWaitTime: 2
   ChaseSpeed: 5
-  ChaseDistance: 10
+  PositioningSpeed: 3
+  AttackWaitTime: 2
+  MaxBattlDistance: 10
   ReturnSpeed: 10
   SpeedDampTime: 0.4
   angularSpeedDampTime: 0.2
+  StrafTurnSpeed: 25
   ViewRadius: 10
   ViewAngle: 60
   PerceptionRadius: 5
@@ -26,3 +29,6 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 1024
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0

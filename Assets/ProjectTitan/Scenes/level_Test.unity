@@ -866,10 +866,19 @@ MonoBehaviour:
   - {fileID: 1329709872}
   - {fileID: 586732394}
   WaypointIndex: 0
+  AimTarget: {fileID: 0}
+  PersonalTarget: {x: 0, y: 0, z: 0}
+  TargetInSight: 0
+  IsFocusTarget: 0
+  IsAligned: 0
   Nav: {fileID: 0}
   EnemyAnim: {fileID: 0}
   Variables:
+    FeelAlert: 0
     PatrolTimer: 0
+    ReturnPos: {x: 0, y: 0, z: 0}
+    AttackTimer: 0
+    AttackWaitTime: 0
 --- !u!1001 &586235018
 PrefabInstance:
   m_ObjectHideFlags: 0

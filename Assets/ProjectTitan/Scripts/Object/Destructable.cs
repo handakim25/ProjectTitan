@@ -14,9 +14,11 @@ namespace Titan
 
         Animator _animator;
         
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
+        [SerializeField] private GameObject _deadVfx;
+        [SerializeField] private GameObject _deadSfx;
+        [SerializeField] private int _itemRewardCode;
+        [SerializeField] private float _itemRewardWeight;
+
         private void Awake()
         {
             _animator = GetComponentInChildren<Animator>();
@@ -32,9 +34,19 @@ namespace Titan
 
         public void Dead()
         {
+            if(_deadVfx != null)
+            {
+                Instantiate(_deadSfx, transform.position, Quaternion.identity);
+            }
+            if(_deadSfx != null)
+            {
+                // Play SFX
+            }
+            // Calculate item ratio
+            // Instatntiate drop item
+            
             Debug.Log($"Dead : {gameObject.name}");
-            // Dead Animation
-
+            Destroy(gameObject);
         }
     }
 }

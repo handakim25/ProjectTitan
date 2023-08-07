@@ -31,6 +31,7 @@ namespace Titan.Character
         public static class Enemy
         {
             public static readonly int Speed = Animator.StringToHash("Speed");
+            public static readonly int AttackTrigger = Animator.StringToHash("AttackTrigger");
         }
     }
 }

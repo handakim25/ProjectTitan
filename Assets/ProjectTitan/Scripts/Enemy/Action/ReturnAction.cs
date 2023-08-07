@@ -12,6 +12,9 @@ namespace Titan.Character.Enemy.FSM
         {
             controller.Nav.destination = controller.Variables.ReturnPos;
             controller.Nav.speed = controller.GeneralStats.ReturnSpeed;
+
+            // @To-Do
+            // 무적설정
         }      
         
         public override void Act(StateController controller)

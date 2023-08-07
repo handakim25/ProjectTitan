@@ -30,11 +30,12 @@ namespace Titan.Character.Enemy
         [HideInInspector] public bool IsFocusTarget; // 전투 상태 중에서 목표를 주시하는가. Straffing에 사용할 것
         [HideInInspector] public bool IsAligned;
 
-        [HideInInspector] public float AttackRange => 2f; // 나중에 구현하면서 다른 곳으로 옮길 것
+        [HideInInspector] public float AttackRange => 1.5f; // 나중에 구현하면서 다른 곳으로 옮길 것
 
         // Cache and access from state
         [HideInInspector] public NavMeshAgent Nav;
         [HideInInspector] public EnemyAnimation EnemyAnim;
+        [HideInInspector] public EnemyAttackController EnemyAttackController;
         [HideInInspector] public EnemyVariables Variables;
         
         private void Awake()
@@ -43,6 +44,7 @@ namespace Titan.Character.Enemy
 
             Nav = GetComponent<NavMeshAgent>();
             EnemyAnim = gameObject.AddComponent<EnemyAnimation>();
+            EnemyAttackController = EnemyAnim.Animator.gameObject.AddComponent<EnemyAttackController>();
 
             Debug.Assert(currentState, "State is not set");
             Debug.Assert(remainState, "State is not set");

@@ -22,6 +22,8 @@ namespace Titan.Character.Enemy
         public float ChaseSpeed = 5f;
         [Tooltip("거리 유지 상태에서의 속도")]
         public float PositioningSpeed = 3f;
+        [Tooltip("공격 상태로 들어가기 전에 대기하는 시간")]
+        public float AttackWaitTime = 2f;
 
         [Header("Return")]
         [Tooltip("최대 전투 거리")]

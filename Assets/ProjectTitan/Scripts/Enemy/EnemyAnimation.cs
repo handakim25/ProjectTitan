@@ -22,17 +22,21 @@ namespace Titan.Character.Enemy
         private StateController _controller;
         private NavMeshAgent _nav;
 
+        public Animator Animator => _animator;
+
         private void Awake()
         {
-
             _animator = GetComponentInChildren<Animator>();
             _controller = GetComponent<StateController>();
             _nav = GetComponent<NavMeshAgent>();
+
+            _nav.updateRotation = false;
         }
 
         private void Update()
         {
             NavAnimUpdate();
+            UpdateRotation();
         }
 
         // Nav Mesh 상황에 맞춰서 Animation Update
@@ -54,5 +58,19 @@ namespace Titan.Character.Enemy
 
             _animator.SetFloat(AnimatorKey.Enemy.Speed, speed, _controller.GeneralStats.SpeedDampTime, Time.deltaTime);
         }
+
+        // focus mode가 있을 수도 있고
+        // focus 상태가 아니면 이동 방향을 바라보면 된다.
+        // 어찌되든 angle을 구하고
+        // 해당 angle이 되도록 회전을 하면 된다.
+        private void UpdateRotation()
+        {
+            if(_nav.desiredVelocity == Vector3.zero)
+            {
+                return;
+            }
+            Quaternion targetRot = Quaternion.LookRotation(_nav.desiredVelocity);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 20f * Time.deltaTime);
+        }   
     }
 }
