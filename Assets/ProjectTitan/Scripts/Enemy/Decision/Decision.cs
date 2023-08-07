@@ -16,6 +16,11 @@ namespace Titan.Character.Enemy.FSM
         {
 
         }
+
+        public virtual void OnDisableDecision(StateController controller)
+        {
+            
+        }
         
         public delegate bool HandleTargets(StateController controller, bool hasTargets, Collider[] targetInRadius);
 
@@ -25,5 +30,10 @@ namespace Titan.Character.Enemy.FSM
             Collider[] targetsInRadius = Physics.OverlapSphere(controller.transform.position, radius, controller.GeneralStats.targetMask);
             return handleTargets(controller, targetsInRadius.Length > 0, targetsInRadius);
         }
+
+#if UNITY_EDITOR
+        [TextArea(2, 5)]
+        [SerializeField] private string Description;
+#endif
     }
 }

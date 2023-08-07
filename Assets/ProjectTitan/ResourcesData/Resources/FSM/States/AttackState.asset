@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: AttackState
   m_EditorClassIdentifier: 
   actions:
-  - {fileID: 11400000, guid: 4bac6cfe8feccc74aaf7088ee1e0e786, type: 2}
-  transitions: []
-  Description: 
+  - {fileID: 11400000, guid: 66b963ff48e34fb43b5c086307103049, type: 2}
+  transitions:
+  - Decision: {fileID: 11400000, guid: b97b91096f54aa24ea07eb35409cd8d5, type: 2}
+    TrueState: {fileID: 11400000, guid: 58e7c60e76212bb46a1e01654cae849f, type: 2}
+    FalseState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
+  IsCombat: 1
+  Description: "Attack \uC0C1\uD669"

@@ -14,6 +14,10 @@ namespace Titan.Character.Enemy
     /// </summary>
     public class EnemyAnimation : MonoBehaviour
     {
+        private float _angularSpeed;
+        
+        public float AngularSpeed => _angularSpeed;
+
         private Animator _animator;
         private StateController _controller;
         private NavMeshAgent _nav;
@@ -32,6 +36,8 @@ namespace Titan.Character.Enemy
         }
 
         // Nav Mesh 상황에 맞춰서 Animation Update
+        // Memo : desiredVelocity는 Speed가 0일 경우 마찮가지로 0이 된다.
+        // 따라서 직접 회전을 시켜주어야할 필요가 있다.
         private void NavAnimUpdate()
         {
             float speed = _nav.desiredVelocity.magnitude;

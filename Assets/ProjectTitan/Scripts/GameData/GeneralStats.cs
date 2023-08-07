@@ -17,13 +17,17 @@ namespace Titan.Character.Enemy
         [Tooltip("Patrol Point에 도착하고 대기하는 시가")]
         public float PatrolWaitTime = 2f;
 
-        [Header("Chase")]
-        [Tooltip("적을 발견했을 떄 추적하는 속도")]
+        [Header("Battle")]
+        [Tooltip("공격하기 위해 접근하는 속도")]
         public float ChaseSpeed = 5f;
-        [Tooltip("최대 추적 거리")]
-        public float ChaseDistance = 10f;
+        [Tooltip("거리 유지 상태에서의 속도")]
+        public float PositioningSpeed = 3f;
+
+        [Header("Return")]
+        [Tooltip("최대 전투 거리")]
+        public float MaxBattlDistance = 10f;
         [Tooltip("복귀 속도")]
-        public float ReturnSpeed = 10f;
+        public float ReturnSpeed = 20f;
 
         [Header("Animation")]
         public float SpeedDampTime = 0.4f;

@@ -9,6 +9,11 @@ namespace Titan.Character.Enemy.FSM
     /// 해당 거리 이내이면 True를 반환한다.
     /// 시야를 체크하는 것과는 다르다는 것에 주의할 것
     /// </summary>
+    // 판단 결과
+    // AimTarget 설정
+    // TargetInSight : true
+    // PersonalTarget : AimTarget 위치
+    // Personal Target의 경우 어디에 사용하지?
     [CreateAssetMenu(menuName = "Enemy/AI/Decisions/Focus")]
     public class FocusDecision : Decision
     {
@@ -21,11 +26,6 @@ namespace Titan.Character.Enemy.FSM
 
         [Tooltip("거리를 판단하기 위한 거리 분류")]
         public Sense SenseType;
-
-#if UNITY_EDITOR
-        [TextArea(2, 5)]
-        [SerializeField] private string Description;
-#endif
 
         private bool TargetHandler(StateController controller, bool hasTargets, Collider[] targetInRadius)
         {

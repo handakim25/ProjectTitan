@@ -15,6 +15,8 @@ namespace Titan.Character.Enemy.FSM
         public Action[] actions;
         [Tooltip("Update from lower index")]
         public Transition[] transitions;
+        public bool IsCombat;
+
 #if UNITY_EDITOR
         [TextArea(2, 5)]
         [SerializeField] private string Description;
@@ -44,8 +46,21 @@ namespace Titan.Character.Enemy.FSM
             }
         }
 
+        public void OnDisableActions(StateController controller)
+        {
+            foreach(Action action in actions)
+            {
+                action.OnDisableAction(controller);
+            }
+            foreach(Transition transition in transitions)
+            {
+                transition.Decision.OnDisableDecision(controller);
+            }
+        }
+
         public void CheckTransitions(StateController controller)
         {
+            State prevState = controller.currentState;
             foreach(Transition transition in transitions)
             {
                 bool decision = transition.Decision.Decide(controller);
@@ -60,6 +75,7 @@ namespace Titan.Character.Enemy.FSM
 
                 if(controller.currentState != this)
                 {
+                    
                     controller.currentState.OnEnableActions(controller);
                     break;
                 }

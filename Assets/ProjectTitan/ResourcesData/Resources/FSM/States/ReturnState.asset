@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c74780d68e74ab049baed0b3ea1c2ca8, type: 3}
-  m_Name: PatrolState
+  m_Name: ReturnState
   m_EditorClassIdentifier: 
   actions:
-  - {fileID: 11400000, guid: b9ad3579ef2cd79499bf8e2e9e6b102d, type: 2}
+  - {fileID: 11400000, guid: 501a2246b27389f4ca403c6ed1072fb2, type: 2}
   transitions:
-  - Decision: {fileID: 11400000, guid: c7924ab2a6300704280ad981859660de, type: 2}
-    TrueState: {fileID: 11400000, guid: b627b62a2ab5c5540ae864cc2920af9e, type: 2}
+  - Decision: {fileID: 11400000, guid: 73b9a73619f4ecc4b9d9e5eeded334d8, type: 2}
+    TrueState: {fileID: 11400000, guid: 0babc204a195c904bb0daf503a4a7974, type: 2}
     FalseState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
-  Description: "\uB300\uAE30 \uC0C1\uD0DC\uC774\uB2E4. \uC77C\uC815 \uC6E8\uC774\uD3EC\uC778\uD2B8\uB97C
-    \uC21C\uD68C\uD558\uB294 \uC0C1\uD0DC"
+  IsCombat: 0
+  Description: "\uC804\uD22C \uC911\uC5D0\uC11C \uB108\uBB34 \uBA40\uC5B4\uC84C\uC744
+    \uACBD\uC6B0 \uC6D0\uB798 \uC704\uCE58\uB85C \uBCF5\uADC0\uD558\uB294 \uC0C1\uD0DC"

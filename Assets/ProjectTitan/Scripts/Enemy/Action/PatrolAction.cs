@@ -8,8 +8,11 @@ namespace Titan.Character.Enemy.FSM
     [CreateAssetMenu(menuName = "Enemy/AI/Actions/Patrol")]
     public class PatrolAction : Action
     {
+        public float PatrolStoppingDistance = 0f;
+
         public override void OnReadyAction(StateController controller)
         {
+            controller.Nav.stoppingDistance = PatrolStoppingDistance;
             controller.Variables.PatrolTimer = 0f;
         }
 

@@ -25,9 +25,12 @@ namespace Titan.Character.Enemy
         [HideInInspector] public int WaypointIndex;
 
         [HideInInspector] public Transform AimTarget; // 현재 조준 상대
-        [HideInInspector] public Vector3 PersonalTarget = Vector3.zero;
+        [HideInInspector] public Vector3 PersonalTarget = Vector3.zero; // 현재 목표 지점, Action에 따라 작동 방법이 다르다.
         [HideInInspector] public bool TargetInSight; // Target을 발견했는가
-        [HideInInspector] public bool IsFocusTarget; // 전투 상태 중에서 목표를 주시하는가
+        [HideInInspector] public bool IsFocusTarget; // 전투 상태 중에서 목표를 주시하는가. Straffing에 사용할 것
+        [HideInInspector] public bool IsAligned;
+
+        [HideInInspector] public float AttackRange => 2f; // 나중에 구현하면서 다른 곳으로 옮길 것
 
         // Cache and access from state
         [HideInInspector] public NavMeshAgent Nav;
@@ -65,7 +68,14 @@ namespace Titan.Character.Enemy
         {
             if(nextState != remainState)
             {
+                bool enteringCombat = !currentState.IsCombat && nextState.IsCombat;
+                
                 currentState = nextState;
+
+                if(enteringCombat)
+                {
+                    Variables.ReturnPos = transform.position;
+                }
             }
         }
 

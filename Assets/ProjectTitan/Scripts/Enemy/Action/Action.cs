@@ -16,5 +16,10 @@ namespace Titan.Character.Enemy.FSM
         {
 
         }
+
+        public virtual void OnDisableAction(StateController controller)
+        {
+            
+        }
     }
 }
