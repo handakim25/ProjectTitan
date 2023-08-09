@@ -9,8 +9,6 @@ namespace Titan.Character.Enemy
     // 현재는 FSM 구현을 우선으로 한다.
     public class EnemyAttackController : MonoBehaviour
     {
-        
-        
         private void Awake()
         {
             // Init attack datas

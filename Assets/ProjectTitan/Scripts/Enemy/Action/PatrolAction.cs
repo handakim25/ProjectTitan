@@ -14,6 +14,7 @@ namespace Titan.Character.Enemy.FSM
         {
             controller.Nav.stoppingDistance = PatrolStoppingDistance;
             controller.Variables.PatrolTimer = 0f;
+            controller.Nav.speed = controller.GeneralStats.PatrolSpeed;
         }
 
         public override void Act(StateController controller)
@@ -30,7 +31,6 @@ namespace Titan.Character.Enemy.FSM
             }
 
             // controller
-            controller.Nav.speed = controller.GeneralStats.PatrolSpeed;
             if(controller.Nav.remainingDistance <= controller.Nav.stoppingDistance && !controller.Nav.pathPending)
             {
                 controller.Variables.PatrolTimer += Time.deltaTime;

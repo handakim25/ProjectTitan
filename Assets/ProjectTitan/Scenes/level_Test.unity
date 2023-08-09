@@ -873,6 +873,7 @@ MonoBehaviour:
   IsAligned: 0
   Nav: {fileID: 0}
   EnemyAnim: {fileID: 0}
+  EnemyAttackController: {fileID: 0}
   Variables:
     FeelAlert: 0
     PatrolTimer: 0
@@ -1002,6 +1003,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a4d455075b9e944916aa1272c881a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deadVfx: {fileID: 0}
+  _deadSfx: {fileID: 0}
+  _itemRewardCode: 0
+  _itemRewardWeight: 0
 --- !u!1 &586732393
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,6 +1220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a4d455075b9e944916aa1272c881a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deadVfx: {fileID: 0}
+  _deadSfx: {fileID: 0}
+  _itemRewardCode: 0
+  _itemRewardWeight: 0
 --- !u!114 &895846481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1353,6 +1362,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6a4d455075b9e944916aa1272c881a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deadVfx: {fileID: 0}
+  _deadSfx: {fileID: 0}
+  _itemRewardCode: 0
+  _itemRewardWeight: 0
 --- !u!114 &1028621372
 MonoBehaviour:
   m_ObjectHideFlags: 0

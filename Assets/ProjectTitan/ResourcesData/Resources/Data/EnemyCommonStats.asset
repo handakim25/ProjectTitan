@@ -20,11 +20,12 @@ MonoBehaviour:
   MaxBattlDistance: 10
   ReturnSpeed: 10
   SpeedDampTime: 0.4
-  angularSpeedDampTime: 0.2
+  AngularSpeedDampFactor: 40
   StrafTurnSpeed: 25
+  MaxAngularSpeed: 240
   ViewRadius: 10
   ViewAngle: 60
-  PerceptionRadius: 5
+  PerceptionRadius: 7
   NearRadius: 2
   targetMask:
     serializedVersion: 2

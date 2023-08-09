@@ -15,7 +15,7 @@ namespace Titan.Character.Enemy.FSM
             }
 
             if(controller.Nav.remainingDistance <= controller.Nav.stoppingDistance &&
-                !controller.Nav.pathPending)
+                !controller.Nav.pathPending && controller.Nav.desiredVelocity == Vector3.zero)
             {
                 return true;
             }

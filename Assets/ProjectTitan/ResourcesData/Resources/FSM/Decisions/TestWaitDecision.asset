@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da6ea227ffada5f47b592288efd32cde, type: 3}
-  m_Name: NearDecision
+  m_Script: {fileID: 11500000, guid: 4df33aa6663535a4aa609135eae65cb2, type: 3}
+  m_Name: TestWaitDecision
   m_EditorClassIdentifier: 
-  Description: "\uB9E4\uC6B0 \uADFC\uCC98\uC5D0 \uC801\uC774 \uC788\uC744 \uACBD\uC6B0\uB97C
-    \uD310\uB2E8"
-  SenseType: 0
+  Description: Test Decision
+  WaitTime: 1.5

@@ -31,7 +31,6 @@ namespace Titan.Character.Enemy.FSM
         {
             foreach(Collider collider in targetInRadius)
             {
-                Debug.Log($"Find Target : {collider.name}");
                 if(!controller.BlockedSight(collider.transform.position))
                 {
                     controller.AimTarget = collider.transform;

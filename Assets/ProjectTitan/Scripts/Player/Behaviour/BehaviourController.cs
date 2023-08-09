@@ -124,7 +124,7 @@ namespace Titan.Character.Player
 
             PlayerMove.Move();
             Animator.SetBool(AnimatorKey.Player.IsGround, IsGround);
-            Animator.SetBool(AnimatorKey.Player.HasMoveInput, PlayerInput.MoveDir != Vector2.zero ? true : false);
+            Animator.SetBool(AnimatorKey.Player.HasMoveInput, PlayerInput.MoveDir != Vector2.zero);
             // Debug.Log($"Animaotr Layer : {Animator.GetLayerIndex("Basic")}");
             Animator.SetFloat(AnimatorKey.Player.BasicStateTime, Mathf.Repeat(Animator.GetCurrentAnimatorStateInfo(1).normalizedTime, 1f));
         }

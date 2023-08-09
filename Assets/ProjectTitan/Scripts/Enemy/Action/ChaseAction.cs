@@ -15,6 +15,11 @@ namespace Titan.Character.Enemy.FSM
     {
         public override void OnReadyAction(StateController controller)
         {
+            // @To-Do
+            // 원거리 공격일 수도 있으므로
+            // Attack Range를 따로 받아와야 한다.
+            // 추후에 AttackController와 연계해서 처리할 것
+            // 지금은 FSM 전이 위주로 작업할 것
             controller.Nav.speed = controller.GeneralStats.ChaseSpeed;            
             controller.Nav.stoppingDistance = controller.AttackRange;
         }

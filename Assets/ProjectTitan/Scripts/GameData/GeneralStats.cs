@@ -17,13 +17,17 @@ namespace Titan.Character.Enemy
         [Tooltip("Patrol Point에 도착하고 대기하는 시가")]
         public float PatrolWaitTime = 2f;
 
+        // 일부 값들은 유닛에 종속된 속성인 거 같기도 하다.
+        // 추후에 확인할 것
         [Header("Battle")]
         [Tooltip("공격하기 위해 접근하는 속도")]
         public float ChaseSpeed = 5f;
         [Tooltip("거리 유지 상태에서의 속도")]
         public float PositioningSpeed = 3f;
         [Tooltip("공격 상태로 들어가기 전에 대기하는 시간")]
-        public float AttackWaitTime = 2f;
+        public float AttackWaitDuration = 4f;
+        [Tooltip("Reposition 상태에서 새로운 위치로 이동하는 대기 시간")]
+        public float RepositionInterval = 2f;
 
         [Header("Return")]
         [Tooltip("최대 전투 거리")]
@@ -33,8 +37,9 @@ namespace Titan.Character.Enemy
 
         [Header("Animation")]
         public float SpeedDampTime = 0.4f;
-        public float angularSpeedDampTime = 0.2f;
+        public float AngularSpeedDampFactor = 20f;
         public float StrafTurnSpeed = 25f;
+        public float MaxAngularSpeed = 180f;
 
         [Header("Sight")]
         [Range(0, 50)]
@@ -51,6 +56,7 @@ namespace Titan.Character.Enemy
         public float NearRadius = 2.5f;
 
         [Header("Layer")]
+        [Tooltip("적 대상 마스크")]
         public LayerMask targetMask;
         [Tooltip("장애물 마스크, 시야 판정에 사용")]
         public LayerMask obstacleMask;

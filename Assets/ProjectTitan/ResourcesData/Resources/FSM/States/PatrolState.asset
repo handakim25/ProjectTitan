@@ -18,5 +18,9 @@ MonoBehaviour:
   - Decision: {fileID: 11400000, guid: c7924ab2a6300704280ad981859660de, type: 2}
     TrueState: {fileID: 11400000, guid: b627b62a2ab5c5540ae864cc2920af9e, type: 2}
     FalseState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
+  - Decision: {fileID: 11400000, guid: 132f2412fec919348b109fedc65ae4e1, type: 2}
+    TrueState: {fileID: 11400000, guid: b627b62a2ab5c5540ae864cc2920af9e, type: 2}
+    FalseState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
+  IsCombat: 0
   Description: "\uB300\uAE30 \uC0C1\uD0DC\uC774\uB2E4. \uC77C\uC815 \uC6E8\uC774\uD3EC\uC778\uD2B8\uB97C
     \uC21C\uD68C\uD558\uB294 \uC0C1\uD0DC"

@@ -50,11 +50,13 @@ namespace Titan.Character.Player
 
         public void Move()
         {
-            Vector3 Velocity = new Vector3();
-            Velocity.x = MoveDir.x * Speed;
-            Velocity.z = MoveDir.z * Speed;
+            var Velocity = new Vector3
+            {
+                x = MoveDir.x * Speed,
+                z = MoveDir.z * Speed
+            };
 
-            if(IsApplyGravity)
+            if (IsApplyGravity)
             {
                 UpdateFallSpeed();
                 Velocity.y = _fallSpeed;

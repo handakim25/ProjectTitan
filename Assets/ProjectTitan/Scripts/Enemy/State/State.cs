@@ -75,7 +75,8 @@ namespace Titan.Character.Enemy.FSM
 
                 if(controller.currentState != this)
                 {
-                    
+                    Debug.Log($"Change State : {this.name} -> {controller.currentState.name} / Decision : {transition.Decision.name}");
+                    prevState.OnDisableActions(controller);
                     controller.currentState.OnEnableActions(controller);
                     break;
                 }

@@ -4,34 +4,45 @@ using UnityEngine;
 
 namespace Titan.Character.Enemy.FSM
 {
+    [CreateAssetMenu(menuName = "Enemy/AI/Actions/Perform Attack")]
     public class PerformAttackAction : Action
     {
         public override void OnReadyAction(StateController controller)
         {
-            
+            controller.IsFocusTarget = true;
+            controller.IsAligned = false;
+            controller.IsAttack = false;
+            controller.EnemyAnim.Animator.ResetTrigger(AnimatorKey.Enemy.AttackTrigger);
+        }
+
+        public override void OnDisableAction(StateController controller)
+        {
+            controller.IsFocusTarget = false;
         }
 
         public override void Act(StateController controller)
         {
-            controller.IsFocusTarget = true;
-
-            if(CanAttack())
+            // @To-Do 
+            // 로직 버그 있음
+            if(!controller.IsAligned && controller.EnemyAnim.AngularSpeed < 5f)
             {
-                PerformAttack();    
+                controller.IsAligned = true;
+            }
+            else
+            {
+                if(!controller.IsAttack)
+                {
+                    // Aim 동작이 있으면 Aim tlfgod
+                    PerformAttack(controller);
+                    controller.IsAttack = true;
+                }
             }
         }
 
-        // 조준이 필요할 수도 있고 아니면 근접 공격일 수도 있다.
-        private bool CanAttack()
+        private void PerformAttack(StateController controller)
         {
-            // if aligned
-            // perform
-            return false;
-        }
-
-        private void PerformAttack()
-        {
-
+            // Do controller action
+            controller.EnemyAnim.Animator.SetTrigger(AnimatorKey.Enemy.AttackTrigger);
         }
     }
 }

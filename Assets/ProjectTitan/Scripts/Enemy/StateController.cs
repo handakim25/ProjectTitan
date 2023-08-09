@@ -7,6 +7,13 @@ using Titan.Character.Enemy.FSM;
 
 namespace Titan.Character.Enemy
 {
+    // @Memo
+    // 만약 성능상의 문제가 생길 경우
+    // 주요 변수를 cache해서 해결할 것
+    // Cache 대상
+    // - blocked sight : ray cast가 상대적으로 가벼워도 자주 사용하기에는 비싸다.
+    // - distance between target : 상대적으로 계산이 수월한 변수. cache 계산하기도 편하고 이것도 고려해 볼 것.
+    [SelectionBase]
     [RequireComponent(typeof(NavMeshAgent))]
     public class StateController : MonoBehaviour
     {
@@ -25,12 +32,22 @@ namespace Titan.Character.Enemy
         [HideInInspector] public int WaypointIndex;
 
         [HideInInspector] public Transform AimTarget; // 현재 조준 상대
-        [HideInInspector] public Vector3 PersonalTarget = Vector3.zero; // 현재 목표 지점, Action에 따라 작동 방법이 다르다.
+        // 현재 관심 지점
+        // Action에 따라 작동 방법이 다르다.
+        // Focus가 켜질 경우 Personal Target을 바라본다. <- Look, Focus Decision에서 Update
+        // Aim이 켜질 경우 Personal Target을 조준한다.
+        // 특정 이동의 경우 Personal Target으로 이동을 한다.
+        [HideInInspector] public Vector3 PersonalTarget = Vector3.zero;
         [HideInInspector] public bool TargetInSight; // Target을 발견했는가
-        [HideInInspector] public bool IsFocusTarget; // 전투 상태 중에서 목표를 주시하는가. Straffing에 사용할 것
+        [HideInInspector] public bool IsFocusTarget = false; // 전투 상태 중에서 목표를 주시하는가. True가 되면 personal target을 바라본다. personal target은 각각의 decision에서 설정해 준다.
+        [HideInInspector] public bool IsAimTarget = false;
         [HideInInspector] public bool IsAligned;
+        [HideInInspector] public bool IsAttack;
 
-        [HideInInspector] public float AttackRange => 1.5f; // 나중에 구현하면서 다른 곳으로 옮길 것
+        // Temp Variable
+        [HideInInspector] public float AttackRange => 1.5f; // Will move to attack component
+        [HideInInspector] public float CombatSpacing = 4f; // Will move to attack component
+        [HideInInspector] public float RepositionThreshold = 7f; // Will move to attack component
 
         // Cache and access from state
         [HideInInspector] public NavMeshAgent Nav;
@@ -53,6 +70,11 @@ namespace Titan.Character.Enemy
             {
                 aiActive = false;
             }
+        }
+
+        private void Start()
+        {
+            currentState.OnEnableActions(this);
         }
 
         private void Update()
@@ -92,6 +114,12 @@ namespace Titan.Character.Enemy
             targetPos = targetPos + Vector3.up * 1.5f;
             Vector3 dirToTarget = targetPos - castOrigin;
             return Physics.Raycast(castOrigin, dirToTarget, out RaycastHit hit, dirToTarget.magnitude, GeneralStats.obstacleMask);
+        }
+
+        // 만약 사용 빈도가 높을 경우 Cache 사용할 것
+        public float GetPersonalTargetDist()
+        {
+            return Vector3.Distance(transform.position, PersonalTarget);
         }
     }
 }

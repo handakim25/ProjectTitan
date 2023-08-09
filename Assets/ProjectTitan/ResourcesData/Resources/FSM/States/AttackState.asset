@@ -12,7 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c74780d68e74ab049baed0b3ea1c2ca8, type: 3}
   m_Name: AttackState
   m_EditorClassIdentifier: 
-  actions: []
-  transitions: []
-  IsCombat: 0
-  Description: 
+  actions:
+  - {fileID: 11400000, guid: b6a03a6e2dab2e340a51fc6876c9810d, type: 2}
+  transitions:
+  - Decision: {fileID: 11400000, guid: 47f9a982a7d19fc47b0635e648f6310f, type: 2}
+    TrueState: {fileID: 11400000, guid: 3c7a8a5e0a746294ea51cb8a519f16a9, type: 2}
+    FalseState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
+  - Decision: {fileID: 11400000, guid: b0129882eed5025488ac6d8a679b131d, type: 2}
+    TrueState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
+    FalseState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
+  IsCombat: 1
+  Description: "\uACF5\uACA9 State"

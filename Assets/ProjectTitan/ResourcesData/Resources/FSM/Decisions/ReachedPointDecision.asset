@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4f98a9b2d4ee943961320fdacfafe7, type: 3}
   m_Name: ReachedPointDecision
   m_EditorClassIdentifier: 
-  Description: 
+  Description: "\uB0A8\uC740 \uAC70\uB9AC\uAC00 0\uC774\uACE0 \uC18D\uB3C4\uAC00
+    0\uC77C \uACBD\uC6B0. \uC815\uC9C0\uB97C \uC704\uD574 \uD589\uB3D9\uC5D0\uC11C
+    \uCC98\uB9AC\uD574\uC918\uC57C \uD55C\uB2E4."

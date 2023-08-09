@@ -17,6 +17,7 @@ namespace Titan.Character.Enemy
         private float _angularSpeed;
         
         public float AngularSpeed => _angularSpeed;
+        public Vector3 lastDir;
 
         private Animator _animator;
         private StateController _controller;
@@ -36,41 +37,73 @@ namespace Titan.Character.Enemy
         private void Update()
         {
             NavAnimUpdate();
-            UpdateRotation();
         }
 
         // Nav Mesh 상황에 맞춰서 Animation Update
         // Memo : desiredVelocity는 Speed가 0일 경우 마찮가지로 0이 된다.
         // 따라서 직접 회전을 시켜주어야할 필요가 있다.
+        // Focus 상태일 경우는 focus 대상 주시
+        // 
         private void NavAnimUpdate()
         {
             float speed = _nav.desiredVelocity.magnitude;
-            float angle;
+            // if(_controller.IsFocusTarget)
+            // {
+            //     Vector3 target = _controller.PersonalTarget - transform.position;
+            //     target.y = 0;
+            //     angle = Vector3.SignedAngle(transform.forward, target, transform.up);
+            //     target.Normalize();
+            //     Quaternion targetRotation = Quaternion.LookRotation(target);
+            //     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, _controller.GeneralStats.StrafTurnSpeed * Time.deltaTime);
+            // }
+            // else
+            // {
+            //     if(_controller.Nav.desiredVelocity == Vector3.zero)
+            //     {
+            //         angle = 0.0f;
+            //     }
+            //     else
+            //     {
+            //         angle = Vector3.SignedAngle(transform.forward, _controller.Nav.desiredVelocity, transform.up);
+            //     }
+            // }
+
+            // @To-DO
+            // Last Direction 로직 수정할 것
             if(_controller.IsFocusTarget)
             {
-                Vector3 target = (_controller.PersonalTarget - transform.position);
+                Vector3 target = _controller.PersonalTarget - transform.position;
                 target.y = 0;
-                angle = Vector3.SignedAngle(transform.forward, target, transform.up);
-                target.Normalize();
-                Quaternion targetRotation = Quaternion.LookRotation(target);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, _controller.GeneralStats.StrafTurnSpeed * Time.deltaTime);
+                UpdateRot(target);
             }
-
+            else if(_controller.Nav.desiredVelocity != Vector3.zero)
+            {
+                UpdateRot(_controller.Nav.desiredVelocity);
+                lastDir = _controller.Nav.desiredVelocity;
+            }
+            else
+            {
+                if(lastDir != Vector3.zero)
+                {
+                    UpdateRot(lastDir);
+                }
+            }
             _animator.SetFloat(AnimatorKey.Enemy.Speed, speed, _controller.GeneralStats.SpeedDampTime, Time.deltaTime);
         }
 
-        // focus mode가 있을 수도 있고
-        // focus 상태가 아니면 이동 방향을 바라보면 된다.
-        // 어찌되든 angle을 구하고
-        // 해당 angle이 되도록 회전을 하면 된다.
-        private void UpdateRotation()
+        private void UpdateRot(Vector3 faceDir)
         {
-            if(_nav.desiredVelocity == Vector3.zero)
-            {
-                return;
-            }
-            Quaternion targetRot = Quaternion.LookRotation(_nav.desiredVelocity);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 20f * Time.deltaTime);
-        }   
+            faceDir.Normalize();
+            faceDir.y = 0;
+
+            Quaternion targetRot = Quaternion.LookRotation(faceDir);
+            targetRot = Quaternion.Slerp(transform.rotation, targetRot, _controller.GeneralStats.AngularSpeedDampFactor * Time.deltaTime);
+
+            float maxRotAngle = _controller.GeneralStats.MaxAngularSpeed * Time.deltaTime;
+            Quaternion finalRot = Quaternion.RotateTowards(transform.rotation, targetRot, maxRotAngle);
+
+            _angularSpeed = Quaternion.Angle(transform.rotation, finalRot);
+            transform.rotation = finalRot;
+        }
     }
 }

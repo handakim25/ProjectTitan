@@ -9,6 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a96091061237b88409bd0fbe23f62324, type: 3}
-  m_Name: FocusMoveAction
+  m_Script: {fileID: 11500000, guid: d1c0360312b10284aa7f7be32aa2d680, type: 3}
+  m_Name: LookDecision
   m_EditorClassIdentifier: 
+  Description: "\uC2DC\uC57C\uAC01\uC744 \uD1B5\uD574\uC11C \uD310\uB2E8\uD558\uB294
+    Decision"
