@@ -46,7 +46,9 @@ namespace Titan.Character.Enemy
         // 
         private void NavAnimUpdate()
         {
-            float speed = _nav.desiredVelocity.magnitude;
+            float speed = _nav.velocity.magnitude;
+            // Debug.Log($"Desired Velocity : {_nav.desiredVelocity.magnitude}");
+            // Debug.Log($"Velocity : {_nav.velocity.magnitude}");
             // if(_controller.IsFocusTarget)
             // {
             //     Vector3 target = _controller.PersonalTarget - transform.position;

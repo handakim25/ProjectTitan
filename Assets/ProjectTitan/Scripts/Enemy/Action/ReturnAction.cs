@@ -16,18 +16,19 @@ namespace Titan.Character.Enemy.FSM
             controller.Nav.stoppingDistance  = RetrunStoppingDistance;
 
             // @To-Do
-            // 무적설정
+            // 무적 설정
             
         }
 
         public override void OnDisableAction(StateController controller)
         {
-            
+            // @To-DO
+            // 무적 해제 설정   
         }
 
         public override void Act(StateController controller)
         {
-            if(controller.Nav.remainingDistance <= controller.Nav.stoppingDistance && !controller.Nav.pathPending)
+            if(HasArrived(controller))
             {
                 controller.Nav.destination = controller.transform.position;
             }

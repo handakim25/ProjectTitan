@@ -40,13 +40,14 @@ namespace Titan.Character.Enemy
         [HideInInspector] public Vector3 PersonalTarget = Vector3.zero;
         [HideInInspector] public bool TargetInSight; // Target을 발견했는가
         [HideInInspector] public bool IsFocusTarget = false; // 전투 상태 중에서 목표를 주시하는가. True가 되면 personal target을 바라본다. personal target은 각각의 decision에서 설정해 준다.
-        [HideInInspector] public bool IsAimTarget = false;
+        [HideInInspector] public bool IsStraffing = false; // Straff 활성화 여부
+        [HideInInspector] public bool IsAimTarget = false; // 전투 상태 중에서 조준 동작 실행 여부
         [HideInInspector] public bool IsAligned;
         [HideInInspector] public bool IsAttack;
 
         // Temp Variable
         [HideInInspector] public float AttackRange => 1.5f; // Will move to attack component
-        [HideInInspector] public float CombatSpacing = 4f; // Will move to attack component
+        [HideInInspector] public float CombatSpacing = 4f; // Will move to attack component, 전투 거리 유지. 이 정도 거리를 이동한다.
         [HideInInspector] public float RepositionThreshold = 7f; // Will move to attack component
 
         // Cache and access from state
@@ -118,8 +119,8 @@ namespace Titan.Character.Enemy
 
         // 만약 사용 빈도가 높을 경우 Cache 사용할 것
         public float GetPersonalTargetDist()
-        {
-            return Vector3.Distance(transform.position, PersonalTarget);
+        {   
+            return TargetInSight ? Vector3.Distance(transform.position, PersonalTarget) : 0f;
         }
     }
 }

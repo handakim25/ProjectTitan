@@ -13,7 +13,8 @@ namespace Titan.Character.Enemy.FSM
     // AimTarget 설정
     // TargetInSight : true
     // PersonalTarget : AimTarget 위치
-    // Personal Target의 경우 어디에 사용하지?
+    // @To-Do
+    // AimTarget Lost decision
     [CreateAssetMenu(menuName = "Enemy/AI/Decisions/Focus")]
     public class FocusDecision : Decision
     {
@@ -22,6 +23,8 @@ namespace Titan.Character.Enemy.FSM
             Near, // 매우 가까움, 눈치 채지 못할 수가 없음
             Perception, // 인지 가능 범위
             View, // 시야 판단 거리
+            CombatSpacing,
+            RepositionThreshold,
         }
 
         [Tooltip("거리를 판단하기 위한 거리 분류")]
@@ -60,6 +63,8 @@ namespace Titan.Character.Enemy.FSM
                 Sense.Near => controller.GeneralStats.NearRadius,
                 Sense.Perception => controller.GeneralStats.PerceptionRadius,
                 Sense.View => controller.GeneralStats.NearRadius,
+                Sense.CombatSpacing => controller.CombatSpacing,
+                Sense.RepositionThreshold => controller.RepositionThreshold,
                 _ => controller.GeneralStats.NearRadius,
             };
         }

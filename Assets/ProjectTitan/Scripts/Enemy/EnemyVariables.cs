@@ -16,7 +16,7 @@ namespace Titan.Character.Enemy
         // Return State
         public Vector3 ReturnPos;
         // Positioning State
-        public float AttackStartTime; // Attack State 대기 시간. 이 만큼 지나면 Repositioning 실행
+        public float AttackEndTime; // 공격이 끝난 시간
         public float RepositionWaitTime;
         // Attack State
 
