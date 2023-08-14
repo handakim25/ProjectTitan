@@ -21,6 +21,7 @@ namespace Titan.Character.Player
         // Attack index is not used. Remove from code
         protected int curAttackIndex = 0;
         [SerializeField] protected int _animationIndex = 0;
+        [SerializeField] private LayerMask _targetMask;
 
         private float _curCoolTime;
         public bool CanFire => _curCoolTime >= _coolTime;
@@ -75,7 +76,7 @@ namespace Titan.Character.Player
         // Pre condition : Animatino State가 None 상태로 있어야 한다.
         public override void OnEnter()
         {
-
+            FaceTarget();
         }
 
         #region Callbacks
@@ -107,7 +108,6 @@ namespace Titan.Character.Player
         {
             if(_controller.IsCurrentBehaviour(BehaviourCode))
             {
-                // Physics.OverlapSphere(transform.position, 3f, )
                 PerformAttack();
             }
         }        
@@ -148,6 +148,40 @@ namespace Titan.Character.Player
         protected bool CanAttack()
         {
             return _controller.IsGround && CanFire;
+        }
+
+        public void FaceTarget()
+        {
+            var nearestGo = FindTarget();
+            Debug.Log($"Nearest Go : {nearestGo}");
+            if(nearestGo == null)
+            {
+                return;
+            }
+
+            var faceDir = nearestGo.transform.position - transform.position;
+            faceDir.y = 0f;
+            Debug.Log($"Face Dir : {faceDir}");
+            _controller.FaceDirection(faceDir, true);
+        }
+
+        private GameObject FindTarget()
+        {
+            var colliders = Physics.OverlapSphere(transform.position, 3f, _targetMask);
+            Debug.Log($"Find {colliders.Length} count");
+            GameObject minGo = null;
+            float min = float.PositiveInfinity;
+            foreach(Collider curCollider in colliders)
+            {
+                float curDist = Vector3.Distance(transform.position, curCollider.transform.position);
+                if(curDist < min)
+                {
+                    min = curDist;
+                    minGo = curCollider.gameObject;
+                }
+            }
+
+            return minGo;
         }
         
         #endregion Utility Methods

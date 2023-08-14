@@ -86,7 +86,6 @@ namespace Titan.Battle
 
             // Temp code
             // will be replaced with event bus
-            Debug.Log($"Hello");
             if(!isAlive || _controller.IsInvincible)
             {
                 return;
