@@ -24,6 +24,8 @@ namespace Titan.Character.Enemy
         public float ChaseSpeed = 5f;
         [Tooltip("거리 유지 상태에서의 속도")]
         public float PositioningSpeed = 3f;
+        [Tooltip("뒷걸음질 속도")]
+        public float FallbackSpeed = 0.5f;
         [Tooltip("공격 상태로 들어가기 전에 대기하는 시간")]
         public float AttackWaitDuration = 4f;
         [Tooltip("Reposition 상태에서 새로운 위치로 이동하는 대기 시간")]
@@ -40,6 +42,9 @@ namespace Titan.Character.Enemy
         public float AngularSpeedDampFactor = 20f;
         public float StrafTurnSpeed = 25f;
         public float MaxAngularSpeed = 180f;
+
+        [Header("Death")]
+        public float DeathDelayTime = 5f;
 
         [Header("Sight")]
         [Range(0, 50)]

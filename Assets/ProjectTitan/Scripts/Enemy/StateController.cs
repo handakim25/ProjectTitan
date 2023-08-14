@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.AI;
 
 using Titan.Character.Enemy.FSM;
+using Titan.Battle;
+using Titan.Audio;
 
 namespace Titan.Character.Enemy
 {
@@ -17,6 +19,7 @@ namespace Titan.Character.Enemy
     [RequireComponent(typeof(NavMeshAgent))]
     public class StateController : MonoBehaviour
     {
+        [Header("Behaviour Data")]
         public GeneralStats GeneralStats;
 
         // @To-Do
@@ -44,16 +47,20 @@ namespace Titan.Character.Enemy
         [HideInInspector] public bool IsAimTarget = false; // 전투 상태 중에서 조준 동작 실행 여부
         [HideInInspector] public bool IsAligned;
         [HideInInspector] public bool IsAttack;
-
-        // Temp Variable
-        [HideInInspector] public float AttackRange => 1.5f; // Will move to attack component
-        [HideInInspector] public float CombatSpacing = 4f; // Will move to attack component, 전투 거리 유지. 이 정도 거리를 이동한다.
-        [HideInInspector] public float RepositionThreshold = 7f; // Will move to attack component
+        public bool IsInvincible = false;
+        
+        [Header("Temp Data")]
+        public float AttackRange = 1.5f; // Will move to attack component
+        public float CombatSpacing = 4f; // Will move to attack component, 전투 거리 유지. 이 정도 거리를 이동한다.
+        public float RepositionThreshold = 7f; // Will move to attack component
+        public float MaxHealth = 3000f;// Stat System으로 들어갈 것
+        public float CurHealth = 3000f; // Stat System으로 들어갈 것
 
         // Cache and access from state
         [HideInInspector] public NavMeshAgent Nav;
         [HideInInspector] public EnemyAnimation EnemyAnim;
         [HideInInspector] public EnemyAttackController EnemyAttackController;
+        [HideInInspector] public EnemyHealth EnemyHealth;
         [HideInInspector] public EnemyVariables Variables;
         
         private void Awake()
@@ -63,6 +70,7 @@ namespace Titan.Character.Enemy
             Nav = GetComponent<NavMeshAgent>();
             EnemyAnim = gameObject.AddComponent<EnemyAnimation>();
             EnemyAttackController = EnemyAnim.Animator.gameObject.AddComponent<EnemyAttackController>();
+            EnemyHealth = gameObject.GetComponent<EnemyHealth>();
 
             Debug.Assert(currentState, "State is not set");
             Debug.Assert(remainState, "State is not set");
@@ -76,6 +84,7 @@ namespace Titan.Character.Enemy
         private void Start()
         {
             currentState.OnEnableActions(this);
+
         }
 
         private void Update()
@@ -121,6 +130,26 @@ namespace Titan.Character.Enemy
         public float GetPersonalTargetDist()
         {   
             return TargetInSight ? Vector3.Distance(transform.position, PersonalTarget) : 0f;
+        }
+
+        public void OnHitHandler()
+        {
+            // 경직이 가능하다면, 가령 유닛마다 경직 저항치가 있을 수 있지
+            
+        }
+
+        public void OnDeathHandler()
+        {
+            aiActive = false;
+            EnemyAnim.Animator.SetTrigger(AnimatorKey.Enemy.DeathTrigger);
+            // Death Sound
+            // Death Vfx
+            // Drop Item
+            // Quest Sytem
+            // Level System
+
+            // Temp data
+            Destroy(gameObject, GeneralStats.DeathDelayTime);
         }
     }
 }

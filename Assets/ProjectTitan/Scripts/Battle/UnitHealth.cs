@@ -26,14 +26,14 @@ namespace Titan.Battle
         /// </summary>
         /// <param name="location"></param>
         /// <param name="direction"></param>
-        /// <param name="damage"></param>
+        /// <param name="damage">Attacker에서 계산한 순수 데미지</param>
         /// <param name="bodyPart"></param>
-        /// <param name="attacker"></param>
+        /// <param name="attacker">Attacker</param>
         public abstract void TakeDamage(Vector3 location, Vector3 direction, float damage, Collider bodyPart = null, GameObject attacker = null);
 
         public virtual void Dead()
         {
-
+            OnDeath?.Invoke();
         }
     }
 }

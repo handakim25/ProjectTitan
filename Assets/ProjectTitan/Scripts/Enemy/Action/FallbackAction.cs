@@ -29,7 +29,7 @@ namespace Titan.Character.Enemy.FSM
         {
             Vector3 retreatDir = controller.transform.position - controller.PersonalTarget;
             retreatDir.y = 0f;
-            controller.Nav.velocity = 1f * retreatDir.normalized;
+            controller.Nav.velocity = controller.GeneralStats.FallbackSpeed * retreatDir.normalized;
         }
     }
 }

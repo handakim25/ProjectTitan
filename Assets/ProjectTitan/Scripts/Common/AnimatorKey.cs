@@ -32,6 +32,10 @@ namespace Titan.Character
         {
             public static readonly int Speed = Animator.StringToHash("Speed");
             public static readonly int AttackTrigger = Animator.StringToHash("AttackTrigger");
+            public static readonly int AttackIndex = Animator.StringToHash("AttackIndex");
+            public static readonly int DeathTrigger = Animator.StringToHash("DeathTrigger");
+            public static readonly int HitTrigger = Animator.StringToHash("HitTriger");
+            public static readonly int IsHitEnd = Animator.StringToHash("IsHitEnd");
         }
     }
 }

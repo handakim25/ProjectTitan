@@ -14,16 +14,12 @@ namespace Titan.Character.Enemy.FSM
             controller.Nav.destination = controller.Variables.ReturnPos;
             controller.Nav.speed = controller.GeneralStats.ReturnSpeed;
             controller.Nav.stoppingDistance  = RetrunStoppingDistance;
-
-            // @To-Do
-            // 무적 설정
-            
+            controller.IsInvincible = true;
         }
 
         public override void OnDisableAction(StateController controller)
         {
-            // @To-DO
-            // 무적 해제 설정   
+            controller.IsInvincible = false;
         }
 
         public override void Act(StateController controller)

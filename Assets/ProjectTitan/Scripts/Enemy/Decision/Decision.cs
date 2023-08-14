@@ -24,6 +24,9 @@ namespace Titan.Character.Enemy.FSM
         
         public delegate bool HandleTargets(StateController controller, bool hasTargets, Collider[] targetInRadius);
 
+        // @To-Do
+        // NonAlloc으로 변경할 것
+        // 일시적으로 핑이 튀는 현상이 있었다.
         public static bool CheckTargetsInRadius(StateController controller, float radius, HandleTargets handleTargets)
         {
             // player dead 시에는 체크할 필요가 없다.

@@ -100,10 +100,14 @@ namespace Titan.Character.Player
 
         // Animation Event Callback
         // Called attack impact time
+        // @To-DO
+        // 상속을 통해서 해결할 필요가 없다.
+        // 인자를 주고 받고 처리하면 될 것 같은데
         public void ExecuteAttack()
         {
             if(_controller.IsCurrentBehaviour(BehaviourCode))
             {
+                // Physics.OverlapSphere(transform.position, 3f, )
                 PerformAttack();
             }
         }        

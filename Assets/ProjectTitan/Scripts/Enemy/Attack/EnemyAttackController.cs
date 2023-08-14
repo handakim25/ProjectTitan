@@ -9,28 +9,25 @@ namespace Titan.Character.Enemy
     // 현재는 FSM 구현을 우선으로 한다.
     public class EnemyAttackController : MonoBehaviour
     {
+        private StateController _controller;
+
         private void Awake()
         {
-            // Init attack datas
+            _controller = GetComponentInParent<StateController>();
         }
 
-        public void ExecuteAttack()
+        public void PerformAttack()
         {
-            // Find Activate attack
-
-            // perform attack
-
-            // reset data
-        }  
-
-        public int GetAttack()
-        {
-            throw new System.NotImplementedException();
+            
         }
 
-        public EnemyAttackBehaviour GetBehaviour()
+        #region Animator Callback
+        
+        private void ExecuteAttack()
         {
-            throw new System.NotImplementedException();
+            Debug.Log($"Enemy Attack");
         }
+        
+        #endregion Animator Callback
     }
 }

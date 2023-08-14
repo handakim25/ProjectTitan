@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Titan.Character;
 using UnityEngine;
 using UnityEngine.AI;
@@ -37,38 +38,16 @@ namespace Titan.Character.Enemy
         private void Update()
         {
             NavAnimUpdate();
+            IsAttack();
         }
 
         // Nav Mesh 상황에 맞춰서 Animation Update
         // Memo : desiredVelocity는 Speed가 0일 경우 마찮가지로 0이 된다.
         // 따라서 직접 회전을 시켜주어야할 필요가 있다.
         // Focus 상태일 경우는 focus 대상 주시
-        // 
         private void NavAnimUpdate()
         {
             float speed = _nav.velocity.magnitude;
-            // Debug.Log($"Desired Velocity : {_nav.desiredVelocity.magnitude}");
-            // Debug.Log($"Velocity : {_nav.velocity.magnitude}");
-            // if(_controller.IsFocusTarget)
-            // {
-            //     Vector3 target = _controller.PersonalTarget - transform.position;
-            //     target.y = 0;
-            //     angle = Vector3.SignedAngle(transform.forward, target, transform.up);
-            //     target.Normalize();
-            //     Quaternion targetRotation = Quaternion.LookRotation(target);
-            //     transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, _controller.GeneralStats.StrafTurnSpeed * Time.deltaTime);
-            // }
-            // else
-            // {
-            //     if(_controller.Nav.desiredVelocity == Vector3.zero)
-            //     {
-            //         angle = 0.0f;
-            //     }
-            //     else
-            //     {
-            //         angle = Vector3.SignedAngle(transform.forward, _controller.Nav.desiredVelocity, transform.up);
-            //     }
-            // }
 
             // @To-DO
             // Last Direction 로직 수정할 것
@@ -106,6 +85,17 @@ namespace Titan.Character.Enemy
 
             _angularSpeed = Quaternion.Angle(transform.rotation, finalRot);
             transform.rotation = finalRot;
+        }
+
+        public void ResetTrigger()
+        {
+            _animator.ResetTrigger(AnimatorKey.Enemy.AttackTrigger);
+        }
+
+        public bool IsAttack()
+        {
+            int attackLayerIndex = 1;
+            return _animator.GetCurrentAnimatorClipInfoCount(attackLayerIndex) != 0;
         }
     }
 }

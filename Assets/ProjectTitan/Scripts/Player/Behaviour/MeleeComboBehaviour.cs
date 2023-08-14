@@ -40,6 +40,7 @@ namespace Titan.Character.Player
 
         public override void LocalFixedUpdate()
         {
+            // 이거 왜 작성했지? 잘 기억 안 나네
             _controller.Animator.ResetTrigger(GetAnimTriggerParam());
         }
 
@@ -75,6 +76,7 @@ namespace Titan.Character.Player
             var attack = _attackList[_comboCount++];
             LayerMask target = LayerMask.GetMask("Enemy", "Destructable");
             var colliders = attack.damageHitBox?.CheckOverlap(target) ?? new Collider[0];
+
             foreach(var collider in colliders)
             {
                 Debug.Log($"Collider : {collider.name}");

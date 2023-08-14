@@ -767,7 +767,7 @@ GameObject:
   - component: {fileID: 581974658}
   - component: {fileID: 581974660}
   - component: {fileID: 581974661}
-  - component: {fileID: 581974659}
+  - component: {fileID: 581974662}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
@@ -805,26 +805,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &581974659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 581974656}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2718d06ba9e717248aa93dc2c486b62c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnHit:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  damageFontTarget: 8
-  _damageFontOffset: {x: 0, y: 0, z: 0}
 --- !u!195 &581974660
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -870,16 +850,74 @@ MonoBehaviour:
   PersonalTarget: {x: 0, y: 0, z: 0}
   TargetInSight: 0
   IsFocusTarget: 0
+  IsStraffing: 0
+  IsAimTarget: 0
   IsAligned: 0
+  IsAttack: 0
+  IsInvincible: 0
+  AttackRange: 1.5
+  CombatSpacing: 4
+  RepositionThreshold: 7
+  MaxHealth: 500
+  CurHealth: 500
   Nav: {fileID: 0}
   EnemyAnim: {fileID: 0}
   EnemyAttackController: {fileID: 0}
+  EnemyHealth: {fileID: 0}
   Variables:
     FeelAlert: 0
     PatrolTimer: 0
     ReturnPos: {x: 0, y: 0, z: 0}
-    AttackTimer: 0
-    AttackWaitTime: 0
+    AttackEndTime: 0
+    RepositionWaitTime: 0
+    WaitStartTime: 0
+--- !u!114 &581974662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581974656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2718d06ba9e717248aa93dc2c486b62c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 581974661}
+        m_TargetAssemblyTypeName: Titan.Character.Enemy.StateController, Assembly-CSharp
+        m_MethodName: OnHitHandler
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 581974661}
+        m_TargetAssemblyTypeName: Titan.Character.Enemy.StateController, Assembly-CSharp
+        m_MethodName: OnDeathHandler
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  damageFontTarget: 8
+  _damageFontOffset: {x: 0, y: 0, z: 0}
+  _healthBarPrefab: {fileID: 1167780330220053662, guid: b829b1b85c7842f428c44999f96b68a2,
+    type: 3}
+  _healthUIOffset: 0.5
 --- !u!1001 &586235018
 PrefabInstance:
   m_ObjectHideFlags: 0

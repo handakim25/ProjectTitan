@@ -16,6 +16,7 @@ MonoBehaviour:
   PatrolWaitTime: 2
   ChaseSpeed: 5
   PositioningSpeed: 3
+  FallbackSpeed: 1
   AttackWaitDuration: 6
   RepositionInterval: 2
   MaxBattlDistance: 30
@@ -24,6 +25,7 @@ MonoBehaviour:
   AngularSpeedDampFactor: 40
   StrafTurnSpeed: 25
   MaxAngularSpeed: 240
+  DeathDelayTime: 5
   ViewRadius: 10
   ViewAngle: 60
   PerceptionRadius: 15

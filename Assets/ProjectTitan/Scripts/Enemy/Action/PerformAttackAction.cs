@@ -12,12 +12,15 @@ namespace Titan.Character.Enemy.FSM
             controller.IsFocusTarget = true;
             controller.IsAligned = false;
             controller.IsAttack = false;
-            controller.EnemyAnim.Animator.ResetTrigger(AnimatorKey.Enemy.AttackTrigger);
+            controller.EnemyAnim.ResetTrigger();
         }
 
         public override void OnDisableAction(StateController controller)
         {
             controller.IsFocusTarget = false;
+            controller.IsAttack = false;
+
+            controller.Variables.AttackEndTime = Time.time;
         }
 
         public override void Act(StateController controller)

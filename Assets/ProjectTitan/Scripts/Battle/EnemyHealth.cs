@@ -1,25 +1,44 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+
+using Titan.Character.Enemy;
+using Cinemachine.Editor;
+
 
 namespace Titan.Battle
 {
-    // Enemy Controller
-    // Enemy Animation
-    // Enemy Health UI
+    // Controller를 알 수 밖에 없어. 데미지 계산을 해야되잖아.
+    // 데미지 계산은 Stat Systme 구축 뒤로 갈 것
     public class EnemyHealth : UnitHealth
     {
         [Header("Damage Font")]
         [SerializeField] private HumanBodyBones damageFontTarget = HumanBodyBones.Chest;
         [SerializeField] private Vector3 _damageFontOffset = new Vector3(0f, 0f, 0f);
         private Transform _damageFontPos;
-        
-        // Health bar
-        // https://www.youtube.com/watch?v=CA2snUe7ARM
+
+        [Header("Health Bar UI")]
+        [SerializeField] private GameObject _healthBarPrefab;
+        [SerializeField] private float _healthUIOffset = 0.5f;
+        private HealthUI _healthUI;
+
+        // Cache
+        StateController _controller;
+
         private void Awake()
         {
             var animator = GetComponentInChildren<Animator>();
             _damageFontPos = animator.GetBoneTransform(damageFontTarget);
+
+            _controller = GetComponent<StateController>();
+
+            var healthGo = Instantiate(_healthBarPrefab, transform);
+            float height = animator.GetBoneTransform(HumanBodyBones.Head).position.y;
+            healthGo.transform.localPosition = new(0, height + _healthUIOffset, 0);
+
+            _healthUI = healthGo.GetComponentInChildren<HealthUI>();
+            _healthUI.UpdateHealthUI(_controller.MaxHealth, _controller.CurHealth);
         }
 
         // Unit health ui
@@ -67,7 +86,37 @@ namespace Titan.Battle
 
             // Temp code
             // will be replaced with event bus
+            Debug.Log($"Hello");
+            if(!isAlive || _controller.IsInvincible)
+            {
+                return;
+            }
+
+            // Do some damage Calculation
+
             DamageFontManager.Instance.SpawnDamageFont(_damageFontPos.position + _damageFontOffset, damage, false, Color.red);
+
+            // Update Health
+            // 이거 불사 같은 거 걸리면 어떻게 핸들링하지?
+            _controller.CurHealth -= damage;
+            if(_controller.CurHealth <= 0f)
+            {
+                Dead();
+            }
+            else
+            {
+                OnHit?.Invoke();
+            }
+
+            _healthUI.UpdateHealthUI(_controller.MaxHealth, _controller.CurHealth);
+        }
+
+        public override void Dead()
+        {
+            base.Dead();
+
+            isAlive = false;
+            _healthUI.gameObject.SetActive(false);
         }
     }
 }
