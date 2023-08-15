@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Titan.Interaction
 {
+    // Interaction 가능 List를 찾기 위한 Detector
     public class InteractionDetector : MonoBehaviour
     {
         [SerializeField] private InteractionList _interactionList;
@@ -40,7 +41,7 @@ namespace Titan.Interaction
             if(isActive == IsAcitive)
                 return;
             IsAcitive = isActive;
-            if(gameObject.activeInHierarchy)
+            if(!gameObject.activeInHierarchy) // 조건이 잘못 들어간 것으로 추정. 버그가 발생한다면 원복할 것
                 return;
 
             if(isActive)
@@ -71,9 +72,6 @@ namespace Titan.Interaction
             }
         }
 
-        /// <summary>
-        /// Callback to draw gizmos that are pickable and always drawn.
-        /// </summary>
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;

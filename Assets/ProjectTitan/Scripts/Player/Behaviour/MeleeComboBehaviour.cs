@@ -72,7 +72,6 @@ namespace Titan.Character.Player
                 Debug.LogError($"Attack List is missing!");
                 return;
             }
-            Debug.Log($"Melee Combo Attack");
             var attack = _attackList[_comboCount++];
             LayerMask target = LayerMask.GetMask("Enemy", "Destructable");
             var colliders = attack.damageHitBox?.CheckOverlap(target) ?? new Collider[0];

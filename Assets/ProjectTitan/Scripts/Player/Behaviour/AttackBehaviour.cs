@@ -153,7 +153,6 @@ namespace Titan.Character.Player
         public void FaceTarget()
         {
             var nearestGo = FindTarget();
-            Debug.Log($"Nearest Go : {nearestGo}");
             if(nearestGo == null)
             {
                 return;
@@ -161,14 +160,12 @@ namespace Titan.Character.Player
 
             var faceDir = nearestGo.transform.position - transform.position;
             faceDir.y = 0f;
-            Debug.Log($"Face Dir : {faceDir}");
             _controller.FaceDirection(faceDir, true);
         }
 
         private GameObject FindTarget()
         {
             var colliders = Physics.OverlapSphere(transform.position, 3f, _targetMask);
-            Debug.Log($"Find {colliders.Length} count");
             GameObject minGo = null;
             float min = float.PositiveInfinity;
             foreach(Collider curCollider in colliders)

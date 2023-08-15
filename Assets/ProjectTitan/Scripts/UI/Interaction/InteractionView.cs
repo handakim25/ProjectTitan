@@ -19,6 +19,10 @@ namespace Titan.UI.Interaction
     // Selection 부분 개선할 것
     // 문제점1. 순서에 너무 민감하게 작동하고 있는 점
     // 문제점2. List가 과연 맞는 선택인가 하는 점
+
+    /// <summary>
+    /// Interaction Panel에서 View를 담당하는 클래스
+    /// </summary>
     [RequireComponent(typeof(ScrollRect))]
     public class InteractionView : MonoBehaviour
     {
@@ -33,9 +37,10 @@ namespace Titan.UI.Interaction
         private ScrollRect _scrollRect;
         // key : Interactable Objects, Value : Interact UI
         private Dictionary<GameObject, InteractionUI> _interactionUIs = new Dictionary<GameObject, InteractionUI>();
-        private GameObject _selectedSlot = null;
+        [SerializeField] private GameObject _selectedSlot = null;
         public GameObject SelectedSlot => _selectedSlot;
-        public int SlotCount => _scrollRect.content.transform.childCount;
+        public int SlotCount => _interactionUIs.Count;
+        public int ChildCount => _scrollRect.content.childCount;
         
         #endregion Varaibles
 
@@ -96,6 +101,11 @@ namespace Titan.UI.Interaction
             return slotUI;
         }
 
+        /// <summary>
+        /// Interactable에 맞춰서 Slot을 설정한다
+        /// </summary>
+        /// <param name="slotUI">Slot</param>
+        /// <param name="interactable">Interactable target</param>
         private void SetInteractSlot(GameObject slotUI, Interactable interactable)
         {
             var interactText = slotUI.transform.Find("InteractText");
@@ -111,6 +121,7 @@ namespace Titan.UI.Interaction
             {
                 if(_interactionUIs[removedObject].gameObject == _selectedSlot)
                 {
+                    Debug.Log($"Remove Selected");
                     SelectSlot(null);
                 }
                 Destroy(_interactionUIs[removedObject].gameObject);
@@ -124,11 +135,15 @@ namespace Titan.UI.Interaction
             SetCursorPos();
         }
 
+        /// <summary>
+        /// 해당 Slot을 선택한다.
+        /// </summary>
+        /// <param name="selectedSlot"></param>
         public void SelectSlot(GameObject selectedSlot)
         {
             if(selectedSlot == _selectedSlot)
             {
-                Debug.Log($"Select Same slot");
+                // Debug.Log($"Select Same slot");
                 SetCursorPos();
                 return;
             }
@@ -147,8 +162,14 @@ namespace Titan.UI.Interaction
                 image.color = _hightlightColor;
             }
             SetCursorPos();
+
+            Debug.Log($"Select Slot : {_selectedSlot}");
         }
 
+        /// <summary>
+        /// Interaction Cursor의 위치를 Update해주는 함수.
+        /// 만약에 선택된 slot이 없다면 Marker를 비활성화한다.
+        /// </summary>
         public void SetCursorPos()
         {
             if(_selectedSlot == null)
@@ -161,9 +182,14 @@ namespace Titan.UI.Interaction
                 _interactCursor.gameObject.SetActive(true);
             }
 
-            Canvas.ForceUpdateCanvases();
+            // Canvas.ForceUpdateCanvases();
+            _scrollRect.Rebuild(CanvasUpdate.Layout);
+            // LayoutRebuilder.ForceRebuildLayoutImmediate(_scrollRect.content.GetComponent<RectTransform>());
+            
             // var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position);
             var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position);
+            // Debug.Log($"SetCursorPos");
+            // Debug.Log($"Selected Slot : {_selectedSlot.name} / Ancored : {_selectedSlot.GetComponent<RectTransform>().anchoredPosition}");
             // Debug.Log($"Size y : {size.y}");
             _interactCursor.anchoredPosition = new Vector2(_interactCursor.anchoredPosition.x, size.y);
         }
