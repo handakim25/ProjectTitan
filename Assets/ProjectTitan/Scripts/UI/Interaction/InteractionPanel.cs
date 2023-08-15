@@ -70,6 +70,12 @@ namespace Titan.UI.Interaction
             {
                 _view.AddSlot(args.AddedObjects);
             }
+
+            if(_view.SelectedSlot == null && _view.SlotCount > 0)
+            {
+                // How this happen?
+                _view.SelectSlot(_view.GetSlotUIByIndex(0));
+            }
         }
 
         /// <summary>
