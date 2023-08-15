@@ -35,6 +35,7 @@ namespace Titan.UI.Interaction
         [SerializeField] private Color _hightlightColor = Color.cyan;
 
         private ScrollRect _scrollRect;
+        private RectTransform _contentRectTransform;
         // key : Interactable Objects, Value : Interact UI
         private Dictionary<GameObject, InteractionUI> _interactionUIs = new Dictionary<GameObject, InteractionUI>();
         [SerializeField] private GameObject _selectedSlot = null;
@@ -50,6 +51,7 @@ namespace Titan.UI.Interaction
         {
             Assert.IsNotNull(_slotPrefab);
             _scrollRect = GetComponent<ScrollRect>();
+            _contentRectTransform = _scrollRect.content.GetComponent<RectTransform>();
         }
 
         private void OnEnable()
@@ -85,11 +87,14 @@ namespace Titan.UI.Interaction
             {
                 SelectSlot(parent.GetChild(0).gameObject);
             }
+            else
+            {
+                SetCursorPos();
+            }
             if(_interactIcon.activeSelf == false)
             {
                 _interactIcon.SetActive(true);
             }
-            SetCursorPos();
         }
 
         // Think
@@ -121,9 +126,10 @@ namespace Titan.UI.Interaction
             {
                 if(_interactionUIs[removedObject].gameObject == _selectedSlot)
                 {
-                    Debug.Log($"Remove Selected");
                     SelectSlot(null);
                 }
+                // SetCursorPos 계산을 위함
+                _interactionUIs[removedObject].gameObject.SetActive(false);
                 Destroy(_interactionUIs[removedObject].gameObject);
                 _interactionUIs.Remove(removedObject);
             }
@@ -143,7 +149,6 @@ namespace Titan.UI.Interaction
         {
             if(selectedSlot == _selectedSlot)
             {
-                // Debug.Log($"Select Same slot");
                 SetCursorPos();
                 return;
             }
@@ -163,7 +168,6 @@ namespace Titan.UI.Interaction
             }
             SetCursorPos();
 
-            Debug.Log($"Select Slot : {_selectedSlot}");
         }
 
         /// <summary>
@@ -183,14 +187,10 @@ namespace Titan.UI.Interaction
             }
 
             // Canvas.ForceUpdateCanvases();
-            _scrollRect.Rebuild(CanvasUpdate.Layout);
-            // LayoutRebuilder.ForceRebuildLayoutImmediate(_scrollRect.content.GetComponent<RectTransform>());
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_contentRectTransform);
             
             // var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position);
             var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position);
-            // Debug.Log($"SetCursorPos");
-            // Debug.Log($"Selected Slot : {_selectedSlot.name} / Ancored : {_selectedSlot.GetComponent<RectTransform>().anchoredPosition}");
-            // Debug.Log($"Size y : {size.y}");
             _interactCursor.anchoredPosition = new Vector2(_interactCursor.anchoredPosition.x, size.y);
         }
 
