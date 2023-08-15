@@ -64,13 +64,13 @@ namespace Titan.Audio
                     string checkTime = "";
                     foreach(float t in clip.checkTime)
                     {
-                        checkTime += $"{t.ToString()}/";
+                        checkTime += $"{t}/";
                     }
                     xml.WriteElementString("CheckTime", checkTime);
                     string setTime = "";
                     foreach(float t in clip.setTime)
                     {
-                        setTime += $"{t.ToString()}/";
+                        setTime += $"{t}/";
                     }
                     xml.WriteElementString("SetTime", setTime);
 
@@ -207,6 +207,9 @@ namespace Titan.Audio
             {
                 return null;
             }
+
+            // Relection Copy
+            // https://nowonbun.tistory.com/525
 
             SoundClip origin = SoundClips[index];
             SoundClip copy = new SoundClip();
