@@ -4,6 +4,7 @@ using System.Xml;
 using UnityEngine;
 
 using Titan.Resource;
+using Titan.Utility;
 using System.Linq;
 
 namespace Titan.Effects
@@ -31,32 +32,6 @@ namespace Titan.Effects
 
         #region XML
         
-        // 근데 다 좋은데 포맷 호환성 문제가 너무 심하다.
-
-        // XML Reference
-        // https://www.csharpstudy.com/Data/Xml-rw.aspx
-
-        // XML Format
-        // <Effect>
-        //  <length>num(DataCount)</length>
-        //  <Clip> -> n개
-        //      <ID>id</ID>
-        //      <Name>name</name>
-        //      <EffectType>EffectType</EffectType>
-        //      <EffectPath>EffectPath</EffectPath>
-        //      <Effectname>EffectName</EffectName>
-        //  </Clip>
-        //  </Effect>
-
-        // forward only 방식으로 동작한다.
-        // Read : XML의 첫 노드로 이동한다. XML의 끝에 도달하면 False를 반환한다.
-        // GetAttribute : Element의 Attribute를 읽기 위해 사용
-        // ReadElementContentAs - Int, String : Element를 읽기 위해서 사용한다. 읽고 다음 노드로 이동
-        // IsStartElement : Element의 시작을 확인하는 함수. 다음으로 안 넘어가기 때문에 직접 읽어주어야 한다.
-
-        // @Refactor
-        // 지금은 형식 변경에 너무 취약하다. 데이터 포맷은 자주 바뀔 수 있기 때문에
-        // 조금 더 유연한 구조로 만들 필요가 있다.
         public override void LoadData()
         {
             // Application.dataPath : <Project Folder>/Assets
@@ -69,36 +44,7 @@ namespace Titan.Effects
                 return;
             }
 
-            XmlReaderSettings settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            using (XmlReader xml = XmlReader.Create(new StringReader(asset.text), settings))
-            {
-                while(xml.Read())
-                {
-                    if(xml.IsStartElement(EFFECT)) // IsStart는 확인만 하는 것이라서 읽고 넘어가야 한다
-                    {
-                        xml.ReadStartElement(); // Effect Start
-
-                        int length = xml.ReadElementContentAsInt();
-                        names = new string[length];
-                        EffectClips = new EffectClip[length];
-
-                        while(xml.IsStartElement(CLIP))
-                        {
-                            xml.ReadStartElement(); // Clip Start
-                            int curID = xml.ReadElementContentAsInt("ID", "");
-                            EffectClips[curID] = new EffectClip() {index = curID};
-                            names[curID] = xml.ReadElementContentAsString("Name", "");
-                            EffectClips[curID].effectType = Enum.Parse<EffectType>(xml.ReadElementContentAsString("EffectType", ""));
-                            EffectClips[curID].effectPath = xml.ReadElementContentAsString("EffectPath", "");
-                            EffectClips[curID].effectName = xml.ReadElementContentAsString("EffectName", "");
-                            xml.ReadEndElement(); // Clip End
-                        }
-
-                        xml.ReadEndElement(); // Effect End
-                    }
-                }
-            }
+            JsonUtility.FromJsonOverwrite(asset.text, this);
         }
 
         // WriteStartDocument / WriteEndDocument : XML 시작, 끝 형식 출력
@@ -109,28 +55,8 @@ namespace Titan.Effects
 
         public override void SaveData()
         {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.Encoding = System.Text.Encoding.Unicode;
-            using(XmlWriter xml = XmlWriter.Create(_xmlFilePath + _xmlFileName, settings))
-            {
-                xml.WriteStartDocument();
-                xml.WriteStartElement(EFFECT); // Effect Start
-                xml.WriteElementString("length", Count.ToString());
-                for(int i = 0; i < Count; ++i)
-                {
-                    EffectClip clip = EffectClips[i];
-                    xml.WriteStartElement(CLIP); // CLIP Start
-                    xml.WriteElementString("ID", i.ToString());
-                    xml.WriteElementString("Name", names[i]);
-                    xml.WriteElementString("EffectType", clip.effectType.ToString());
-                    xml.WriteElementString("EffectPath", clip.effectPath);
-                    xml.WriteElementString("EffectName", clip.effectName);
-                    xml.WriteEndElement(); // CLIP End
-                }
-                xml.WriteEndElement(); // Effect End
-                xml.WriteEndDocument();
-            }
+            var data = JsonUtility.ToJson(this, true);
+            File.WriteAllText(_xmlFilePath + _xmlFileName, data);
         }
 
         #endregion XML
@@ -141,7 +67,7 @@ namespace Titan.Effects
         {
             if(names == null)
             {
-                names = new string[] {name};
+                names = new string[] {newName};
                 EffectClips = new EffectClip[] {new EffectClip()};
             }
             else
@@ -186,13 +112,9 @@ namespace Titan.Effects
             }
 
             EffectClip origin = EffectClips[index];
-            EffectClip copy = new EffectClip();
-            copy.index = EffectClips.Length;
-            copy.effectType = origin.effectType;
-            copy.effectName = origin.effectName;
-            copy.effectPath = origin.effectPath;
-            copy.effectFullPath = origin.effectFullPath;
+            EffectClip copy = ObjectCloner.SerializeClone(origin);
 
+            copy.PreLoad();
             return copy;
         }
 

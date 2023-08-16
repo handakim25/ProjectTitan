@@ -112,9 +112,6 @@ namespace Titan.Audio
                 return null;
             }
 
-            // Relection Copy
-            // https://nowonbun.tistory.com/525
-
             SoundClip origin = SoundClips[index];
             SoundClip copy = ObjectCloner.SerializeClone(origin);
 
