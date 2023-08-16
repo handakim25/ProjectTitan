@@ -848,13 +848,14 @@ GameObject:
   - component: {fileID: 581974660}
   - component: {fileID: 581974661}
   - component: {fileID: 581974662}
+  - component: {fileID: 581974663}
   m_Layer: 11
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &581974657
 Transform:
   m_ObjectHideFlags: 0
@@ -998,6 +999,20 @@ MonoBehaviour:
   _healthBarPrefab: {fileID: 1167780330220053662, guid: b829b1b85c7842f428c44999f96b68a2,
     type: 3}
   _healthUIOffset: 0.5
+--- !u!114 &581974663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581974656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d898fa91c27795408a798c1a1b35892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maker: {fileID: 0}
+  _color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &586235018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1173,6 +1188,7 @@ GameObject:
   - component: {fileID: 680173320}
   - component: {fileID: 680173321}
   - component: {fileID: 680173322}
+  - component: {fileID: 680173323}
   m_Layer: 9
   m_Name: TestNPC
   m_TagString: Untagged
@@ -1222,6 +1238,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7436ec8f8e188f1408fe225c429ccbd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &680173323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680173319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d898fa91c27795408a798c1a1b35892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maker: {fileID: 21300000, guid: 8bbc8cb84af59f54fb54d6f200d3accb, type: 3}
+  _color: {r: 0.9622642, g: 0.8845475, b: 0.25872195, a: 1}
 --- !u!1 &696535458
 GameObject:
   m_ObjectHideFlags: 0

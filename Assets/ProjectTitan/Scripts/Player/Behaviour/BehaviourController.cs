@@ -424,6 +424,10 @@ namespace Titan.Character.Player
         
         // @Refactor
         // Draw ray in editor code
+        /// <summary>
+        /// Get Move dir by camera.
+        /// </summary>
+        /// <returns></returns>
         public Vector3 GetCameraFaceDir()
         {
             Transform cameraTr = Camera.transform;
@@ -440,6 +444,12 @@ namespace Titan.Character.Player
             return cameraForward.normalized * PlayerInput.MoveDir.y + cameraRigth.normalized * PlayerInput.MoveDir.x;
         }
 
+        /// <summary>
+        /// targetDir을 향해 회전한다.
+        /// </summary>
+        /// <param name="targetDir">향하고자 하는 방향</param>
+        /// <param name="isImmedate">true일 경우 즉시 바라본다.</param>
+        /// <param name="smoothingDamp">Damp 보간값</param>
         public void FaceDirection(Vector3 targetDir, bool isImmedate = false, float smoothingDamp = 20f)
         {
             if(targetDir == Vector3.zero)
@@ -457,6 +467,10 @@ namespace Titan.Character.Player
             }
         }                
 
+        /// <summary>
+        /// 이동 방향의 마지막을 기록해 둔다. Vector3.zero가 기록되지 않도록 주의할 것
+        /// </summary>
+        /// <param name="dir">이동 방향</param>
         public void SetLastDirection(Vector3 dir)
         {
             _lastDirection = dir;

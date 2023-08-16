@@ -5,6 +5,9 @@ using UnityEngine.Rendering.Universal;
 
 namespace Titan.Core
 {
+    /// <summary>
+    /// Game 진행을 위함
+    /// </summary>
     public class GameManager : MonoSingleton<GameManager>
     {
         private GameStatus _status;
@@ -16,6 +19,10 @@ namespace Titan.Core
             SetCameraStack();
         }
 
+        /// <summary>
+        /// 현재 열린 씬에서 다른 카메라를 수집해서 설정한다.
+        /// - UI Camera
+        /// </summary>
         public void SetCameraStack()
         {
             Camera mainCamera = Camera.main;
@@ -30,8 +37,11 @@ namespace Titan.Core
             {
                 if(camera == mainCamera)
                     continue;
-
-                cameraData.cameraStack.Add(camera);
+                var camData = camera.GetUniversalAdditionalCameraData();
+                if(camData.renderType == CameraRenderType.Overlay)
+                {
+                    cameraData.cameraStack.Add(camera);
+                }
             }
         }
     }
