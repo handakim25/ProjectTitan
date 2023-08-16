@@ -156,6 +156,8 @@ namespace Titan.Resource
         {
             if(HasDuplicateName())
             {
+                // 이런 종류의 코드는 따로 링크도 같이 달아둘 것
+                // 잊어버리면 이해하는데 시간이 걸린다.
                 Debug.LogError($"Has Duplicate Name");
                 List<string> duplicates = _soundData.names
                     .GroupBy(s => s)
@@ -180,7 +182,7 @@ namespace Titan.Resource
             {
                 if(_soundData.names[i] != string.Empty)
                 {
-                    builder.AppendLine($"    {_soundData.names[i].Replace(' ', '_')} = {i}");
+                    builder.AppendLine($"    {_soundData.names[i].Replace(' ', '_')} = {i},");
                 }
             }
             EditorHelper.CreateEnumStructure(EnumName, builder);
@@ -188,7 +190,7 @@ namespace Titan.Resource
 
         private bool HasDuplicateName()
         {
-            return _soundData.names.Length != _soundData.name.Distinct().Count();
+            return _soundData.names.Length != _soundData.names.Distinct().Count();
         }
     }
 }

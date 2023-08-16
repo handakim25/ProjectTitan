@@ -11,12 +11,13 @@ namespace Titan.Audio
     /// <summary>
     /// Sound 관련 데이터
     /// </summary>
+    [System.Serializable]
     public class SoundClip
     {
         public int index = 0;
-        public string clipName = string.Empty;
-        public string clipPath = string.Empty;
-        public string clipFullPath = string.Empty;
+        public string clipName = string.Empty; // AudioClip Name
+        public string clipPath = string.Empty; // AudioClip Path
+        [System.NonSerialized] public string clipFullPath = string.Empty; // run-time에 계산, AudioClip path + AudioClip name
         public SoundPlayType playType = SoundPlayType.None;
 
         // Read only Setting
@@ -24,7 +25,7 @@ namespace Titan.Audio
         // 함수를 이용해서 설정하고 property로 접근?
         private AudioClip clip = null;
         public float maxVolume = 1.0f;
-        public bool IsLoop = false; // This Audio source is loop
+        public bool IsLoop = false; // This Audio source is loop // ?
         public float pitch = 1.0f;
         public float dopplerLevel = 1.0f;
         public AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic;
@@ -35,14 +36,16 @@ namespace Titan.Audio
         // Loop Feature, 전체 반복인 IsLoop와는 다르다
         public float[] setTime = new float[0]; // Audio Loop start time
         public float[] checkTime = new float[0]; // Audio Loop end time
-        public int curLoopIndex = 0;
+        [System.NonSerialized] public int curLoopIndex = 0;
+        public bool HasLoop => checkTime.Length > 0;
 
         // Fade Feature
-        public bool isFadeIn = false;
-        public bool isFadeOut = false;
-        public float fadeTimer = 0.0f;
-        public float fadeDuration = 0.0f;
-        public Interpolate.EaseType easeType = Interpolate.EaseType.Linear;
+        // Used in run-time
+        [System.NonSerialized] public bool isFadeIn = false;
+        [System.NonSerialized] public bool isFadeOut = false;
+        [System.NonSerialized] public float fadeTimer = 0.0f;
+        [System.NonSerialized] public float fadeDuration = 0.0f;
+        [System.NonSerialized] public Interpolate.EaseType easeType = Interpolate.EaseType.Linear;
         private Interpolate.InterpolateFunc interpolateFunc;
 
         public SoundClip() {}
@@ -69,6 +72,7 @@ namespace Titan.Audio
             clip = ResourceManager.Load(clipPath + clipName) as AudioClip;
             return clip != null; 
         }
+
         public AudioClip GetClip()
         {
             if(clip == null && PreLoad() == false)
@@ -96,8 +100,6 @@ namespace Titan.Audio
             checkTime = checkTime.Where((name, index) => index != removeIndex).ToArray();
             setTime = setTime.Where((name, index) => index != removeIndex).ToArray();
         }
-
-        public bool HasLoop => checkTime.Length > 0;
 
         public void NextLoop()
         {

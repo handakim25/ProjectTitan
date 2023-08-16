@@ -16,9 +16,13 @@ namespace Titan.Resource
     /// 공통적인 데이터를 가지고 있다.
     /// 데이터의 개수, 이름의 목록 리스트를 가져올 수 있다.
     /// </summary>
+    [System.Serializable]
     public class BaseData : ScriptableObject
     {
         public const string DataDirectory = "/ProjectTitan/ResourcesData/Resources/Data/";
+        /// <summary>
+        /// Data의 이름. 에디터에서 표시되고 enum으로 출력된다.
+        /// </summary>
         public string[] names = null;
     
         public BaseData() { }

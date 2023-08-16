@@ -1,0 +1,86 @@
+{
+    "names": [
+        "adf",
+        "qwe",
+        "qweasdf",
+        "qqqqq",
+        "testttt"
+    ],
+    "SoundClips": [
+        {
+            "clipName": "",
+            "clipPath": "",
+            "playType": -1,
+            "maxVolume": 1.0,
+            "IsLoop": false,
+            "pitch": 1.0,
+            "dopplerLevel": 1.0,
+            "rolloffMode": 0,
+            "minDistance": 10000.0,
+            "maxDistance": 50000.0,
+            "spatialBlend": 1.0,
+            "setTime": [],
+            "checkTime": []
+        },
+        {
+            "clipName": "",
+            "clipPath": "",
+            "playType": -1,
+            "maxVolume": 1.0,
+            "IsLoop": false,
+            "pitch": 1.0,
+            "dopplerLevel": 1.0,
+            "rolloffMode": 0,
+            "minDistance": 10000.0,
+            "maxDistance": 50000.0,
+            "spatialBlend": 1.0,
+            "setTime": [],
+            "checkTime": []
+        },
+        {
+            "clipName": "",
+            "clipPath": "",
+            "playType": -1,
+            "maxVolume": 1.0,
+            "IsLoop": false,
+            "pitch": 1.0,
+            "dopplerLevel": 1.0,
+            "rolloffMode": 0,
+            "minDistance": 10000.0,
+            "maxDistance": 50000.0,
+            "spatialBlend": 1.0,
+            "setTime": [],
+            "checkTime": []
+        },
+        {
+            "clipName": "",
+            "clipPath": "",
+            "playType": -1,
+            "maxVolume": 1.0,
+            "IsLoop": false,
+            "pitch": 1.0,
+            "dopplerLevel": 1.0,
+            "rolloffMode": 0,
+            "minDistance": 10000.0,
+            "maxDistance": 50000.0,
+            "spatialBlend": 1.0,
+            "setTime": [],
+            "checkTime": []
+        },
+        {
+            "clipName": "",
+            "clipPath": "",
+            "playType": -1,
+            "maxVolume": 1.0,
+            "IsLoop": false,
+            "pitch": 1.0,
+            "dopplerLevel": 1.0,
+            "rolloffMode": 0,
+            "minDistance": 10000.0,
+            "maxDistance": 50000.0,
+            "spatialBlend": 1.0,
+            "setTime": [],
+            "checkTime": []
+        }
+    ]
+}

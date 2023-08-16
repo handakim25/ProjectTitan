@@ -33,52 +33,8 @@ namespace Titan.Audio
 
         public override void SaveData()
         {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Encoding = System.Text.Encoding.Unicode;
-            using(XmlWriter xml = XmlWriter.Create(_xmlFilePath + _xmlFileName, settings))
-            {
-                xml.WriteStartDocument();
-                xml.WriteStartElement(SOUND); // SOUND Start
-                xml.WriteElementString("length", Count.ToString());
-                for(int i = 0; i < Count; ++i)
-                {
-                    SoundClip clip = SoundClips[i];
-                    xml.WriteStartElement(CLIP); // CLIP Start
-                    xml.WriteElementString("ID", i.ToString());
-                    xml.WriteElementString("Name", names[i]);
-                    xml.WriteElementString("SoundName", clip.clipName);
-                    xml.WriteElementString("SoundPath", clip.clipPath);
-                    xml.WriteElementString("PlayType", clip.playType.ToString());
-                    xml.WriteElementString("MaxVolume", clip.maxVolume.ToString());
-                    xml.WriteElementString("Pitch", clip.pitch.ToString());
-                    xml.WriteElementString("DopplerLevel", clip.dopplerLevel.ToString());
-                    xml.WriteElementString("RollOffMode", clip.rolloffMode.ToString());
-                    xml.WriteElementString("MinDistance", clip.minDistance.ToString());
-                    xml.WriteElementString("MaxDistance", clip.maxDistance.ToString());
-                    xml.WriteElementString("SpatialBlend", clip.spatialBlend.ToString());
-                    if(clip.IsLoop)
-                    {
-                        xml.WriteElementString("Loop", "true");
-                    }
-                    xml.WriteElementString("CheckTimeCount", clip.checkTime.Length.ToString());
-                    string checkTime = "";
-                    foreach(float t in clip.checkTime)
-                    {
-                        checkTime += $"{t}/";
-                    }
-                    xml.WriteElementString("CheckTime", checkTime);
-                    string setTime = "";
-                    foreach(float t in clip.setTime)
-                    {
-                        setTime += $"{t}/";
-                    }
-                    xml.WriteElementString("SetTime", setTime);
-
-                    xml.WriteEndElement(); // CLIP End
-                }
-                xml.WriteEndElement(); // SOUND End
-                xml.WriteEndDocument();
-            }
+            var data = JsonUtility.ToJson(this, true);
+            File.WriteAllText(_xmlFilePath + _xmlFileName, data);
         }
 
         public override void LoadData()
@@ -91,60 +47,7 @@ namespace Titan.Audio
                 return;
             }
 
-            var settings = new XmlReaderSettings();
-            settings.IgnoreWhitespace = true;
-            using(XmlReader xml = XmlReader.Create(new StringReader(asset.text)))
-            {
-                while(xml.Read())
-                {
-                    if(xml.IsStartElement(SOUND))
-                    {
-                        xml.ReadStartElement(); // Sound Start
-
-                        int length = xml.ReadElementContentAsInt();
-                        names = new string[length];
-                        SoundClips = new SoundClip[length];
-                    
-                        // @Refactor
-                        // 구조가 유연하지 못하다. Save Format에 유연하게 작동하도록 개선할 것
-                        while(xml.IsStartElement(CLIP))
-                        {
-                            xml.ReadStartElement(); // Clip Start
-
-                            int curId = xml.ReadElementContentAsInt("ID", "");
-                            names[curId] = xml.ReadElementContentAsString("Name", "");
-                            SoundClips[curId] = new SoundClip() {index = curId};
-
-                            SoundClip curClip = SoundClips[curId];
-                            curClip.clipName = xml.ReadElementContentAsString("SoundName", "");
-                            curClip.clipPath = xml.ReadElementContentAsString("SoundPath", "");
-                            curClip.playType = System.Enum.Parse<SoundPlayType>(xml.ReadElementContentAsString("PlayType", ""));
-                            curClip.maxVolume = xml.ReadElementContentAsFloat("MaxVolume", "");
-                            curClip.pitch = xml.ReadElementContentAsFloat("Pitch", "");
-                            curClip.dopplerLevel = xml.ReadElementContentAsFloat("Doppl!erLevel", "");
-                            curClip.rolloffMode = System.Enum.Parse<AudioRolloffMode>(xml.ReadElementContentAsString("RollOffMode", ""));
-                            curClip.minDistance = xml.ReadElementContentAsFloat("MinDistance", "");
-                            curClip.maxDistance = xml.ReadElementContentAsFloat("MaxDistance", "");
-                            curClip.spatialBlend = xml.ReadElementContentAsFloat("SpatialBlend", "");
-                            if(xml.Name == "Loop")
-                            {
-                                curClip.IsLoop = xml.ReadElementContentAsBoolean("Loop", "");
-                            }
-                            int checkTimeCount = xml.ReadElementContentAsInt("CheckTimeCount", "");
-                            curClip.checkTime = new float[checkTimeCount];
-                            curClip.setTime = new float[checkTimeCount];
-
-                            string checkTime = xml.ReadElementContentAsString("CheckTime", "");
-                            SetLoopTime(ref curClip.checkTime, checkTime);
-                            string setTime = xml.ReadElementContentAsString("SetTime", "");
-                            SetLoopTime(ref curClip.setTime, setTime);
-
-                            xml.ReadEndElement(); // Clip End
-                        }
-                        xml.ReadEndElement(); // Sound End
-                    }
-                }
-            }
+            JsonUtility.FromJsonOverwrite(asset.text, this);
         }
 
         private void SetLoopTime(ref float[] target, string timeString)
