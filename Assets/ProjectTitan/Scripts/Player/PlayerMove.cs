@@ -9,6 +9,7 @@ namespace Titan.Character.Player
     /// 속도와 방향을 가진다.
     /// 다른 컴포넌트에서 속도, 방향을 설정하고
     /// 이를 바탕으로 업데이트한다.
+    /// BehaviourController가 Update Loop에서 사용
     /// CharacterController의 랩퍼이다.
     /// </summary>
     [RequireComponent(typeof(CharacterController))]

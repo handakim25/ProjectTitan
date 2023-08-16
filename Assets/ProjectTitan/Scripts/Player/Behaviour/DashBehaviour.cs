@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Titan.Character.Player
 {
+    /// <summary>
+    /// Dash 행동
+    /// </summary>
     public class DashBehaviour : GenericBehaviour
     {
         #region Varaibles
