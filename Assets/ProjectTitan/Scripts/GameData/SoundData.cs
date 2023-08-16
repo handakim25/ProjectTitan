@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Titan.Resource;
+using Titan.Utility;
 
 namespace Titan.Audio
 {
@@ -115,28 +116,7 @@ namespace Titan.Audio
             // https://nowonbun.tistory.com/525
 
             SoundClip origin = SoundClips[index];
-            SoundClip copy = new SoundClip();
-
-            copy.index = SoundClips.Length;
-            copy.clipName = origin.clipName;
-            copy.clipPath = origin.clipPath;
-            copy.playType = origin.playType;
-            copy.maxVolume = origin.maxVolume;
-            copy.IsLoop = origin.IsLoop;
-            copy.pitch = origin.pitch;
-            copy.dopplerLevel = origin.dopplerLevel;
-            copy.rolloffMode = origin.rolloffMode;
-            copy.minDistance = origin.minDistance;
-            copy.maxDistance = origin.maxDistance;
-            copy.spatialBlend = origin.spatialBlend;
-
-            copy.setTime = new float[origin.setTime.Length];
-            copy.checkTime = new float[origin.checkTime.Length];
-            for(int i = 0; i < origin.setTime.Length; ++i)
-            {
-                copy.setTime[i] = origin.setTime[i];
-                copy.checkTime[i] = origin.checkTime[i];
-            }
+            SoundClip copy = ObjectCloner.SerializeClone(origin);
 
             copy.PreLoad();
             return copy;

@@ -11,6 +11,9 @@ namespace Titan.Audio
     /// <summary>
     /// Sound 관련 데이터
     /// </summary>
+    // 유의 사항
+    // JSON Serialize를 진행하기 떄문에 run-time에 작동하는 것들은 비직렬화할 것
+    // SerializeClone을 하기 때문에 private에도 비직렬화할 것
     [System.Serializable]
     public class SoundClip
     {
@@ -23,7 +26,7 @@ namespace Titan.Audio
         // Read only Setting
         // @Refactor
         // 함수를 이용해서 설정하고 property로 접근?
-        private AudioClip clip = null;
+        [System.NonSerialized] private AudioClip clip = null;
         public float maxVolume = 1.0f;
         public bool IsLoop = false; // This Audio source is loop // ?
         public float pitch = 1.0f;
@@ -46,7 +49,7 @@ namespace Titan.Audio
         [System.NonSerialized] public float fadeTimer = 0.0f;
         [System.NonSerialized] public float fadeDuration = 0.0f;
         [System.NonSerialized] public Interpolate.EaseType easeType = Interpolate.EaseType.Linear;
-        private Interpolate.InterpolateFunc interpolateFunc;
+        [System.NonSerialized] private Interpolate.InterpolateFunc interpolateFunc;
 
         public SoundClip() {}
         public SoundClip(string clipPath, string clipName)
