@@ -62,6 +62,7 @@ namespace Titan.Character.Enemy
         [HideInInspector] public EnemyAttackController EnemyAttackController;
         [HideInInspector] public EnemyHealth EnemyHealth;
         [HideInInspector] public EnemyVariables Variables;
+        private MinimapMarker _marker;
         
 #if UNITY_EDITOR
         public bool DebugMode = false;
@@ -74,7 +75,8 @@ namespace Titan.Character.Enemy
             Nav = GetComponent<NavMeshAgent>();
             EnemyAnim = gameObject.AddComponent<EnemyAnimation>();
             EnemyAttackController = EnemyAnim.Animator.gameObject.AddComponent<EnemyAttackController>();
-            EnemyHealth = gameObject.GetComponent<EnemyHealth>();
+            EnemyHealth = GetComponent<EnemyHealth>();
+            _marker = GetComponent<MinimapMarker>();
 
             Debug.Assert(currentState, "State is not set");
             Debug.Assert(remainState, "State is not set");
@@ -150,6 +152,7 @@ namespace Titan.Character.Enemy
                 collider.enabled = false;
             }
             Nav.enabled = false;
+            _marker.MarkerOn = false;
 
             EnemyAnim.Animator.SetTrigger(AnimatorKey.Enemy.DeathTrigger);
             // Death Sound
