@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Titan
+namespace Titan.Character
 {
     public class MinimapMarker : MonoBehaviour
     {
@@ -11,6 +11,7 @@ namespace Titan
         // https://qkrguscjf176.tistory.com/22 참고
 
         private readonly string MarkerName = "Marker";
+        private const float DefaultHeight = 10f;
 
         [SerializeField] private Sprite _maker;
         [SerializeField] private Color _color = new(1f, 1f, 1f);
@@ -21,8 +22,9 @@ namespace Titan
         {
             _markerGo = new GameObject(MarkerName);
             _markerGo.transform.SetParent(gameObject.transform);
-            _markerGo.transform.SetLocalPositionAndRotation(new(0f, 10f,0f), Quaternion.Euler(90f, 0f, 0f));
-            _markerGo.layer = LayerMask.NameToLayer("Minimap");
+            _markerGo.transform.SetLocalPositionAndRotation(new(0f, DefaultHeight,0f), Quaternion.Euler(90f, 0f, 0f));
+            _markerGo.layer = (int)TagAndLayer.LayerIndex.Minimap;
+
             var renderer = _markerGo.AddComponent<SpriteRenderer>();
             renderer.sprite = _maker;
             renderer.color = _color;
