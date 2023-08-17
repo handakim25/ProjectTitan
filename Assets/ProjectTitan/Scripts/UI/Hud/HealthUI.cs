@@ -21,7 +21,6 @@ namespace Titan
         {
             float curPerecntage = curHealth / maxHealth;
             _slider.value = curPerecntage;
-            Debug.Log($"Cur percnetage : {curPerecntage}");
         }
     }
 }

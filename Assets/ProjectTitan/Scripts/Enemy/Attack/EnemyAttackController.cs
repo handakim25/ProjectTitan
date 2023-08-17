@@ -23,6 +23,7 @@ namespace Titan.Character.Enemy
 
         #region Animator Callback
         
+        // Animation Event
         private void ExecuteAttack()
         {
             Debug.Log($"Enemy Attack");

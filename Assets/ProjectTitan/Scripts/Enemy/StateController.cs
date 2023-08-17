@@ -63,6 +63,10 @@ namespace Titan.Character.Enemy
         [HideInInspector] public EnemyHealth EnemyHealth;
         [HideInInspector] public EnemyVariables Variables;
         
+#if UNITY_EDITOR
+        public bool DebugMode = false;
+#endif
+
         private void Awake()
         {
             aiActive = true;
