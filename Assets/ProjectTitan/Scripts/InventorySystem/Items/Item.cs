@@ -28,9 +28,7 @@ namespace Titan.InventorySystem.Items
             id = itemObject.data.id;
         }
 
-         public static Item NullItem {
-            get => new Item();
-        }
+        public static Item NullItem => new();
 
         public Item Clone()
         {

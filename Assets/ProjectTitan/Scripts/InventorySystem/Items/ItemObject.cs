@@ -20,7 +20,7 @@ namespace Titan.InventorySystem.Items
         [Tooltip("Description that will be on Inventory Detail UI")]
         public string description;
 
-        public Item data = new Item();
+        public Item data = new();
 
         #endregion Variables
     }

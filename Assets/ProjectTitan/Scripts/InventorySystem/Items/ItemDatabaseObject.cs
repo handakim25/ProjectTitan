@@ -21,7 +21,7 @@ namespace Titan.InventorySystem.Items
         // during saving and loading process.
         public void OnValidate()
         {
-            List<ItemObject> assetList = new List<ItemObject>();
+            var assetList = new List<ItemObject>();
             string[] guids = AssetDatabase.FindAssets($"t:{typeof(ItemObject)}");
             foreach(var guid in guids)
             {   
