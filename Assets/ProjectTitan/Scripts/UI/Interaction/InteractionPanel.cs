@@ -130,6 +130,7 @@ namespace Titan.UI.Interaction
                 if(go != null)
                 {
                     Debug.Log($"Interact with {go.name}");
+                    go.GetComponent<Interactable>().Interact();
                 }
             }
         }
