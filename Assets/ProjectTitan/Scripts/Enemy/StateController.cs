@@ -141,6 +141,12 @@ namespace Titan.Character.Enemy
         public void OnDeathHandler()
         {
             aiActive = false;
+            if(TryGetComponent<Collider>(out var collider))
+            {
+                collider.enabled = false;
+            }
+            Nav.enabled = false;
+
             EnemyAnim.Animator.SetTrigger(AnimatorKey.Enemy.DeathTrigger);
             // Death Sound
             // Death Vfx
