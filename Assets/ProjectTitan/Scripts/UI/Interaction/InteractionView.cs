@@ -37,7 +37,7 @@ namespace Titan.UI.Interaction
         private ScrollRect _scrollRect;
         private RectTransform _contentRectTransform;
         // key : Interactable Objects, Value : Interact UI
-        private Dictionary<GameObject, InteractionUI> _interactionUIs = new Dictionary<GameObject, InteractionUI>();
+        private Dictionary<GameObject, InteractionUI> _interactionUIs = new();
         [SerializeField] private GameObject _selectedSlot = null;
         public GameObject SelectedSlot => _selectedSlot;
         public int SlotCount => _interactionUIs.Count;

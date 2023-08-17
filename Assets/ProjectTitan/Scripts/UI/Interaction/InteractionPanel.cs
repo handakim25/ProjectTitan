@@ -118,7 +118,20 @@ namespace Titan.UI.Interaction
         
         public void OnInteractHandler()
         {
-
+            if(_view.SelectedSlot == null)
+            {
+                Debug.Log($"Nothing selected");
+            }
+            else
+            {
+                var slot = _view.SelectedSlot;
+                Debug.Log($"Do some interaction with {slot.name}");
+                var go = slot.GetComponent<InteractionUI>().Interactable;
+                if(go != null)
+                {
+                    Debug.Log($"Interact with {go.name}");
+                }
+            }
         }
 
         public void OnInteractScrollHandler(Vector2 scroll)

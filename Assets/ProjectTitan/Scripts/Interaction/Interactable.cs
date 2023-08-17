@@ -6,7 +6,24 @@ namespace Titan.Interaction
 {
     public class Interactable : MonoBehaviour
     {
+        [Range(0, 5)]
+        [SerializeField] private float _interactRange = 3f;
+
+        public float InteractRange => _interactRange;
+
+        private GameObject target;
+
         public virtual void Interact()
+        {
+
+        }
+
+        public virtual void OnInteractRangeIn()
+        {
+
+        }
+
+        public virtual void OnInteractRangeOut()
         {
 
         }
