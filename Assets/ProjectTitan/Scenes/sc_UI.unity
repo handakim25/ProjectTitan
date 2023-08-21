@@ -193,7 +193,7 @@ RectTransform:
   - {fileID: 973523153}
   - {fileID: 843052227}
   m_Father: {fileID: 1445979884}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -4930,7 +4930,7 @@ RectTransform:
   - {fileID: 335625327}
   - {fileID: 1179259041}
   m_Father: {fileID: 1445979884}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -9440,8 +9440,8 @@ RectTransform:
   - {fileID: 583248943}
   - {fileID: 1571133706}
   - {fileID: 1414595117}
-  - {fileID: 822644272}
   - {fileID: 39064823}
+  - {fileID: 822644272}
   m_Father: {fileID: 880013449}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9471,8 +9471,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _upperBar: {fileID: 583248942}
+  _interactionPannel: {fileID: 1319724959}
   _healthPannel: {fileID: 1414595116}
+  _minimapPannel: {fileID: 39064822}
+  _skillPannel: {fileID: 822644271}
   _transitionTime: 0.25
+  openEaseType: 9
+  closeEaseType: 8
 --- !u!224 &1448606528 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4521362237932334347, guid: bbe1671deb630ff459c477728a31ed1c,

@@ -126,6 +126,11 @@ namespace Titan.UI
 
         // To-Do
         // 상황에 맞춰서 커서 숨김 여부 처리
+        // Show
+        // 1. Alt 키 누른 동안
+        // 2. UI 활성화
+        // 그 외 상황
+        // Hide
         public void HideCursor()
         {
             Cursor.lockState = CursorLockMode.Locked;
