@@ -45,15 +45,19 @@ namespace Titan.Character.Player
 
         public override void OnEnter()
         {
+            // Player Input이 있으면 Input 방향으로 이동하고
+            // 없을 경우 마지막 방향으로 이동한다.
             if(_controller.PlayerInput.MoveDir != Vector2.zero)
             {
                 _controller.PlayerMove.MoveDir = _controller.GetCameraFaceDir();
             }
             else
             {
-                _controller.PlayerMove.MoveDir = _controller.GetLastDirection();
+                Vector3 moveDir = _controller.transform.forward;
+                moveDir.y = 0f;
+                _controller.PlayerMove.MoveDir = moveDir;
             }
-            _controller.FaceDirection(_controller.GetLastDirection(), true);
+            _controller.FaceDirection(_controller.PlayerMove.MoveDir, true);
 
             _dashTime = 0f;
             _controller.Animator.SetTrigger(AnimatorKey.Player.DashTrigger);
