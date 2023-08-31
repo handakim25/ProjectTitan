@@ -473,6 +473,10 @@ namespace Titan.Character.Player
         /// <param name="dir">이동 방향</param>
         public void SetLastDirection(Vector3 dir)
         {
+            if(dir == Vector3.zero)
+            {
+                return;
+            }
             _lastDirection = dir;
         }        
 
