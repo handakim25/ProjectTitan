@@ -1,0 +1,9 @@
+.dialogue--node
+{
+    border-radius: 0;
+}
+
+.dialogue--node > #node-border
+{
+    border-radius: 0;
+}

@@ -1,0 +1,4 @@
+DialogueGraphView
+{
+    background-color: var(--dialogue-dark-grey-color-6);
+}

@@ -5,38 +5,78 @@ using UnityEditor;
 
 namespace Titan.DialogueSystem.Data
 {
-    using Graph;
+    using View;
 
     /// <summary>
     /// Dialogue editor window
     /// </summary>
+    // DialogueEditorWindow <- DialogueEditorView <- toolbar, content(DialogueGraphView, inspector, blackboard)
+    // DialogueEditorView <- Search Window
     public class DialogueEditorWindow : EditorWindow
     {
+        public static string StyleSheetsPath => "Assets/ProjectTitan/Styles/";
+
         private const string kTitleName = "Dialogue Editor";
 
-        private DialogueGraphView _graphView;
-        internal DialogueGraphView GraphView => _graphView;
+        private string _selectedGuid;
+
+        public string SeletedGuid {get; private set;}
+
+        private DialogueEditorView _editorView;
+        public DialogueEditorView EditorView 
+        {
+            get
+            {
+                return _editorView;
+            }
+            set
+            {
+                if(_editorView != null)
+                {
+                    _editorView.RemoveFromHierarchy();
+                }
+                
+                _editorView = value;
+                
+                rootVisualElement.Add(_editorView);
+            }
+        }
 
         // For testing
-        // Replace
+        // Replace after
         [MenuItem("Tools/DialogueSystem")]
         public static void Open()
         {
-            // GetWindow<DialogueEditorWindow>(kTitleName);
+            // Load data from guid
+
+            // Load graph from data
+
             var window = CreateWindow<DialogueEditorWindow>(kTitleName);
             window.Init(); // Init with data
         }
 
-        private void CreateGUI()
-        {
-            DialogueGraphView graphView = new DialogueGraphView(this);
-
-
-        }
-
+        /// <summary>
+        /// Load data from guid
+        /// Create elements
+        /// </summary>
         private void Init()
         {
-            Debug.Log("Init");
+            EditorView = new DialogueEditorView(this);
+        }
+
+        private void OnEnable()
+        {
+            Debug.Log($"OnEnable / EditorView : {_editorView}");
+            if(EditorView == null)
+            {
+                Init();
+                Debug.Log("Re-Init");
+            }
+        }
+
+        private void OnDisable()
+        {
+            Debug.Log($"OnDisable / EditorView : {_editorView}");
         }
     }
 }

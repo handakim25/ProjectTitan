@@ -1,0 +1,23 @@
+:root
+{
+    /* Hight Color */
+    --dialogue-dark-grey-color-1 : rgb(80, 80, 80);
+    /* Content Sub Content Body */
+    --dialogue-dark-grey-color-2 : rgb(65, 65, 65);
+    /* Base Color */
+    --dialogue-dark-grey-color-3 : rgb(60, 60, 60); 
+    /* Content Header Color */
+    --dialogue-dark-grey-color-4 : rgb(56, 56, 56);
+    /* Content Body Header Color */
+    --dialogue-dark-grey-color-5 : rgb(53, 53, 53);
+    /* Content Body Color */
+    --dialogue-dark-grey-color-6 : rgb(43, 43, 43);
+    /* Background Color */
+    --dialogue-dark-grey-color-7 : rgb(32, 32, 32);
+
+    --dialogue-button-color : rgb(56, 56, 56);
+    --dialogue-button-color-hover : rgb(60, 60, 60);
+    --dialogue-button-color-active : rgb(80, 80, 80);
+
+    --dialogue-graph-background-color : rgb(32, 32, 32);
+}

@@ -1,0 +1,58 @@
+/* Visual Elements */
+Toolbar > #leftGroup
+{
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+Toolbar > #rightGroup
+{
+    flex-direction: row;
+    flex-grow: 0;
+    flex-shrink: 1;
+    overflow: hidden;
+}
+
+.toolbar__button
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: var(--dialogue-button-color);
+    border-width: 1px;
+    border-bottom-width: 0;
+    border-top-width: 0;
+    border-color: rgb(46, 46, 46);
+    border-radius: 0;
+}
+
+.toolbar__button:hover
+{
+    background-color: var(--dialogue-button-color-hover);
+}
+
+.toolbar__button:active
+{
+    background-color: var(--dialogue-button-color-active)
+}
+
+.toolbar__button-first
+{
+    margin-left: 0;
+}
+
+.toolbar__button-last
+{
+    margin-right: 0;
+}
+
+.toolbar__button-selected
+{
+    background-color: var(--dialogue-button-color-active);
+}
+
+.toolbar__button-selected:hover
+{
+    background-color: var(--dialogue-button-color-active);
+}

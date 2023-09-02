@@ -1,0 +1,16 @@
+DialogueEditorView
+{
+    flex-direction: column;    
+    flex: 1;
+}
+
+DialogueEditorView > #content
+{
+    flex: 1;
+    flex-direction: row;
+}
+
+DialogueEditorView > #content > #GraphView
+{
+    flex : 1;
+}
