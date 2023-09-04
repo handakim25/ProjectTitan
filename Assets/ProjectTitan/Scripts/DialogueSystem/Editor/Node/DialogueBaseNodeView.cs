@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Titan.DialogueSystem.Data.Nodes
 {
+    using System;
     using UnityEditor;
     using View;
 
@@ -24,11 +25,18 @@ namespace Titan.DialogueSystem.Data.Nodes
     // 실수를 안 할 수가 없는 시스템인 것이 문제이다. 하나의 변경 사항이 3 클래스를 수정해야 하는 좋지 않은 케이스
     // 2. Data Node는 추가될 때마다 바로 관리 되는 것이 아니라 Save가 발생하면 그 때의 Snapshot을 기준으로 저장을 한다.
     // 따라서 un-do를 지원하지 않는다.
-    public abstract class DialogueBaseNode : Node
+    public abstract class DialogueBaseNodeView : Node
     {
+        public enum DialoguePortType
+        {
+            Dialogue,
+            Choice,
+            Condition,
+        }
+
         public string ID {get; private set;}
 
-        private DialogueGraphView _graphView;
+        protected DialogueGraphView _graphView;
 
         public void Initialize(DialogueGraphView graphView)
         {
@@ -36,12 +44,12 @@ namespace Titan.DialogueSystem.Data.Nodes
             _graphView = graphView;
 
             // Load style sheet
-            styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueBaseNode.uss"));
+            styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueBaseNodeView.uss"));
             AddToClassList("dialogue--node");
 
             // Set Title
             string typeName = GetType().Name;
-            typeName = typeName.Replace("Dialogue", "").Replace("Node", "");
+            typeName = typeName.Replace("Dialogue", "").Replace("NodeView", "");
             title = typeName;
 
             BuildView();
@@ -92,6 +100,49 @@ namespace Titan.DialogueSystem.Data.Nodes
         // - selection-border
         protected virtual void BuildView()
         {
+        }
+
+        // Port를 재정의하기에는 너무 번거로운 면이 있다.
+        // 현재로는 userData를 이용하고 추후에 추가적인 기능이 필요하면 상속 받아서 사용할 것
+        // 참고 링크
+        // https://github.com/Unity-Technologies/UnityCsReference/blob/master/Modules/GraphViewEditor/Elements/Port.cs#L243
+        // https://forum.unity.com/threads/graphview-inheriting-from-port-to-store-custom-data.1161392/
+        // https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.shadergraph/Editor/Drawing/Views/ShaderPort.cs#L73
+        protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity)
+        {
+            var port = InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(float));
+            port.userData = type;
+            port.portColor = GetPortColor(type);
+
+            return port;
+        }
+
+        public static bool CanConnect(Object start, Object end)
+        {
+            if(start == null || end == null)
+            {
+                return false;
+            }
+
+            if(start == end)
+            {
+                return false;
+            }
+
+            DialoguePortType startType = (DialoguePortType)start;
+            DialoguePortType endType = (DialoguePortType)end;
+            return startType == endType;
+        }
+
+        private Color GetPortColor(DialoguePortType type)
+        {
+            return type switch
+            {
+                DialoguePortType.Dialogue => new Color(0.8f, 0.8f, 0.8f),
+                DialoguePortType.Choice => Color.green,
+                DialoguePortType.Condition => Color.red,
+                _ => Color.blue,
+            };
         }
 
         private void DrawContainerRecursively(VisualElement container, int depth = 0)

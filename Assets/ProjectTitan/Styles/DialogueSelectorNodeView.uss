@@ -1,0 +1,15 @@
+#contents > #top > #output
+{
+    width: 0;
+    flex-grow: 0;
+}
+
+#selector
+{
+    flex-direction: row;
+}
+
+#selector > #input
+{
+    background-color:  #3F3F3F;
+}

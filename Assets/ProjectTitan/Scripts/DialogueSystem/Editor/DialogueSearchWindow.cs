@@ -44,24 +44,33 @@ namespace Titan.DialogueSystem.Data.View
                 new SearchTreeEntry(new GUIContent("Sentence"))
                 {
                     level = 1,
-                    userData = typeof(DialogueSentenceNode),
+                    userData = typeof(DialogueSentenceNodeView),
                 },
                 new SearchTreeEntry(new GUIContent("Choice"))
                 {
                     level = 1,
+                    userData = typeof(DialogueChoiceNodeView),
+                },
+                new SearchTreeEntry(new GUIContent("Selector"))
+                {
+                    level = 1,
+                    userData = typeof(DialogueSelectorNodeView),
                 },
                 new SearchTreeGroupEntry(new GUIContent("Logics"), 1),
                 new SearchTreeEntry(new GUIContent("If"))
                 {
                     level = 2,
+                    userData = typeof(DialogueIfNodeView),
                 },
                 new SearchTreeEntry(new GUIContent("Any"))
                 {
                     level = 2,
+                    userData = typeof(DialogueAnyNodeView),
                 },
                 new SearchTreeEntry(new GUIContent("All"))
                 {
                     level = 2,
+                    userData = typeof(DialogueAllNodeView),
                 },
                 new SearchTreeGroupEntry(new GUIContent("Conditions"), 1),
                 new SearchTreeEntry(new GUIContent("Quest State Condition"))
@@ -113,7 +122,7 @@ namespace Titan.DialogueSystem.Data.View
         {
             // Create Node
             System.Type type = SearchTreeEntry.userData as System.Type;
-            DialogueBaseNode node = type != null ? System.Activator.CreateInstance(type) as DialogueBaseNode : new DialogueSentenceNode();
+            DialogueBaseNodeView node = type != null ? System.Activator.CreateInstance(type) as DialogueBaseNodeView : new DialogueSentenceNodeView();
             node.Initialize(_graphView);
             
             node.SetPosition(new Rect(CalculateScreenPos(context.screenMousePosition), Vector2.zero));
@@ -133,9 +142,9 @@ namespace Titan.DialogueSystem.Data.View
             // var windowMousePos = windowRoot.ChangeCoordinatesTo(windowRoot.parent, screenMousePos - _editorWindow.position.position);
             var windowMousePos = screenMousePos - _editorWindow.position.position;
 
-            Debug.Log($"windowMousePos : {windowMousePos}");
-            Debug.Log($"editor pos : {_editorWindow.position.position}");
-            Debug.Log($"contaienr pos : {_graphView.contentViewContainer.worldBound.position}");
+            // Debug.Log($"windowMousePos : {windowMousePos}");
+            // Debug.Log($"editor pos : {_editorWindow.position.position}");
+            // Debug.Log($"contaienr pos : {_graphView.contentViewContainer.worldBound.position}");
             // 툴바 같은 것은 어떻게 되지?
             var graphMousePos = _graphView.contentViewContainer.WorldToLocal(windowMousePos);
 

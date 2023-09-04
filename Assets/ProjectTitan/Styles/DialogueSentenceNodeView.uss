@@ -1,4 +1,4 @@
-DialogueSentenceNode
+DialogueSentenceNodeView
 {
     border-radius: 0;
 }
