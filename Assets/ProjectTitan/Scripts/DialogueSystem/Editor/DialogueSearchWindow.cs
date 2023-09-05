@@ -76,14 +76,17 @@ namespace Titan.DialogueSystem.Data.View
                 new SearchTreeEntry(new GUIContent("Quest State Condition"))
                 {
                     level = 2,
+                    userData = typeof(DialogueQuestNodeView),
                 },
                 new SearchTreeEntry(new GUIContent("Item Condition"))
                 {
                     level = 2,
+                    userData = typeof(DialogueItemNodeView),
                 },
                 new SearchTreeEntry(new GUIContent("Event Condition"))
                 {
                     level = 2,
+                    userData = typeof(DialogueEventNodeView),
                 },
                 new SearchTreeGroupEntry(new GUIContent("Actions"), 1),
                 new SearchTreeEntry(new GUIContent("Trigger Quest"))

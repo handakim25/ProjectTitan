@@ -20,7 +20,10 @@ namespace Titan.DialogueSystem.Data
 
         private string _selectedGuid;
 
-        public string SeletedGuid {get; private set;}
+        public string SelectedGuid {
+            get => _selectedGuid;
+            private set => _selectedGuid = value;
+        }
 
         private DialogueEditorView _editorView;
         public DialogueEditorView EditorView 
@@ -42,26 +45,24 @@ namespace Titan.DialogueSystem.Data
             }
         }
 
-        // For testing
-        // Replace after
-        [MenuItem("Tools/DialogueSystem")]
-        public static void Open()
+        public static void Open(DialogueGraphObject graphObject)
         {
             // Load data from guid
 
             // Load graph from data
 
             var window = CreateWindow<DialogueEditorWindow>(kTitleName);
-            window.Init(); // Init with data
+            window.Init(graphObject); // Init with data
         }
 
         /// <summary>
         /// Load data from guid
         /// Create elements
         /// </summary>
-        private void Init()
+        private void Init(DialogueGraphObject graphObject)
         {
-            EditorView = new DialogueEditorView(this);
+            SelectedGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(graphObject));
+            EditorView = new DialogueEditorView(this, graphObject);
         }
 
         private void OnEnable()
@@ -69,7 +70,12 @@ namespace Titan.DialogueSystem.Data
             Debug.Log($"OnEnable / EditorView : {_editorView}");
             if(EditorView == null)
             {
-                Init();
+                if(string.IsNullOrEmpty(SelectedGuid) == false)
+                {
+                    var graphObject = AssetDatabase.LoadAssetAtPath<DialogueGraphObject>(AssetDatabase.GUIDToAssetPath(SelectedGuid));
+                    EditorView = new DialogueEditorView(this, graphObject);
+                    Debug.Log($"Re-Init with GUID : {SelectedGuid}");
+                }
                 Debug.Log("Re-Init");
             }
         }

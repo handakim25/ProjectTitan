@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEditor;
 
 using UnityObject = UnityEngine.Object;
+using System.Reflection;
+using UnityEditor.ProjectWindowCallback;
+using System;
 
 namespace Titan.Resource
 {
@@ -144,6 +147,79 @@ namespace Titan.Resource
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndVertical();
+        }
+
+        // 참고 코드 : https://discussions.unity.com/t/how-to-get-the-current-selected-folder-of-project-window/73156/7
+        // 참고 코드 : https://stackoverflow.com/questions/32318320/getting-path-of-right-click-in-unity-3d-editor
+        // 찾아본 결과 현재 열려 있는 Project Window의 정보를 얻어오는 것은 불가능하다.
+        // 가령 Selection을 이용하는 경우는 프로젝트 윈도우에서 우클릭을 했을 때 선택된 폴더를 가져올 수는 있다.
+        // 하지만, 게임 Scene을 클릭하고 Asset Menu로 생성을 진행하면 경로를 가져올 수 없다.
+        /// <summary>
+        /// 현재 열려 있는 Project Window의 경로를 가져온다.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns>Assets/ path를 기준으로 한다.</returns>
+        public static bool TryGetActiveFolderPath(out string path)
+        {
+            var _tryGetActiveFolderPath = typeof(ProjectWindowUtil).GetMethod("TryGetActiveFolderPath", BindingFlags.Static | BindingFlags.NonPublic);
+
+            object[] args = new object[] { null };
+            bool found = (bool)_tryGetActiveFolderPath.Invoke(null, args);
+            path = (string)args[0];
+
+            return found;
+        }
+    }
+
+    // 링크 : https://forum.unity.com/threads/how-to-implement-create-new-asset.759662/
+    // 링크 : https://m.blog.naver.com/hammerimpact/220775342040
+    public static class AssetCreator
+    {
+        public static void CreateAssetInCurrentFolder<T>(string initialAssetName, Action<T> onCreated = null, Action onCanceld = null)
+            where T : ScriptableObject
+        {
+            if(string.IsNullOrEmpty(initialAssetName))
+            {
+                initialAssetName = "New " + ObjectNames.NicifyVariableName(typeof(T).Name);
+            }
+
+            const string requiredExtension = ".asset";
+
+            if(!initialAssetName.EndsWith(requiredExtension, StringComparison.InvariantCultureIgnoreCase))
+            {
+                initialAssetName += requiredExtension;
+            }
+
+            var endNameEditAction = ScriptableObject.CreateInstance<AssetCreatorEndNameEditAction>();
+            endNameEditAction.cancelCallback = onCanceld;
+
+            if(onCreated != null)
+            {
+                endNameEditAction.createCallback = (_instance) => onCreated((T)_instance);
+            }
+
+            T asset = ScriptableObject.CreateInstance<T>();
+            ProjectWindowUtil.StartNameEditingIfProjectWindowExists(asset.GetInstanceID(), endNameEditAction, initialAssetName, AssetPreview.GetMiniThumbnail(asset), null);
+        }
+
+        private class AssetCreatorEndNameEditAction : EndNameEditAction
+        {
+            public Action<UnityEngine.Object> createCallback;
+            public Action cancelCallback;
+
+            public override void Action(int instanceId, string pathName, string resourceFile)
+            {
+                var asset = EditorUtility.InstanceIDToObject(instanceId);
+                AssetDatabase.CreateAsset(asset, AssetDatabase.GenerateUniqueAssetPath(pathName));
+
+                createCallback?.Invoke(asset);
+            }
+
+            public override void Cancelled(int instanceId, string pathName, string resourceFile)
+            {
+                Selection.activeObject = null;
+                cancelCallback?.Invoke();
+            }
         }
     }
 }

@@ -23,7 +23,7 @@ namespace Titan.DialogueSystem.Data.View
         private Button _blackBoardButton;
         private Button _inspectorButton;
 
-        public DialogueEditorView(DialogueEditorWindow editorWindow)
+        public DialogueEditorView(DialogueEditorWindow editorWindow, DialogueGraphObject graphObject)
         {
             _window = editorWindow;
 
