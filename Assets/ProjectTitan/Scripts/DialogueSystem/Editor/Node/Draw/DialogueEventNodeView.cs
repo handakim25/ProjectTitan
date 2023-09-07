@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Titan.DialogueSystem.Data.Nodes
 {
-    public class DialogueEventNodeView : DialogueConditionNode
+    public class DialogueEventNodeView : DialogueConditionNodeView
     {
     }
 }

@@ -9,7 +9,7 @@ using UnityEditor;
 
 namespace Titan.DialogueSystem.Data.Nodes
 {
-    public class DialogueItemNodeView : DialogueConditionNode
+    public class DialogueItemNodeView : DialogueConditionNodeView
     {
         protected override void BuildView()
         {

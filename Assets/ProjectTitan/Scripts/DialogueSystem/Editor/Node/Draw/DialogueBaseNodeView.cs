@@ -27,20 +27,20 @@ namespace Titan.DialogueSystem.Data.Nodes
     // 따라서 un-do를 지원하지 않는다.
     public abstract class DialogueBaseNodeView : Node
     {
-        public enum DialoguePortType
-        {
-            Dialogue,
-            Choice,
-            Condition,
-        }
-
         public string ID {get; private set;}
 
         protected DialogueGraphView _graphView;
 
-        public void Initialize(DialogueGraphView graphView)
+        public void Initialize(DialogueGraphView graphView, string id)
         {
-            ID = System.Guid.NewGuid().ToString();
+            if(string.IsNullOrEmpty(id))
+            {
+                ID = Guid.NewGuid().ToString();
+            }
+            else
+            {
+                ID = id;
+            }
             _graphView = graphView;
 
             // Load style sheet
@@ -55,9 +55,8 @@ namespace Titan.DialogueSystem.Data.Nodes
             BuildView();
         }
 
-        /// <summary>
-        /// View를 생성
-        /// </summary>
+        
+        #region Container Structure
         
         // Container 구성
         // - content container : element 자신과 유사하다. node-border, selection-border를 가지고 있다. node-border은 main container이다.
@@ -98,8 +97,23 @@ namespace Titan.DialogueSystem.Data.Nodes
         // --- title-label
         // ...
         // - selection-border
+        
+        #endregion Container Structure
+
+        /// <summary>
+        /// View를 생성
+        /// </summary>
         protected virtual void BuildView()
         {
+        }
+
+        #region Port
+        
+        public enum DialoguePortType
+        {
+            Dialogue,
+            Choice,
+            Condition,
         }
 
         // Port를 재정의하기에는 너무 번거로운 면이 있다.
@@ -144,15 +158,15 @@ namespace Titan.DialogueSystem.Data.Nodes
                 _ => Color.blue,
             };
         }
+        
+        #endregion Port
 
-        private void DrawContainerRecursively(VisualElement container, int depth = 0)
+        public virtual DialogueBaseNodeData GetNodeData()
         {
-            string indent = new string(' ', depth * 4);
-            Debug.Log($"{depth}{indent}Container : {container.name} / child : {container.childCount}");
-            foreach(var child in container.Children())
+            return new DialogueBaseNodeData()
             {
-                DrawContainerRecursively(child, depth + 1);
-            }
+                position = GetPosition().position,
+            };
         }
     }
 }

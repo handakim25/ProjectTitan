@@ -14,13 +14,16 @@ namespace Titan.DialogueSystem.Data.View
     // SearchWindowAdapter : https://github.com/Unity-Technologies/Graphics/blob/e7b7590646a976e80e01c4df841959ef6b27134d/Packages/com.unity.shadergraph/Editor/Drawing/SearchWindowAdapter.cs
     public class DialogueSearchWindow : ScriptableObject, ISearchWindowProvider
     {   
-        // Node를 추가하기 위해서는 GraphView가 필요
+        // Screen Postion을 계산하기 위함
         private EditorWindow _editorWindow;
         private DialogueGraphView _graphView;
-        public void Initialize(DialogueEditorWindow window, DialogueGraphView graphView)
+        // 현재 구현은 Graph View에 직접적으로 넣고 있지만 추후에는 구현을 다르게 Graph Object에 삽입하는 것을 고려
+        private DialogueGraphObject _graphObject;
+        public void Initialize(DialogueEditorWindow window, DialogueGraphView graphView, DialogueGraphObject graphObject)
         {
             _editorWindow = window;
             _graphView = graphView;
+            _graphObject = graphObject;
         }
 
         /// <summary>
@@ -137,7 +140,7 @@ namespace Titan.DialogueSystem.Data.View
         // 혹은 Graph View로 옮길 것
         private Vector2 CalculateScreenPos(Vector2 screenMousePos)
         {
-            var windowRoot = _editorWindow.rootVisualElement;
+            // var windowRoot = _editorWindow.rootVisualElement;
             // screenMousePos - _editorWindow.position.position == editorwindow Position을 기준으로 위치
             // editorWindow position : 좌측 상단 스크린 좌표
             // screenMousePos : 스크린 좌표

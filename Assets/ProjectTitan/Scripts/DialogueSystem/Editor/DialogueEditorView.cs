@@ -17,11 +17,15 @@ namespace Titan.DialogueSystem.Data.View
     public class DialogueEditorView : VisualElement
     {
         private DialogueEditorWindow _window;
+
         private DialogueGraphView _graphView;
         private DialogueSearchWindow _searchWindow;
 
         private Button _blackBoardButton;
         private Button _inspectorButton;
+
+        public Action SaveRequest;
+        public Action SaveAsRequest;
 
         public DialogueEditorView(DialogueEditorWindow editorWindow, DialogueGraphObject graphObject)
         {
@@ -112,7 +116,7 @@ namespace Titan.DialogueSystem.Data.View
         public void CreateSearchWindow()
         {
             _searchWindow = ScriptableObject.CreateInstance<DialogueSearchWindow>();
-            _searchWindow.Initialize(_window, _graphView);
+            _searchWindow.Initialize(_window, _graphView, _window.GraphObject);
             _graphView.nodeCreationRequest = NodeCreationRequest;
         }
         

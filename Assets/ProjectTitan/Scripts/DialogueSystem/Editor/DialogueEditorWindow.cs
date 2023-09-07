@@ -19,10 +19,24 @@ namespace Titan.DialogueSystem.Data
         private const string kTitleName = "Dialogue Editor";
 
         private string _selectedGuid;
-
         public string SelectedGuid {
             get => _selectedGuid;
             private set => _selectedGuid = value;
+        }
+
+        DialogueGraphObject _graphObject;
+        public DialogueGraphObject GraphObject
+        {
+            get => _graphObject;
+            private set
+            {
+                if(_graphObject != null)
+                {
+                    Destroy(_graphObject);
+                }
+                _graphObject = value;
+                SelectedGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(_graphObject));
+            }
         }
 
         private DialogueEditorView _editorView;
@@ -40,6 +54,7 @@ namespace Titan.DialogueSystem.Data
                 }
                 
                 _editorView = value;
+                _editorView.SaveRequest = () => SaveAsset();
                 
                 rootVisualElement.Add(_editorView);
             }
@@ -61,8 +76,9 @@ namespace Titan.DialogueSystem.Data
         /// </summary>
         private void Init(DialogueGraphObject graphObject)
         {
-            SelectedGuid = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(graphObject));
-            EditorView = new DialogueEditorView(this, graphObject);
+            GraphObject = graphObject;
+            EditorView = new DialogueEditorView(this, GraphObject);
+            UpdateTitle();
         }
 
         private void OnEnable()
@@ -83,6 +99,24 @@ namespace Titan.DialogueSystem.Data
         private void OnDisable()
         {
             Debug.Log($"OnDisable / EditorView : {_editorView}");
+        }
+
+        public void UpdateTitle()
+        {
+            // GraphObject.GraphName;
+            string titleText = string.IsNullOrEmpty(GraphObject.GraphName) ? kTitleName : GraphObject.GraphName;
+            titleContent = new GUIContent(titleText);
+        }
+
+        public bool SaveAsset()
+        {
+            Debug.Log("SaveAsset");
+
+            // Json으로 직접 직렬화 하는 것은 아니니까 그냥 Scriptable Object 저장 루틴을 따른다.
+            EditorUtility.SetDirty(GraphObject);
+            AssetDatabase.SaveAssetIfDirty(GraphObject);
+
+            return true;
         }
     }
 }

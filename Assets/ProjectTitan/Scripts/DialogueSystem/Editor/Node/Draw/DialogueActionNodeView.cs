@@ -7,7 +7,7 @@ namespace Titan.DialogueSystem.Data.Nodes
     /// <summary>
     /// 대사 중에서 이벤트를 발생시키는 노드
     /// </summary>
-    public class DialogueActionNode : DialogueBaseNodeView
+    public class DialogueActionNodeView : DialogueBaseNodeView
     {
     }
 }
