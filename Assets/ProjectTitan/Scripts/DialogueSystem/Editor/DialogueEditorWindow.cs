@@ -79,6 +79,8 @@ namespace Titan.DialogueSystem.Data
             GraphObject = graphObject;
             EditorView = new DialogueEditorView(this, GraphObject);
             UpdateTitle();
+
+            graphObject.LoadData(EditorView.GraphView);
         }
 
         private void OnEnable()
@@ -113,6 +115,9 @@ namespace Titan.DialogueSystem.Data
             Debug.Log("SaveAsset");
 
             // Json으로 직접 직렬화 하는 것은 아니니까 그냥 Scriptable Object 저장 루틴을 따른다.
+            // 추후에는 Dialgoue Graph Object를 통해서 데이터를 저장하고 그것을 View에서 Visualize하는 루틴으로 수정할 것
+            GraphObject.SaveData(EditorView.GraphView);
+
             EditorUtility.SetDirty(GraphObject);
             AssetDatabase.SaveAssetIfDirty(GraphObject);
 

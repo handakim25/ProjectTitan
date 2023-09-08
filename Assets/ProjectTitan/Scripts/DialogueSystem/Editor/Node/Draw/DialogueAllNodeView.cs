@@ -8,7 +8,7 @@ namespace Titan.DialogueSystem.Data.Nodes
 {
     public class DialogueAllNodeView : DialougeLogicNodeView
     {
-        protected int _conditionCount = 0;
+        [SerializeField] protected int _conditionCount = 0;
         protected override void BuildView()
         {
             // 코드가 굉장히 중복된다.
@@ -31,7 +31,9 @@ namespace Titan.DialogueSystem.Data.Nodes
             topContainer.parent.Add(divider);
             divider.PlaceInFront(conditionAddContainer);
 
-            for(int i = 0; i < 1; i++)
+            int count = _conditionCount > 0 ? _conditionCount : 1;
+            _conditionCount = 0;
+            for(int i = 0; i < count; i++)
             {
                 AddCondition();
             }

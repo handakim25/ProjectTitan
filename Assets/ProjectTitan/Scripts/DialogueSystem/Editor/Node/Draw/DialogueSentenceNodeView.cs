@@ -49,6 +49,7 @@ namespace Titan.DialogueSystem.Data.Nodes
                 Senetence = evt.newValue;
                 textCountLabel.text = $"text count : {evt.newValue.Length}";
             });
+            sentenceTextField.SetValueWithoutNotify(Senetence);
             
             textFoldout.Add(sentenceTextField);
             textFoldout.Add(textCountLabel);

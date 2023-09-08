@@ -13,7 +13,7 @@ namespace Titan.DialogueSystem.Data.Nodes
     /// </summary>
     public class DialogueSelectorNodeView : DialogueBaseNodeView
     {
-        protected int _selectorCount = 0;
+        [SerializeField] protected int _selectorCount = 1;
 
         private VisualElement bodyContainer;
         private VisualElement _selectorInputContaienr;
@@ -78,7 +78,9 @@ namespace Titan.DialogueSystem.Data.Nodes
             selectorContainer.Add(selectorDivider);
             selectorContainer.Add(_selectorOutputContainer);
 
-            for (int i = 0; i < 1; i++)
+            int count = _selectorCount > 0 ? _selectorCount : 1;
+            _selectorCount = 0;
+            for (int i = 0; i < count; i++)
             {
                 AddSelection();
             }

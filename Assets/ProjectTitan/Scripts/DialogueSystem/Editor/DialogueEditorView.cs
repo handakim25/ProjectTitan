@@ -27,6 +27,8 @@ namespace Titan.DialogueSystem.Data.View
         public Action SaveRequest;
         public Action SaveAsRequest;
 
+        public DialogueGraphView GraphView => _graphView;
+
         public DialogueEditorView(DialogueEditorWindow editorWindow, DialogueGraphObject graphObject)
         {
             _window = editorWindow;
@@ -55,7 +57,7 @@ namespace Titan.DialogueSystem.Data.View
 
             var leftGroup = new VisualElement() {name = "leftGroup"};
             
-            var saveButton = new Button() {text = "Save"};
+            var saveButton = new Button(() => SaveRequest?.Invoke()) {text = "Save"};
             var saveAsButton = new Button() {text = "Save As"};
             var showInProjectButton = new Button() {text = "Show In Project"};
 

@@ -27,11 +27,25 @@ namespace Titan.DialogueSystem.Data.Nodes
     // 따라서 un-do를 지원하지 않는다.
     public abstract class DialogueBaseNodeView : Node
     {
-        public string ID {get; private set;}
+        [SerializeField] private string _id;
+        public string ID
+        {
+            get => _id;
+            protected set => _id = value;
+        }
+
+        [SerializeField] protected Vector2 _pos;
+        [SerializeField] protected List<string> _outputPortIDs = new();
+        public List<string> OutputPortIds => _outputPortIDs;
 
         protected DialogueGraphView _graphView;
 
-        public void Initialize(DialogueGraphView graphView, string id)
+        /// <summary>
+        /// View를 초기화한다.
+        /// </summary>
+        /// <param name="graphView"></param>
+        /// <param name="id">null일 경우 새로 생성, 로드하는 과정일 경우 id를 기반으로 load</param>
+        public void Initialize(DialogueGraphView graphView, string id = null)
         {
             if(string.IsNullOrEmpty(id))
             {
@@ -52,12 +66,17 @@ namespace Titan.DialogueSystem.Data.Nodes
             typeName = typeName.Replace("Dialogue", "").Replace("NodeView", "");
             title = typeName;
 
+            RegisterCallback<GeometryChangedEvent>(OnGeometryChanged);
+            if(_pos != Vector2.zero)
+            {
+                SetPosition(new Rect(_pos, Vector2.zero));
+            }
+
             BuildView();
         }
 
-        
         #region Container Structure
-        
+
         // Container 구성
         // - content container : element 자신과 유사하다. node-border, selection-border를 가지고 있다. node-border은 main container이다.
         // - main container : 모든 내용을 담고 있는 container. title, contents, ""이 있다.
@@ -97,7 +116,7 @@ namespace Titan.DialogueSystem.Data.Nodes
         // --- title-label
         // ...
         // - selection-border
-        
+
         #endregion Container Structure
 
         /// <summary>
@@ -161,12 +180,9 @@ namespace Titan.DialogueSystem.Data.Nodes
         
         #endregion Port
 
-        public virtual DialogueBaseNodeData GetNodeData()
+        private void OnGeometryChanged(GeometryChangedEvent evt)
         {
-            return new DialogueBaseNodeData()
-            {
-                position = GetPosition().position,
-            };
+            _pos = GetPosition().position;
         }
     }
 }

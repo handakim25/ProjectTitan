@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1cd12435fc47354f89f8592c3b2dbe4, type: 3}
   m_Name: New Dialogue Graph
   m_EditorClassIdentifier: 
+  _serializedNodes:
+  - '{"_id":"27d8f9c7-7749-4fc6-be37-ced8eedbcd6e","_pos":{"x":262.0,"y":112.0},"_outputPortIDs":[],"_conditionCount":4}'
+  - '{"_id":"1c91168e-769c-4cb9-b99d-0d9009c9b6cb","_pos":{"x":246.0,"y":317.0},"_outputPortIDs":[],"_conditionCount":4}'
   GraphName: New Dialogue Graph

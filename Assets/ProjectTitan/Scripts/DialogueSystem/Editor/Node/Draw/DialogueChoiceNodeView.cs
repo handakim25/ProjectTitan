@@ -11,6 +11,7 @@ namespace Titan.DialogueSystem.Data.Nodes
     /// </summary>
     public class DialogueChoiceNodeView : DialogueBaseNodeView
     {
+        public string Sentence;
         protected override void BuildView()
         {
             base.BuildView();
@@ -27,8 +28,10 @@ namespace Titan.DialogueSystem.Data.Nodes
             var sentenceTextField = new TextField() {multiline = true};
             sentenceTextField.RegisterValueChangedCallback(evt =>
             {
+                Sentence = evt.newValue;
                 textCountLabel.text = $"text count : {evt.newValue.Length}";
             });
+            sentenceTextField.SetValueWithoutNotify(Sentence);
 
             textFoldout.Add(sentenceTextField);
             textFoldout.Add(textCountLabel);

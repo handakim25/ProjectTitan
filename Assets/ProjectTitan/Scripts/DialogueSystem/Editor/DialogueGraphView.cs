@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 
 namespace Titan.DialogueSystem.Data.View
 {
+    using System;
     using Nodes;
 
     /// <summary>
@@ -17,8 +18,13 @@ namespace Titan.DialogueSystem.Data.View
         public DialogueGraphView()
         {
             styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueGraphView.uss"));
+
+            graphViewChanged += OnGraphViewChanged;
         }
 
+        
+        #region Graphview Callbacks
+        
         // Context Menu를 만드는데는 2가지 방법이 있다.
         // Context Menu는 우클릭 했을 때 나오는 메뉴이다.
         // 1. 첫번째는 이 함수를 오버라이드하는 것.
@@ -50,5 +56,39 @@ namespace Titan.DialogueSystem.Data.View
             });
             return compatiblePorts;
         }
+
+        /// <summary>
+        /// Node 자체가 callback을 받지는 못하는 것 같으니까 Graphview에서 받아서 처리
+        /// </summary>
+        /// <param name="changes"></param>
+        /// <returns></returns>
+        private GraphViewChange OnGraphViewChanged(GraphViewChange changes)
+        {
+            if(changes.edgesToCreate != null)
+            {
+                foreach(var edge in changes.edgesToCreate)
+                {
+                    var inputNode = edge.input.node as DialogueBaseNodeView;
+                    var outputNode = edge.output.node as DialogueBaseNodeView;
+                    // 나가는 쪽을 기준으로 기록한다.
+                    outputNode.OutputPortIds.Add(inputNode.ID);
+                }
+            }   
+            if(changes.elementsToRemove != null)
+            {
+                foreach(var element in changes.elementsToRemove)
+                {
+                    if(element is Edge edge)
+                    {
+                        var inputNode = edge.input.node as DialogueBaseNodeView;
+                        var outputNode = edge.output.node as DialogueBaseNodeView;
+                        outputNode.OutputPortIds.Remove(inputNode.ID);
+                    }
+                }
+            }
+            return changes;
+        }
+        
+        #endregion Graphview Callbacks
     }
 }
