@@ -5,11 +5,10 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
+using Titan.DialogueSystem.Data.Nodes;
+
 namespace Titan.DialogueSystem.Data.View
 {
-    using System;
-    using Nodes;
-
     /// <summary>
     /// Dialogue Graph View
     /// </summary>
@@ -59,19 +58,18 @@ namespace Titan.DialogueSystem.Data.View
 
         /// <summary>
         /// Node 자체가 callback을 받지는 못하는 것 같으니까 Graphview에서 받아서 처리
+        /// 아마 Search Window 생성할 때 잘 해보면 될 것 같기는 한데 지금은 시간이 없다.
         /// </summary>
         /// <param name="changes"></param>
         /// <returns></returns>
         private GraphViewChange OnGraphViewChanged(GraphViewChange changes)
         {
+            // Edge 연결 Callback
             if(changes.edgesToCreate != null)
             {
                 foreach(var edge in changes.edgesToCreate)
                 {
-                    var inputNode = edge.input.node as DialogueBaseNodeView;
-                    var outputNode = edge.output.node as DialogueBaseNodeView;
-                    // 나가는 쪽을 기준으로 기록한다.
-                    outputNode.OutputPortIds.Add(inputNode.ID);
+                    DialogueBaseNodeView.Connect(edge.input, edge.output);
                 }
             }   
             if(changes.elementsToRemove != null)
@@ -80,9 +78,7 @@ namespace Titan.DialogueSystem.Data.View
                 {
                     if(element is Edge edge)
                     {
-                        var inputNode = edge.input.node as DialogueBaseNodeView;
-                        var outputNode = edge.output.node as DialogueBaseNodeView;
-                        outputNode.OutputPortIds.Remove(inputNode.ID);
+                        DialogueBaseNodeView.Disconnect(edge.input, edge.output);
                     }
                 }
             }

@@ -27,11 +27,21 @@ namespace Titan.DialogueSystem.Data.Nodes
             // Load Style sheet
             styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueSentenceNodeView.uss"));
 
-            var inputPort = CreatePort(DialoguePortType.Dialogue, Direction.Input, Port.Capacity.Multi);;
+            PortData inputPortData = null;
+            PortData outputPortData = null;
+            if(_portDataList.Count == 2)
+            {
+                inputPortData = _portDataList[0];
+                outputPortData = _portDataList[1];
+            }
+
+            // 같은 데이터를 여러 방식으로 사용하는 것은 좋은 설계가 아니다.
+            // 추후에 View의 형식에 맞춰서 Slot으로 추상화해서 중복된 코드를 줄이고 데이터의 애매함을 줄여 표현성을 늘릴 것
+            var inputPort = CreatePort(DialoguePortType.Dialogue, Direction.Input, Port.Capacity.Multi, inputPortData);
             inputPort.portName = "Dialogue Connection";
             inputContainer.Add(inputPort);
 
-            var outputPort = CreatePort(DialoguePortType.Dialogue, Direction.Output, Port.Capacity.Single);;
+            var outputPort = CreatePort(DialoguePortType.Dialogue, Direction.Output, Port.Capacity.Single, outputPortData);
             outputPort.portName = "Next Dialogue";
             outputContainer.Add(outputPort);
 

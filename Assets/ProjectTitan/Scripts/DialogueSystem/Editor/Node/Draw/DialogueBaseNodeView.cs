@@ -10,6 +10,10 @@ namespace Titan.DialogueSystem.Data.Nodes
     using UnityEditor;
     using View;
 
+    // @refacotr
+    // 1. Port 분리
+    // 2. Load View, Create View 상황 관리
+
     /// <summary>
     /// Dialogue System에 사용되는 Node들이 상속 받을 클래스
     /// View에 해당된다.
@@ -35,8 +39,10 @@ namespace Titan.DialogueSystem.Data.Nodes
         }
 
         [SerializeField] protected Vector2 _pos;
-        [SerializeField] protected List<string> _outputPortIDs = new();
-        public List<string> OutputPortIds => _outputPortIDs;
+        /// <summary>
+        /// Node View가 가지고 있는 Port 리스트
+        /// </summary>
+        [SerializeField] protected List<PortData> _portDataList = new(); // Data is already 
 
         protected DialogueGraphView _graphView;
 
@@ -130,9 +136,25 @@ namespace Titan.DialogueSystem.Data.Nodes
         
         public enum DialoguePortType
         {
+            None,
             Dialogue,
             Choice,
             Condition,
+        }
+
+        [Serializable]
+        public class PortData
+        {
+            public string PortID;
+            public string ConnectedPortID;
+            public DialoguePortType PortType;
+
+            public PortData(string PortID, DialoguePortType PortType)
+            {
+                this.PortID = PortID;
+                this.PortType = PortType;
+                ConnectedPortID = null;
+            }
         }
 
         // Port를 재정의하기에는 너무 번거로운 면이 있다.
@@ -141,30 +163,54 @@ namespace Titan.DialogueSystem.Data.Nodes
         // https://github.com/Unity-Technologies/UnityCsReference/blob/master/Modules/GraphViewEditor/Elements/Port.cs#L243
         // https://forum.unity.com/threads/graphview-inheriting-from-port-to-store-custom-data.1161392/
         // https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.shadergraph/Editor/Drawing/Views/ShaderPort.cs#L73
-        protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity)
+        protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity, PortData portData = null)
         {
+            bool afterSave = portData == null;
+
             var port = InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(float));
-            port.userData = type;
+            portData ??= new PortData(Guid.NewGuid().ToString(), type);
+            port.userData = portData;
             port.portColor = GetPortColor(type);
+
+            if(afterSave)
+            {
+                _portDataList.Add(portData);
+            }
 
             return port;
         }
 
+        protected void RemovePort(Port port)
+        {
+            var portData = port.userData as PortData;
+            _portDataList.Remove(portData);
+        }
+
         public static bool CanConnect(Object start, Object end)
         {
-            if(start == null || end == null)
+            if(start == null || end == null || start == end)
             {
                 return false;
             }
 
-            if(start == end)
-            {
-                return false;
-            }
+            var startType = start is PortData startPortData ? startPortData.PortType : DialoguePortType.None;
+            var endType = start is PortData endPortData ? endPortData.PortType : DialoguePortType.None;
 
-            DialoguePortType startType = (DialoguePortType)start;
-            DialoguePortType endType = (DialoguePortType)end;
             return startType == endType;
+        }
+
+        public static void Connect(Port input, Port output)
+        {
+            // input port가 도착, output port가 출발이란 것에 주의
+            var inputPortData = input.userData as PortData;
+            var outputPortData = output.userData as PortData;
+            outputPortData.ConnectedPortID = inputPortData.PortID;
+        }
+
+        public static void Disconnect(Port input, Port output)
+        {
+            var outputPortData = output.userData as PortData;
+            outputPortData.ConnectedPortID = null;
         }
 
         private Color GetPortColor(DialoguePortType type)
@@ -180,9 +226,13 @@ namespace Titan.DialogueSystem.Data.Nodes
         
         #endregion Port
 
+        #region Callback
+        
         private void OnGeometryChanged(GeometryChangedEvent evt)
         {
             _pos = GetPosition().position;
         }
+        
+        #endregion Callback
     }
 }

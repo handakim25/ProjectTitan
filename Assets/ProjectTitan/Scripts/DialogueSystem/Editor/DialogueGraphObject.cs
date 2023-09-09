@@ -7,6 +7,7 @@ using Titan.DialogueSystem.Data.View;
 using Titan.DialogueSystem.Data.Nodes;
 using System;
 using System.Linq;
+using static Titan.DialogueSystem.Data.Nodes.DialogueBaseNodeView;
 
 namespace Titan.DialogueSystem.Data
 {
@@ -25,9 +26,10 @@ namespace Titan.DialogueSystem.Data
     /// </summary>
     public class DialogueGraphObject : ScriptableObject
     {
+        [Serializable]
         public struct DialogueNodeData
         {
-            public Type type;
+            public string Type;
             public string SerializeData;
         }
 
@@ -48,7 +50,9 @@ namespace Titan.DialogueSystem.Data
             
             foreach(var node in graph.nodes)
             {
-                var nodeData = new DialogueNodeData() { type = node.GetType(), SerializeData = JsonUtility.ToJson(node as DialogueBaseNodeView) };
+                var nodeData = new DialogueNodeData() { Type = node.GetType().FullName, SerializeData = JsonUtility.ToJson(node as DialogueBaseNodeView) };
+                Debug.Log($"node type : {nodeData.Type}");
+                Debug.Log($"serialied node : {nodeData.SerializeData}");
                 _serializedNodes.Add(nodeData);
             }
         }
@@ -58,28 +62,34 @@ namespace Titan.DialogueSystem.Data
             var nodeDic = new Dictionary<string, DialogueBaseNodeView>();
             foreach(var serializeNode in _serializedNodes)
             {
-                var nodeView = Activator.CreateInstance(serializeNode.type) as DialogueBaseNodeView;
+                Debug.Log($"node type : {serializeNode.Type}");
+                Type type = Type.GetType(serializeNode.Type);
+                var nodeView = Activator.CreateInstance(type) as DialogueBaseNodeView;
                 JsonUtility.FromJsonOverwrite(serializeNode.SerializeData, nodeView);
                 nodeView.Initialize(graph, nodeView.ID);
 
                 graph.AddElement(nodeView);
-                Debug.Log($"node id : {nodeView.ID}");
                 nodeDic.Add(nodeView.ID, nodeView);
             }
 
-            foreach(var nodeView in nodeDic.Values)
+            var portDic = new Dictionary<string, Port>();
+            foreach(var port in graph.ports)
             {
-                var outputPorts = nodeView.outputContainer.Children().Cast<Port>().ToList();
-                for(int i = 0; i < nodeView.OutputPortIds.Count; i++)
-                {
-                    string targetID = nodeView.OutputPortIds[i];
-                    Debug.Log($"Target ID : {targetID}");
-                    var targetNode = nodeDic[targetID];
-                    var outputPort = outputPorts[i];
+                var portData = port.userData as PortData;
+                portDic.Add(portData.PortID, port);
+            }
 
-                    Edge edge = outputPort.ConnectTo(targetNode.inputContainer[0] as Port);
+            Debug.Log($"port count : {portDic.Count} ");
+
+            foreach(var port in graph.ports)
+            {
+                var portData = port.userData as PortData;
+                Debug.Log($"port data / id : {portData.PortID} / connected id : {portData.ConnectedPortID}");
+                if(!string.IsNullOrEmpty(portData.ConnectedPortID))
+                {
+                    var targetPort = portDic[portData.ConnectedPortID];
+                    var edge = port.ConnectTo(targetPort);
                     graph.AddElement(edge);
-                    Debug.Log($"Edge Connect");
                 }
             }
         }
