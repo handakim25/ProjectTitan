@@ -42,7 +42,6 @@ namespace Titan.DialogueSystem.Data.Nodes
         /// <summary>
         /// Node View가 가지고 있는 Port 리스트
         /// </summary>
-        [SerializeField] protected List<PortData> _portDataList = new(); // Data is already 
 
         protected DialogueGraphView _graphView;
 
@@ -142,6 +141,8 @@ namespace Titan.DialogueSystem.Data.Nodes
             Condition,
         }
 
+        // Port 관련 데이터를 나중에 분리할 것
+        
         [Serializable]
         public class PortData
         {
@@ -157,33 +158,36 @@ namespace Titan.DialogueSystem.Data.Nodes
             }
         }
 
+        [Serializable]
+        public class PortDataPair
+        {
+            public PortData inputPortData;
+            public PortData outputPortData;
+        }  
+
         // Port를 재정의하기에는 너무 번거로운 면이 있다.
         // 현재로는 userData를 이용하고 추후에 추가적인 기능이 필요하면 상속 받아서 사용할 것
         // 참고 링크
         // https://github.com/Unity-Technologies/UnityCsReference/blob/master/Modules/GraphViewEditor/Elements/Port.cs#L243
         // https://forum.unity.com/threads/graphview-inheriting-from-port-to-store-custom-data.1161392/
         // https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.shadergraph/Editor/Drawing/Views/ShaderPort.cs#L73
-        protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity, PortData portData = null)
+        protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity, ref PortData portData)
         {
-            bool afterSave = portData == null;
-
             var port = InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(float));
             portData ??= new PortData(Guid.NewGuid().ToString(), type);
             port.userData = portData;
             port.portColor = GetPortColor(type);
 
-            if(afterSave)
-            {
-                _portDataList.Add(portData);
-            }
-
             return port;
         }
 
-        protected void RemovePort(Port port)
+        protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity)
         {
-            var portData = port.userData as PortData;
-            _portDataList.Remove(portData);
+            var port = InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(float));
+            port.userData = new PortData(Guid.NewGuid().ToString(), type);
+            port.portColor = GetPortColor(type);
+
+            return port;
         }
 
         public static bool CanConnect(Object start, Object end)
@@ -205,12 +209,15 @@ namespace Titan.DialogueSystem.Data.Nodes
             var inputPortData = input.userData as PortData;
             var outputPortData = output.userData as PortData;
             outputPortData.ConnectedPortID = inputPortData.PortID;
+            inputPortData.ConnectedPortID = outputPortData.PortID;
         }
 
         public static void Disconnect(Port input, Port output)
         {
             var outputPortData = output.userData as PortData;
+            var inputPortData = input.userData as PortData;
             outputPortData.ConnectedPortID = null;
+            inputPortData.ConnectedPortID = null;
         }
 
         private Color GetPortColor(DialoguePortType type)

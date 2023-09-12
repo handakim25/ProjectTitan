@@ -13,12 +13,16 @@ namespace Titan.DialogueSystem.Data.Nodes
     /// </summary>
     public class DialogueSelectorNodeView : DialogueBaseNodeView
     {
-        [SerializeField] protected int _selectorCount = 1;
+        public List<PortDataPair> selectionPortData = new();
 
         private VisualElement bodyContainer;
         private VisualElement _selectorInputContaienr;
         private VisualElement _selectorOutputContainer;
-        
+
+        // 코드 구조가 이러한 형식에 따라 중복이 발생한다.
+        // 다른 곳에서 언급했듯이 이러한 공통 형식을 추후에 slot으로 만들 것
+        public PortData dialogueInputPortData;
+
         protected override void BuildView()
         {
             base.BuildView();
@@ -31,7 +35,7 @@ namespace Titan.DialogueSystem.Data.Nodes
 
             BuildAddSelection();
 
-            var inputPort = CreatePort(DialoguePortType.Dialogue, Direction.Input, Port.Capacity.Multi);
+            var inputPort = CreatePort(DialoguePortType.Dialogue, Direction.Input, Port.Capacity.Multi, ref dialogueInputPortData);
             inputPort.portName = "Dialogue Connection";
             inputContainer.Add(inputPort);
             
@@ -49,7 +53,12 @@ namespace Titan.DialogueSystem.Data.Nodes
 
             var selectorAddContainer = new VisualElement() { name = "selector-add"};
 
-            var selectorAddButton = new Button(() => AddSelection())
+            var selectorAddButton = new Button(() => {
+                var portDataPair = new PortDataPair();
+                selectionPortData.Add(portDataPair);
+                AddSelection(portDataPair);
+                ReOrderNumber();
+            })
             {
                 text = "Add Selector"
             };
@@ -78,25 +87,30 @@ namespace Titan.DialogueSystem.Data.Nodes
             selectorContainer.Add(selectorDivider);
             selectorContainer.Add(_selectorOutputContainer);
 
-            int count = _selectorCount > 0 ? _selectorCount : 1;
-            _selectorCount = 0;
-            for (int i = 0; i < count; i++)
+            if(selectionPortData.Count == 0)
             {
-                AddSelection();
+                selectionPortData.Add(new PortDataPair());
             }
+
+            foreach(var SelectionPortData in selectionPortData)
+            {
+                AddSelection(SelectionPortData);
+            }
+            ReOrderNumber();
+
             bodyContainer.Add(selectorContainer);
         }
 
-        private void AddSelection()
+        private void AddSelection(PortDataPair selectionPortData)
         {
-            var selectorInputPort = CreatePort(DialoguePortType.Choice, Direction.Input, Port.Capacity.Single);
-            selectorInputPort.portName = $"Selector {_selectorCount}";
+            var selectorInputPort = CreatePort(DialoguePortType.Choice, Direction.Input, Port.Capacity.Single, ref selectionPortData.inputPortData);
+            selectorInputPort.portName = $"Selector";
             _selectorInputContaienr.Add(selectorInputPort);
 
-            var selectorOutputPort = CreatePort(DialoguePortType.Dialogue, Direction.Output, Port.Capacity.Single);
-            selectorOutputPort.portName = $"Next Dialogue {_selectorCount}";
+            var selectorOutputPort = CreatePort(DialoguePortType.Dialogue, Direction.Output, Port.Capacity.Single, ref selectionPortData.outputPortData);
+            selectorOutputPort.portName = $"Next Dialogue";
             var selectDeleteButton = new Button(() => {
-                    if(_selectorCount <= 1)
+                    if(this.selectionPortData.Count == 1)
                     {
                         return;
                     }
@@ -112,13 +126,14 @@ namespace Titan.DialogueSystem.Data.Nodes
                         _graphView.DeleteElements(selectorOutputPort.connections);
                     }
                     _selectorOutputContainer.Remove(selectorOutputPort);
+
+                    this.selectionPortData.Remove(selectionPortData);
                     // _selectorCount will be updated in ReOrderNumber()
                     ReOrderNumber();
             }){ text = "X" };
             selectorOutputPort.Add(selectDeleteButton);
 
             _selectorOutputContainer.Add(selectorOutputPort);
-            _selectorCount++;
         }
 
         private void ReOrderNumber()
@@ -136,7 +151,6 @@ namespace Titan.DialogueSystem.Data.Nodes
                 var outputPort = _selectorOutputContainer[i] as Port;
                 outputPort.portName = $"Next Dialogue {i}";
             }
-            _selectorCount = _selectorInputContaienr.childCount;
         }
     }
 }

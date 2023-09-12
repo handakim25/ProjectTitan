@@ -8,6 +8,7 @@ using Titan.DialogueSystem.Data.Nodes;
 using System;
 using System.Linq;
 using static Titan.DialogueSystem.Data.Nodes.DialogueBaseNodeView;
+using UnityEditor;
 
 namespace Titan.DialogueSystem.Data
 {
@@ -39,6 +40,9 @@ namespace Titan.DialogueSystem.Data
 
         public string GraphName;
 
+        const string kDialogueObjectPath = "Assets/ProjectTitan/ResourcesData/Resources/DataSO/DialogueSO";
+        private string _DialogueSOGUID = string.Empty;
+
         public void Init(string graphName)
         {
             GraphName = graphName;
@@ -51,10 +55,45 @@ namespace Titan.DialogueSystem.Data
             foreach(var node in graph.nodes)
             {
                 var nodeData = new DialogueNodeData() { Type = node.GetType().FullName, SerializeData = JsonUtility.ToJson(node as DialogueBaseNodeView) };
-                Debug.Log($"node type : {nodeData.Type}");
-                Debug.Log($"serialied node : {nodeData.SerializeData}");
                 _serializedNodes.Add(nodeData);
             }
+        }
+
+        // @refactor
+        // DialogueGraphObject가 하는 일이 너무 많아졌다.
+        // 일단은 여기에 작성하고 분할을 해야 한다.
+        public void UpdateDialogueObject(DialogueGraphView graph)
+        {
+            var dialogueSo = GetDialogueObject();
+            dialogueSo.DialogueName = GraphName;
+
+            var builder = new DialogueBuilder(dialogueSo, graph);
+            builder.UpdateDialogueObject();
+
+            // Save Dialogue Object
+            EditorUtility.SetDirty(dialogueSo);
+            AssetDatabase.SaveAssetIfDirty(dialogueSo);
+        }
+
+        // private string GetConnectedNode(Port)
+
+        // Load DialogueObject from Guid
+        // if file is not exist, create new one
+        public DialogueObject GetDialogueObject()
+        {
+            var path = AssetDatabase.GUIDToAssetPath(_DialogueSOGUID);
+
+            DialogueObject dialogueObject = AssetDatabase.LoadAssetAtPath<DialogueObject>(path);
+            if(dialogueObject == null)
+            {
+                dialogueObject = CreateInstance<DialogueObject>();
+                // var assetPath = System.IO.Path.Combine(kDialogueObjectPath, $"{GraphName}.asset");
+                Debug.Log($"{kDialogueObjectPath}/{GraphName}.asset");
+                AssetDatabase.CreateAsset(dialogueObject, $"{kDialogueObjectPath}/{GraphName}.asset");
+                _DialogueSOGUID = AssetDatabase.AssetPathToGUID(kDialogueObjectPath);
+            }
+
+            return dialogueObject;
         }
 
         public void LoadData(DialogueGraphView graph)
@@ -62,7 +101,6 @@ namespace Titan.DialogueSystem.Data
             var nodeDic = new Dictionary<string, DialogueBaseNodeView>();
             foreach(var serializeNode in _serializedNodes)
             {
-                Debug.Log($"node type : {serializeNode.Type}");
                 Type type = Type.GetType(serializeNode.Type);
                 var nodeView = Activator.CreateInstance(type) as DialogueBaseNodeView;
                 JsonUtility.FromJsonOverwrite(serializeNode.SerializeData, nodeView);
@@ -79,17 +117,20 @@ namespace Titan.DialogueSystem.Data
                 portDic.Add(portData.PortID, port);
             }
 
-            Debug.Log($"port count : {portDic.Count} ");
-
             foreach(var port in graph.ports)
             {
                 var portData = port.userData as PortData;
-                Debug.Log($"port data / id : {portData.PortID} / connected id : {portData.ConnectedPortID}");
                 if(!string.IsNullOrEmpty(portData.ConnectedPortID))
                 {
-                    var targetPort = portDic[portData.ConnectedPortID];
-                    var edge = port.ConnectTo(targetPort);
-                    graph.AddElement(edge);
+                    if(portDic.TryGetValue(portData.ConnectedPortID, out var targetPort))
+                    {
+                        var edge = port.ConnectTo(targetPort);
+                        graph.AddElement(edge);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Port Not Found : {portData.ConnectedPortID}");
+                    }
                 }
             }
         }

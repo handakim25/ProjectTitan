@@ -119,6 +119,8 @@ namespace Titan.DialogueSystem.Data
             GraphObject.SaveData(EditorView.GraphView);
 
             EditorUtility.SetDirty(GraphObject);
+            GraphObject.UpdateDialogueObject(EditorView.GraphView);
+
             AssetDatabase.SaveAssetIfDirty(GraphObject);
 
             return true;

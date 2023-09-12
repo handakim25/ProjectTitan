@@ -12,11 +12,13 @@ namespace Titan.DialogueSystem.Data.Nodes
     public class DialogueChoiceNodeView : DialogueBaseNodeView
     {
         public string Sentence;
+        public PortData choicePortData;
+
         protected override void BuildView()
         {
             base.BuildView();
 
-            var outputPort = CreatePort(DialoguePortType.Choice, Direction.Output, Port.Capacity.Single);
+            var outputPort = CreatePort(DialoguePortType.Choice, Direction.Output, Port.Capacity.Single, ref choicePortData);
             outputPort.portName = "Selector Connection";
             outputPort.portColor = Color.green;
             outputContainer.Add(outputPort);
@@ -24,7 +26,7 @@ namespace Titan.DialogueSystem.Data.Nodes
             var customContainer = new VisualElement();  
 
             var textFoldout = new Foldout() {text = "Choice Text", value = true};
-            var textCountLabel = new Label("text count : 0");
+            var textCountLabel = new Label($"text count : {Sentence?.Length ?? 0}");
             var sentenceTextField = new TextField() {multiline = true};
             sentenceTextField.RegisterValueChangedCallback(evt =>
             {

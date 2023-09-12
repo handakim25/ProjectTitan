@@ -8,7 +8,8 @@ namespace Titan.DialogueSystem.Data.Nodes
 {
     public class DialogueAllNodeView : DialougeLogicNodeView
     {
-        [SerializeField] protected int _conditionCount = 0;
+        [SerializeField] protected List<PortData> _conditionInputPortDataList = new List<PortData>();
+
         protected override void BuildView()
         {
             // 코드가 굉장히 중복된다.
@@ -18,7 +19,8 @@ namespace Titan.DialogueSystem.Data.Nodes
             var conditionAddContainer = new VisualElement() { name = "condition-add" };
             var conditionAddButton = new Button(() =>
             {
-                AddCondition();
+                PortData portData = AddCondition(null);
+                _conditionInputPortDataList.Add(portData);
             })
             { text = "Add Condition" };
 
@@ -31,42 +33,48 @@ namespace Titan.DialogueSystem.Data.Nodes
             topContainer.parent.Add(divider);
             divider.PlaceInFront(conditionAddContainer);
 
-            int count = _conditionCount > 0 ? _conditionCount : 1;
-            _conditionCount = 0;
-            for(int i = 0; i < count; i++)
+            if(_conditionInputPortDataList.Count == 0)
             {
-                AddCondition();
+                var portData = AddCondition(null);
+                _conditionInputPortDataList.Add(portData);
+            }
+            else
+            {
+                foreach(var portData in _conditionInputPortDataList)
+                {
+                    AddCondition(portData);
+                }
             }
         }
 
-        private void AddCondition()
+        private PortData AddCondition(PortData portData)
         {
-            _conditionCount++;
-
-            var inputLogic = CreatePort(DialoguePortType.Condition, Direction.Input, Port.Capacity.Single);
-            inputLogic.portName = "Condition";
+            var inputLogicPort = CreatePort(DialoguePortType.Condition, Direction.Input, Port.Capacity.Single, ref portData);
+            inputLogicPort.portName = "Condition";
 
             {
                 var deleteButton = new Button(() =>
                 {
-                    if (_conditionCount <= 1)
+                    if (_conditionInputPortDataList.Count <= 1)
                     {
                         return;
                     }
-                    if (inputLogic.connected)
+                    if (inputLogicPort.connected)
                     {
                         // Disconnect할 필요는 없나?
-                        _graphView.DeleteElements(inputLogic.connections);
+                        _graphView.DeleteElements(inputLogicPort.connections);
                     }
-                    inputContainer.Remove(inputLogic);
-                    _conditionCount--;
+                    inputContainer.Remove(inputLogicPort);
+                    _conditionInputPortDataList.Remove(portData);
                 })
                 { text = "X" };
 
-                inputLogic.Add(deleteButton);
+                inputLogicPort.Add(deleteButton);
             }
 
-            inputContainer.Add(inputLogic);
+            inputContainer.Add(inputLogicPort);
+
+            return portData;
         }
     }
 }

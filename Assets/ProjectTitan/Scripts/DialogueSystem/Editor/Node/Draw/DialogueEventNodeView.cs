@@ -6,5 +6,6 @@ namespace Titan.DialogueSystem.Data.Nodes
 {
     public class DialogueEventNodeView : DialogueConditionNodeView
     {
+        public string TriggerName;
     }
 }
