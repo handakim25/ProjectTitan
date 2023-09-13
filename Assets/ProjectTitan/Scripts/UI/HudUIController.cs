@@ -26,6 +26,11 @@ namespace Titan.UI
 
         #region UIScene
         
+        private void Start()
+        {
+            
+        }
+
         public override void OpenUI()
         {
             _upperBar.SetActive(true);
@@ -33,7 +38,11 @@ namespace Titan.UI
             upperRect.DOAnchorPosY(0, _transitionTime)
                 .SetEase(openEaseType);
 
-            // _interactionPannel.SetActive(true);
+            // move to right
+            _interactionPannel.SetActive(true);
+            var interactRect = _interactionPannel.GetComponent<RectTransform>();
+            interactRect.DOAnchorPosX(0, _transitionTime)
+                .SetEase(openEaseType);
 
             _healthPannel.SetActive(true);
             var healthRect = _healthPannel.GetComponent<RectTransform>();
@@ -59,7 +68,12 @@ namespace Titan.UI
                 .SetEase(closeEaseType)
                 .OnComplete( () => _upperBar.SetActive(false));
 
-            // _interactionPannel.SetActive(false);
+            // move from right
+            _interactionPannel.SetActive(false);
+            var interactRect = _interactionPannel.GetComponent<RectTransform>();
+            interactRect.DOAnchorPosX(interactRect.sizeDelta.x, _transitionTime)
+                .SetEase(closeEaseType)
+                .OnComplete(() => _interactionPannel.SetActive(false));
 
             var healthRect = _healthPannel.GetComponent<RectTransform>();
             healthRect.DOAnchorPosY(-healthRect.sizeDelta.y, _transitionTime)

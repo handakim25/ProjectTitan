@@ -68,6 +68,7 @@ namespace Titan.DialogueSystem
             _action.Dialogue.Enable();
             _action.UI.Disable();
 
+            _isAutoMode = false;
             _autoButton.image.color = _isAutoMode ? Color.yellow : Color.white;
         }
 
@@ -189,6 +190,11 @@ namespace Titan.DialogueSystem
             _isAutoMode = !_isAutoMode;
             
             _autoButton.image.color = _isAutoMode ? Color.yellow : Color.white;
+
+            if(_isAutoMode && _dialogueTextCoroutine == null)
+            {
+                ProcessNextDialogue();
+            }
         }
 
         // Input Callback
@@ -201,7 +207,7 @@ namespace Titan.DialogueSystem
                 // control.name : 어떤 입력인지
 
                 var device = InputSystem.GetDevice<Pointer>();
-                if(device != null && IsRaycastHitUIObeject(device.position.ReadValue()))
+                if(device != null && IsRaycastHitTargetUI(device.position.ReadValue()))
                 {
                     return;
                 }
@@ -211,19 +217,13 @@ namespace Titan.DialogueSystem
 
         private PointerEventData _pointerEventData;
         private List<RaycastResult> _raycastResults = new();
-        private bool IsRaycastHitUIObeject(Vector2 position)
+        private bool IsRaycastHitTargetUI(Vector2 position)
         {
             _pointerEventData ??= new PointerEventData(EventSystem.current);
             _pointerEventData.position = position;
             EventSystem.current.RaycastAll(_pointerEventData, _raycastResults);
-            foreach(var result in _raycastResults)
-            {
-                if(result.gameObject == _autoButton.gameObject)
-                {
-                    return true;
-                }
-            }
-            return false;
+            
+            return _raycastResults.Any(result => result.gameObject == _autoButton.gameObject);
         }
     }
 }

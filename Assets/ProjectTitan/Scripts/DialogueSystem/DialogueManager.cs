@@ -102,6 +102,9 @@ namespace Titan.DialogueSystem
             ProcessDialogue(nextNode);
         }
 
+        /// <summary>
+        /// 선택지가 있으면 선택지를 출력한다.
+        /// </summary>
         private void OnDialogueEndHandler()
         {
             if (_currentDialogueNode.choices.Count > 0)
