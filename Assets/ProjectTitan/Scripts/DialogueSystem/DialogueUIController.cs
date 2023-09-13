@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -215,7 +216,14 @@ namespace Titan.DialogueSystem
             _pointerEventData ??= new PointerEventData(EventSystem.current);
             _pointerEventData.position = position;
             EventSystem.current.RaycastAll(_pointerEventData, _raycastResults);
-            return _raycastResults.Count > 0;
+            foreach(var result in _raycastResults)
+            {
+                if(result.gameObject == _autoButton.gameObject)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }
