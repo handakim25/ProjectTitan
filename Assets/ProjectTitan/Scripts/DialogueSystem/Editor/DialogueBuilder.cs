@@ -17,17 +17,29 @@ namespace Titan.DialogueSystem
         private class SelectorData
         {
             public List<Choice> Choices = new();
+            // Selector Node의 선택지 리스트
             public List<PortDataPair> PortData;
         }
         public DialogueObject DialogueObject;
         private DialogueGraphView _graph;
 
-        // key : id, value : BaseNodeView
+        // look up
+        /// <summary>
+        /// Key : Node ID, Value : NodeView
+        /// </summary>
         private Dictionary<string, DialogueBaseNodeView> _nodeViewDic = new();
+        /// <summary>
+        /// key : Node ID, value : DialogueNode
+        /// </summary>
         private Dictionary<string, DialogueNode> _dialogueNodeDic = new();
+        /// <summary>
+        /// key : Port ID, value : PortData
+        /// </summary>
+        private Dictionary<string, PortData> _portDataDic = new();
+
+        // List to process
         private List<DialogueChoiceNodeView> _choiceNodeViews = new();
         private List<DialogueSentenceNodeView> _sentenceNodeViews = new();
-        private Dictionary<string, PortData> _portDataDic = new();
         private Dictionary<DialogueSelectorNodeView, SelectorData> _selectorDataDic = new();
 
         public DialogueBuilder(DialogueObject dialogueObject, DialogueGraphView graph)
@@ -35,6 +47,7 @@ namespace Titan.DialogueSystem
             DialogueObject = dialogueObject;
             _graph = graph;
 
+            // create look up table
             foreach(var node in _graph.nodes)
             {
                 var nodeView = node as DialogueBaseNodeView;
@@ -44,7 +57,9 @@ namespace Titan.DialogueSystem
                 {
                     var dialogueNode = new DialogueNode
                     {
-                        NodeID = sentenceNodeView.ID
+                        NodeID = sentenceNodeView.ID,
+                        SpeakerName = "Test Speaker",
+                        DialogueText = sentenceNodeView.Sentence,
                     };
                     _dialogueNodeDic.Add(dialogueNode.NodeID, dialogueNode);
                     _sentenceNodeViews.Add(sentenceNodeView);
@@ -77,50 +92,33 @@ namespace Titan.DialogueSystem
             ProcessChoiceData();
 
             ConnectNodes();
-            // foreach(var node in _graph.nodes)
-            // {
-            //     if(node is DialogueSentenceNodeView sentenceNodeView)
-            //     {
-            //         string nodeId = sentenceNodeView.ID;
-            //         var dialogueNode = dialogueNodeDic[nodeId];
 
-            //         var outputPortData = sentenceNodeView.outputPortData;
-            //         var connectedPort = portDic[outputPortData.ConnectedPortID];
-            //         var connectedNode = connectedPort.node;
-            //         if(connectedNode is DialogueSentenceNodeView targetSentence)
-            //         {
-            //             dialogueNode.NextNode = targetSentence.ID;
-            //         }
-            //         else if(connectedNode is DialogueSelectorNodeView targetSelector)
-            //         {
-            //             foreach(var portPair in targetSelector.selectionPortData)
-            //             {
-            //                 var test = portPair.inputPortData.ConnectedPortID;
-            //             }
-            //         }
-            //     }
-            //     else if(node is DialogueSelectorNodeView selectorNodeView)
-            //     {
-
-            //     }
-            // }
-
-            // DialogueObject.Nodes = dialogueNodeDic.Values.ToList();
+            DialogueObject.Nodes = _dialogueNodeDic.Values.ToList();
         }
 
+        // Choice Data를 기준으로 Selector Node에 Choice 정보를 생성한다.
+        // Choice Node는 Logic Node 혹은 Selector Node에 연결될 수 있다.
+        // 목적은 Choice Data를 생성하는 것이다.
         private void ProcessChoiceData()
         {
             foreach(var choiceNodeView in _choiceNodeViews)
             {
                 var nextNode = GetConnectedNode(choiceNodeView.choicePortData);
-                if(nextNode is DialougeLogicNodeView logicNodeView && logicNodeView.IsValid())
+                if(nextNode == null)
+                {
+                    continue;
+                }
+                else if(nextNode is DialougeLogicNodeView logicNodeView && logicNodeView.IsValid())
                 {
                     
                 }
             }
         }
 
-
+        /// <summary>
+        /// Dialogue Node들을 연결한다.
+        /// Selector Node View는 연결되어 있는 Dialogue Node에 연결이 된다.
+        /// </summary>
         private void ConnectNodes()
         {
             foreach(var sentenceNodeView in _sentenceNodeViews)
@@ -148,13 +146,11 @@ namespace Titan.DialogueSystem
             {
                 return null;
             }
-
-            if(_nodeViewDic.TryGetValue(portData.ConnectedPortID, out var nodeView))
+            else
             {
-                return nodeView;
+                var connectedPort = _portDataDic[portData.ConnectedPortID];
+                return connectedPort.NodeView;
             }
-
-            return null;
         }
     }
 }

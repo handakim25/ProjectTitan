@@ -38,6 +38,9 @@ namespace Titan.Core
             m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
             m_UI_InteractScroll = m_UI.FindAction("InteractScroll", throwIfNotFound: true);
             m_UI_ShowCursor = m_UI.FindAction("ShowCursor", throwIfNotFound: true);
+            // Dialogue
+            m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
+            m_Dialogue_NextDialogue = m_Dialogue.FindAction("NextDialogue", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -259,6 +262,52 @@ namespace Titan.Core
             }
         }
         public UIActions @UI => new UIActions(this);
+
+        // Dialogue
+        private readonly InputActionMap m_Dialogue;
+        private List<IDialogueActions> m_DialogueActionsCallbackInterfaces = new List<IDialogueActions>();
+        private readonly InputAction m_Dialogue_NextDialogue;
+        public struct DialogueActions
+        {
+            private @MainAction m_Wrapper;
+            public DialogueActions(@MainAction wrapper) { m_Wrapper = wrapper; }
+            public InputAction @NextDialogue => m_Wrapper.m_Dialogue_NextDialogue;
+            public InputActionMap Get() { return m_Wrapper.m_Dialogue; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(DialogueActions set) { return set.Get(); }
+            public void AddCallbacks(IDialogueActions instance)
+            {
+                if (instance == null || m_Wrapper.m_DialogueActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_DialogueActionsCallbackInterfaces.Add(instance);
+                @NextDialogue.started += instance.OnNextDialogue;
+                @NextDialogue.performed += instance.OnNextDialogue;
+                @NextDialogue.canceled += instance.OnNextDialogue;
+            }
+
+            private void UnregisterCallbacks(IDialogueActions instance)
+            {
+                @NextDialogue.started -= instance.OnNextDialogue;
+                @NextDialogue.performed -= instance.OnNextDialogue;
+                @NextDialogue.canceled -= instance.OnNextDialogue;
+            }
+
+            public void RemoveCallbacks(IDialogueActions instance)
+            {
+                if (m_Wrapper.m_DialogueActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IDialogueActions instance)
+            {
+                foreach (var item in m_Wrapper.m_DialogueActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_DialogueActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public DialogueActions @Dialogue => new DialogueActions(this);
         private int m_PCSchemeIndex = -1;
         public InputControlScheme PCScheme
         {
@@ -293,6 +342,10 @@ namespace Titan.Core
             void OnInteract(InputAction.CallbackContext context);
             void OnInteractScroll(InputAction.CallbackContext context);
             void OnShowCursor(InputAction.CallbackContext context);
+        }
+        public interface IDialogueActions
+        {
+            void OnNextDialogue(InputAction.CallbackContext context);
         }
     }
 }

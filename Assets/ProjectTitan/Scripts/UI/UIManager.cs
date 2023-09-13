@@ -17,11 +17,16 @@ namespace Titan.UI
         // Change to scalable design latter
         [SerializeField] private UIScene inventoryUI;
 
+        [Tooltip("HUD Scene. 기본 진행 중에는 HUD가 표시되고 다른 UI를 열었을 경우 닫히게 된다. 다른 UI가 닫혔을 경우 다시 열린다.")]
         [SerializeField] private UIScene _HudScene;
+        // 굳이 직접 reference할 필요 없이 register pattern도 고려할 것
+        [Tooltip("UI Scene List. 정상적으로 열리고 닫히기 위해서는 여기에 등록해야 한다.")]
         [SerializeField] private List<UIScene> _UIList = new List<UIScene>();
 
         public event System.Action OnInteractEvent;
         public event System.Action<Vector2> OnInteractScrollEvent;
+
+        private bool isMouseMode = false;
 
         #region Unity Methods
         
@@ -34,7 +39,7 @@ namespace Titan.UI
 
         private void Start()
         {
-            ShowCursor();
+            HideCursor();
         }
 
         /// <summary>
@@ -45,7 +50,14 @@ namespace Titan.UI
         {
             if(focusStatus)
             {
-                HideCursor();
+                if(isMouseMode)
+                {
+                    ShowCursor();
+                }
+                else
+                {
+                    HideCursor();
+                }
             }
         }
         
@@ -64,6 +76,7 @@ namespace Titan.UI
         // or
         // UI Open UI -> Callback UIManager
 
+        // UI Scene들이 이것을 이용해서 자기 자신을 열게 한다.
         public void OpenUIScene(UIScene targetScene)
         {
             foreach(UIScene scene in _UIList)
@@ -72,12 +85,32 @@ namespace Titan.UI
                 {
                     continue;
                 }
-                scene.CloseUI();
+                if(scene.gameObject.activeSelf)
+                {
+                    scene.CloseUI();
+                }
             }
+            isMouseMode = true;
+            ShowCursor();
+            _action.Player.Disable();
         }
 
+        // UI Scene들이 이것을 이용해 자신을 닫는다.
+        // 구조가 마음에 들지는 않지만 일단은 이렇게 사용
         public void CloseUISceneHandler()
         {
+            _HudScene.OpenUI();
+        }
+
+        public void CloseUIScene(UIScene scene)
+        {
+            if(scene.gameObject.activeSelf)
+            {
+                scene.CloseUI();
+            }
+            isMouseMode = false;
+            HideCursor();
+            _action.Player.Enable();
             _HudScene.OpenUI();
         }
 
@@ -113,7 +146,14 @@ namespace Titan.UI
             }
             else if(context.canceled)
             {
-                HideCursor();
+                if(isMouseMode)
+                {
+                    ShowCursor();
+                }
+                else
+                {
+                    HideCursor();
+                }
             }
         }
 

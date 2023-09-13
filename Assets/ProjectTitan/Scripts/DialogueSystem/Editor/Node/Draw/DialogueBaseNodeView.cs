@@ -149,12 +149,14 @@ namespace Titan.DialogueSystem.Data.Nodes
             public string PortID;
             public string ConnectedPortID;
             public DialoguePortType PortType;
+            public DialogueBaseNodeView NodeView;
 
-            public PortData(string PortID, DialoguePortType PortType)
+            public PortData(string PortID, DialoguePortType PortType, DialogueBaseNodeView node)
             {
                 this.PortID = PortID;
                 this.PortType = PortType;
                 ConnectedPortID = null;
+                NodeView = node;
             }
         }
 
@@ -174,7 +176,7 @@ namespace Titan.DialogueSystem.Data.Nodes
         protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity, ref PortData portData)
         {
             var port = InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(float));
-            portData ??= new PortData(Guid.NewGuid().ToString(), type);
+            portData ??= new PortData(Guid.NewGuid().ToString(), type, this);
             port.userData = portData;
             port.portColor = GetPortColor(type);
 
@@ -184,7 +186,7 @@ namespace Titan.DialogueSystem.Data.Nodes
         protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity)
         {
             var port = InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(float));
-            port.userData = new PortData(Guid.NewGuid().ToString(), type);
+            port.userData = new PortData(Guid.NewGuid().ToString(), type, this);
             port.portColor = GetPortColor(type);
 
             return port;

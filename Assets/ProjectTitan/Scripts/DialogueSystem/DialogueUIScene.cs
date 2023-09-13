@@ -3,25 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using DG.Tweening;
+using Titan.DialogueSystem;
 
 namespace Titan.UI
 {
-    public class InventoryUIScene : UIScene
+    public class DialogueUIScene : UIScene
     {
+        [ SerializeField] private float _transitionTime = 0.5f;
         private CanvasGroup _canvasGroup;
-        [SerializeField] private float _transitionTime = 0.5f;
+        private DialogueUIController dialogueUIConroller;
 
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
         private void Awake()
         {
-            // 활성화 되지 않은 오브젝트의 경우는
-            // Awake 호출이 늦게 될 수 있다.
             _canvasGroup = GetComponent<CanvasGroup>();
+            dialogueUIConroller = GetComponent<DialogueUIController>();
         }
 
-        // Button Callback
         public override void OpenUI()
         {
             gameObject.SetActive(true);
@@ -29,7 +26,10 @@ namespace Titan.UI
             UIManager.Instance.OpenUIScene(this);
 
             _canvasGroup.alpha = 0f;
-            _canvasGroup.DOFade(1.0f, 0.0f).SetDelay(_transitionTime);
+            _canvasGroup.DOFade(1.0f, 0.0f).SetDelay(_transitionTime).OnComplete(() =>
+            {
+                dialogueUIConroller._isDialogueAnimating = false;
+            });
         }
 
         public override void CloseUI()

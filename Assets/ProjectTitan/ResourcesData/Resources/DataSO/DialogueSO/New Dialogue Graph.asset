@@ -15,9 +15,24 @@ MonoBehaviour:
   DialogueName: New Dialogue Graph
   StartingNodeID: 
   Nodes:
-  - NodeID: a0459d64-a752-4824-a145-f155eccf476d
+  - NodeID: b0b3589e-04fc-4db2-9dae-e66814df54f4
+    SpeakerName: Test Speaker
+    DialogueText: 
     NextNode: 
+    TriggerEventID: 
+    TriggerValue: 0
     choices: []
-  - NodeID: e1de86b7-892f-4ea2-9f5b-2332b7783a05
+  - NodeID: 27353609-15bf-49d7-b46f-0e6fb97fae95
+    SpeakerName: Test Speaker
+    DialogueText: 
     NextNode: 
+    TriggerEventID: 
+    TriggerValue: 0
+    choices: []
+  - NodeID: 17c41d6b-f699-4ff0-848d-8afc8c40ab65
+    SpeakerName: Test Speaker
+    DialogueText: 
+    NextNode: 
+    TriggerEventID: 
+    TriggerValue: 0
     choices: []

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _serializedNodes:
   - Type: Titan.DialogueSystem.Data.Nodes.DialogueSentenceNodeView
-    SerializeData: '{"_id":"a0459d64-a752-4824-a145-f155eccf476d","_pos":{"x":131.0,"y":168.0},"Sentence":"","inputPortData":{"PortID":"df48a57c-d369-45ee-b240-bbc8d480c663","ConnectedPortID":"","PortType":1},"outputPortData":{"PortID":"b3841b60-fd6a-4a6a-afd6-2e39a75a6923","ConnectedPortID":"","PortType":1}}'
+    SerializeData: '{"_id":"b0b3589e-04fc-4db2-9dae-e66814df54f4","_pos":{"x":516.0,"y":144.0},"Sentence":"","inputPortData":{"PortID":"3b158fc3-80bc-4bb8-9484-e05788326ef3","ConnectedPortID":"228faaf2-6799-45b8-a001-644d55a6e2d1","PortType":1},"outputPortData":{"PortID":"0796d845-8896-48ce-be83-648caa995e45","ConnectedPortID":"bcff0d91-23e9-4f7c-8b7e-f1ea81f0d17f","PortType":1}}'
   - Type: Titan.DialogueSystem.Data.Nodes.DialogueSentenceNodeView
-    SerializeData: '{"_id":"e1de86b7-892f-4ea2-9f5b-2332b7783a05","_pos":{"x":509.0,"y":135.0},"Sentence":"","inputPortData":{"PortID":"4450fca1-c041-4152-bc4b-af249f497773","ConnectedPortID":"","PortType":1},"outputPortData":{"PortID":"91455f98-a576-4c3e-a6a3-79ba38db6d2a","ConnectedPortID":"","PortType":1}}'
+    SerializeData: '{"_id":"27353609-15bf-49d7-b46f-0e6fb97fae95","_pos":{"x":919.0,"y":144.0},"Sentence":"","inputPortData":{"PortID":"bcff0d91-23e9-4f7c-8b7e-f1ea81f0d17f","ConnectedPortID":"0796d845-8896-48ce-be83-648caa995e45","PortType":1},"outputPortData":{"PortID":"a7340bf2-49ff-4561-9d40-a7f0a5b0e06c","ConnectedPortID":"","PortType":1}}'
+  - Type: Titan.DialogueSystem.Data.Nodes.DialogueSentenceNodeView
+    SerializeData: '{"_id":"17c41d6b-f699-4ff0-848d-8afc8c40ab65","_pos":{"x":164.0,"y":144.0},"Sentence":"","inputPortData":{"PortID":"d56b7213-b578-43f0-99d4-237afccc2d1a","ConnectedPortID":"","PortType":1},"outputPortData":{"PortID":"228faaf2-6799-45b8-a001-644d55a6e2d1","ConnectedPortID":"3b158fc3-80bc-4bb8-9484-e05788326ef3","PortType":1}}'
   GraphName: New Dialogue Graph

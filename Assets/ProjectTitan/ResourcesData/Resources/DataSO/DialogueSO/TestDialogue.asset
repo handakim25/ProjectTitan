@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa5c1801b9579e4fac5200a63309961, type: 3}
+  m_Name: TestDialogue
+  m_EditorClassIdentifier: 
+  DialogueName: New Dialogue Graph
+  StartingNodeID: b0b3589e-04fc-4db2-9dae-e66814df54f4
+  Nodes:
+  - NodeID: b0b3589e-04fc-4db2-9dae-e66814df54f4
+    SpeakerName: Test1
+    DialogueText: "\uC774\uAC83\uC740 \uD14C\uC2A4\uD2B8\uC785\uB2C8\uB2E41"
+    NextNode: 
+    TriggerEventID: 
+    TriggerValue: 0
+    choices:
+    - ChoiceText: "\uC120\uD0DD\uC9C01"
+      NextNode: 27353609-15bf-49d7-b46f-0e6fb97fae95
+    - ChoiceText: "\uC120\uD0DD\uC9C02"
+      NextNode: choice2
+  - NodeID: 27353609-15bf-49d7-b46f-0e6fb97fae95
+    SpeakerName: Test2
+    DialogueText: "\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
+      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
+      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
+      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
+      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
+      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
+      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?"
+    NextNode: 17c41d6b-f699-4ff0-848d-8afc8c40ab65
+    TriggerEventID: 
+    TriggerValue: 0
+    choices: []
+  - NodeID: 17c41d6b-f699-4ff0-848d-8afc8c40ab65
+    SpeakerName: Test3
+    DialogueText: "Auto \uB3D9\uC791\uC744 \uCCB4\uD06C\uD569\uB2C8\uB2E4.Auto \uB3D9\uC791\uC744
+      \uCCB4\uD06C\uD569\uB2C8\uB2E4.Auto \uB3D9\uC791\uC744 \uCCB4\uD06C\uD569\uB2C8\uB2E4.Auto
+      \uB3D9\uC791\uC744 \uCCB4\uD06C\uD569\uB2C8\uB2E4.Auto \uB3D9\uC791\uC744 \uCCB4\uD06C\uD569\uB2C8\uB2E4."
+    NextNode: teasdfoizcvno
+    TriggerEventID: 
+    TriggerValue: 0
+    choices: []
+  - NodeID: choice2
+    SpeakerName: Test4
+    DialogueText: "\uC120\uD0DD\uC9C02 \uC120\uD0DD\uD588\uC2B5\uB2C8\uB2E4."
+    NextNode: b0b3589e-04fc-4db2-9dae-e66814df54f4
+    TriggerEventID: 
+    TriggerValue: 0
+    choices: []
