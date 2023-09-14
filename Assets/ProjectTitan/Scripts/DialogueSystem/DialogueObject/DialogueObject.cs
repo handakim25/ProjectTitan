@@ -20,6 +20,7 @@ namespace Titan.DialogueSystem
             }
             else if(!_nodeDictionary.ContainsKey(id))
             {
+                Debug.LogError($"Dialogue Object : {DialogueName} does not have node : {id}");
                 return null;
             }
             return _nodeDictionary[id];

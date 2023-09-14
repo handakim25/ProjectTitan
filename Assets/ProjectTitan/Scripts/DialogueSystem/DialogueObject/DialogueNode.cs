@@ -17,6 +17,6 @@ namespace Titan.DialogueSystem
         public string TriggerEventID;
         public bool TriggerSetValue;
 
-        public List<Choice> choices = new();
+        public List<Choice> Choices = new();
     }
 }

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa5c1801b9579e4fac5200a63309961, type: 3}
+  m_Name: LongDialogue
+  m_EditorClassIdentifier: 
+  DialogueName: LinearDialogueTest
+  StartingNodeID: 37dd14cc-17e2-4d4f-bb5d-0d9ac00ae3c1
+  Nodes:
+  - NodeID: 37dd14cc-17e2-4d4f-bb5d-0d9ac00ae3c1
+    NextNode: 60fcdce4-2eda-4706-ae76-4e008e29223b
+    SpeakerName: test
+    DialogueText: First Text
+    TriggerEventID: test
+    TriggerSetValue: 0
+    choices: []
+  - NodeID: 98b1e244-1e9d-48df-b9df-b88364a6f4cc
+    NextNode: cf1642e5-e1b0-485d-b021-4d2f01329832
+    SpeakerName: test
+    DialogueText: Third Text
+    TriggerEventID: test
+    TriggerSetValue: 0
+    choices: []
+  - NodeID: cf1642e5-e1b0-485d-b021-4d2f01329832
+    NextNode: f82ecabb-0df2-4e88-be3b-0c09e21326c5
+    SpeakerName: test
+    DialogueText: Fourth Text
+    TriggerEventID: test
+    TriggerSetValue: 0
+    choices: []
+  - NodeID: 60fcdce4-2eda-4706-ae76-4e008e29223b
+    NextNode: 98b1e244-1e9d-48df-b9df-b88364a6f4cc
+    SpeakerName: test
+    DialogueText: Second Text
+    TriggerEventID: test
+    TriggerSetValue: 0
+    choices: []
+  - NodeID: f82ecabb-0df2-4e88-be3b-0c09e21326c5
+    NextNode: 
+    SpeakerName: test
+    DialogueText: Fifth Text
+    TriggerEventID: test
+    TriggerSetValue: 0
+    choices: []

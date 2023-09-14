@@ -9,6 +9,7 @@ namespace Titan.DialogueSystem
     {
         public enum ConditionType
         {
+            True,
             If,
             Any,
             All,
@@ -23,6 +24,8 @@ namespace Titan.DialogueSystem
         {
             switch (Type)
             {
+                case ConditionType.True:
+                    return true;
                 case ConditionType.If:
                     return Requirements[0].IsMet(conditionEvaluator);
                 case ConditionType.Any:

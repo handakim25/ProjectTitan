@@ -93,7 +93,7 @@ namespace Titan.DialogueSystem
         
         private void OnNextDialogueHandler()
         {
-           if (_currentDialogueNode.choices.Count > 0)
+           if (_currentDialogueNode.Choices.Count > 0)
             {
                 return;
             } 
@@ -107,10 +107,10 @@ namespace Titan.DialogueSystem
         /// </summary>
         private void OnDialogueEndHandler()
         {
-            if (_currentDialogueNode.choices.Count > 0)
+            if (_currentDialogueNode.Choices.Count > 0)
             {
                 // show choices
-                var choiceText = _currentDialogueNode.choices.Select(x => x.ChoiceText).ToList();
+                var choiceText = _currentDialogueNode.Choices.Select(x => x.ChoiceText).ToList();
                 _dialogueUI.ShowChoice(choiceText);
             }
         }
@@ -118,7 +118,7 @@ namespace Titan.DialogueSystem
         private void OnChoiceSelectedHandler(string choice)
         {
             // show next dialogue
-            var nextNodeID = _currentDialogueNode.choices.Find(x => x.ChoiceText == choice).NextNode;
+            var nextNodeID = _currentDialogueNode.Choices.Find(x => x.ChoiceText == choice).NextNode;
             var nextNode = _currentDialogueObject.GetNode(nextNodeID);
             ProcessDialogue(nextNode);
         }

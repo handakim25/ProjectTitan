@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1cd12435fc47354f89f8592c3b2dbe4, type: 3}
+  m_Name: SimpleChoiceDialogueTest
+  m_EditorClassIdentifier: 
+  _serializedNodes:
+  - Type: Titan.DialogueSystem.Data.Nodes.DialogueSelectorNodeView
+    SerializeData: '{"_id":"7a861186-fbf4-4d7d-8f53-ae0942cbcb57","_pos":{"x":508.0,"y":135.0},"selectionPortData":[{"inputPortData":{"PortID":"faea8857-878d-4083-9632-a339a7b912b3","ConnectedPortID":"aee59443-d22f-49b5-9826-4e6183024f08","PortType":2,"nodeId":"7a861186-fbf4-4d7d-8f53-ae0942cbcb57"},"outputPortData":{"PortID":"b1f23d72-b4bb-4ab2-8eb7-dd72c9041654","ConnectedPortID":"2bb2b673-8a9a-4a5b-aa08-02756d86161f","PortType":1,"nodeId":"7a861186-fbf4-4d7d-8f53-ae0942cbcb57"}},{"inputPortData":{"PortID":"0f62fda4-c8fc-4120-890a-69bb9df4e18a","ConnectedPortID":"38db2470-fa40-4afb-b92f-9b9f8034682a","PortType":2,"nodeId":"7a861186-fbf4-4d7d-8f53-ae0942cbcb57"},"outputPortData":{"PortID":"8a2baaf9-1bb2-412f-8742-d7aa60bb824c","ConnectedPortID":"d970de57-3ded-4b8b-891f-6d5bbda9dcbb","PortType":1,"nodeId":"7a861186-fbf4-4d7d-8f53-ae0942cbcb57"}}],"dialogueInputPortData":{"PortID":"f2c1cf0b-faaf-4078-bb89-9ec687a6cf82","ConnectedPortID":"d283ef12-1685-43da-a1a7-d4c18d71dc90","PortType":1,"nodeId":"7a861186-fbf4-4d7d-8f53-ae0942cbcb57"}}'
+  - Type: Titan.DialogueSystem.Data.Nodes.DialogueChoiceNodeView
+    SerializeData: "{\"_id\":\"b0c151ad-24a5-49ca-910b-c8646c59092a\",\"_pos\":{\"x\":134.0,\"y\":310.0},\"Sentence\":\"\uCCAB\uBC88\uC9F8
+      \uC120\uD0DD\uC9C0\uC785\uB2C8\uB2E4.\",\"choicePortData\":{\"PortID\":\"aee59443-d22f-49b5-9826-4e6183024f08\",\"ConnectedPortID\":\"faea8857-878d-4083-9632-a339a7b912b3\",\"PortType\":2,\"nodeId\":\"b0c151ad-24a5-49ca-910b-c8646c59092a\"}}"
+  - Type: Titan.DialogueSystem.Data.Nodes.DialogueChoiceNodeView
+    SerializeData: "{\"_id\":\"5ac6d795-0b23-4575-8e4b-cd4f6570c4ad\",\"_pos\":{\"x\":134.0,\"y\":472.0},\"Sentence\":\"\uB450\uBC88\uC9F8
+      \uC120\uD0DD\uC9C0\uC785\uB2C8\uB2E4.\",\"choicePortData\":{\"PortID\":\"38db2470-fa40-4afb-b92f-9b9f8034682a\",\"ConnectedPortID\":\"0f62fda4-c8fc-4120-890a-69bb9df4e18a\",\"PortType\":2,\"nodeId\":\"5ac6d795-0b23-4575-8e4b-cd4f6570c4ad\"}}"
+  - Type: Titan.DialogueSystem.Data.Nodes.DialogueSentenceNodeView
+    SerializeData: "{\"_id\":\"8a3e4b70-2664-4dc4-9489-03aaeb150232\",\"_pos\":{\"x\":775.0,\"y\":-11.0},\"Sentence\":\"\uBC18\uBCF5
+      \uC120\uD0DD\uC9C0 \uD14C\uC2A4\uD2B8\uC785\uB2C8\uB2E4. \uCC98\uC74C \uC120\uD0DD\uC9C0\uB85C
+      \uB3CC\uC544\uAC11\uB2C8\uB2E4.\",\"inputPortData\":{\"PortID\":\"2bb2b673-8a9a-4a5b-aa08-02756d86161f\",\"ConnectedPortID\":\"b1f23d72-b4bb-4ab2-8eb7-dd72c9041654\",\"PortType\":1,\"nodeId\":\"8a3e4b70-2664-4dc4-9489-03aaeb150232\"},\"outputPortData\":{\"PortID\":\"80e8a1ec-3826-49e2-bec1-9c23c3266b6c\",\"ConnectedPortID\":\"44e81166-3722-4ac7-80ca-bff9ef29db2f\",\"PortType\":1,\"nodeId\":\"8a3e4b70-2664-4dc4-9489-03aaeb150232\"}}"
+  - Type: Titan.DialogueSystem.Data.Nodes.DialogueSentenceNodeView
+    SerializeData: "{\"_id\":\"bd25a956-da24-4326-8610-268d58373877\",\"_pos\":{\"x\":839.0,\"y\":262.0},\"Sentence\":\"\uB450\uBC88\uC9F8
+      \uC120\uD0DD\uC9C0\uC785\uB2C8\uB2E4.\",\"inputPortData\":{\"PortID\":\"d970de57-3ded-4b8b-891f-6d5bbda9dcbb\",\"ConnectedPortID\":\"8a2baaf9-1bb2-412f-8742-d7aa60bb824c\",\"PortType\":1,\"nodeId\":\"bd25a956-da24-4326-8610-268d58373877\"},\"outputPortData\":{\"PortID\":\"c1a7fa08-7650-4a30-83fd-09c1bd8ea6e5\",\"ConnectedPortID\":\"\",\"PortType\":1,\"nodeId\":\"bd25a956-da24-4326-8610-268d58373877\"}}"
+  - Type: Titan.DialogueSystem.Data.Nodes.DialogueSentenceNodeView
+    SerializeData: '{"_id":"9a93f729-6eb2-4bf9-a309-802004c19d47","_pos":{"x":-320.0,"y":84.0},"Sentence":"Simple
+      Choice Dialogue Test. Null Select Test is not  here","inputPortData":{"PortID":"2d760ca0-54aa-41c4-972b-5a9d57d31702","ConnectedPortID":"","PortType":1,"nodeId":"9a93f729-6eb2-4bf9-a309-802004c19d47"},"outputPortData":{"PortID":"a37b6db6-f056-48b0-8a36-714c369d30fd","ConnectedPortID":"44e81166-3722-4ac7-80ca-bff9ef29db2f","PortType":1,"nodeId":"9a93f729-6eb2-4bf9-a309-802004c19d47"}}'
+  - Type: Titan.DialogueSystem.Data.Nodes.DialogueSentenceNodeView
+    SerializeData: "{\"_id\":\"cbe4d37d-0310-49bb-b6c9-5f0551c98d62\",\"_pos\":{\"x\":82.0,\"y\":84.0},\"Sentence\":\"\uC120\uD0DD\uC9C0
+      \uC9C4\uC785 Sentence \uC785\uB2C8\uB2E4. 2\uAC1C\uAC00 \uBCF4\uC5EC\uC57C
+      \uC815\uC0C1\uC785\uB2C8\uB2E4.\",\"inputPortData\":{\"PortID\":\"44e81166-3722-4ac7-80ca-bff9ef29db2f\",\"ConnectedPortID\":\"80e8a1ec-3826-49e2-bec1-9c23c3266b6c\",\"PortType\":1,\"nodeId\":\"cbe4d37d-0310-49bb-b6c9-5f0551c98d62\"},\"outputPortData\":{\"PortID\":\"d283ef12-1685-43da-a1a7-d4c18d71dc90\",\"ConnectedPortID\":\"f2c1cf0b-faaf-4078-bb89-9ec687a6cf82\",\"PortType\":1,\"nodeId\":\"cbe4d37d-0310-49bb-b6c9-5f0551c98d62\"}}"
+  GraphName: SimpleChoiceDialogueTest
+  _DialogueSOGUID: 3d64959282b053b48bfb637388cbab11
