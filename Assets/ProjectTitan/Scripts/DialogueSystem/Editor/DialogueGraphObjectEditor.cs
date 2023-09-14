@@ -44,8 +44,6 @@ namespace Titan.DialogueSystem.Data
 
             AssetCreator.CreateAssetInCurrentFolder<DialogueGraphObject>("New Dialogue Graph", (graph) =>
             {
-                string name = graph.name;
-                graph.Init(name);
                 EditorUtility.SetDirty(graph);
                 AssetDatabase.SaveAssetIfDirty(graph);
             });

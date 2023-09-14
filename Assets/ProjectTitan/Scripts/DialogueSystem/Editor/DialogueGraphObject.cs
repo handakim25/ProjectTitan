@@ -38,15 +38,9 @@ namespace Titan.DialogueSystem.Data
         // public List<DialogueBaseNodeConnectionData> Connections = new List<DialogueBaseNodeConnectionData>();
         public List<DialogueNodeData> _serializedNodes = new();
 
-        public string GraphName;
-
         const string kDialogueObjectPath = "Assets/ProjectTitan/ResourcesData/Resources/DataSO/DialogueSO";
         [SerializeField] private string _DialogueSOGUID = string.Empty;
 
-        public void Init(string graphName)
-        {
-            GraphName = graphName;
-        }
 
         public void SaveData(DialogueGraphView graph)
         {
@@ -73,6 +67,12 @@ namespace Titan.DialogueSystem.Data
             // Save Dialogue Object
             EditorUtility.SetDirty(dialogueSo);
             AssetDatabase.SaveAssetIfDirty(dialogueSo);
+
+            var path = AssetDatabase.GUIDToAssetPath(_DialogueSOGUID);
+            if(path != $"{kDialogueObjectPath}/{name}.asset")
+            {
+                AssetDatabase.MoveAsset(path, $"{kDialogueObjectPath}/{name}.asset");
+            }
             AssetDatabase.Refresh();
         }
 
@@ -89,10 +89,10 @@ namespace Titan.DialogueSystem.Data
             if(dialogueObject == null)
             {
                 dialogueObject = CreateInstance<DialogueObject>();
-                // var assetPath = System.IO.Path.Combine(kDialogueObjectPath, $"{GraphName}.asset");
-                Debug.Log($"{kDialogueObjectPath}/{GraphName}.asset Created");
-                AssetDatabase.CreateAsset(dialogueObject, $"{kDialogueObjectPath}/{GraphName}.asset");
-                _DialogueSOGUID = AssetDatabase.AssetPathToGUID($"{kDialogueObjectPath}/{GraphName}.asset");
+                AssetDatabase.CreateAsset(dialogueObject, $"{kDialogueObjectPath}/{name}.asset");
+                _DialogueSOGUID = AssetDatabase.AssetPathToGUID($"{kDialogueObjectPath}/{name}.asset");
+
+                Debug.Log($"{kDialogueObjectPath}/{name}.asset Created");
             }
 
             return dialogueObject;

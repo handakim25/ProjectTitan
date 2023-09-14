@@ -105,8 +105,7 @@ namespace Titan.DialogueSystem.Data
 
         public void UpdateTitle()
         {
-            // GraphObject.GraphName;
-            string titleText = string.IsNullOrEmpty(GraphObject.GraphName) ? kTitleName : GraphObject.GraphName;
+            string titleText = string.IsNullOrEmpty(GraphObject.name) ? kTitleName : GraphObject.name;
             titleContent = new GUIContent(titleText);
         }
 

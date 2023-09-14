@@ -38,7 +38,7 @@ MonoBehaviour:
     TriggerSetValue: 0
     Choices: []
   - NodeID: cbe4d37d-0310-49bb-b6c9-5f0551c98d62
-    NextNode: 7a861186-fbf4-4d7d-8f53-ae0942cbcb57
+    NextNode: 
     SpeakerName: test
     DialogueText: "\uC120\uD0DD\uC9C0 \uC9C4\uC785 Sentence \uC785\uB2C8\uB2E4. 2\uAC1C\uAC00
       \uBCF4\uC5EC\uC57C \uC815\uC0C1\uC785\uB2C8\uB2E4."

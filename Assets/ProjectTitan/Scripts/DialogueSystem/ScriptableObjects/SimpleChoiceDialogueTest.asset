@@ -35,5 +35,4 @@ MonoBehaviour:
     SerializeData: "{\"_id\":\"cbe4d37d-0310-49bb-b6c9-5f0551c98d62\",\"_pos\":{\"x\":82.0,\"y\":84.0},\"Sentence\":\"\uC120\uD0DD\uC9C0
       \uC9C4\uC785 Sentence \uC785\uB2C8\uB2E4. 2\uAC1C\uAC00 \uBCF4\uC5EC\uC57C
       \uC815\uC0C1\uC785\uB2C8\uB2E4.\",\"inputPortData\":{\"PortID\":\"44e81166-3722-4ac7-80ca-bff9ef29db2f\",\"ConnectedPortID\":\"80e8a1ec-3826-49e2-bec1-9c23c3266b6c\",\"PortType\":1,\"nodeId\":\"cbe4d37d-0310-49bb-b6c9-5f0551c98d62\"},\"outputPortData\":{\"PortID\":\"d283ef12-1685-43da-a1a7-d4c18d71dc90\",\"ConnectedPortID\":\"f2c1cf0b-faaf-4078-bb89-9ec687a6cf82\",\"PortType\":1,\"nodeId\":\"cbe4d37d-0310-49bb-b6c9-5f0551c98d62\"}}"
-  GraphName: SimpleChoiceDialogueTest
   _DialogueSOGUID: 3d64959282b053b48bfb637388cbab11
