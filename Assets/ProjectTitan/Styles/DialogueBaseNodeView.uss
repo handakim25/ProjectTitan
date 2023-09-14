@@ -1,9 +1,20 @@
 .dialogue--node
 {
     border-radius: 0;
+    max-width: 300px;
 }
 
 .dialogue--node > #node-border
 {
     border-radius: 0;
+}
+
+.dialogue--text
+{
+    max-width: 300px;
+}
+
+.dialogue--text > TextInput
+{
+    white-space: normal;
 }

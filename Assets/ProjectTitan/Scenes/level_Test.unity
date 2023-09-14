@@ -1259,7 +1259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
-  _dialogueObject: {fileID: 11400000, guid: 4ae1aa181176e1e4cb3acb26aafdf6c0, type: 2}
+  _dialogueObject: {fileID: 11400000, guid: 3d64959282b053b48bfb637388cbab11, type: 2}
 --- !u!1 &696535458
 GameObject:
   m_ObjectHideFlags: 0

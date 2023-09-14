@@ -49,6 +49,8 @@ namespace Titan.DialogueSystem.Data.Nodes
             // 2022 버전부터는 수정되어 있는 문제
             // 직접 수정하기에는 번거로운 문제이므로 버전업을 고려하던지 아니면 그대로 둘 것
             var sentenceTextField = new TextField() {multiline = true};
+            // https://forum.unity.com/threads/multiline-text-area-word-wrapping-scrolling-all-that-jazz.826251/
+            sentenceTextField.AddToClassList("dialogue--text");
             sentenceTextField.RegisterValueChangedCallback(evt =>
             {
                 Sentence = evt.newValue;
