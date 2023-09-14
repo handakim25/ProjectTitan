@@ -59,17 +59,14 @@ namespace Titan.DialogueSystem
 
         private void ProcessSentences()
         {
-            foreach (var nodeView in _graph.nodes)
+            foreach (var sentenceNodeView in _graph.nodes.OfType<DialogueSentenceNodeView>())
             {
-                if (nodeView is DialogueSentenceNodeView sentenceNodeView)
+                DialogueNode dialogueNode = CraeteDialogueNodeFromView(sentenceNodeView);
+                if (string.IsNullOrEmpty(sentenceNodeView.inputPortData.ConnectedPortID))
                 {
-                    DialogueNode dialogueNode = CraeteDialogueNodeFromView(sentenceNodeView);
-                    if (string.IsNullOrEmpty(sentenceNodeView.inputPortData.ConnectedPortID))
-                    {
-                        DialogueObject.StartingNodeID = dialogueNode.NodeID;
-                    }
-                    _nodeResult.Add(dialogueNode.NodeID, dialogueNode);
+                    DialogueObject.StartingNodeID = dialogueNode.NodeID;
                 }
+                _nodeResult.Add(dialogueNode.NodeID, dialogueNode);
             }
         }
 
