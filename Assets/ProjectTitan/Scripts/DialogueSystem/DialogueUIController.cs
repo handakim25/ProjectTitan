@@ -222,7 +222,6 @@ namespace Titan.DialogueSystem
             _pointerEventData ??= new PointerEventData(EventSystem.current);
             _pointerEventData.position = position;
             EventSystem.current.RaycastAll(_pointerEventData, _raycastResults);
-            
             return _raycastResults.Any(result => result.gameObject == _autoButton.gameObject);
         }
     }

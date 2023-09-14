@@ -9,6 +9,11 @@ namespace Titan.DialogueSystem.Data.Nodes
     {
         public PortData _conditionInputPortData;
 
+        public override Condition[] GetConditions()
+        {
+            throw new System.NotImplementedException();
+        }
+
         protected override void BuildView()
         {
             base.BuildView();
@@ -16,22 +21,6 @@ namespace Titan.DialogueSystem.Data.Nodes
             var inputLogic = CreatePort(DialoguePortType.Condition, Direction.Input, Port.Capacity.Single, ref _conditionInputPortData);
             inputLogic.portName = "Condition";
             inputContainer.Add(inputLogic);
-        }
-
-        public override Condition[] GetConditions()
-        {
-            foreach(Port port in _graphView.ports)
-            {
-                var portData = port.userData as PortData;
-                if(portData.PortID == _conditionInputPortData.ConnectedPortID)
-                {
-                    var conditionNode = port.node as DialogueEventNodeView;
-                    var retCondition = new Condition() { TriggerName = conditionNode.TriggerName };
-                    retCondition.ExpectedBool = GetExpectedCondition();
-                    return new Condition[] { retCondition };
-                }
-            }
-            return null;
         }
     }
 }

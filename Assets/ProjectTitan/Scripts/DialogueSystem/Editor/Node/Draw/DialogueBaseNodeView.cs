@@ -149,14 +149,14 @@ namespace Titan.DialogueSystem.Data.Nodes
             public string PortID;
             public string ConnectedPortID;
             public DialoguePortType PortType;
-            public DialogueBaseNodeView NodeView;
+            public string nodeId;
 
             public PortData(string PortID, DialoguePortType PortType, DialogueBaseNodeView node)
             {
                 this.PortID = PortID;
                 this.PortType = PortType;
                 ConnectedPortID = null;
-                NodeView = node;
+                nodeId = node.ID;
             }
         }
 
