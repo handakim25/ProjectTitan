@@ -41,7 +41,7 @@ namespace Titan.DialogueSystem.Data
         public string GraphName;
 
         const string kDialogueObjectPath = "Assets/ProjectTitan/ResourcesData/Resources/DataSO/DialogueSO";
-        private string _DialogueSOGUID = string.Empty;
+        [SerializeField] private string _DialogueSOGUID = string.Empty;
 
         public void Init(string graphName)
         {
@@ -65,7 +65,7 @@ namespace Titan.DialogueSystem.Data
         public void UpdateDialogueObject(DialogueGraphView graph)
         {
             var dialogueSo = GetDialogueObject();
-            dialogueSo.DialogueName = GraphName;
+            dialogueSo.DialogueName = name;
 
             var builder = new DialogueBuilder(dialogueSo, graph);
             builder.UpdateDialogueObject();
@@ -73,6 +73,7 @@ namespace Titan.DialogueSystem.Data
             // Save Dialogue Object
             EditorUtility.SetDirty(dialogueSo);
             AssetDatabase.SaveAssetIfDirty(dialogueSo);
+            AssetDatabase.Refresh();
         }
 
         // private string GetConnectedNode(Port)
@@ -82,15 +83,16 @@ namespace Titan.DialogueSystem.Data
         public DialogueObject GetDialogueObject()
         {
             var path = AssetDatabase.GUIDToAssetPath(_DialogueSOGUID);
+            Debug.Log($"Path : {path}");
 
             DialogueObject dialogueObject = AssetDatabase.LoadAssetAtPath<DialogueObject>(path);
             if(dialogueObject == null)
             {
                 dialogueObject = CreateInstance<DialogueObject>();
                 // var assetPath = System.IO.Path.Combine(kDialogueObjectPath, $"{GraphName}.asset");
-                Debug.Log($"{kDialogueObjectPath}/{GraphName}.asset");
+                Debug.Log($"{kDialogueObjectPath}/{GraphName}.asset Created");
                 AssetDatabase.CreateAsset(dialogueObject, $"{kDialogueObjectPath}/{GraphName}.asset");
-                _DialogueSOGUID = AssetDatabase.AssetPathToGUID(kDialogueObjectPath);
+                _DialogueSOGUID = AssetDatabase.AssetPathToGUID($"{kDialogueObjectPath}/{GraphName}.asset");
             }
 
             return dialogueObject;
