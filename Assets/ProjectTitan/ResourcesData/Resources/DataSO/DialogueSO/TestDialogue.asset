@@ -12,46 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa5c1801b9579e4fac5200a63309961, type: 3}
   m_Name: TestDialogue
   m_EditorClassIdentifier: 
-  DialogueName: New Dialogue Graph
-  StartingNodeID: b0b3589e-04fc-4db2-9dae-e66814df54f4
+  DialogueName: TestDialogue
+  StartingNodeID: 8dfdd420-d374-4a02-a8a3-c5e7ac2f2d1b
   Nodes:
-  - NodeID: b0b3589e-04fc-4db2-9dae-e66814df54f4
-    SpeakerName: Test1
-    DialogueText: "\uC774\uAC83\uC740 \uD14C\uC2A4\uD2B8\uC785\uB2C8\uB2E41"
+  - NodeID: 5c5acf49-bf03-4c7c-a3cb-cc144f4e5b9a
     NextNode: 
-    TriggerEventID: 
-    TriggerValue: 0
-    choices:
-    - ChoiceText: "\uC120\uD0DD\uC9C01"
-      NextNode: 27353609-15bf-49d7-b46f-0e6fb97fae95
-    - ChoiceText: "\uC120\uD0DD\uC9C02"
-      NextNode: choice2
-  - NodeID: 27353609-15bf-49d7-b46f-0e6fb97fae95
-    SpeakerName: Test2
-    DialogueText: "\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
-      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
-      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
-      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
-      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
-      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774
-      \uC798 \uBCF4\uC774\uB098\uC694?\uBB38\uC7A5\uC774 \uC798 \uBCF4\uC774\uB098\uC694?"
-    NextNode: 17c41d6b-f699-4ff0-848d-8afc8c40ab65
-    TriggerEventID: 
-    TriggerValue: 0
-    choices: []
-  - NodeID: 17c41d6b-f699-4ff0-848d-8afc8c40ab65
-    SpeakerName: Test3
-    DialogueText: "Auto \uB3D9\uC791\uC744 \uCCB4\uD06C\uD569\uB2C8\uB2E4.Auto \uB3D9\uC791\uC744
-      \uCCB4\uD06C\uD569\uB2C8\uB2E4.Auto \uB3D9\uC791\uC744 \uCCB4\uD06C\uD569\uB2C8\uB2E4.Auto
-      \uB3D9\uC791\uC744 \uCCB4\uD06C\uD569\uB2C8\uB2E4.Auto \uB3D9\uC791\uC744 \uCCB4\uD06C\uD569\uB2C8\uB2E4."
-    NextNode: teasdfoizcvno
-    TriggerEventID: 
-    TriggerValue: 0
-    choices: []
-  - NodeID: choice2
-    SpeakerName: Test4
-    DialogueText: "\uC120\uD0DD\uC9C02 \uC120\uD0DD\uD588\uC2B5\uB2C8\uB2E4."
-    NextNode: b0b3589e-04fc-4db2-9dae-e66814df54f4
-    TriggerEventID: 
-    TriggerValue: 0
-    choices: []
+    SpeakerName: test
+    DialogueText: "\uC120\uD0DD\uC9C0\uAC00 \uB098\uC624\uB294 \uB300\uC0AC\uC785\uB2C8\uB2E4."
+    TriggerEventID: test
+    TriggerSetValue: 0
+    Choices:
+    - ChoiceText: "\uCCAB\uBC88\uC9F8 \uC120\uD0DD\uC9C0\uC785\uB2C8\uB2E4."
+      NextNode: e17ce19b-70a3-41bc-a2b9-a3b9317be516
+      Condition:
+        Type: 0
+        ExpectedBool: 0
+    - ChoiceText: "\uB450\uBC88\uC9F8 \uC120\uD0DD\uC9C0\uC785\uB2C8\uB2E4."
+      NextNode: ad07a59f-3a11-4d40-81b3-c9f62e8babac
+      Condition:
+        Type: 0
+        ExpectedBool: 0
+  - NodeID: 8dfdd420-d374-4a02-a8a3-c5e7ac2f2d1b
+    NextNode: 5c5acf49-bf03-4c7c-a3cb-cc144f4e5b9a
+    SpeakerName: test
+    DialogueText: "\uC2DC\uC791 \uB300\uD654 \uC785\uB2C8\uB2E4. Input node\uAC00
+      \uC5C6\uB2E4\uBA74 \uC2DC\uC791 \uB178\uB4DC\uAC00 \uB429\uB2C8\uB2E4."
+    TriggerEventID: test
+    TriggerSetValue: 0
+    Choices: []
+  - NodeID: e17ce19b-70a3-41bc-a2b9-a3b9317be516
+    NextNode: 5c5acf49-bf03-4c7c-a3cb-cc144f4e5b9a
+    SpeakerName: test
+    DialogueText: "\uB2E4\uC2DC \uB3CC\uC544\uC624\uB294 \uC120\uD0DD\uC9C0\uC785\uB2C8\uB2E4."
+    TriggerEventID: test
+    TriggerSetValue: 0
+    Choices: []
+  - NodeID: ad07a59f-3a11-4d40-81b3-c9f62e8babac
+    NextNode: 
+    SpeakerName: test
+    DialogueText: "\uC885\uB8CC\uAC00 \uB418\uB294 \uC120\uD0DD\uC9C0\uC785\uB2C8\uB2E4.
+      Next Dialogue\uAC00 \uC5C6\uC73C\uBA74 \uC885\uB8CC\uB429\uB2C8\uB2E4."
+    TriggerEventID: test
+    TriggerSetValue: 0
+    Choices: []
