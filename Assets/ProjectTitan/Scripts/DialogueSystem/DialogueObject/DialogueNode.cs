@@ -11,11 +11,11 @@ namespace Titan.DialogueSystem
     public class DialogueNode
     {
         public string NodeID;
+        public string NextNode;
         public string SpeakerName;
         public string DialogueText;
-        public string NextNode;
         public string TriggerEventID;
-        public bool TriggerValue;
+        public bool TriggerSetValue;
 
         public List<Choice> choices = new();
     }
