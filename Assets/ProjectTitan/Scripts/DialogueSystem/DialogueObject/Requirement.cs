@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Titan.DialogueSystem
+namespace Titan
 {
+    [System.Serializable]
     public abstract class Requirement
     {
         /// <summary>
@@ -11,6 +12,10 @@ namespace Titan.DialogueSystem
         /// </summary>
         public bool ExpectedBool;
         public abstract bool IsMet(ConditionEvaluator conditionEvaluator);
+        public void RegisterCondtionEvaluator(ConditionEvaluator conditionEvaluator)
+        {
+
+        }
     }
 
     public class TriggerRequirement : Requirement
@@ -31,6 +36,46 @@ namespace Titan.DialogueSystem
         public override bool IsMet(ConditionEvaluator conditionEvaluator)
         {
             return conditionEvaluator.CheckItemCondition(ItemID, ItemCount) == ExpectedBool;
+        }
+    }
+
+    public class MonsterKillRequirement : Requirement
+    {
+        public string MonsterID;
+        public int KillCount;
+
+        public override bool IsMet(ConditionEvaluator conditionEvaluator)
+        {
+            // return conditionEvaluator.CheckMonsterKillCondition(MonsterID, KillCount) == ExpectedBool;
+            return true;
+        }
+    }
+
+    [System.Serializable]
+    public class SuperRequirement
+    {
+        [System.Serializable]
+        public enum RequirementType
+        {
+            Trigger,
+            Item,
+            MonsterKill,
+        }
+
+        public RequirementType Type;
+        private string Requirement;
+        public bool ExpectedBool;
+        public string RequireID;
+        public int RequireCount;
+
+        public void OnBeforeSerialize()
+        {
+            Requirement = Type.ToString();
+        }
+
+        public void OnAfterDeserialize()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

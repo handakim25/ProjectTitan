@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Titan.DialogueSystem
+namespace Titan
 {
     [System.Serializable]
     public class Condition
@@ -17,7 +17,7 @@ namespace Titan.DialogueSystem
 
         public ConditionType Type;
         public bool ExpectedBool;
-        public List<Requirement> Requirements = new();
+        [SerializeReference] public List<Requirement> Requirements = new();
         
         // Check Requirements with condition type
         public bool IsMet(ConditionEvaluator conditionEvaluator)

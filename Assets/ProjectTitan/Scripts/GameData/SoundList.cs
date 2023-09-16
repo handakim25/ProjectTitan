@@ -1,10 +1,8 @@
 public enum SoundList
 {
     None = -1,
-    adf = 0,
-    qwe = 1,
-    qweasdf = 2,
-    qqqqq = 3,
-    testttt = 4,
+    New_Sound = 0,
+    adsf = 1,
+    zvbwAt = 2,
 
 }

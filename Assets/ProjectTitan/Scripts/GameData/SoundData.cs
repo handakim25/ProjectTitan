@@ -23,24 +23,20 @@ namespace Titan.Audio
         // Path
         private string _clipPath = "Sound/";
         private string _dataPath = "Data/soundData";
-        private string _xmlFilePath = "";
-        private string _xmlFileName = "soundData.xml";
-
-        // XML Delimeter
-        private static string SOUND = "sound";
-        private static string CLIP = "clip";
+        private string _dataFilePath = "";
+        private string _dataFileName = "soundData.json";
 
         public SoundData() {}
 
         public override void SaveData()
         {
             var data = JsonUtility.ToJson(this, true);
-            File.WriteAllText(_xmlFilePath + _xmlFileName, data);
+            File.WriteAllText(_dataFilePath + _dataFileName, data);
         }
 
         public override void LoadData()
         {
-            _xmlFilePath = Application.dataPath + DataDirectory;
+            _dataFilePath = Application.dataPath + DataDirectory;
             TextAsset asset = (TextAsset)Resources.Load(_dataPath, typeof(TextAsset));
             if(asset == null || asset.text == null)
             {

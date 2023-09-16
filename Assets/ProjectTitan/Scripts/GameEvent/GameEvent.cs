@@ -2,15 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Titan.GameEvent
+namespace Titan.GameEventSystem
 {
+    [CreateAssetMenu(fileName = "GameEvent", menuName = "ScriptableObjects/GameEvent")]
     public class GameEvent : ScriptableObject
     {
         public string EventName;
-        /// <summary>
-        /// 절대 값을 직접 수정하지 말 것
-        /// </summary>
-        public bool EventStatus = false;
+        public bool Status;
+
 #if UNITY_EDITOR
         [SerializeField] private string EventDescription;
 #endif

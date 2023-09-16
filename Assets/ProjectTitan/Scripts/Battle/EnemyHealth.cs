@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 using Titan.Character.Enemy;
-using Cinemachine.Editor;
 
 
 namespace Titan.Battle
