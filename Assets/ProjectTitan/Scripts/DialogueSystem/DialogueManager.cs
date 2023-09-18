@@ -5,6 +5,7 @@ using Titan.Core;
 using UnityEngine;
 
 using Titan.UI;
+using Titan.QuestSystem;
 
 namespace Titan.DialogueSystem
 {
@@ -132,6 +133,15 @@ namespace Titan.DialogueSystem
                 {
                     // Trigger Event
 
+                }
+                if(!string.IsNullOrEmpty(_currentDialogueNode.TriggerQuest))
+                {
+                    // Trigger Quest
+                    EventBus.RaiseEvent(new QuestEvent
+                    {
+                        QuestID = _currentDialogueNode.TriggerQuest,
+                        Status = System.Enum.Parse<QuestStatus>(_currentDialogueNode.TriggerQuestState),
+                    });
                 }
                 _dialogueUI.SetDialogue(_currentDialogueNode.SpeakerName, _currentDialogueNode.DialogueText);
             }

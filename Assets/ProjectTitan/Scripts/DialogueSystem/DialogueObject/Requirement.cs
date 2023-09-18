@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
 namespace Titan
 {
     [System.Serializable]
@@ -52,9 +55,8 @@ namespace Titan
     }
 
     [System.Serializable]
-    public class SuperRequirement
+    public class QuestRequirement
     {
-        [System.Serializable]
         public enum RequirementType
         {
             Trigger,
@@ -62,20 +64,10 @@ namespace Titan
             MonsterKill,
         }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public RequirementType Type;
-        private string Requirement;
         public bool ExpectedBool;
         public string RequireID;
         public int RequireCount;
-
-        public void OnBeforeSerialize()
-        {
-            Requirement = Type.ToString();
-        }
-
-        public void OnAfterDeserialize()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

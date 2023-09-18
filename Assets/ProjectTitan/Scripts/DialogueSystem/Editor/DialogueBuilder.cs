@@ -78,6 +78,8 @@ namespace Titan.DialogueSystem
             dialogueNode.DialogueText = sentenceNodeView.Sentence;
             dialogueNode.TriggerEventID = "test";
             dialogueNode.TriggerSetValue = false;
+            dialogueNode.TriggerQuest = sentenceNodeView.TriggerQuestID;
+            dialogueNode.TriggerQuestState = sentenceNodeView.QuestStatus.ToString();
             var connectedNode = FindNodeFromPortID(sentenceNodeView.outputPortData.ConnectedPortID);
             dialogueNode.NextNode = connectedNode?.ID ?? null;
             dialogueNode.Choices = new List<Choice>();

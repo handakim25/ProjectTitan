@@ -8,6 +8,8 @@ using UnityEngine;
 using Titan.Resource;
 using Titan.Utility;
 
+using JsonUtility = UnityEngine.JsonUtility;
+
 namespace Titan.Audio
 {
     // @Refactor

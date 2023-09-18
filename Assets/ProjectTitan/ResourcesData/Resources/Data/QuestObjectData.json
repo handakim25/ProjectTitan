@@ -1,0 +1,32 @@
+[
+  {
+    "QuestIndex": 0,
+    "QuestID": "Test_Quest",
+    "QuestName": "던전에 빠져버렸다!",
+    "QuestDescription": "당신은 던전에 떨어졌다.\n이곳에서 나가기 위해서는 던전을 클리어하여야 한다.\n우선 장치를 활성화하여 최심부로 들어가자.",
+    "Type": "Main",
+    "QuestObjectDescription": [
+      "장치를 활성화 하자."
+    ],
+    "QuestObjectRequirement": [],
+    "QuestAcceptCondition": [],
+    "QuestRewardGold": 0,
+    "QuestRewardExp": 0,
+    "QuestRewardItems": [],
+    "QuestCompleteTriggerEvents": []
+  },
+  {
+    "QuestIndex": 1,
+    "QuestID": "Next_Quest",
+    "QuestName": "",
+    "QuestDescription": "",
+    "Type": "Main",
+    "QuestObjectDescription": null,
+    "QuestObjectRequirement": null,
+    "QuestAcceptCondition": [],
+    "QuestRewardGold": 0,
+    "QuestRewardExp": 0,
+    "QuestRewardItems": [],
+    "QuestCompleteTriggerEvents": []
+  }
+]

@@ -11,12 +11,12 @@ namespace Titan
 
     public struct EnemyDeadEvent : IEvent
     {
-        public int EnemyID;
+        public string EnemyID;
     }
 
     public struct ItemCollectedEvent : IEvent
     {
-        public int ItemID;
+        public string ItemID;
         public int Count;
     }
 
@@ -24,5 +24,11 @@ namespace Titan
     {
         public string EventName;
         
+    }
+
+    public struct QuestEvent : IEvent
+    {
+        public string QuestID;
+        public QuestSystem.QuestStatus Status;
     }
 }

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf9454a22076f947995f241b144b71f, type: 3}
+  m_Name: NextQuest
+  m_EditorClassIdentifier: 
+  Quest:
+    QuestIndex: 0
+    QuestID: Next_Quest
+    QuestName: 
+    QuestDescription: 
+    Type: 0
+    QuestGoal:
+    - Type: 1
+      ExpectedBool: 0
+      RequireID: 
+      RequireCount: 0
+    QuestAcceptCondition: []
+    QuestRewardGold: 0
+    QuestRewardExp: 0
+    QuestRewardItems: []
+    QuestCompleteTriggerEvents: []

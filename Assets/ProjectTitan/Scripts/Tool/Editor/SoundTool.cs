@@ -43,7 +43,7 @@ namespace Titan.Resource
         {
             if(_soundData == null)
             {
-                _soundData = ScriptableObject.CreateInstance<SoundData>();
+                _soundData = CreateInstance<SoundData>();
                 _soundData.LoadData();
             }
 

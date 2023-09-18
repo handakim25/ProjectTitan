@@ -28,7 +28,7 @@ namespace Titan.Resource
         [MenuItem("Tools/Effect Tool")]
         static void Init()
         {
-            effectData = ScriptableObject.CreateInstance<EffectData>();
+            effectData = CreateInstance<EffectData>();
             effectData.LoadData();
 
             EffectTool window = GetWindow<EffectTool>(false, "Effect Tool");
@@ -43,7 +43,7 @@ namespace Titan.Resource
         {
             if(effectData == null)
             {
-                effectData = ScriptableObject.CreateInstance<EffectData>();
+                effectData = CreateInstance<EffectData>();
                 effectData.LoadData();
             }
 

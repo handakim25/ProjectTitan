@@ -6,6 +6,9 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
+using UnityEditor.UIElements;
+
+using Titan.QuestSystem;
 
 namespace Titan.DialogueSystem.Data.Nodes
 {
@@ -17,10 +20,16 @@ namespace Titan.DialogueSystem.Data.Nodes
     public class DialogueSentenceNodeView : DialogueBaseNodeView
     {
         public string Sentence;
+        public string TriggerQuestID;
+        // if received -> Accep Quest
+        // if completed -> Complete Quest
+        public QuestStatus QuestStatus = QuestStatus.NotReceived;
+
+        // Editor Only Data
+        public string QuestObjectGUID;
 
         public PortData inputPortData;
         public PortData outputPortData;
-
         // Talker
         // Audio
 
@@ -57,10 +66,55 @@ namespace Titan.DialogueSystem.Data.Nodes
                 textCountLabel.text = $"text count : {evt.newValue.Length}";
             });
             sentenceTextField.SetValueWithoutNotify(Sentence);
-            
+
             textFoldout.Add(sentenceTextField);
             textFoldout.Add(textCountLabel);
             customContainer.Add(textFoldout);
+
+            var questFoldout = new Foldout() {text = "Quest", value = true};
+
+            var questStatusField = new EnumField(QuestStatus.Received);
+            questStatusField.SetValueWithoutNotify(QuestStatus);
+            questStatusField.RegisterValueChangedCallback(evt =>
+            {
+                var status = (QuestStatus) evt.newValue;
+                QuestStatus = status;
+            });
+
+            var questField = new ObjectField() {objectType = typeof(QuestObject)};
+            if(string.IsNullOrEmpty(QuestObjectGUID) == false)
+            {
+                var assetPath = AssetDatabase.GUIDToAssetPath(QuestObjectGUID);
+                var quest = AssetDatabase.LoadAssetAtPath<QuestObject>(assetPath);
+                questField.SetValueWithoutNotify(quest);
+                questStatusField.SetEnabled(true);
+            }
+            else
+            {
+                questStatusField.SetEnabled(false);
+            }
+            questField.RegisterValueChangedCallback(evt =>
+            {
+                var quest = evt.newValue as QuestObject;
+                if (quest != null)
+                {
+                    questStatusField.SetEnabled(true);
+                    TriggerQuestID = quest.Quest.QuestID;
+                    var assetPath = AssetDatabase.GetAssetPath(quest);
+                    QuestObjectGUID = AssetDatabase.AssetPathToGUID(assetPath);
+                }
+                else
+                {
+                    questStatusField.SetEnabled(false);
+                    TriggerQuestID = string.Empty;
+                    QuestObjectGUID = string.Empty;
+                }
+            });
+
+            questFoldout.Add(questField);
+            questFoldout.Add(questStatusField);
+            customContainer.Add(questFoldout);
+            
             extensionContainer.Add(customContainer);
 
             RefreshExpandedState();

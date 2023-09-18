@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf9454a22076f947995f241b144b71f, type: 3}
+  m_Name: TestQuest
+  m_EditorClassIdentifier: 
+  Quest:
+    QuestIndex: 0
+    QuestID: Test_Quest
+    QuestName: "\uB358\uC804\uC5D0 \uBE60\uC838\uBC84\uB838\uB2E4!"
+    QuestDescription: "\uB2F9\uC2E0\uC740 \uB358\uC804\uC5D0 \uB5A8\uC5B4\uC84C\uB2E4.\n\uC774\uACF3\uC5D0\uC11C
+      \uB098\uAC00\uAE30 \uC704\uD574\uC11C\uB294 \uB358\uC804\uC744 \uD074\uB9AC\uC5B4\uD558\uC5EC\uC57C
+      \uD55C\uB2E4.\n\uC6B0\uC120 \uC7A5\uCE58\uB97C \uD65C\uC131\uD654\uD558\uC5EC
+      \uCD5C\uC2EC\uBD80\uB85C \uB4E4\uC5B4\uAC00\uC790."
+    Type: 0
+    QuestObjectDescription:
+    - "\uC7A5\uCE58\uB97C \uD65C\uC131\uD654 \uD558\uC790."
+    QuestObjectRequirement: []
+    QuestAcceptCondition: []
+    QuestRewardGold: 0
+    QuestRewardExp: 0
+    QuestRewardItems: []
+    QuestCompleteTriggerEvents: []

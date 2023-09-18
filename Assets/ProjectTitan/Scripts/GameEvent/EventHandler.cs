@@ -31,21 +31,21 @@ namespace Titan.GameEventSystem
 
         private void OnEnable()
         {
-            if(GameEventManager.Instance == null) 
-            {
-                Debug.LogError("GameEventManager is not initialized");
-                return;
-            }
+            // if(GameEventManager.Instance == null) 
+            // {
+            //     Debug.LogError("GameEventManager is not initialized");
+            //     return;
+            // }
             // GameEventManager.Instance.RegisterEvent(_gameEvent, OnEventRaised);
         }
 
         private void OnDisable()
         {
-            if(GameEventManager.Instance == null)
-            {
-                Debug.LogError("GameEventManager is not initialized");
-                return;
-            }
+            // if(GameEventManager.Instance == null)
+            // {
+            //     Debug.LogError("GameEventManager is not initialized");
+            //     return;
+            // }
             // GameEventManager.Instance.UnregisterEvent(_gameEvent, (action) => {OnEventRaised?.Invoke();});
         }
     }

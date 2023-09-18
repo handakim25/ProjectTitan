@@ -93,13 +93,13 @@ namespace Titan.Resource
                 if(GUILayout.Button("Add", GUILayout.Width(uiWidth)))
                 {
                     data.AddData("NewData");
-                    selection = data.Count - 1; // 최종 리스트를 선택
+                    selection = data.Count - 1; // 새로 추가된 데이터를 선택
                 }
                 if(GUILayout.Button("Copy", GUILayout.Width(uiWidth)))
                 {
                     data.Copy(selection);
                     source = null;
-                    selection = data.Count - 1;
+                    selection = data.Count - 1; // 새로 복사된 데이터를 선택
                 }
                 if(data.Count > 1 && GUILayout.Button("Remove",GUILayout.Width(uiWidth)))
                 {
@@ -107,10 +107,7 @@ namespace Titan.Resource
                     data.RemoveData(selection);
                 }
 
-                if(selection > data.Count - 1)
-                {
-                    selection = data.Count - 1;
-                }
+                selection = Mathf.Clamp(selection, 0, data.Count - 1); // 선택된 데이터가 없을 경우 0으로 설정
             }
             EditorGUILayout.EndHorizontal(); // End 최상위 
         }
@@ -128,6 +125,8 @@ namespace Titan.Resource
             EditorGUILayout.BeginVertical(GUILayout.Width(uiWidth));
             {
                 EditorGUILayout.Separator();
+                // 설명 : https://discussions.unity.com/t/where-is-the-box-part-of-editorguilayout-beginvertical-box-documented/72233
+                // https://docs.unity3d.com/ScriptReference/GUISkin.html
                 EditorGUILayout.BeginVertical("box");
                 {
                     scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);

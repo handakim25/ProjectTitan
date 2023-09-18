@@ -5,24 +5,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Titan.Resource;
+using Titan.Utility;
 
 // @memo
 // 개인적으로는 Run-time에서 사용되는 코드하고 Editor 사용 코드가 섞여 있어서 별로 같다.
 // 각각 적절하게 나누는 편이 코드를 명확하게 이해할 수 있고 확장성에 더 좋다.
 
-namespace Titan
+namespace Titan.QuestSystem
 {
-    public class QuestData : BaseData
+    [CreateAssetMenu(fileName = "QuestDatabase", menuName = "Titan/QuestDatabase", order = 0)]
+    public class QuestDatabase : BaseData
     {
+        public Quest[] Quests = new Quest[0];
+
         /// <summary>
         /// Quest Data를 저장해두는 파일 경로, Resources에 상대적인 경로이다.
         /// Asset 구조로 불러오기 때문에 확장자는 필요 없다.
         /// </summary>
         private string _dataPath = "Data/QuestData";
         private string _dataFilePath = "";
-        /// <summary>
-        /// Quest Data를 저장해두는 파일 이름
-        /// </summary>
         private string _dataFileName = "QuestData.json";
 
         /// <summary>
@@ -48,16 +49,22 @@ namespace Titan
             JsonUtility.FromJsonOverwrite(asset.text, this);
         }
 
+        /// <summary>
+        /// new name인 Quest를 추가한다.
+        /// </summary>
+        /// <param name="newName">새로 추가할 퀘스트 이름</param>
+        /// <returns>현재 퀘스트 Count</returns>
         public override int AddData(string newName)
         {
-            if(newName == null)
+            if(names == null)
             {
                 names = new string[] {newName};
-
+                Quests = new Quest[] {new()};
             }
             else
             {
                 names = names.Concat(new [] {newName}).ToArray();
+                Quests = Quests.Concat(new [] {new Quest()}).ToArray();
             }
             return Count;
         }
@@ -69,11 +76,29 @@ namespace Titan
             {
                 names = null;
             }
-            
+            Quests = Quests.Where((quest, index) => index != removeIndex).ToArray();
+            if(Quests.Length == 0)
+            {
+                Quests = null;
+            }
         }
 
         public override void Copy(int index)
         {
+            names = names.Concat(new[] {names[index]}).ToArray();
+            Quests = Quests.Concat(new[] {GetCopy(index)}).ToArray();
+        }
+
+        public Quest GetCopy(int index)
+        {
+            if(index < 0 || index >= Quests.Length)
+            {
+                return null;
+            }
+
+            var origin = Quests[index];
+            var copy = ObjectCloner.SerializeClone(origin);
+            return copy;
         }
     }
 }
