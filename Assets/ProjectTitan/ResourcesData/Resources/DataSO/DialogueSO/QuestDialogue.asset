@@ -28,9 +28,14 @@ MonoBehaviour:
         \uC918"
       NextNode: edb52306-8cb2-49c3-844b-5ded3b1e60e4
       Condition:
-        Type: 0
-        ExpectedBool: 0
-        Requirements: []
+        Type: 1
+        ExpectedBool: 1
+        Requirements:
+        - Type: 3
+          ExpectedBool: 1
+          TargetID: Test_Quest
+          TargetCount: 0
+          QuestStatus: 0
     - ChoiceText: "\uC5EC\uAE30\uAC00 \uC5B4\uB514\uC57C?"
       NextNode: cc8918cc-89c9-4448-abc6-14ba76f0422d
       Condition:
@@ -119,6 +124,3 @@ MonoBehaviour:
     TriggerQuest: Test_Quest
     TriggerQuestState: Received
     Choices: []
-  references:
-    version: 2
-    RefIds: []

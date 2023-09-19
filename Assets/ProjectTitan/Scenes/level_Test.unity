@@ -692,13 +692,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 812497fbbe2262d4bb5ee9449e8c2751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 0}
+  _gameEvent: {fileID: 11400000, guid: f95dbca21240cd24b8cc2a9815e3dede, type: 2}
+  TargetStatus: 1
   OnEventRaised:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 429769057}
         m_TargetAssemblyTypeName: Titan.Obstacle, Assembly-CSharp
-        m_MethodName: OnClose
+        m_MethodName: Open
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -720,6 +721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878c2b406a518b24992f3497ad39a69d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsOpen: 0
 --- !u!1 &440361184
 GameObject:
   m_ObjectHideFlags: 0
@@ -1304,6 +1306,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactRange: 3
   _dialogueObject: {fileID: 11400000, guid: a9dd880eab28df54d897314e319508a3, type: 2}
+  _dialogueObjectRef:
+    ID: LinearDialogueTest
+    reference: {fileID: 11400000, guid: 4ae1aa181176e1e4cb3acb26aafdf6c0, type: 2}
 --- !u!1 &696535458
 GameObject:
   m_ObjectHideFlags: 0
@@ -1985,7 +1990,8 @@ GameObject:
   - component: {fileID: 1365710527}
   - component: {fileID: 1365710526}
   - component: {fileID: 1365710525}
-  m_Layer: 0
+  - component: {fileID: 1365710528}
+  m_Layer: 9
   m_Name: Beacon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2070,6 +2076,21 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365710523}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1365710528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365710523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f698870e3e5d37a47a2d2a76678f7862, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactRange: 3
+  _gameEvent: {fileID: 11400000, guid: f95dbca21240cd24b8cc2a9815e3dede, type: 2}
+  TargetStatus: 1
 --- !u!1001 &1421483823
 PrefabInstance:
   m_ObjectHideFlags: 0

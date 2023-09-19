@@ -5,11 +5,11 @@ using UnityEngine;
 namespace Titan.GameEventSystem
 {
     [CreateAssetMenu(fileName = "GameEvent", menuName = "ScriptableObjects/GameEvent")]
-    public class GameEvent : ScriptableObject
+    public class GameEvent : ScriptableObject, IRefereceable
     {
+        public string ID => EventName;
         public string EventName;
         public bool Status;
-
 #if UNITY_EDITOR
         [SerializeField] private string EventDescription;
 #endif
