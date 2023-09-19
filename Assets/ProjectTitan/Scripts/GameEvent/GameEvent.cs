@@ -5,6 +5,7 @@ using UnityEngine;
 namespace Titan.GameEventSystem
 {
     [CreateAssetMenu(fileName = "GameEvent", menuName = "ScriptableObjects/GameEvent")]
+    [System.Serializable]
     public class GameEvent : ScriptableObject, IRefereceable
     {
         public string ID => EventName;
