@@ -25,11 +25,15 @@ namespace Titan.DialogueSystem.Data.Nodes
             var outputTrue = CreatePort(DialoguePortType.Choice, Direction.Output, Port.Capacity.Single, ref trueOutputPortData);
             outputTrue.portName = "True Choice";
             outputContainer.Add(outputTrue);
+
+            var outputFalse = CreatePort(DialoguePortType.Choice, Direction.Output, Port.Capacity.Single, ref falseOutputPortData);
+            outputFalse.portName = "False Choice";
+            outputContainer.Add(outputFalse);
         }
 
         // 전제 조건
         // true 혹은 output이 존재해야 한다.
-        public bool GetExpectedCondition()
+        public bool GetExpectedBool()
         {
             if(string.IsNullOrEmpty(trueOutputPortData.ConnectedPortID))
             {
@@ -53,6 +57,14 @@ namespace Titan.DialogueSystem.Data.Nodes
             }
         }
 
-        public abstract Condition[] GetConditions();
+        public abstract Condition GetCondtion();
+
+        // 현재 Node가 Graph View에 접근할 수 있는 방법이 없다.
+        // 추후에 구조를 개선할 것
+        // 각각 노드에서 처리하는 것이 더 좋은 방법이다.
+        public virtual List<PortData> GetConditionPortsData()
+        {
+            return null;
+        }
     }
 }

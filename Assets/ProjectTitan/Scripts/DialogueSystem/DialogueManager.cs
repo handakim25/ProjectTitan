@@ -21,6 +21,7 @@ namespace Titan.DialogueSystem
         private DialogueObject _currentDialogueObject;
         private DialogueNode _currentDialogueNode;
         private float _lastDialogueEndTime;
+        private ConditionEvaluator _conditionEvaluator;
 
         public void StartDialogue(string DialogueID)
         {
@@ -111,7 +112,9 @@ namespace Titan.DialogueSystem
             if (_currentDialogueNode.Choices.Count > 0)
             {
                 // show choices
-                var choiceText = _currentDialogueNode.Choices.Select(x => x.ChoiceText).ToList();
+                _conditionEvaluator ??= new ConditionEvaluator() {QuestManager = QuestManager.Instance};
+                var choiceText = _currentDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator)).Select(x => x.ChoiceText).ToList();
+                // var choiceText = _currentDialogueNode.Choices.Select(x => x.ChoiceText).ToList();
                 _dialogueUI.ShowChoice(choiceText);
             }
         }
@@ -124,6 +127,10 @@ namespace Titan.DialogueSystem
             ProcessDialogue(nextNode);
         }
 
+        /// <summary>
+        /// 다음 대화를 처리한다. 만약 트리거를 발생해야 한다면 발생한다. 남은 대화가 없으면 종료한다.
+        /// </summary>
+        /// <param name="node"></param>
         private void ProcessDialogue(DialogueNode node)
         {
             _currentDialogueNode = node;

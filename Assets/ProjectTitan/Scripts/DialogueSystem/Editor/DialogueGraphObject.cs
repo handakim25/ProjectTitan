@@ -34,13 +34,10 @@ namespace Titan.DialogueSystem.Data
             public string SerializeData;
         }
 
-        // public List<DialogueNodeData> Nodes = new List<DialogueNodeData>();
-        // public List<DialogueBaseNodeConnectionData> Connections = new List<DialogueBaseNodeConnectionData>();
         public List<DialogueNodeData> _serializedNodes = new();
 
         const string kDialogueObjectPath = "Assets/ProjectTitan/ResourcesData/Resources/DataSO/DialogueSO";
         [SerializeField] private string _DialogueSOGUID = string.Empty;
-
 
         public void SaveData(DialogueGraphView graph)
         {

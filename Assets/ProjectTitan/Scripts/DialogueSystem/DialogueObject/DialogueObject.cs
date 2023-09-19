@@ -4,14 +4,16 @@ using UnityEngine;
 
 namespace Titan.DialogueSystem
 {
-    public class DialogueObject : ScriptableObject
+    public class DialogueObject : ScriptableObject, IRefereceable
     {
         public string DialogueName;
         public string StartingNodeID;
         public List<DialogueNode> Nodes = new();
 
         private Dictionary<string, DialogueNode> _nodeDictionary = new();
-        
+
+        public string ID => DialogueName;
+
         public DialogueNode GetNode(string id)
         {
             if(string.IsNullOrEmpty(id))

@@ -8,66 +8,35 @@ using Newtonsoft.Json.Converters;
 namespace Titan
 {
     [System.Serializable]
-    public abstract class Requirement
+    public class Requirement
     {
-        /// <summary>
-        /// Expect Bool과 같으면 True 다르면 Flase이다.
-        /// </summary>
-        public bool ExpectedBool;
-        public abstract bool IsMet(ConditionEvaluator conditionEvaluator);
-        public void RegisterCondtionEvaluator(ConditionEvaluator conditionEvaluator)
-        {
-
-        }
-    }
-
-    public class TriggerRequirement : Requirement
-    {
-        public string TriggerEventID;
-
-        public override bool IsMet(ConditionEvaluator conditionEvaluator)
-        {
-            return conditionEvaluator.CheckTriggerCondition(TriggerEventID) == ExpectedBool;
-        }
-    }
-
-    public class ItemRequirement : Requirement
-    {
-        public string ItemID;
-        public int ItemCount;
-
-        public override bool IsMet(ConditionEvaluator conditionEvaluator)
-        {
-            return conditionEvaluator.CheckItemCondition(ItemID, ItemCount) == ExpectedBool;
-        }
-    }
-
-    public class MonsterKillRequirement : Requirement
-    {
-        public string MonsterID;
-        public int KillCount;
-
-        public override bool IsMet(ConditionEvaluator conditionEvaluator)
-        {
-            // return conditionEvaluator.CheckMonsterKillCondition(MonsterID, KillCount) == ExpectedBool;
-            return true;
-        }
-    }
-
-    [System.Serializable]
-    public class QuestRequirement
-    {
+        // 다형성을 지원하기는 어려울 것 같다.
+        // 지금은 단일 클래스로 처리해 둔다.
         public enum RequirementType
         {
             Trigger,
             Item,
             MonsterKill,
+            Quest,
+        }
+        public RequirementType Type;
+        public bool ExpectedBool = true;
+        public string TargetID;
+        public int TargetCount;
+        public QuestSystem.QuestStatus QuestStatus = QuestSystem.QuestStatus.NotReceived; // For Quest Only
+
+        public bool IsMet(ConditionEvaluator conditionEvaluator)
+        {
+            return Type switch
+            {
+                RequirementType.Quest => ExpectedBool == CheckQuestCondition(conditionEvaluator),
+                _ => false,
+            };
         }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public RequirementType Type;
-        public bool ExpectedBool;
-        public string RequireID;
-        public int RequireCount;
+        private bool CheckQuestCondition(ConditionEvaluator conditionEvaluator)
+        {
+            return conditionEvaluator.CheckQuestConditon(TargetID, QuestStatus);
+        }
     }
 }

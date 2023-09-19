@@ -91,7 +91,6 @@ namespace Titan.DialogueSystem
         {
             foreach (var selectorNodeView in _graph.nodes.OfType<DialogueSelectorNodeView>())
             {
-
                 var connectedSentenceView = FindNodeFromPortID(selectorNodeView.dialogueInputPortData.ConnectedPortID);
                 if (connectedSentenceView == null)
                 {
@@ -121,6 +120,23 @@ namespace Titan.DialogueSystem
             }
 
             var choice = new Choice();
+            if(connectedNode is DialougeLogicNodeView logicNodeView)
+            {
+                choice.Condition = logicNodeView.GetCondtion();
+                var conditionPortData = logicNodeView.GetConditionPortsData();
+                foreach(var conditionPort in conditionPortData)
+                {
+                    var connectedConditionNode = FindNodeFromPortID(conditionPort.ConnectedPortID);
+                    if(connectedConditionNode is DialogueConditionNodeView conditionNodeView)
+                    {
+                        choice.Condition.Requirements.Add(conditionNodeView.GetRequirement());
+                    }
+                }
+
+                // proceed to next node
+                connectedNode = FindNodeFromPortID(logicNodeView._choiceInputPortData.ConnectedPortID);
+            }
+            // 현재는 중첩된 Logic Node를 지원하지 않는다.
             if(connectedNode is DialogueChoiceNodeView choiceNodeView)
             {
                 choice.ChoiceText = choiceNodeView.Sentence;

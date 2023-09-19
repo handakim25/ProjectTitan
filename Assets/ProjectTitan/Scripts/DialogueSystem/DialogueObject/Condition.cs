@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Titan
 
         public ConditionType Type;
         public bool ExpectedBool;
-        [SerializeReference] public List<Requirement> Requirements = new();
+        [SerializeField] public List<Requirement> Requirements = new();
         
         // Check Requirements with condition type
         public bool IsMet(ConditionEvaluator conditionEvaluator)
@@ -27,7 +28,7 @@ namespace Titan
                 case ConditionType.True:
                     return true;
                 case ConditionType.If:
-                    return Requirements[0].IsMet(conditionEvaluator);
+                    return Requirements.FirstOrDefault()?.IsMet(conditionEvaluator) ?? false;
                 case ConditionType.Any:
                     foreach (var requirement in Requirements)
                     {

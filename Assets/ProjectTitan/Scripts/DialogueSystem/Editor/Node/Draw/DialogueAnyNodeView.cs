@@ -76,7 +76,7 @@ namespace Titan.DialogueSystem.Data.Nodes
             return portData;
         }
 
-        public override Condition[] GetConditions()
+        public override Condition GetCondtion()
         {
             throw new System.NotImplementedException();
         }

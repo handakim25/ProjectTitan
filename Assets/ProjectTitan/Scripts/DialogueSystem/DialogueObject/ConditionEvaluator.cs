@@ -6,6 +6,7 @@ namespace Titan
 {
     public class ConditionEvaluator
     {
+        public QuestSystem.QuestManager QuestManager;
         public ConditionEvaluator()
         {
 
@@ -25,6 +26,11 @@ namespace Titan
         public bool CheckItemCondition(string ItemID, int ItemCount)
         {
             return true;
+        }
+
+        public bool CheckQuestConditon(string QuestID, QuestSystem.QuestStatus QuestStatus)
+        {
+            return QuestStatus == QuestManager.GetQuestStatus(QuestID);
         }
     }
 }

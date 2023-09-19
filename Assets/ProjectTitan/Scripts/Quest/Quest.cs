@@ -25,11 +25,11 @@ namespace Titan.QuestSystem
         /// </summary>
         [System.NonSerialized] public QuestStatus Status;
         public string[] QuestObjectDescription;
-        public QuestRequirement[] QuestObjectRequirement;
+        public Requirement[] QuestObjectRequirement;
         /// <summary>
         /// Quest를 받을 수 있는 조건
         /// </summary>
-        public QuestRequirement[] QuestAcceptCondition;
+        public Requirement[] QuestAcceptCondition;
         public int QuestRewardGold;
         public int QuestRewardExp;
         public List<string> QuestRewardItems = new();

@@ -20,5 +20,10 @@ namespace Titan.DialogueSystem.Data.Nodes
             outputPort.portName = "Condition";
             outputContainer.Add(outputPort);
         }
+
+        public virtual Requirement GetRequirement()
+        {
+            return null;
+        }
     }
 }

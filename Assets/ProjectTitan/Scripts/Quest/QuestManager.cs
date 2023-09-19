@@ -26,7 +26,6 @@ namespace Titan.QuestSystem
 
         public void ReceiveQuest(string questID, bool notify = false)
         {
-            Debug.Log($"{questProgressDictionary.Count}");
             if(questProgressDictionary.ContainsKey(questID))
             {
                 Debug.LogWarning($"Already received quest {questID}");
@@ -95,6 +94,15 @@ namespace Titan.QuestSystem
             return DataManager.QuestDatabase.TryGetQuest(questID, out quest);
         }
 
+        public QuestStatus GetQuestStatus(string QuestID)
+        {
+            if(!questProgressDictionary.ContainsKey(QuestID))
+            {
+                return QuestStatus.NotReceived;
+            }
+            return questProgressDictionary[QuestID].Status;
+        }
+
         // private void ItemCollectHandler(ItemCollectedEvent itemCollectedEvent)
         // {
         //     foreach(var questProgressData in questProgressDictionary.Values)
@@ -131,15 +139,15 @@ namespace Titan.QuestSystem
 
                 foreach(var questGoal in quest.QuestObjectRequirement)
                 {
-                    if(questGoal.Type != QuestRequirement.RequirementType.MonsterKill)
+                    if(questGoal.Type != Requirement.RequirementType.MonsterKill)
                     {
                         continue;
                     }
 
-                    if(questGoal.RequireID == enemyDeadEvent.EnemyID)
+                    if(questGoal.TargetID == enemyDeadEvent.EnemyID)
                     {
                         questProgressData.CurrentProgress++;
-                        questProgressData.CurrentProgress = Mathf.Clamp(questProgressData.CurrentProgress, 0, questGoal.RequireCount);
+                        questProgressData.CurrentProgress = Mathf.Clamp(questProgressData.CurrentProgress, 0, questGoal.TargetCount);
                     }
                 }
             }
