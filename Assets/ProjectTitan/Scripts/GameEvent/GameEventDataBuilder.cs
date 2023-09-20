@@ -1,46 +1,64 @@
+using System.IO;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+
+using Newtonsoft.Json;
 
 using Titan.Resource;
 
 namespace Titan.GameEventSystem
 {
-    [CreateAssetMenu(fileName = "GameEventDataBuilder", menuName = "ScriptableObjects/GameEventDataBuilder")]
-    public class GameEventDataBuilder : ScriptableObject
+    /// <summary>
+    /// Game Event의 Editor Data
+    /// </summary>
+    public class GameEventDataBuilder : BaseData
     {
-        public List<GameEvent> GameEvents = new();
-        public GameEvent[] GameEventArray;
-        public string[] GameData;
+        public List<GameEventObject> GameEvents = new();
+        private List<GameEvent> _gameEvent;
 
-        [ContextMenu("AddUnregistedEvents")]
-        public void AddUnregistedEvents()
+        private string _dataPath = "Data/";
+        private string _dataFileName = "GameEventData.json";
+
+        private string ResourceFilePath => _dataPath + _dataFileName;
+        private string AbsoluteFilePath => Application.dataPath + DataDirectory + _dataPath + _dataFileName;
+
+        public override void SaveData()
         {
-            var guids = AssetDatabase.FindAssets("t:GameEvent");
-            foreach(var guid in guids)
-            {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                var gameEvent = AssetDatabase.LoadAssetAtPath<GameEvent>(path);
-                if(GameEvents.Contains(gameEvent) == false)
-                {
-                    GameEvents.Add(gameEvent);
-                }
-            }
+            var eventList = GameEvents.Select(x => x.GameEvent).ToList();
+            var data = JsonConvert.SerializeObject(eventList, Formatting.Indented);
+            File.WriteAllText(AbsoluteFilePath, data); 
         }
 
-        [ContextMenu("ShowJson")]
-        public void ShowJson()
+        public override void LoadData()
         {
-            GameData = new string[GameEvents.Count];
-            for(int i = 0; i < GameEvents.Count; i++)
+            TextAsset asset = ResourceManager.Load<TextAsset>(ResourceFilePath);
+            if(asset == null || asset.text == null)
             {
-                GameData[i] = JsonUtility.ToJson(GameEvents[i], true);
+                Debug.LogError("Game Event Data is not found");
+                return;
             }
 
-            Debug.Log($"Cont : {GameEvents.Count}");
-            var json = JsonUtility.ToJson(this, true);
-            Debug.Log(json);
+            _gameEvent = JsonConvert.DeserializeObject<List<GameEvent>>(asset.text);
+        }
+
+        public void AddData(GameEventObject gameEventObject)
+        {
+            GameEvents.Add(gameEventObject);
+        }
+
+        public List<GameEvent> GetGameEvents()
+        {
+            return _gameEvent;
+        }
+
+        [ContextMenu("Show Json Data")]
+        private void ShowJsonData()
+        {
+            var eventList = GameEvents.Select(x => x.GameEvent).ToList();
+            var data = JsonConvert.SerializeObject(eventList, Formatting.Indented);
+            Debug.Log($"Game Event Data : \n{data}");
         }
     }
 }

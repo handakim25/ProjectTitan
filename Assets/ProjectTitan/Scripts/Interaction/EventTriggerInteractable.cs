@@ -8,7 +8,7 @@ namespace Titan.Interaction
 {
     public class EventTriggerInteractable : Interactable
     {
-        [SerializeField] private GameEvent _gameEvent;
+        [SerializeField] private ReferenceID<GameEventObject> _gameEvent;
         [SerializeField] private bool TargetStatus;
 
         public override void Interact()
@@ -18,8 +18,7 @@ namespace Titan.Interaction
                 Debug.LogError("GameEventManager is not initialized");
                 return;
             }
-            Debug.Log($"Trigger Event : {_gameEvent.EventName}");
-            GameEventManager.Instance.SetEventStatus(_gameEvent, TargetStatus);
+            GameEventManager.Instance.SetEventStatus(_gameEvent.ID, TargetStatus);
         }
     }
 }

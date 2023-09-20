@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f9e8fcdb75205d4b87d3a0053115c2c, type: 3}
-  m_Name: GameEventDataBuilder
+  m_Name: GameEventData
   m_EditorClassIdentifier: 
+  names: []
   GameEvents:
   - {fileID: 11400000, guid: f95dbca21240cd24b8cc2a9815e3dede, type: 2}
-  GameEventArray:
-  - {fileID: 11400000, guid: f95dbca21240cd24b8cc2a9815e3dede, type: 2}
-  GameData:
-  - "{\n    \"EventName\": \"DoorOpenTest\",\n    \"Status\": false,\n    \"EventDescription\":
-    \"Door Open Test\"\n}"
+  - {fileID: 11400000, guid: 9857c91e775feaa4783bb94a88b57788, type: 2}
+  - {fileID: 11400000, guid: a80b3110a62a14a43acc8a59436ad7fc, type: 2}
+  - {fileID: 11400000, guid: 901fcafacdfcb964c9127075edab95d6, type: 2}

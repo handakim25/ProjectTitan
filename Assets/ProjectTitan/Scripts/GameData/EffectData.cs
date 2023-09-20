@@ -25,9 +25,6 @@ namespace Titan.Effects
         private string _xmlFileName = "effectData.xml";
 
         // XML Delimeter
-        private const string EFFECT = "effect";
-        private const string CLIP = "clip"; 
-
         private EffectData() {}
 
         #region XML

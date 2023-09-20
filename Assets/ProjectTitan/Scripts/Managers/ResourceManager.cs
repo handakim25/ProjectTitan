@@ -22,6 +22,11 @@ namespace Titan.Resource
             return Resources.Load(path);
         }
 
+        public static T Load<T>(string path) where T : UnityObject
+        {
+            return Resources.Load<T>(path);
+        }
+
         public static GameObject LoadAndInstantiate(string path)
         {
             UnityObject source = Load(path);

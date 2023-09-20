@@ -11,7 +11,7 @@ namespace Titan.GameEventSystem
     {
         // Temp solution
         // 지금은 Save를 고려하지 않을 것
-        [SerializeField] private List<GameEvent> _gameEvents = new();
+        [SerializeField] private List<GameEventObject> _gameEvents = new();
         // Key : GameEvent name, value : Game Event
         private Dictionary<string, GameEvent> _gameEventDictionary = new();
         // Key : GameEvent Name, value : Game Event Listener
@@ -27,31 +27,30 @@ namespace Titan.GameEventSystem
         private void Start()
         {
             // Load Event Settings
-            _gameEventDictionary = _gameEvents.ToDictionary(x => x.EventName, x => x);
+            // Load 과정은 GameEventData로 넘길 것
+            _gameEventDictionary = _gameEvents.ToDictionary(x => x.ID, x => x.GameEvent);
         }
 
-        public void SetEventStatus(GameEvent gameEvent, bool newStatus)
+        /// <summary>
+        /// 혹시 모를 SO 참조
+        /// </summary>
+        public void SetEventStatus(GameEventObject gameEvent, bool newStatus)
         {
-            SetEventStatus(gameEvent.EventName, newStatus);
+            SetEventStatus(gameEvent.ID, newStatus);
         }
 
         public void SetEventStatus(string gameEventName, bool newStatus)
         {
-            if (_gameEventDictionary.TryGetValue(gameEventName, out GameEvent value) == false)
+            if (_gameEventDictionary.TryGetValue(gameEventName, out GameEvent gameEvent) == false)
             {
                 return;
             }
-            if (value.Status == newStatus)
+            if (gameEvent.Status == newStatus)
             {
                 return;
             }
 
-            value.Status = newStatus;
-            InvokeEventActions(value, newStatus);
-        }
-
-        private void InvokeEventActions(GameEvent gameEvent, bool newStatus)
-        {
+            gameEvent.Status = newStatus;
             InvokeEventActions(gameEvent.EventName, newStatus);
         }
 
@@ -72,9 +71,12 @@ namespace Titan.GameEventSystem
             }
         }
 
-        public bool GetEventStatus(GameEvent gameEvent, out bool status)
+        /// <summary>
+        /// 혹시 모를 SO 참조
+        /// </summary>
+        public bool GetEventStatus(GameEventObject gameEvent, out bool status)
         {
-            return GetEventStatus(gameEvent.EventName, out status);
+            return GetEventStatus(gameEvent.ID, out status);
         }
 
         public bool GetEventStatus(string gameEventName, out bool status)
@@ -89,9 +91,12 @@ namespace Titan.GameEventSystem
             return true;
         }
 
-        public void RegisterEvent(GameEvent gameEvent, GameEventAction action)
+        /// <summary>
+        /// /// 혹시 모를 SO 참조
+        /// </summary>
+        public void RegisterEvent(GameEventObject gameEvent, GameEventAction action)
         {
-            RegisterEvent(gameEvent.EventName, action);
+            RegisterEvent(gameEvent.ID, action);
         }
 
         public void RegisterEvent(string gameEventName, GameEventAction action)
@@ -104,9 +109,12 @@ namespace Titan.GameEventSystem
             _gameEventActionDictionary[gameEventName].Add(action);
         }
 
-        public void UnregisterEvent(GameEvent gameEvent, GameEventAction action)
+        /// <summary>
+        /// 혹시 모를 SO 참조
+        /// </summary>
+        public void UnregisterEvent(GameEventObject gameEvent, GameEventAction action)
         {
-           UnregisterEvent(gameEvent.EventName, action);
+           UnregisterEvent(gameEvent.ID, action);
         }
 
         public void UnregisterEvent(string gameEventName, GameEventAction action)
@@ -118,5 +126,22 @@ namespace Titan.GameEventSystem
 
             _gameEventActionDictionary[gameEventName].Remove(action);
         }
+
+        // Temp Save / Load Logic
+        // public void SaveGameEventStatus()
+        // {
+
+        //     var saveList = _gameEventDictionary.Values.Where(x => x.IsChanged).ToList();
+        // }
+
+        // public void LoadGameEventStatus()
+        // {
+        //     // Load Logic
+        //     foreach(var gameEvent in _gameEventDictionary.Values)
+        //     {
+        //         gameEvent.Status = gameEvent.DefaultStatus;
+        //     }
+
+        // }
     }
 }

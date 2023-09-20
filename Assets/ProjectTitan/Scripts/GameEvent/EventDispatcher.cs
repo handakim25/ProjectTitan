@@ -7,7 +7,7 @@ namespace Titan.GameEventSystem
 {
     public class EventDispatcher : MonoBehaviour
     {
-        [SerializeField] private GameEvent _gameEvent;
+        [SerializeField] private ReferenceID<GameEventObject> _gameEvent;
 
         public bool TargetStatus;
         public UnityEvent OnEventRaised;
@@ -21,10 +21,10 @@ namespace Titan.GameEventSystem
                     Debug.LogError("GameEventManager is not initialized");
                     return false;
                 }
-                var result = GameEventManager.Instance.GetEventStatus(_gameEvent, out bool status);
+                var result = GameEventManager.Instance.GetEventStatus(_gameEvent.ID, out bool status);
                 if(result == false)
                 {
-                    Debug.LogError($"GameEvent {_gameEvent.EventName} is not registered");
+                    Debug.LogError($"GameEvent {_gameEvent.ID} is not registered");
                     return false;
                 }
                 return status;
@@ -42,7 +42,7 @@ namespace Titan.GameEventSystem
                 Debug.LogError("GameEventManager is not initialized");
                 return;
             }
-            GameEventManager.Instance.RegisterEvent(_gameEvent, HandleEvent);
+            GameEventManager.Instance.RegisterEvent(_gameEvent.ID, HandleEvent);
         }
 
         private void OnDisable()
@@ -52,7 +52,7 @@ namespace Titan.GameEventSystem
                 Debug.LogError("GameEventManager is not initialized");
                 return;
             }
-            GameEventManager.Instance.UnregisterEvent(_gameEvent, HandleEvent);
+            GameEventManager.Instance.UnregisterEvent(_gameEvent.ID, HandleEvent);
         }
 
         private void Start()
@@ -63,7 +63,7 @@ namespace Titan.GameEventSystem
                 return;
             }
             _isInitialized = true;
-            GameEventManager.Instance.RegisterEvent(_gameEvent, HandleEvent);
+            GameEventManager.Instance.RegisterEvent(_gameEvent.ID, HandleEvent);
         }
 
         private void HandleEvent(GameEventManager.GameEventContext context)
