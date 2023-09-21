@@ -20,7 +20,6 @@ namespace Titan.Resource
         Vector2 _listScrollPos = Vector2.zero;
         Vector2 _contentScrollPos = Vector2.zero;
         static int _selection = 0;
-        static ReadOnlyCollection<int> _selections;
         UnityEditor.Editor _gameEventEditor = null;
 
         static private string _defaultFilePath = "Assets/ProjectTitan/Scripts/ScriptableObjects/";
@@ -63,8 +62,6 @@ namespace Titan.Resource
             {
                 _selection = list.index;
             };
-            _gameEventList.multiSelect = true;
-            _selections = _gameEventList.selectedIndices;
         }
 
         private void OnGUI()
@@ -106,8 +103,7 @@ namespace Titan.Resource
                 }
                 if(GUILayout.Button("ReorderIndex"))
                 {
-                    // ReorderIndex(_gameEventData.GameEvents.Select(x => x.GameEvent).ToList());
-                    ReorderIndex(_gameEventData.GameEvents);
+                    ReorderIndex(_gameEventData.GameEvents.Select(x => x.GameEvent).ToList());
                     EditorUtility.SetDirty(_gameEventData);
                 }
                 if(GUILayout.Button("Select Bulder Object"))
@@ -196,7 +192,14 @@ namespace Titan.Resource
             {
                 if(GUILayout.Button("Save To Json File"))
                 {
-                    _gameEventData.SaveData();
+                    if(!HasDuplicateName())
+                    {
+                        _gameEventData.SaveData();
+                    }
+                    else
+                    {
+                        Debug.LogError("Game Event Data has duplicate name");
+                    }
                 }
                 if(GUILayout.Button("Load From Json File(Not yet implemented)"))
                 {
@@ -221,19 +224,6 @@ namespace Titan.Resource
             }
         }
 
-        private void ReorderIndex(List<GameEventObject> gameEventObjects)
-        {
-            int startIndex = 0;
-            foreach(var gameEventObject in gameEventObjects)
-            {
-                if(gameEventObject.GameEvent.index > startIndex)
-                {
-                    startIndex = gameEventObject.GameEvent.index;
-                }
-                gameEventObject.GameEvent.index = startIndex++;
-            }
-        }
-        
         private bool HasDuplicateName()
         {
             return _gameEventData.GameEvents.Count != _gameEventData.GameEvents.Select(x => x.GameEvent.EventName).Distinct().Count();
