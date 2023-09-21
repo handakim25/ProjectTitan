@@ -29,7 +29,7 @@ namespace Titan.UI.Interaction
         #region Varaibles
         
         [SerializeField] private GameObject _slotPrefab;
-        [SerializeField] private GameObject _interactIcon;
+        [SerializeField] private GameObject _interactIconObject;
         [SerializeField] private RectTransform _interactCursor;
         private Color _normalColor;
         [SerializeField] private Color _hightlightColor = Color.cyan;
@@ -59,11 +59,6 @@ namespace Titan.UI.Interaction
             _selectedSlot = null;
             _normalColor = _slotPrefab.GetComponent<Image>().color;
         }
-
-        private void OnDisable()
-        {
-            
-        }
         
         #endregion Unity Methods
 
@@ -91,9 +86,9 @@ namespace Titan.UI.Interaction
             {
                 SetCursorPos();
             }
-            if(_interactIcon.activeSelf == false)
+            if(_interactIconObject.activeSelf == false)
             {
-                _interactIcon.SetActive(true);
+                _interactIconObject.SetActive(true);
             }
         }
 
@@ -116,7 +111,7 @@ namespace Titan.UI.Interaction
             var interactText = slotUI.transform.Find("InteractText");
             if(interactText && interactText.TryGetComponent<TextMeshProUGUI>(out var text))
             {
-                text.text = interactable.name;
+                text.text = interactable.InteractText;
             }
         }
 
@@ -136,7 +131,7 @@ namespace Titan.UI.Interaction
 
             if(_interactionUIs.Count == 0)
             {
-                _interactIcon.SetActive(false);
+                _interactIconObject.SetActive(false);
             }
             SetCursorPos();
         }
@@ -167,7 +162,6 @@ namespace Titan.UI.Interaction
                 image.color = _hightlightColor;
             }
             SetCursorPos();
-
         }
 
         /// <summary>
@@ -217,6 +211,11 @@ namespace Titan.UI.Interaction
                 return false;
             GameObject slotInteracObject = slotUI.GetComponent<InteractionUI>().Interactable;
             return _interactionUIs.ContainsKey(slotInteracObject);
+        }
+
+        public void Clear()
+        {
+
         }
 
         #endregion Methods

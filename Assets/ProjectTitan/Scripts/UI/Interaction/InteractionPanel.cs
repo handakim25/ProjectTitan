@@ -33,6 +33,7 @@ namespace Titan.UI.Interaction
                 UIManager.Instance.OnInteractScrollEvent -= OnInteractScrollHandler;
             }
             _interactionList.OnInteractChanged -= InteractSlotChagned;
+            _view.Clear();
         }
 
         /// <summary>
@@ -116,22 +117,24 @@ namespace Titan.UI.Interaction
 
         #region InputSystem Callback
         
+        /// <summary>
+        /// Interact 버튼을 눌렀을 때 호출되는 함수
+        /// </summary>
         public void OnInteractHandler()
         {
             if(_view.SelectedSlot == null)
             {
                 Debug.Log($"Nothing selected");
+                return;
             }
-            else
+
+            var slot = _view.SelectedSlot;
+            Debug.Log($"Do some interaction with {slot.name}");
+            var go = slot.GetComponent<InteractionUI>().Interactable;
+            if(go != null && go.TryGetComponent<Interactable>(out var interactable))
             {
-                var slot = _view.SelectedSlot;
-                Debug.Log($"Do some interaction with {slot.name}");
-                var go = slot.GetComponent<InteractionUI>().Interactable;
-                if(go != null)
-                {
-                    Debug.Log($"Interact with {go.name}");
-                    go.GetComponent<Interactable>().Interact();
-                }
+                Debug.Log($"Interact with {interactable.name}");
+                interactable.Interact();
             }
         }
 

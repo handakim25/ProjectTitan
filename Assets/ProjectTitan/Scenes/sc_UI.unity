@@ -4038,7 +4038,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _slotPrefab: {fileID: 8649465260062327569, guid: 2aaa91d5cd8cf3a4bb5b0ce0e92a8dcc,
     type: 3}
-  _interactIcon: {fileID: 639070938}
+  _interactIconObject: {fileID: 639070938}
   _interactCursor: {fileID: 644946740}
   _hightlightColor: {r: 0, g: 1, b: 1, a: 1}
   _selectedSlot: {fileID: 0}

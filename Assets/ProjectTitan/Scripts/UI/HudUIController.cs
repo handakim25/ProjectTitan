@@ -25,11 +25,6 @@ namespace Titan.UI
         [SerializeField] Ease closeEaseType;
 
         #region UIScene
-        
-        private void Start()
-        {
-            
-        }
 
         public override void OpenUI()
         {

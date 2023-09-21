@@ -10,6 +10,7 @@ namespace Titan.Interaction
         [SerializeField] private float _interactRange = 3f;
 
         public float InteractRange => _interactRange;
+        virtual public string InteractText => name;
 
         private GameObject target;
 
