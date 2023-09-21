@@ -692,7 +692,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 812497fbbe2262d4bb5ee9449e8c2751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameEvent: {fileID: 11400000, guid: f95dbca21240cd24b8cc2a9815e3dede, type: 2}
+  _gameEvent:
+    ID: 
+    reference: {fileID: 0}
   TargetStatus: 1
   OnEventRaised:
     m_PersistentCalls:
@@ -1289,7 +1291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maker: {fileID: 21300000, guid: 98bc53d6954c52040a2bbaeab618b43c, type: 3}
-  _color: {r: 0.9622642, g: 0.8845475, b: 0.25872195, a: 1}
+  _color: {r: 1, g: 1, b: 1, a: 1}
   _rotate: 0
   _fitSize: 1
 --- !u!114 &680173324
@@ -2089,7 +2091,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
-  _gameEvent: {fileID: 11400000, guid: f95dbca21240cd24b8cc2a9815e3dede, type: 2}
+  _gameEvent:
+    ID: 
+    reference: {fileID: 0}
   TargetStatus: 1
 --- !u!1001 &1421483823
 PrefabInstance:
