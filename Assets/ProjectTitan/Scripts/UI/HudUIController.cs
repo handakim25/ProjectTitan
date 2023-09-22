@@ -15,6 +15,8 @@ namespace Titan.UI
         // 이거 단순하게 사용되는 데 그냥 RectTransfrom을 받아오면 되지 않을까?
         [SerializeField] GameObject _upperBar;
         [SerializeField] GameObject _interactionPannel;
+        private float _interactionStartAnchorX;
+
         [SerializeField] GameObject _healthPannel;
         [SerializeField] GameObject _minimapPannel;
         [SerializeField] GameObject _skillPannel;
@@ -26,6 +28,11 @@ namespace Titan.UI
 
         #region UIScene
 
+        private void Start()
+        {
+            _interactionStartAnchorX = _interactionPannel.GetComponent<RectTransform>().anchoredPosition.x;
+        }
+
         public override void OpenUI()
         {
             _upperBar.SetActive(true);
@@ -36,8 +43,11 @@ namespace Titan.UI
             // move to right
             _interactionPannel.SetActive(true);
             var interactRect = _interactionPannel.GetComponent<RectTransform>();
-            interactRect.DOAnchorPosX(0, _transitionTime)
-                .SetEase(openEaseType);
+            var interactCanvasGroup = _interactionPannel.GetComponent<CanvasGroup>();
+            var interactSequnce = DOTween.Sequence();
+            interactSequnce.Append(interactRect.DOAnchorPosX(_interactionStartAnchorX, _transitionTime).SetEase(openEaseType));
+            interactSequnce.Join(interactCanvasGroup.DOFade(1, _transitionTime).SetEase(openEaseType));
+            
 
             _healthPannel.SetActive(true);
             var healthRect = _healthPannel.GetComponent<RectTransform>();
@@ -64,11 +74,12 @@ namespace Titan.UI
                 .OnComplete( () => _upperBar.SetActive(false));
 
             // move from right
-            _interactionPannel.SetActive(false);
             var interactRect = _interactionPannel.GetComponent<RectTransform>();
-            interactRect.DOAnchorPosX(interactRect.sizeDelta.x, _transitionTime)
-                .SetEase(closeEaseType)
-                .OnComplete(() => _interactionPannel.SetActive(false));
+            var interactCanvasGroup = _interactionPannel.GetComponent<CanvasGroup>();
+            var interactSequnce = DOTween.Sequence();
+            interactSequnce.Append(interactRect.DOAnchorPosX(0, _transitionTime).SetEase(closeEaseType));
+            interactSequnce.Join(interactCanvasGroup.DOFade(0, _transitionTime).SetEase(closeEaseType));
+            interactSequnce.OnComplete(() => _interactionPannel.SetActive(false));
 
             var healthRect = _healthPannel.GetComponent<RectTransform>();
             healthRect.DOAnchorPosY(-healthRect.sizeDelta.y, _transitionTime)

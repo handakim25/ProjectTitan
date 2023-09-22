@@ -29,8 +29,9 @@ namespace Titan.UI.Interaction
         #region Varaibles
         
         [SerializeField] private GameObject _slotPrefab;
-        [Tooltip("Interact Icon")]
+        [Tooltip("Interact Guide Icon")]
         [SerializeField] private GameObject _interactIconObject;
+        [SerializeField] private Vector2 _interactIconOffset = Vector2.zero;
         [SerializeField] private RectTransform _interactCursor;
         private Color _normalColor;
         [SerializeField] private Color _hightlightColor = Color.cyan;
@@ -46,6 +47,8 @@ namespace Titan.UI.Interaction
         public GameObject SelectedSlot => _selectedSlot;
         public int SlotCount => _interactionUIs.Count;
         public int ChildCount => _scrollRect.content.childCount;
+
+        private Canvas _canvas;
         
         #endregion Varaibles
 
@@ -56,11 +59,8 @@ namespace Titan.UI.Interaction
             Assert.IsNotNull(_slotPrefab);
             _scrollRect = GetComponent<ScrollRect>();
             _contentRectTransform = _scrollRect.content.GetComponent<RectTransform>();
-        }
 
-        private void OnEnable()
-        {
-            _selectedSlot = null;
+            _canvas = GetComponentInParent<Canvas>();
             _normalColor = _slotPrefab.GetComponent<Image>().color;
         }
         
@@ -178,13 +178,14 @@ namespace Titan.UI.Interaction
                 image.color = _hightlightColor;
             }
             SetCursorPos();
-            // Debug.Log($"SelectSlot : {selectedSlot}");
         }
 
         /// <summary>
         /// Interaction Cursor의 위치를 Update해주는 함수.
         /// 만약에 선택된 slot이 없다면 Marker를 비활성화한다.
         /// </summary>
+        // @Refactor
+        // 호출 위치를 줄일 수 있을 것 같은데?
         public void SetCursorPos()
         {
             if(_selectedSlot == null)
@@ -203,6 +204,39 @@ namespace Titan.UI.Interaction
             // var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position);
             var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position);
             _interactCursor.anchoredPosition = new Vector2(_interactCursor.anchoredPosition.x, size.y);
+        }
+
+        public void UpdateGuideIcon()
+        {
+            if(SlotCount == 0)
+            {
+                _interactIconObject.SetActive(false);
+                return;
+            }
+            _interactIconObject.SetActive(true);
+
+            // LayoutRebuilder.ForceRebuildLayoutImmediate(_contentRectTransform);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_scrollRect.content);
+
+            GameObject firstGo = null;
+            for(int i = 0; i < _scrollRect.content.childCount; ++i)
+            {
+                GameObject slotUI = _scrollRect.content.GetChild(i).gameObject;
+                if(IsValidSlot(slotUI))
+                {
+                    firstGo = slotUI;
+                    break;
+                }
+            }
+            if (firstGo != null)
+            {
+                Vector3 position = firstGo.transform.position;
+                _interactIconObject.transform.position = position;
+                _interactIconObject.GetComponent<RectTransform>().anchoredPosition += _interactIconOffset;
+                var firstRect = firstGo.transform as RectTransform;
+                Debug.Log($"firstGo : {firstGo.name}");
+                Debug.Log($"firstRect : {firstRect.anchoredPosition}");
+            }
         }
 
         public GameObject GetSlotUIByIndex(int index)
@@ -237,7 +271,13 @@ namespace Titan.UI.Interaction
 
         public void Clear()
         {
-
+            foreach(var interactionUI in _interactionUIs.Values)
+            {
+                Destroy(interactionUI.gameObject);
+            }
+            _interactionUIs.Clear();
+            _selectedSlot = null;
+            _interactIconObject.SetActive(false);
         }
 
         #endregion Methods

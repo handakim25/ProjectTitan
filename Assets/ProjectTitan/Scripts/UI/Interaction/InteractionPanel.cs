@@ -23,6 +23,7 @@ namespace Titan.UI.Interaction
             _interactionList.OnInteractChanged += InteractSlotChagned;
 
             _view.AddSlot(_interactionList.interactObjects.ToArray());
+            StartCoroutine(WaitRebuild());
         }
 
         private void OnDisable()
@@ -34,6 +35,13 @@ namespace Titan.UI.Interaction
             }
             _interactionList.OnInteractChanged -= InteractSlotChagned;
             _view.Clear();
+        }
+
+        IEnumerator WaitRebuild()
+        {
+            yield return new WaitForEndOfFrame();
+            _view.UpdateGuideIcon();
+            _view.SetCursorPos();
         }
 
         /// <summary>
@@ -72,6 +80,7 @@ namespace Titan.UI.Interaction
             {
                 _view.AddSlot(args.AddedObjects);
             }
+            _view.UpdateGuideIcon();
 
             if(_view.SelectedSlot == null && _view.SlotCount > 0)
             {
