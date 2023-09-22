@@ -29,6 +29,7 @@ namespace Titan.UI.Interaction
         #region Varaibles
         
         [SerializeField] private GameObject _slotPrefab;
+        [Tooltip("Interact Icon")]
         [SerializeField] private GameObject _interactIconObject;
         [SerializeField] private RectTransform _interactCursor;
         private Color _normalColor;
@@ -36,7 +37,10 @@ namespace Titan.UI.Interaction
 
         private ScrollRect _scrollRect;
         private RectTransform _contentRectTransform;
-        // key : Interactable Objects, Value : Interact UI
+        /// <summary>
+        /// Key : Interactable Objects, Value : Interact UI.
+        /// Slot UI는 InteractionUI를 참조해서 접근할 것
+        /// </summary>
         private Dictionary<GameObject, InteractionUI> _interactionUIs = new();
         [SerializeField] private GameObject _selectedSlot = null;
         public GameObject SelectedSlot => _selectedSlot;
@@ -74,13 +78,22 @@ namespace Titan.UI.Interaction
                 SetInteractSlot(slotUI, interactObject.GetComponent<Interactable>());
                 var interactionUI = slotUI.GetComponent<InteractionUI>();
                 interactionUI.Interactable = interactObject;
-                _interactionUIs[interactObject] = slotUI.GetComponent<InteractionUI>();
+                _interactionUIs[interactObject] = interactionUI;
                 slotUI.name += $"_{interactObject.name}";
             }
 
+            // Slot이 추가됬으므로 적어도 하나는 선택된다.
             if(_selectedSlot == null)
             {
-                SelectSlot(parent.GetChild(0).gameObject);
+                for(int i = 0; i< parent.childCount; i++)
+                {
+                    GameObject slotUI = parent.GetChild(i).gameObject;
+                    if(IsValidSlot(slotUI))
+                    {
+                        SelectSlot(slotUI);
+                        break;
+                    }
+                }
             }
             else
             {
@@ -121,10 +134,13 @@ namespace Titan.UI.Interaction
             {
                 if(_interactionUIs[removedObject].gameObject == _selectedSlot)
                 {
+                    // Debug.Log($"Reset selected slot");
                     SelectSlot(null);
                 }
                 // SetCursorPos 계산을 위함
                 _interactionUIs[removedObject].gameObject.SetActive(false);
+                // Destroy 시점은 Update 이후에 이루어진다. 이번 Update 루프에서 삭제되는 것은 아니다.
+                // 따라서 InteractionUIs의 값들을 참조할 것
                 Destroy(_interactionUIs[removedObject].gameObject);
                 _interactionUIs.Remove(removedObject);
             }
@@ -145,23 +161,24 @@ namespace Titan.UI.Interaction
             if(selectedSlot == _selectedSlot)
             {
                 SetCursorPos();
+                // Debug.Log($"SelectSlot : {selectedSlot}");
                 return;
             }
 
-            if(_selectedSlot != null)
+            // 기존 선택된 SLot이 있다면 Slot의 색을 기본색으로 변경
+            if(_selectedSlot != null && _selectedSlot.TryGetComponent<Image>(out var prevImage))
             {
-                if(_selectedSlot.TryGetComponent<Image>(out var prevImage))
-                {
-                    prevImage.color = _normalColor;
-                }
+                prevImage.color = _normalColor;
             }
 
+            // Slot을 선택하고 색을 변경
             _selectedSlot = selectedSlot;
             if(_selectedSlot != null && _selectedSlot.TryGetComponent<Image>(out var image))
             {
                 image.color = _hightlightColor;
             }
             SetCursorPos();
+            // Debug.Log($"SelectSlot : {selectedSlot}");
         }
 
         /// <summary>
@@ -205,6 +222,11 @@ namespace Titan.UI.Interaction
             return _scrollRect.content.transform.GetChild(index).gameObject;
         }
 
+        /// <summary>
+        /// 해당 Slot이 유효한지 검사한다.
+        /// </summary>
+        /// <param name="slotUI"></param>
+        /// <returns></returns>
         public bool IsValidSlot(GameObject slotUI)
         {
             if(slotUI == null)

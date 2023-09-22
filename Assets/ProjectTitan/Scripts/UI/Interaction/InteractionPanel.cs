@@ -53,6 +53,7 @@ namespace Titan.UI.Interaction
                     Debug.LogError($"Can this happen?");
                     Debug.Log($"Slot Count : {_view.SlotCount} / Child Count : {_view.ChildCount}");
                     _view.SelectSlot(_view.GetSlotUIByIndex(0));
+                    Debug.Log($"Selected Slot : {_view.SelectedSlot.name}");
                 }
                 int startIndex = _view.SelectedSlot.transform.GetSiblingIndex();
                 _view.RemoveSlot(args.RemovedObjects);
@@ -75,6 +76,7 @@ namespace Titan.UI.Interaction
             if(_view.SelectedSlot == null && _view.SlotCount > 0)
             {
                 // How this happen?
+                Debug.LogError($"Can this happen? / Select First Slot");
                 _view.SelectSlot(_view.GetSlotUIByIndex(0));
             }
         }
