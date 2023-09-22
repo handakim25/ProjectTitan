@@ -6,6 +6,7 @@ using UnityEngine;
 
 using Titan.UI;
 using Titan.QuestSystem;
+using Titan.Interaction;
 
 namespace Titan.DialogueSystem
 {
@@ -19,6 +20,7 @@ namespace Titan.DialogueSystem
         private Dictionary<string, DialogueObject> _dialogueObjectDic = new();
 
         private DialogueObject _currentDialogueObject;
+        private DialogInteractable _curDialogueInteractable;
         private DialogueNode _currentDialogueNode;
         private float _lastDialogueEndTime;
         private ConditionEvaluator _conditionEvaluator;
@@ -35,7 +37,7 @@ namespace Titan.DialogueSystem
             }
         }
 
-        public void StartDialogue(DialogueObject dialogueObject)
+        public void StartDialogue(DialogueObject dialogueObject, DialogInteractable interactable = null)
         {
             if(Time.time - _lastDialogueEndTime < _dialogueInterval)
             {
@@ -50,6 +52,8 @@ namespace Titan.DialogueSystem
                     return;
                 }
             }
+            _curDialogueInteractable = interactable;
+
             _currentDialogueObject = dialogueObject;
             _currentDialogueNode = dialogueObject.GetStartingNode();
             if(_currentDialogueNode == null)

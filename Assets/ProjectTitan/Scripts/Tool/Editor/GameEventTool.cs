@@ -24,7 +24,7 @@ namespace Titan.Resource
 
         static private string _defaultFilePath = "Assets/ProjectTitan/Scripts/ScriptableObjects/";
         static private string _defaultFileName = "GameEventData";
-        private static GameEventDataBuilder _gameEventData;
+        private static GameEventData _gameEventData;
         private static ReorderableList _gameEventList;
 
         [MenuItem("Tools/Game Event Tool")]
@@ -38,10 +38,10 @@ namespace Titan.Resource
 
         private static void InitGameData()
         {
-            _gameEventData = AssetDatabase.LoadAssetAtPath<GameEventDataBuilder>(_defaultFilePath + _defaultFileName + ".asset");
+            _gameEventData = AssetDatabase.LoadAssetAtPath<GameEventData>(_defaultFilePath + _defaultFileName + ".asset");
             if(_gameEventData == null)
             {
-                _gameEventData = CreateInstance<GameEventDataBuilder>();
+                _gameEventData = CreateInstance<GameEventData>();
                 AssetDatabase.CreateAsset(_gameEventData, _defaultFilePath + _defaultFileName + ".asset");
                 AssetDatabase.SaveAssets();
             }
@@ -62,6 +62,8 @@ namespace Titan.Resource
             {
                 _selection = list.index;
             };
+
+            RemoveMissingEvent(_gameEventData.GameEvents);
         }
 
         private void OnGUI()
@@ -79,7 +81,7 @@ namespace Titan.Resource
                 // Body Layer
                 EditorGUILayout.BeginHorizontal();
                 {
-                    EditorBodyToolListLayer(uiWidthMiddle);
+                    EditorBodyToolListLayer(uiWidthSmall);
 
                     EditorBodyContentLayer();
                 }
@@ -91,7 +93,26 @@ namespace Titan.Resource
             EditorGUILayout.EndVertical();
         }
 
-        
+        private static void RemoveMissingEvent(List<GameEventObject> gameEvents)
+        {
+            for (int i = gameEvents.Count - 1; i >= 0; i--)
+            {
+                if (gameEvents[i] == null)
+                {
+                    gameEvents.RemoveAt(i);
+                    continue;
+                }
+
+                try
+                {
+                    gameEvents[i].name = gameEvents[i].name;
+                }
+                catch (MissingReferenceException)
+                {
+                    gameEvents.RemoveAt(i);
+                }
+            }
+        }
 
         private void EditorTopLayer()
         {
@@ -110,6 +131,14 @@ namespace Titan.Resource
                 {
                     Selection.activeObject = _gameEventData;
                     EditorGUIUtility.PingObject(_gameEventData);
+                }
+                if(GUILayout.Button("Remove Object"))
+                {
+                    if(_selection >= 0 && _selection < _gameEventData.GameEvents.Count)
+                    {
+                        _gameEventData.GameEvents.RemoveAt(_selection);
+                        EditorUtility.SetDirty(_gameEventData);
+                    }
                 }
             }
             EditorGUILayout.EndHorizontal();
@@ -195,6 +224,7 @@ namespace Titan.Resource
                     if(!HasDuplicateName())
                     {
                         _gameEventData.SaveData();
+                        AssetDatabase.Refresh();
                     }
                     else
                     {
@@ -211,11 +241,9 @@ namespace Titan.Resource
 
         private void ReorderIndex(List<GameEvent> gameEvents)
         {
-            Debug.Log($"ReorderIndex");
             int startIndex = 0;
             foreach(var gameEvent in gameEvents)
             {
-                Debug.Log("startIndex : " + startIndex);
                 if(gameEvent.index > startIndex)
                 {
                     startIndex = gameEvent.index;

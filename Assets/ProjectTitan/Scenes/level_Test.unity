@@ -693,8 +693,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameEvent:
-    ID: 
-    reference: {fileID: 0}
+    ID: DoorOpenEvent
+    reference: {fileID: 11400000, guid: 5ab3b9d216d6a6543a6e43ed67fe3a12, type: 2}
   TargetStatus: 1
   OnEventRaised:
     m_PersistentCalls:
@@ -756,6 +756,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
 --- !u!54 &440361186
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1307,6 +1308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
   _dialogueObject: {fileID: 11400000, guid: a9dd880eab28df54d897314e319508a3, type: 2}
   _dialogueObjectRef:
     ID: LinearDialogueTest
@@ -1388,6 +1390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
 --- !u!1 &785021993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1465,6 +1468,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
 --- !u!1 &895846478 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8012398028128413185, guid: 1742c251b0b7a2449b52d1c5ee56aba7,
@@ -1698,6 +1702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
 --- !u!54 &1146237707
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1999,7 +2004,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1365710524
 Transform:
   m_ObjectHideFlags: 0
@@ -2091,9 +2096,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 1
   _gameEvent:
-    ID: 
-    reference: {fileID: 0}
+    ID: DoorOpenEvent
+    reference: {fileID: 11400000, guid: 5ab3b9d216d6a6543a6e43ed67fe3a12, type: 2}
   TargetStatus: 1
 --- !u!1001 &1421483823
 PrefabInstance:
@@ -3001,6 +3007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
 --- !u!54 &1697657115
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3123,6 +3130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
 --- !u!1 &1870229566
 GameObject:
   m_ObjectHideFlags: 0
@@ -3155,6 +3163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
 --- !u!54 &1870229568
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3232,6 +3241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interactRange: 3
+  <CanInteract>k__BackingField: 0
 --- !u!54 &1877629002
 Rigidbody:
   m_ObjectHideFlags: 0

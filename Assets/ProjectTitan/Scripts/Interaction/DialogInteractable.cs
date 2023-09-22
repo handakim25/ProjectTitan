@@ -15,7 +15,8 @@ namespace Titan.Interaction
         {
             if(_dialogueObject != null)
             {
-                DialogueManager.Instance.StartDialogue(_dialogueObject);
+                DialogueManager.Instance.StartDialogue(_dialogueObject, this);
+                CanInteract = false;
             }
         }
     }

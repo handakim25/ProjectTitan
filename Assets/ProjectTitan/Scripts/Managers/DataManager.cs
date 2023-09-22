@@ -5,6 +5,7 @@ using UnityEngine;
 using Titan.Effects;
 using Titan.Audio;
 using Titan.QuestSystem;
+using Titan.GameEventSystem;
 
 namespace Titan
 {
@@ -16,6 +17,7 @@ namespace Titan
         private static EffectData _effectData = null;
         private static SoundData _soundData = null;
         private static QuestObjectDatabase _questDatabase = null;
+        private static GameEventData _gameEventData = null;
 
         private void Start()
         {
@@ -33,6 +35,11 @@ namespace Titan
             {
                 _questDatabase = ScriptableObject.CreateInstance<QuestObjectDatabase>();
                 _questDatabase.LoadFromJson();
+            }
+            if(_gameEventData == null)
+            {
+                _gameEventData = ScriptableObject.CreateInstance<GameEventData>();
+                _gameEventData.LoadData();
             }
         }
 
@@ -72,6 +79,19 @@ namespace Titan
                     _questDatabase.LoadFromJson();
                 }
                 return _questDatabase;
+            }
+        }
+
+        public static GameEventData GameEventData
+        {
+            get
+            {
+                if(_gameEventData == null)
+                {
+                    _gameEventData = ScriptableObject.CreateInstance<GameEventData>();
+                    _gameEventData.LoadData();
+                }
+                return _gameEventData;
             }
         }
     }

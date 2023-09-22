@@ -234,8 +234,6 @@ namespace Titan.UI.Interaction
                 _interactIconObject.transform.position = position;
                 _interactIconObject.GetComponent<RectTransform>().anchoredPosition += _interactIconOffset;
                 var firstRect = firstGo.transform as RectTransform;
-                Debug.Log($"firstGo : {firstGo.name}");
-                Debug.Log($"firstRect : {firstRect.anchoredPosition}");
             }
         }
 

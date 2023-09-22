@@ -9,6 +9,7 @@ namespace Titan.Interaction
     public class EventTriggerInteractable : Interactable
     {
         [SerializeField] private ReferenceID<GameEventObject> _gameEvent;
+        [Tooltip("Event를 Target Status로 변경")]
         [SerializeField] private bool TargetStatus;
 
         public override void Interact()

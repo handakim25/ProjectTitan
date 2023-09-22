@@ -94,14 +94,7 @@ namespace Titan.UI
             ShowCursor();
             _action.Player.Disable();
         }
-
-        // UI Scene들이 이것을 이용해 자신을 닫는다.
-        // 구조가 마음에 들지는 않지만 일단은 이렇게 사용
-        public void CloseUISceneHandler()
-        {
-            _HudScene.OpenUI();
-        }
-
+        
         public void CloseUIScene(UIScene scene)
         {
             if(scene.gameObject.activeSelf)

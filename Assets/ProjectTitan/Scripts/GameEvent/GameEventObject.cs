@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 
 namespace Titan.GameEventSystem
 {
-    [CreateAssetMenu(fileName = "NewGameEvent", menuName = "ScriptableObjects/GameEvent")]
     public class GameEventObject : ScriptableObject, IRefereceable
     {
         [JsonIgnore]

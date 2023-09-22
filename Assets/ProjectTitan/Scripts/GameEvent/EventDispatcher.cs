@@ -13,6 +13,9 @@ namespace Titan.GameEventSystem
         public UnityEvent OnEventRaised;
         private bool _isInitialized = false;
 
+        /// <summary>
+        /// 현재 GameEvent의 상태를 반환합니다.
+        /// </summary>
         public bool Status
         {
             get {
@@ -47,6 +50,10 @@ namespace Titan.GameEventSystem
 
         private void OnDisable()
         {
+            if(_isInitialized == false)
+            {
+                return;
+            }
             if(GameEventManager.Instance == null)
             {
                 Debug.LogError("GameEventManager is not initialized");

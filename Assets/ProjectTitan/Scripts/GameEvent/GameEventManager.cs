@@ -9,11 +9,6 @@ namespace Titan.GameEventSystem
 {
     public class GameEventManager : MonoSingleton<GameEventManager>
     {
-        // Temp solution
-        // 지금은 Save를 고려하지 않을 것
-        [SerializeField] private List<GameEventObject> _gameEvents = new();
-        // Key : GameEvent name, value : Game Event
-        private Dictionary<string, GameEvent> _gameEventDictionary = new();
         // Key : GameEvent Name, value : Game Event Listener
         private Dictionary<string, List<GameEventAction>> _gameEventActionDictionary = new();
 
@@ -24,24 +19,9 @@ namespace Titan.GameEventSystem
             public bool newValue;
         }
 
-        private void Start()
-        {
-            // Load Event Settings
-            // Load 과정은 GameEventData로 넘길 것
-            _gameEventDictionary = _gameEvents.ToDictionary(x => x.ID, x => x.GameEvent);
-        }
-
-        /// <summary>
-        /// 혹시 모를 SO 참조
-        /// </summary>
-        public void SetEventStatus(GameEventObject gameEvent, bool newStatus)
-        {
-            SetEventStatus(gameEvent.ID, newStatus);
-        }
-
         public void SetEventStatus(string gameEventName, bool newStatus)
         {
-            if (_gameEventDictionary.TryGetValue(gameEventName, out GameEvent gameEvent) == false)
+            if (DataManager.GameEventData.TryGetEvent(gameEventName, out GameEvent gameEvent) == false)
             {
                 return;
             }
@@ -71,17 +51,9 @@ namespace Titan.GameEventSystem
             }
         }
 
-        /// <summary>
-        /// 혹시 모를 SO 참조
-        /// </summary>
-        public bool GetEventStatus(GameEventObject gameEvent, out bool status)
-        {
-            return GetEventStatus(gameEvent.ID, out status);
-        }
-
         public bool GetEventStatus(string gameEventName, out bool status)
         {
-            if (_gameEventDictionary.TryGetValue(gameEventName, out GameEvent value) == false)
+            if (DataManager.GameEventData.TryGetEvent(gameEventName, out GameEvent value) == false)
             {
                 status = false;
                 return false;
@@ -89,14 +61,6 @@ namespace Titan.GameEventSystem
 
             status = value.Status;
             return true;
-        }
-
-        /// <summary>
-        /// /// 혹시 모를 SO 참조
-        /// </summary>
-        public void RegisterEvent(GameEventObject gameEvent, GameEventAction action)
-        {
-            RegisterEvent(gameEvent.ID, action);
         }
 
         public void RegisterEvent(string gameEventName, GameEventAction action)
@@ -109,14 +73,6 @@ namespace Titan.GameEventSystem
             _gameEventActionDictionary[gameEventName].Add(action);
         }
 
-        /// <summary>
-        /// 혹시 모를 SO 참조
-        /// </summary>
-        public void UnregisterEvent(GameEventObject gameEvent, GameEventAction action)
-        {
-           UnregisterEvent(gameEvent.ID, action);
-        }
-
         public void UnregisterEvent(string gameEventName, GameEventAction action)
         {
             if (_gameEventActionDictionary.ContainsKey(gameEventName) == false)
@@ -126,22 +82,5 @@ namespace Titan.GameEventSystem
 
             _gameEventActionDictionary[gameEventName].Remove(action);
         }
-
-        // Temp Save / Load Logic
-        // public void SaveGameEventStatus()
-        // {
-
-        //     var saveList = _gameEventDictionary.Values.Where(x => x.IsChanged).ToList();
-        // }
-
-        // public void LoadGameEventStatus()
-        // {
-        //     // Load Logic
-        //     foreach(var gameEvent in _gameEventDictionary.Values)
-        //     {
-        //         gameEvent.Status = gameEvent.DefaultStatus;
-        //     }
-
-        // }
     }
 }

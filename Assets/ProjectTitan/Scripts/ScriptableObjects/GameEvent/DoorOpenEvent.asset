@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ce49edfb160c624ebe1b1a6dec9d3c3, type: 3}
-  m_Name: DoorOpenTest
+  m_Name: DoorOpenEvent
   m_EditorClassIdentifier: 
   GameEvent:
-    EventName: Door Open
+    index: 0
+    EventName: DoorOpenEvent
     DefaultStatus: 0
-  EventDescription: Door Open Test
+  EventDescription: 

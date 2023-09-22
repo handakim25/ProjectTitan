@@ -14,7 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   names: []
   GameEvents:
-  - {fileID: 11400000, guid: f95dbca21240cd24b8cc2a9815e3dede, type: 2}
-  - {fileID: 11400000, guid: 9857c91e775feaa4783bb94a88b57788, type: 2}
-  - {fileID: 11400000, guid: a80b3110a62a14a43acc8a59436ad7fc, type: 2}
-  - {fileID: 11400000, guid: 901fcafacdfcb964c9127075edab95d6, type: 2}
+  - {fileID: 11400000, guid: 5ab3b9d216d6a6543a6e43ed67fe3a12, type: 2}
