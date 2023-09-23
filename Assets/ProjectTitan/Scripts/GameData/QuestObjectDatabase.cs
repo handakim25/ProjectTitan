@@ -47,6 +47,7 @@ namespace Titan.QuestSystem
             TextAsset textAsset = Resources.Load<TextAsset>(_dataPath);
             if(textAsset == null || textAsset.text == null)
             {
+                Debug.LogError($"Cannot load Quest Data from {_dataPath}");
                 return;
             }
             string json = textAsset.text;
