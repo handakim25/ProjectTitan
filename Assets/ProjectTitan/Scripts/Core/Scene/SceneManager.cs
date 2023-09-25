@@ -19,7 +19,7 @@ namespace Titan.Core.Scene
 
         public void LoadScenes(SceneList list)
         {
-            LoadingScreen.gameObject.SetActive(true);
+            LoadingScreen.SetActive(true);
 
             var curScenes = GetAllOpenScenes();
             string[] curSceneNames = curScenes.Select(scene => scene.name).ToArray();
@@ -52,7 +52,7 @@ namespace Titan.Core.Scene
 
             if(UnitySceneManger.sceneCount > 0)
             {
-                activeScene = UnitySceneManger.GetSceneByName(sceneToOpen[0]);
+                activeScene = UnitySceneManger.GetSceneByName(targetSceneNames[0]);
             }
 
             StartCoroutine(GetSceneLoadProgress());

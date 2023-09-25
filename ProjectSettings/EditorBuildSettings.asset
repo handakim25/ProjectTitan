@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/ProjectTitan/Scenes/sc_UI.unity
     guid: 1a06db82f7dbf0a42bb05d434299a73e
+  - enabled: 1
+    path: Assets/ProjectTitan/ResourcesData/Resources/L_FG_Assets_Pack1.0/Demo/Demo1.unity
+    guid: 65741d871d56c3247a9497210df5510f
   m_configObjects: {}

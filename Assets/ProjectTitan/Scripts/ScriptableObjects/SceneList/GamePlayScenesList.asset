@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GamePlayScenesList
   m_EditorClassIdentifier: 
   scenes:
-  - level_Test
+  - Demo1
   - sc_Core
   - sc_Light
   - sc_player
