@@ -69811,7 +69811,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1787637620
 Transform:
@@ -69861,7 +69861,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8706c2c9d1e573742b426cdd1e82842b, type: 2}
+  - {fileID: 2100000, guid: 02db266bf7be794459a7b574f5de073d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -71661,6 +71661,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 662886189}
     m_Modifications:
+    - target: {fileID: 100000, guid: bf6afd09e82842143bf4173bb7b1945f, type: 3}
+      propertyPath: m_Name
+      value: Statue04_a
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: bf6afd09e82842143bf4173bb7b1945f, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: bf6afd09e82842143bf4173bb7b1945f, type: 3}
       propertyPath: m_RootOrder
       value: 534
@@ -71692,6 +71700,18 @@ PrefabInstance:
     - target: {fileID: 400000, guid: bf6afd09e82842143bf4173bb7b1945f, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.50000167
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bf6afd09e82842143bf4173bb7b1945f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bf6afd09e82842143bf4173bb7b1945f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: bf6afd09e82842143bf4173bb7b1945f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf6afd09e82842143bf4173bb7b1945f, type: 3}
