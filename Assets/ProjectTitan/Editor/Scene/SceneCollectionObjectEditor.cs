@@ -11,7 +11,7 @@ namespace Titan.Editor.Scene
     [CustomEditor(typeof(SceneCollectionObject))]
     public class SceneCollectionObjectEditor : UnityEditor.Editor
     {
-        static private string s_projectPath = "Assets/ProjectTitan/Scripts/ScriptableObjects";
+        private static readonly string s_projectPath = "Assets/ProjectTitan/Scripts/ScriptableObjects/";
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
@@ -20,12 +20,10 @@ namespace Titan.Editor.Scene
             {
                 SceneCollectionObject sceneCollection = (SceneCollectionObject)target;
                 
-                SceneList newScene = SceneList.CreateInstance<SceneList>();
+                SceneList newScene = GetSceneListAsset(target.name);
                 newScene.scenes = sceneCollection.scenes.Select(scene => scene.name).ToArray();
-
-                var path = GetPath(target.name + "List");
-                AssetDatabase.CreateAsset(newScene, path);
-                Debug.Log($"Create Asset : {path}");
+                Debug.Log($"Create SceneList Asset : {newScene.name}");
+                AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
         }
@@ -33,17 +31,34 @@ namespace Titan.Editor.Scene
         static private string GetPath(string assetName)
         {
             var directoryName = typeof(SceneList).Name;
-            string direcotryPath = System.IO.Path.Join(s_projectPath, directoryName);
-            if(!AssetDatabase.IsValidFolder(direcotryPath))
+            string directoryPath = System.IO.Path.Combine(s_projectPath, directoryName);
+            if(!AssetDatabase.IsValidFolder(directoryPath))
             {
-                Debug.Log($"Create Directory : {direcotryPath}");
+                Debug.Log($"Create Directory : {directoryPath}");
                 if(AssetDatabase.CreateFolder(s_projectPath, directoryName) == "")
                 {
                     Debug.Log($"Failed to create folder");
                 }
             }
 
-            return System.IO.Path.Join(direcotryPath, assetName + ".asset");
+            return System.IO.Path.Combine(directoryPath, assetName + ".asset");
+        }
+
+        static private SceneList GetSceneListAsset(string sceneName)
+        {
+            string assetPath = GetPath(sceneName + "List");
+            SceneList sceneList;
+            var asset = AssetDatabase.LoadAssetAtPath(assetPath, typeof(SceneList));
+            if (asset != null)
+            {
+                sceneList = asset as SceneList;
+            }
+            else
+            {
+                sceneList = SceneList.CreateInstance<SceneList>();
+                AssetDatabase.CreateAsset(sceneList, assetPath);
+            }
+            return sceneList;
         }
     }
 }
