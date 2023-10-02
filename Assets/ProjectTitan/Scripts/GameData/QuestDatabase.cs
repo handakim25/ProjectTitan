@@ -13,7 +13,9 @@ using Titan.Utility;
 
 namespace Titan.QuestSystem
 {
-    [CreateAssetMenu(fileName = "QuestDatabase", menuName = "Titan/QuestDatabase", order = 0)]
+    /// <summary>
+    /// 현재 사용되지 않는다.
+    /// </summary>
     public class QuestDatabase : BaseData
     {
         public Quest[] Quests = new Quest[0];
@@ -23,7 +25,6 @@ namespace Titan.QuestSystem
         /// Asset 구조로 불러오기 때문에 확장자는 필요 없다.
         /// </summary>
         private string _dataPath = "Data/QuestData";
-        private string _dataFilePath = "";
         private string _dataFileName = "QuestData.json";
 
         /// <summary>
@@ -32,13 +33,12 @@ namespace Titan.QuestSystem
         public override void SaveData()
         {
             var data = JsonUtility.ToJson(this, true);
-            File.WriteAllText(_dataFilePath + _dataFileName, data);
+            File.WriteAllText(SaveFilePath + _dataFileName, data);
         }
 
         public override void LoadData()
         {
             // 런타임 중이라면 여기서 AssetBundle에 접근해야 한다.
-            _dataFilePath = Application.dataPath + DataDirectory;
             TextAsset asset = (TextAsset)Resources.Load(_dataPath, typeof(TextAsset));
             if(asset == null || asset.text == null)
             {

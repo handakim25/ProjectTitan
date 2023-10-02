@@ -20,9 +20,8 @@ namespace Titan.Effects
 
         // Path
         private string _clipPath = "Effects/";
-        private string _dataPath = "Data/effectData";
-        private string _xmlFilePath = "";
-        private string _xmlFileName = "effectData.xml";
+        protected override string ResourcePath => "Data/EffectData";
+        protected override string DataFileName => "EffectData.json";
 
         // XML Delimeter
         private EffectData() {}
@@ -33,8 +32,7 @@ namespace Titan.Effects
         {
             // Application.dataPath : <Project Folder>/Assets
             // DataDirectory : /ProjectTitan/ResourcesData/Resources/Data/
-            _xmlFilePath = Application.dataPath + DataDirectory;
-            var asset = (TextAsset)ResourceManager.Load(_dataPath);
+            var asset = (TextAsset)ResourceManager.Load(ResourcePath);
             if(asset == null || asset.text == null)
             {
                 AddData("New Effect");
@@ -53,7 +51,7 @@ namespace Titan.Effects
         public override void SaveData()
         {
             var data = JsonUtility.ToJson(this, true);
-            File.WriteAllText(_xmlFilePath + _xmlFileName, data);
+            File.WriteAllText(SaveFilePath + DataFileName, data);
         }
 
         #endregion XML

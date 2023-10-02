@@ -23,25 +23,21 @@ namespace Titan.GameEventSystem
         /// Data file path. Resource 폴더 기준이다.
         /// </summary>
         private string _dataPath = "Data/";
-        private string _resourcePath = "Data/GameEventData";
-        private string _dataFileName = "GameEventData.json";
-
-        private string ResourceFilePath => _dataPath + _dataFileName;
-        private string AbsoluteFilePath => Application.dataPath + DataDirectory + _dataFileName;
+        protected override string ResourcePath => "Data/GameEventData";
+        protected override string DataFileName => "GameEventData.json";
 
         public override void SaveData()
         {
             var eventList = GameEvents.Select(x => x.GameEvent).ToList();
             var data = JsonConvert.SerializeObject(eventList, Formatting.Indented);
-            File.WriteAllText(AbsoluteFilePath, data); 
+            File.WriteAllText(SaveFilePath + DataFileName, data); 
         }
 
         public override void LoadData()
         {
-            TextAsset asset = ResourceManager.Load<TextAsset>(_resourcePath);
+            TextAsset asset = ResourceManager.Load<TextAsset>(ResourcePath);
             if(asset == null || asset.text == null)
             {
-                Debug.Log($"Resource File Path : {ResourceFilePath}");
                 Debug.LogError("Game Event Data is not found");
                 return;
             }

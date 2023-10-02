@@ -24,22 +24,20 @@ namespace Titan.Audio
 
         // Path
         private string _clipPath = "Sound/";
-        private string _dataPath = "Data/soundData";
-        private string _dataFilePath = "";
-        private string _dataFileName = "soundData.json";
+        protected override string ResourcePath => "Data/SoundData";
+        protected override string DataFileName => "SoundData.json";
 
         public SoundData() {}
 
         public override void SaveData()
         {
             var data = JsonUtility.ToJson(this, true);
-            File.WriteAllText(_dataFilePath + _dataFileName, data);
+            File.WriteAllText(SaveFilePath + DataFileName, data);
         }
 
         public override void LoadData()
         {
-            _dataFilePath = Application.dataPath + DataDirectory;
-            TextAsset asset = (TextAsset)Resources.Load(_dataPath, typeof(TextAsset));
+            TextAsset asset = (TextAsset)Resources.Load(ResourcePath, typeof(TextAsset));
             if(asset == null || asset.text == null)
             {
                 AddData("New Sound");

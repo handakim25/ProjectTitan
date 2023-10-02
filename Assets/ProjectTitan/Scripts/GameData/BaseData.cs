@@ -19,7 +19,23 @@ namespace Titan.Resource
     [System.Serializable]
     public class BaseData : ScriptableObject
     {
+        /// <summary>
+        /// Data가 저장되는 경로
+        /// </summary>
         public const string DataDirectory = "/ProjectTitan/ResourcesData/Resources/Data/";
+        /// <summary>
+        /// Save에 사용할 파일 경로, 절대 경로이다. Application.dataPath + DataDirectory. /로 끝난다.
+        /// </summary>
+        protected virtual string SaveFilePath => Application.dataPath + DataDirectory;
+        /// <summary>
+        /// Resource에서 사용할 파일 경로, Load하기 위해서 사용한다.
+        /// </summary>
+        protected virtual string ResourcePath => "";
+        /// <summary>
+        /// Data의 파일 이름. 확장자 포함. Save하기 위해서 사용한다.
+        /// </summary>
+        protected virtual string DataFileName => "";
+
         /// <summary>
         /// Data의 이름. 에디터에서 표시되고 enum으로 출력된다.
         /// </summary>

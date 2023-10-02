@@ -17,19 +17,17 @@ namespace Titan.QuestSystem
         public QuestObject[] QuestObjects = new QuestObject[0];
         [System.NonSerialized] public Dictionary<string, QuestObject> _questDictionary = new();
 
-        string _dataPath = "Data/QuestObjectData";
-        string _dataFilePath = "";
-        string _dataFileName = "QuestObjectData.json";
+        protected override string ResourcePath => "Data/QuestObjectData";
+        protected override string DataFileName => "QuestObjectData.json";
 
         [ContextMenu("Save to Json File")]
         public override void SaveData()
         {
             SetIndexNumbers();
 
-            _dataFilePath = Application.dataPath + DataDirectory;
             var questList = QuestObjects.Select(quest => quest.Quest).ToList();
             string json = JsonConvert.SerializeObject(questList, Formatting.Indented);
-            File.WriteAllText(_dataFilePath + _dataFileName, json);
+            File.WriteAllText(SaveFilePath + DataFileName, json);
         }
 
         private void SetIndexNumbers()
@@ -44,10 +42,10 @@ namespace Titan.QuestSystem
         public void LoadFromJson()
         {
             Debug.Log("Load Quest Data");
-            TextAsset textAsset = Resources.Load<TextAsset>(_dataPath);
+            TextAsset textAsset = Resources.Load<TextAsset>(ResourcePath);
             if(textAsset == null || textAsset.text == null)
             {
-                Debug.LogError($"Cannot load Quest Data from {_dataPath}");
+                Debug.LogError($"Cannot load Quest Data from {ResourcePath}");
                 return;
             }
             string json = textAsset.text;
