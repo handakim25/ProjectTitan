@@ -9,7 +9,7 @@ namespace Titan.Editor.Scene
 {
     using UnityEditor;
 
-    public class SceneManagerEditor : Editor
+    public class SceneLoadManagerEditor : Editor
     {
         [MenuItem("ProjectTitan/Scene/Play")]
         private static void OpenPlayScene()

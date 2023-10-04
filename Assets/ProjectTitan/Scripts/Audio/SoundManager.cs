@@ -5,10 +5,11 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 using Titan.Utility;
+using Titan.Core;
 
 namespace Titan.Audio
 {
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : MonoSingleton<SoundManager>
     {
         // Audio Mixer
         private const string MixerName = "AudioMixer";

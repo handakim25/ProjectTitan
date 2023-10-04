@@ -15,7 +15,7 @@
             "rolloffMode": 0,
             "minDistance": 10000.0,
             "maxDistance": 50000.0,
-            "spatialBlend": 1.0,
+            "spatialBlend": 0.0,
             "setTime": [],
             "checkTime": []
         }

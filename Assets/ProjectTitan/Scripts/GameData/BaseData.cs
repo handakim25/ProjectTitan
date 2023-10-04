@@ -30,6 +30,7 @@ namespace Titan.Resource
         /// <summary>
         /// Resource에서 사용할 파일 경로, Load하기 위해서 사용한다.
         /// </summary>
+
         protected virtual string ResourcePath => "";
         /// <summary>
         /// Data의 파일 이름. 확장자 포함. Save하기 위해서 사용한다.

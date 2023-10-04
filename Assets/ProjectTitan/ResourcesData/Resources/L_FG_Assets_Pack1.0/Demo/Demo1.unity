@@ -4313,7 +4313,7 @@ GameObject:
   - component: {fileID: 81083251}
   m_Layer: 0
   m_Name: StartPoint
-  m_TagString: Untagged
+  m_TagString: StartPoint
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -55335,7 +55335,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 100000, guid: 3634b78a5f9ca53448dcd516946efba6, type: 3}
       propertyPath: m_Name
-      value: Dungeon03_c
+      value: BossWall
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 3634b78a5f9ca53448dcd516946efba6, type: 3}
       propertyPath: m_RootOrder
