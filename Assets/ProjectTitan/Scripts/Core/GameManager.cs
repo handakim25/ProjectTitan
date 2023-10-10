@@ -6,6 +6,7 @@ using UnityEngine.Rendering.Universal;
 using Titan.Core.Scene;
 using Titan.Stage;
 using Titan.Audio;
+using Titan.UI;
 
 namespace Titan.Core
 {
@@ -83,6 +84,9 @@ namespace Titan.Core
         // Stage 기능을 일단 이곳에서 사용한다.
         // 양이 많아지면 분리한다.
 
+        /// <summary>
+        /// Scene이 로드되면 호출된다. 아직 로딩이 긑나지 않은 단계
+        /// </summary>
         private void OnSceneLoaded()
         {
             string sceneName = SceneLoadManager.Instance.ActiveSceneName;
@@ -99,19 +103,29 @@ namespace Titan.Core
             }
         }
 
+        /// <summary>
+        /// GameManager가 모든 준비를 끝냈을 경우, 다른 Scene이 로드된 것을 보장
+        /// </summary>
+        /// <param name="stage"></param>
         private void ReadyScene(StageDataObject stage)
         {
             SetCameraStack();
             _curStage = stage;
+            
+            InitPlayer();
+            InitHudUI();
+        }
 
-            if(Player == null)
+        private void InitPlayer()
+        {
+            if (Player == null)
             {
                 Debug.LogError("Player is not found");
                 return;
             }
 
             var startPoint = GameObject.FindGameObjectWithTag(StartPoint);
-            if(startPoint)
+            if (startPoint)
             {
                 Player.transform.position = startPoint.transform.position;
                 Player.transform.SetPositionAndRotation(startPoint.transform.position, startPoint.transform.rotation);
@@ -121,6 +135,12 @@ namespace Titan.Core
                 Debug.LogError("StartPoint is not found");
                 Player.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
             }
+        }
+
+        private void InitHudUI()
+        {
+            // Stage 이름을 초기화
+            UIManager.Instance.UpdateStageName(_curStage.StageName);
         }
 
         private void OnSceneStart()
@@ -133,7 +153,6 @@ namespace Titan.Core
             Debug.Log($"OnSceneLoaded : {_curStage.SceneName}");
 
             SoundManager.Instance.PlayBGM((int)_curStage.BGM);
-            
         }
         
         #endregion Callback

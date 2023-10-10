@@ -24,12 +24,12 @@ namespace Titan.Core.Scene
         List<AsyncOperation> scenesLoading = new List<AsyncOperation>();
 
         /// <summary>
-        /// Scene Load 완료. Load가 완료되기 전에 호출된다.
+        /// Scene Load 완료. Load가 완료되기 전에 호출된다. 이 곳에서 게임 시작 전에 필요한 동작을 한다.
         /// </summary>
         public event System.Action SceneLoaded;
 
         /// <summary>
-        /// 모든 로드가 완료되고 종료될 때 호출된다.
+        /// 모든 로드가 완료되고 종료될 때 호출된다. 게임 시작 부분을 처리한다.
         /// </summary>
         public event System.Action SceneStart;
 

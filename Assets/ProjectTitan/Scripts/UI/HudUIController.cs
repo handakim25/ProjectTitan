@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 using DG.Tweening;
 
@@ -96,6 +97,20 @@ namespace Titan.UI
             skillRect.DOAnchorPosX(skillRect.sizeDelta.x, _transitionTime)
                 .SetEase(closeEaseType)
                 .OnComplete(() => _skillPannel.SetActive(false));
+        }
+
+        public void UpdateStageName(string stageName)
+        {
+            if(_minimapPannel == null)
+            {
+                Debug.LogError("MinimapPannel is not found");
+                return;
+            }
+            var placeName = _minimapPannel.transform.Find("PlaceHolder/PlaceName");
+            if(placeName != null && placeName.TryGetComponent<TextMeshProUGUI>(out var text))
+            {
+                text.text = stageName; 
+            }
         }
         
         #endregion UIScene

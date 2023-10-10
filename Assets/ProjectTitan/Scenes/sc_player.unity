@@ -407,6 +407,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1350630649, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _landSound
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630649, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _footStepSounds.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630649, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _footStepSounds.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630649, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _footStepSounds.Array.data[1]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630649, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _footStepSounds.Array.data[2]
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 56082231626039187, guid: 3a687de01db43c4498cf4d707b9281bd,
         type: 3}
       propertyPath: m_Layer

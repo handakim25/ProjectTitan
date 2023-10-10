@@ -107,6 +107,19 @@ namespace Titan.UI
             _HudScene.OpenUI();
         }
 
+        #region HUD Control
+        
+        public void UpdateStageName(string stageName)
+        {
+            var _hudController = _HudScene as HudUIController;
+            if(_hudController != null)
+            {
+                _hudController.UpdateStageName(stageName);
+            }
+        }
+        
+        #endregion HUD Control
+
         #region Input Callback
         
         public void OnInteract(InputAction.CallbackContext context)
