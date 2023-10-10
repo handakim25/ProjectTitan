@@ -479,6 +479,12 @@ namespace Titan.Audio
             }
         }
 
+        public void PlayEffectSound(int index)
+        {
+            SoundClip clip = DataManager.SoundData.GetCopy(index);
+            PlayEffectSound(clip);
+        }
+
         public void PlayEffectSound(SoundClip clip, Vector3 position)
         {
             PlayAudioSourceAtPoint(clip, position, clip.maxVolume);
