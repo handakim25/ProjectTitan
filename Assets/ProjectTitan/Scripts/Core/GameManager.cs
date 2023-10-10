@@ -124,6 +124,7 @@ namespace Titan.Core
                 return;
             }
 
+            // Reset Player Position
             var startPoint = GameObject.FindGameObjectWithTag(StartPoint);
             if (startPoint)
             {
@@ -141,6 +142,8 @@ namespace Titan.Core
         {
             // Stage 이름을 초기화
             UIManager.Instance.UpdateStageName(_curStage.StageName);
+
+
         }
 
         private void OnSceneStart()
