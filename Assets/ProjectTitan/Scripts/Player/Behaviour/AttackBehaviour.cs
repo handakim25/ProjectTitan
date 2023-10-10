@@ -9,13 +9,16 @@ namespace Titan.Character.Player
 {
     public abstract class AttackBehaviour : GenericBehaviour
     {
+        // @Refactor
+        // Skill Data가 전체적으로 묶여서 저장이 되어야 될 것 같다.
+        // 추후에 수정할 것
         [Header("Skill Data")]
         [SerializeField] private AttackType _attackType = AttackType.Basic;
-        [SerializeField] public float _coolTime = 10f;
+        [SerializeField] private float _coolTime = 10f;
         [Range(0, 1)]
         [Tooltip("0 : 초기 쿨타임 없음 / 1 : 처음부터 쿨타임 다 차 있음")]
-        [SerializeField] public float _initialCoolTime = 0f;
-        [SerializeField] public int _requireEnergy = 0;
+        [SerializeField] private float _initialCoolTime = 0f;
+        [SerializeField] private int _requireEnergy = 0;
         [SerializeField] protected List<AttackData> _attackList = new List<AttackData>();
         // @Refactor
         // Attack index is not used. Remove from code
@@ -23,6 +26,9 @@ namespace Titan.Character.Player
         [SerializeField] protected int _animationIndex = 0;
         [SerializeField] private LayerMask _targetMask;
 
+        /// <summary>
+        /// 현재 Cooltime, [0, _coolTime], 0에서 _coolTime까지 올라간다.
+        /// </summary>
         private float _curCoolTime;
         public bool CanFire => _curCoolTime >= _coolTime;
 
