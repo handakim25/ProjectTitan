@@ -5,7 +5,38 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 
-namespace Titan
+// Skill Cooltime Exclusive mask memo
+// Link : https://www.youtube.com/watch?v=ZoiNP5IfBBo
+// https://docs.unity3d.com/kr/2019.4/Manual/SL-Stencil.html
+// https://github.com/TwoTailsGames/Unity-Built-in-Shaders/blob/master/DefaultResourcesExtra/UI/UI-Default.shader
+// Stencil Comparision : Comparison Operation
+// Stencil Op : Stencil Teset를 통과하면 어떻게 처리할지를 결정
+// Read mask : Stencil Buffer에서 값을 읽을 때 Mask
+// Write Mask : Stencil Buffer에 값을 쓸 때 mask, Pixel에 해당되는 Mask가 아님에 유의
+// Normal UI Sprite
+// Stencil Comparision : 8(Always) - Always Render Pixel
+// Stencil ID : 0
+// Stencil Op : 0 (Keep)
+// Stencil Write Mask : 255
+// Stencil Read Mask : 255(255가 Default)
+// Mask UI Sprite
+// Stencil Comparision : 8(Always) - Always Render Pixel
+// Stencil ID : 1
+// Stencil Op : 2 (Replace) : Stencil Buffer 값 Replace
+// Stencil Write Mask : 255
+// Stencil Read Mask : 255
+// Masked UI Sprite
+// Stencil Comparision : 3(Equal) - 같을 경우에 Pixel render
+// Stencil ID : 1
+// Stencil Op : 0 (Keep)
+// Stencil Write Mask : 0
+// Stencil Read Mask : 1
+
+// Mask 이미지가 Stencil Buffer에 Replace로 값을 쓴다.(Reference Value가 Stencil Buffer에 들어가게 된다.)
+// Masked 이미지의 경우는 Comparision 연산으로 인해서 Ref ID가 1인 것들이 있을 경우에만 렌더링을 하게 된다.
+// 이 때 Stencil OP는 Keep이기 때문에 따로 스텐실 버퍼를 사용하지 않는다.
+
+namespace Titan.UI
 {
     public class SkillIconController : MonoBehaviour
     {
@@ -70,7 +101,7 @@ namespace Titan
 
         public void InitSkillIcon(Sprite skillIcon, float cooltime, float energy)
         {
-            _skillIcon = skillIcon;
+            _skillIcon = skillIcon != null ? skillIcon : _skillIcon;
             _cooltime = cooltime;
             _curEnergy = energy;
             _maxEnergy = energy;
