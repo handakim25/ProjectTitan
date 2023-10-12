@@ -41,47 +41,94 @@ namespace Titan.UI
     public class SkillIconController : MonoBehaviour
     {
         [Header("Skill Info")]
-        [SerializeField] private Sprite _skillIcon;
-        [SerializeField] private float _cooltime;
+        // SerializeField for debug Info
+        [SerializeField] private Sprite _iconSprite;
+        /// <summary>
+        /// Cooltime. [0, _cooltime], 0에서 _cooltime까지 올라간다. 쿨타임이 없을 수도 있으므로 0으로 설정 가능
+        /// </summary>
+        [SerializeField] private float _cooltime = 0;
         /// <summary>
         /// 현재 Cooltime, [0, _cooltime], 0에서 _cooltime까지 올라간다. 쿨타임이 없을 수도 있으므로 0으로 설정 가능
         /// </summary>
-        [SerializeField] private float _curCooltime;
+        [SerializeField] private float _curCooltime = 0;
         /// <summary>
         /// 현재 Energy
         /// </summary>
-        [SerializeField] private float _curEnergy;
+        [SerializeField] private float _curEnergy = 0;
         /// <summary>
         /// 최대 Energy, Energy를 사용하지 않는 스킬도 있으므로 0으로 설정 가능
         /// </summary>
-        [SerializeField] private float _maxEnergy;
+        [SerializeField] private float _maxEnergy = 0;
+        [SerializeField] private bool _isDisable = false;
 
         [Header("UI")]
-        [SerializeField] private Image _skillImage;
+        [SerializeField] private Image _backgroundImage;
+        [SerializeField] private Image _iconImage;
         [SerializeField] private TextMeshProUGUI _cooltimeText;
         [SerializeField] private Slider _cooltimeSlider;
         [SerializeField] private Slider _energySlider;
+        [SerializeField] private Image _energyFillImage;
 
+        [Header("Color")]
+        [SerializeField] private Color _backgroundColor = Color.white;
+        [SerializeField] private Color _iconColor = Color.white;
+        [SerializeField] private Color _disableColor = Color.white;
+        [SerializeField] private Color _energyFillColor = Color.white;
+        [SerializeField] private Color _energyFullFillColor = Color.white;
+        [SerializeField] private Color _cooltimeFillColor = Color.white;
 
-        private bool IsValid => _cooltimeText != null && _skillImage != null;
+        private bool IsValid => _cooltimeText != null && _iconImage != null;
 
         private void Awake()
         {
+            if(_backgroundImage == null)
+            {
+                var backgroundGo = transform.Find("Background");
+                if(backgroundGo != null)
+                {
+                    _backgroundImage = backgroundGo.GetComponent<Image>();
+                }
+            }
+
+            if(_iconImage == null)
+            {
+                var skillImageGo = transform.Find("Background/SkillIcon");
+                if(skillImageGo != null)
+                {
+                    _iconImage = skillImageGo.GetComponent<Image>();
+                }
+            }
+
             if(_cooltimeText == null)
             {
-                var cooltimeTextGo = transform.Find("Background/CooltimeText");
+                var cooltimeTextGo = transform.Find("CooltimeText");
                 if(cooltimeTextGo != null)
                 {
                     _cooltimeText = cooltimeTextGo.GetComponent<TextMeshProUGUI>();
                 }
             }
 
-            if(_skillImage == null)
+            if(_cooltimeSlider == null)
             {
-                var skillImageGo = transform.Find("Background/SkillIcon");
-                if(skillImageGo != null)
+                var cooltimeGo = transform.Find("CooltimeSlider");
+                if(cooltimeGo != null)
                 {
-                    _skillImage = skillImageGo.GetComponent<Image>();
+                    _cooltimeSlider = cooltimeGo.GetComponent<Slider>();
+                }
+            }
+
+            if(_energySlider == null)
+            {
+                var energyGo = transform.Find("EnergySlider");
+                if(energyGo != null)
+                {
+                    _energySlider = energyGo.GetComponent<Slider>();
+                }
+
+                if(_energySlider != null && _energySlider.fillRect != null
+                    && _energySlider.fillRect.TryGetComponent<Image>(out var energyFillImage))
+                {
+                    _energyFillImage = energyFillImage;
                 }
             }
         }
@@ -93,17 +140,55 @@ namespace Titan.UI
                 return;
             }
 
-            if(_skillIcon != null)
+            if(_iconSprite != null)
             {
-                _skillImage.sprite = _skillIcon;
+                _iconImage.sprite = _iconSprite;
             }
         }
 
+        private void OnValidate()
+        {
+            // Update Color
+            if(_backgroundImage != null)
+            {
+                _backgroundImage.color = _backgroundColor;
+            }
+
+            if(_iconImage != null)
+            {
+                _iconImage.color = _isDisable ? _iconColor : _disableColor;
+            }
+
+            if(_cooltimeSlider != null 
+                && _cooltimeSlider.fillRect != null
+                && _cooltimeSlider.fillRect.TryGetComponent<Image>(out var cooltimeFill))
+            {
+                cooltimeFill.color = _cooltimeFillColor;
+            }
+            
+            if(_energySlider != null 
+                && _energySlider.fillRect != null
+                && _energySlider.fillRect.TryGetComponent<Image>(out var energyFill))
+            {
+                _energyFillImage = energyFill;
+                energyFill.color = _energyFillColor;
+            }
+
+            UpdateCoolTime();
+            UpdateEnergy();
+            UpdateIcon();
+        }
+
+        /// <summary>
+        /// Initialize Data
+        /// </summary>
+        /// <param name="skillIcon">표시할 Skill Icon</param>
+        /// <param name="cooltime">Cooltime, CurCooltime은 Update UI 호출할 것</param>
+        /// <param name="energy">MaxEnergy, CurEnery는 Update UI 호출할 것</param>
         public void InitSkillIcon(Sprite skillIcon, float cooltime, float energy)
         {
-            _skillIcon = skillIcon != null ? skillIcon : _skillIcon;
+            _iconSprite = skillIcon != null ? skillIcon : _iconSprite;
             _cooltime = cooltime;
-            _curEnergy = energy;
             _maxEnergy = energy;
         }
 
@@ -119,18 +204,53 @@ namespace Titan.UI
 
             UpdateCoolTime();
             UpdateEnergy();
+            UpdateIcon();
+        }
+
+        private void UpdateIcon()
+        {
+            if(_iconImage != null)
+            {
+                if(_isDisable)
+                {
+                    _iconImage.color = _disableColor;
+                }
+                else if(_curCooltime >= _cooltime && _curEnergy >= _maxEnergy)
+                {
+                    _iconImage.color = _iconColor;
+                }
+                else
+                {
+                    _iconImage.color = _disableColor;
+                }
+            }
         }
 
         private void UpdateCoolTime()
         {
             float remainTime = _cooltime - _curCooltime;
             remainTime = Mathf.Clamp(remainTime, 0f, _cooltime);
-            _cooltimeText.text = remainTime > 0f ? remainTime.ToString("F1") : string.Empty;
+
+            if(_cooltimeText != null)
+            {
+                _cooltimeText.text = remainTime > 0f ? remainTime.ToString("F1") : string.Empty;
+            }
+            if(_cooltimeSlider != null)
+            {
+                _cooltimeSlider.value = remainTime > 0f ? remainTime / _cooltime : 0f;
+            }
         }
 
         private void UpdateEnergy()
         {
-            
+            if(_energySlider != null)
+            {
+                _energySlider.value = _curEnergy / _maxEnergy;
+            }
+            if(_energyFillImage != null)
+            {
+                _energyFillImage.color = _energySlider.value >= 1f ? _energyFullFillColor : _energyFillColor;
+            }
         }
     }
 }

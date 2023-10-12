@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
 using Titan.Core.Scene;
+using Titan.Character;
 using Titan.Stage;
 using Titan.Audio;
 using Titan.UI;
@@ -136,14 +137,26 @@ namespace Titan.Core
                 Debug.LogError("StartPoint is not found");
                 Player.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
             }
+
+            // Player와 UI 연결
+            if(Player.TryGetComponent<PlayerController>(out var playerController))
+            {
+                var hudController = UIManager.Instance.HudUIController;
+                if(hudController != null)
+                {
+                    playerController.PlayerDataChanged += hudController.UpdatePlayerData;
+                }
+            }
         }
 
         private void InitHudUI()
         {
             // Stage 이름을 초기화
-            UIManager.Instance.UpdateStageName(_curStage.StageName);
-
-
+            var hudController = UIManager.Instance.HudUIController;
+            if(hudController != null)
+            {
+                hudController.UpdateStageName(_curStage.StageName);
+            }
         }
 
         private void OnSceneStart()
