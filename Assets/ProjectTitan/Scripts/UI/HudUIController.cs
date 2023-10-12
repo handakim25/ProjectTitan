@@ -5,6 +5,8 @@ using TMPro;
 
 using DG.Tweening;
 
+using Titan.Character;
+
 namespace Titan.UI
 {
     public class HudUIController : UIScene
@@ -112,7 +114,12 @@ namespace Titan.UI
                 text.text = stageName; 
             }
         }
-        
+
+        public void UpdatePlayerData(PlayerController playerController)
+        {
+            
+        }
+
         #endregion UIScene
     }
 }

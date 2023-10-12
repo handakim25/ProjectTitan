@@ -587,7 +587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9137255, g: 0.37601626, b: 0.11764703, a: 0.6}
+  m_Color: {r: 0.8301887, g: 0.45333955, b: 0.19971518, a: 0.5019608}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -599,7 +599,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 1
+  m_FillAmount: NaN
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -789,7 +789,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 1
+  m_Value: NaN
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -894,10 +894,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _iconSprite: {fileID: 0}
-  _cooltime: 40
-  _curCooltime: 41.63
-  _curEnergy: 8
-  _maxEnergy: 8
+  _cooltime: 0
+  _curCooltime: 0
+  _curEnergy: 0
+  _maxEnergy: 0
   _isDisable: 0
   _backgroundImage: {fileID: 559314994740916589}
   _iconImage: {fileID: 8355565371733730838}
