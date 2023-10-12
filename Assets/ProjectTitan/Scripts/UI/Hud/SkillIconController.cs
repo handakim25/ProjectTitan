@@ -237,7 +237,7 @@ namespace Titan.UI
             }
             if(_cooltimeSlider != null)
             {
-                _cooltimeSlider.value = remainTime / _cooltime;
+                _cooltimeSlider.value = remainTime > 0f ? remainTime / _cooltime : 0f;
             }
         }
 
