@@ -11,4 +11,7 @@ public enum SoundList
     Player_Jump = 7,
     Player_Damaged = 8,
     Player_Hyper_01 = 9,
+    Player_Dash = 10,
+    Player_Skill = 11,
+
 }

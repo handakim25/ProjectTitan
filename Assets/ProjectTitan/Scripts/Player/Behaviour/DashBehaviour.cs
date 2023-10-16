@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Titan.Audio;
+
 namespace Titan.Character.Player
 {
     /// <summary>
@@ -14,6 +16,7 @@ namespace Titan.Character.Player
         [SerializeField] private float _dashSpeed = 5f;
         [SerializeField] private float _dashDuration = 1f;
         [SerializeField] private AnimationCurve _dashSpeedCurve;
+        [SerializeField] private SoundList _dashSfx = SoundList.None;
         
         private float _dashTime = 0f;
 
@@ -62,6 +65,8 @@ namespace Titan.Character.Player
             _dashTime = 0f;
             _controller.Animator.SetTrigger(AnimatorKey.Player.DashTrigger);
             _controller.Animator.SetBool(AnimatorKey.Player.IsDash, true);
+
+            SoundManager.Instance.PlayEffectSound((int)_dashSfx);
         }
 
         public override void OnExit()

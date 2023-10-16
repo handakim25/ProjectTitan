@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Titan.Audio;
 using UnityEngine;
 
 namespace Titan.Character.Player
@@ -27,6 +28,7 @@ namespace Titan.Character.Player
         [SerializeField] private float JumpForce = 5f;
         [SerializeField] private float JumpForwardSpeed = 5f;
         [SerializeField] private float JumpDeacceleration = 5f;
+        [SerializeField] private SoundList _jumpSfx = SoundList.None;
 
         /// <summary>
         /// Jump 진행 중인지
@@ -129,6 +131,8 @@ namespace Titan.Character.Player
                 _controller.FaceDirection(_controller.GetLastDirection(), true);
 
                 _controller.Animator.SetBool(AnimatorKey.Player.IsJump, true);
+
+                SoundManager.Instance.PlayEffectSound((int)_jumpSfx);
             }
         }
 
