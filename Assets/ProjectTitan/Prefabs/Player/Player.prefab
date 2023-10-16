@@ -531,8 +531,8 @@ GameObject:
   - component: {fileID: 2056374675456551404}
   - component: {fileID: 2424509217307483566}
   - component: {fileID: 1350630640}
-  - component: {fileID: 1350630641}
   - component: {fileID: 1350630635}
+  - component: {fileID: 1350630641}
   - component: {fileID: 1350630636}
   - component: {fileID: 1350630649}
   - component: {fileID: 1758689037}
@@ -772,34 +772,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1350630641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4407937264780789918}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3eff46160701514fb9fe41ac7c61750, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _behaviourCode: 0
-  _attackType: 1
-  _coolTime: 5
-  _initialCoolTime: 1
-  _requireEnergy: 0
-  _attackList:
-  - damageHitBox: {fileID: 143765285}
-    projectilePrefab: {fileID: 0}
-    sfx: {fileID: 0}
-    vfx: {fileID: 0}
-    animIndex: 0
-    damageFactor: 300
-  _animationIndex: 0
-  _targetMask:
-    serializedVersion: 2
-    m_Bits: 0
 --- !u!114 &1350630635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -852,6 +824,34 @@ MonoBehaviour:
   _targetMask:
     serializedVersion: 2
     m_Bits: 6144
+--- !u!114 &1350630641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4407937264780789918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3eff46160701514fb9fe41ac7c61750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _behaviourCode: 0
+  _attackType: 1
+  _coolTime: 5
+  _initialCoolTime: 1
+  _requireEnergy: 0
+  _attackList:
+  - damageHitBox: {fileID: 143765285}
+    projectilePrefab: {fileID: 0}
+    sfx: {fileID: 0}
+    vfx: {fileID: 0}
+    animIndex: 0
+    damageFactor: 300
+  _animationIndex: 0
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1350630636
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -885,6 +885,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36038d6bb1b3e3f4cb9dd481751b5544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _footStepSounds: 
+  _landSound: 0
 --- !u!114 &1758689037
 MonoBehaviour:
   m_ObjectHideFlags: 0
