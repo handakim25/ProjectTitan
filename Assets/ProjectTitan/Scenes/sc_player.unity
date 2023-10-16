@@ -400,6 +400,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetTr: {fileID: 0}
+--- !u!114 &1407844216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 143765285, guid: 3a687de01db43c4498cf4d707b9281bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 4407937266131383360}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4ca72817dffaa4c95420604c4ad6da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4407937266131383360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -407,6 +419,47 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[0].sfx
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[1].sfx
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[2].sfx
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[3].sfx
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[4].sfx
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[5].animIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[5].damageFactor
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630635, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[5].damageHitBox
+      value: 
+      objectReference: {fileID: 1407844216}
+    - target: {fileID: 1350630641, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _iconSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 25ec08f8e7e51ee49aef7c9c6478ed17,
+        type: 3}
     - target: {fileID: 1350630649, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
       propertyPath: _landSound
       value: 4

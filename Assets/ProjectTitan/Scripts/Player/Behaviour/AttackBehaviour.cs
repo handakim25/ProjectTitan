@@ -13,6 +13,8 @@ namespace Titan.Character.Player
         // Skill Data가 전체적으로 묶여서 저장이 되어야 될 것 같다.
         // 추후에 수정할 것
         [Header("Skill Data")]
+        [SerializeField] private string _attackName = "AttackDefaultName";
+        [SerializeField] private Sprite _iconSprite = null;
         [SerializeField] private AttackType _attackType = AttackType.Basic;
         [SerializeField] private float _coolTime = 10f;
         [Range(0, 1)]
@@ -62,7 +64,8 @@ namespace Titan.Character.Player
                     break;
             }
 
-            _curCoolTime = _coolTime * _initialCoolTime;            
+            _curCoolTime = _coolTime * _initialCoolTime;     
+            InitStatus();
         }
 
         private void Update()
@@ -71,10 +74,47 @@ namespace Titan.Character.Player
             if(_curCoolTime < _coolTime)
             {
                 _curCoolTime += Time.deltaTime;
+                UpdateStatus();
             }
         }
         
         #endregion Unity Methods
+
+        private void InitStatus()
+        {
+            switch(_attackType)
+            {
+                case AttackType.Basic:
+                    _controller.Status.BasicIcon = _iconSprite;
+                    _controller.Status.BasicCooltime = _coolTime;
+                    break;
+                case AttackType.Skill:
+                    _controller.Status.SkillIcon = _iconSprite;
+                    _controller.Status.SkillCooltime = _coolTime;
+                    break;
+                case AttackType.Hyper:
+                    _controller.Status.HyperIcon = _iconSprite;
+                    _controller.Status.HyperCooltime = _coolTime;
+                    break;
+            }
+            UpdateStatus();
+        }
+
+        private void UpdateStatus()
+        {
+            switch(_attackType)
+            {
+                case AttackType.Basic:
+                    _controller.Status.BasicCurCooltime = _curCoolTime;
+                    break;
+                case AttackType.Skill:
+                    _controller.Status.SkillCurCooltime = _curCoolTime;
+                    break;
+                case AttackType.Hyper:
+                    _controller.Status.HyperCurCooltime = _curCoolTime;
+                    break;
+            }
+        }
 
         // 진입점은 AttackPerformHandler
         // Attack Perform Handler에서 애니메이션 발생 여부를 선택
@@ -83,6 +123,7 @@ namespace Titan.Character.Player
         public override void OnEnter()
         {
             FaceTarget();
+            _curCoolTime = 0f;
         }
 
         #region Callbacks

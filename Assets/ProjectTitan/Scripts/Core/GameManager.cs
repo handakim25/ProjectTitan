@@ -140,11 +140,14 @@ namespace Titan.Core
             // Player와 UI 연결
             if(Player.TryGetComponent<PlayerController>(out var playerController))
             {
+                playerController.InitPlayer();
                 var hudController = UIManager.Instance.HudUIController;
                 if(hudController != null)
                 {
+                    hudController.InitPlayerView(playerController.Status);
                     playerController.PlayerDataChanged += hudController.UpdatePlayerData;
                 }
+                playerController.ForceUpdateStatus();
             }
         }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Titan.UI;
+using Titan.Character.Player;
 
 namespace Titan.Character
 {
@@ -13,12 +13,31 @@ namespace Titan.Character
     public class PlayerController : MonoBehaviour
     {
         public bool IsWalk;
+        /// <summary>
+        /// Access From Player Components
+        /// </summary>
+        public PlayerStatus Status = new();
 
-        public event System.Action<PlayerController> PlayerDataChanged;
+        public event System.Action<PlayerStatus> PlayerDataChanged;
+
+        public void InitPlayer()
+        {
+            PlayerDataChanged = null;
+        }
+
+        public void ForceUpdateStatus()
+        {
+            PlayerDataChanged?.Invoke(Status);
+            Status.ResetDirty();
+        }
 
         private void LateUpdate()
         {
-            
+            if(Status.IsDirty)
+            {
+                PlayerDataChanged?.Invoke(Status);
+                Status.ResetDirty();
+            }
         }
     }
 }
