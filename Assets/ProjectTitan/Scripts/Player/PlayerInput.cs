@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 using Titan.Core;
+using Titan.UI;
 
 namespace Titan.Character.Player
 {
@@ -57,7 +58,8 @@ namespace Titan.Character.Player
 
         public void OnBasic(InputAction.CallbackContext context)
         {
-            if(context.performed)
+            var device = InputSystem.GetDevice<Pointer>();
+            if(context.performed && UIManager.Instance.IsRaycastHitTargetUI(device.position.ReadValue()) == false)
             {
                 OnBasicPerformed?.Invoke();
             }
