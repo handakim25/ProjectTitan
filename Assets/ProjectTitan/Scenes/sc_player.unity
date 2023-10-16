@@ -455,11 +455,19 @@ PrefabInstance:
       propertyPath: _attackList.Array.data[5].damageHitBox
       value: 
       objectReference: {fileID: 1407844216}
+    - target: {fileID: 1350630640, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _dashSfx
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1350630641, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
       propertyPath: _iconSprite
       value: 
       objectReference: {fileID: 21300000, guid: 25ec08f8e7e51ee49aef7c9c6478ed17,
         type: 3}
+    - target: {fileID: 1350630641, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _attackList.Array.data[0].sfx
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 1350630649, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
       propertyPath: _landSound
       value: 4
@@ -714,6 +722,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2424509217307483566, guid: 3a687de01db43c4498cf4d707b9281bd,
+        type: 3}
+      propertyPath: _jumpSfx
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2469387140131427694, guid: 3a687de01db43c4498cf4d707b9281bd,
         type: 3}
