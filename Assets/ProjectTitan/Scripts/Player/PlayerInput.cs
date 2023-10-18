@@ -26,9 +26,13 @@ namespace Titan.Character.Player
         {
             _action = new MainAction(_asset);
             _action.Player.SetCallbacks(this);
-            _action.Player.Enable();
+            // Fix
+            // 로딩 중에는 움직여서는 안 된다.
+            _action.Player.Disable();
         }
 
+        #region Callbacks
+        
         void MainAction.IPlayerActions.OnLook(InputAction.CallbackContext context)
         {
             // throw new System.NotImplementedException();
@@ -78,6 +82,23 @@ namespace Titan.Character.Player
             if(context.performed)
             {
                 OnHyperPerformed?.Invoke();
+            }
+        }
+        
+        #endregion Callbacks
+
+        public bool InputEnable
+        {
+            set
+            {
+                if(value)
+                {
+                    _action.Player.Enable();
+                }
+                else
+                {
+                    _action.Player.Disable();
+                }
             }
         }
     }

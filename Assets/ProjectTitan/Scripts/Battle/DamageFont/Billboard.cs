@@ -6,6 +6,7 @@ namespace Titan
 {
     public class Billboard : MonoBehaviour
     {
+        public static Camera TargetCamera;
         private Camera _cam;
 
         private void Start()

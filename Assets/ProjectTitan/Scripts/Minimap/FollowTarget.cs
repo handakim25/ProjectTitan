@@ -6,7 +6,7 @@ namespace Titan
 {
     public class FollowTarget : MonoBehaviour
     {
-        public Transform targetTr;
+        public Transform targetTransform;
 
         /// <summary>
         /// Start is called on the frame when a script is enabled just before
@@ -14,15 +14,15 @@ namespace Titan
         /// </summary>
         private void Start()
         {
-            if(targetTr == null)
+            if(targetTransform == null)
             {
-                targetTr = GameObject.FindWithTag("Player").transform;
+                targetTransform = GameObject.FindWithTag("Player").transform;
             }
         }
 
         private void LateUpdate()
         {
-            Vector3 nextPos = targetTr.position;
+            Vector3 nextPos = targetTransform.position;
             nextPos.y = 100f;
             transform.position = nextPos;
         }

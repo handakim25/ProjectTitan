@@ -12,13 +12,17 @@ namespace Titan
 
         void Start()
         {
-            var plyaerCam = Instantiate(_playerCam, transform.position, transform.rotation);
-            Debug.Log($"Player Cam : {plyaerCam.transform.position}");
-            if(plyaerCam.TryGetComponent(out Cinemachine.CinemachineFreeLook cam))
+            // var plyaerCam = Instantiate(_playerCam, transform.position, transform.rotation);
+            var playerCam = Instantiate(_playerCam, transform.position, transform.rotation, _target.transform);
+            Debug.Log($"Player Cam : {playerCam.transform.position}");
+            if(playerCam.TryGetComponent(out Cinemachine.CinemachineFreeLook cam))
             {
                 cam.Follow = _target;
                 cam.LookAt = _lookAt;
-                cam.ForceCameraPosition(transform.position, transform.rotation);
+                // cam.ForceCameraPosition(transform.position, transform.rotation);
+                // cam.transform.SetPositionAndRotation(transform.position, transform.rotation);
+                cam.UpdateCameraState(Vector3.up, 0f);
+                Debug.Log($"Cam Pos : {cam.transform.position}");
             }
             else
             {

@@ -25,11 +25,12 @@ namespace Titan.Core.Scene
 
         /// <summary>
         /// Scene Load 완료. Load가 완료되기 전에 호출된다. 이 곳에서 게임 시작 전에 필요한 동작을 한다.
+        /// i.e 몬스터 생성, Save 데이터 로드 등
         /// </summary>
         public event System.Action SceneLoaded;
 
         /// <summary>
-        /// 모든 로드가 완료되고 종료될 때 호출된다. 게임 시작 부분을 처리한다.
+        /// 모든 로드가 완료되고 준비가 됬을 때 호출된다. 게임 시작 부분을 처리한다.
         /// </summary>
         public event System.Action SceneStart;
 

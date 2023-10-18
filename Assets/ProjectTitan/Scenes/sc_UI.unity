@@ -933,7 +933,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inputAsset: {fileID: -944628639613478452, guid: 6cde39c3dc479f2429702fc15f757af1,
     type: 3}
-  inventoryUI: {fileID: 0}
+  inventoryUI: {fileID: 2115621306}
   _HudScene: {fileID: 1445979887}
   _UIList:
   - {fileID: 2115621306}

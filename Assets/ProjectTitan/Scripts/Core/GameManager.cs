@@ -8,6 +8,7 @@ using Titan.Character;
 using Titan.Stage;
 using Titan.Audio;
 using Titan.UI;
+using Titan.Character.Player;
 
 namespace Titan.Core
 {
@@ -86,7 +87,7 @@ namespace Titan.Core
         // 양이 많아지면 분리한다.
 
         /// <summary>
-        /// Scene이 로드되면 호출된다. 아직 로딩이 긑나지 않은 단계
+        /// Scene이 로드되면 호출된다. 아직 로딩이 끝나지 않은 단계
         /// </summary>
         private void OnSceneLoaded()
         {
@@ -161,6 +162,10 @@ namespace Titan.Core
             }
         }
 
+        /// <summary>
+        /// 모든 Scene이 로드되었고 준비가 끝났을 때 호출된다.
+        /// 즉, 게임의 시작 부분이다.
+        /// </summary>
         private void OnSceneStart()
         {
             // Stage가 아닐 경우
@@ -171,6 +176,10 @@ namespace Titan.Core
             Debug.Log($"OnSceneLoaded : {_curStage.SceneName}");
 
             SoundManager.Instance.PlayBGM((int)_curStage.BGM);
+            if(Player.TryGetComponent<PlayerInput>(out var input))
+            {
+                // input.InputEnable = true;
+            }
         }
         
         #endregion Callback
