@@ -360,7 +360,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 24576
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: ae2b5a0baba465b4389b3c190b012df8, type: 2}
   m_TargetDisplay: 0
@@ -645,6 +645,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1341419171, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
       propertyPath: m_Transitions.m_InheritPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1350630649, guid: 3a687de01db43c4498cf4d707b9281bd, type: 3}
+      propertyPath: _isPlayer
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4407937264780789918, guid: 3a687de01db43c4498cf4d707b9281bd,

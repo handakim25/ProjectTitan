@@ -63,6 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interactRange: 3
   <CanInteract>k__BackingField: 0
+  _npcName: "\uC758\uBB38\uC758 \uC5EC\uC131"
   _dialogueObject: {fileID: 11400000, guid: a9dd880eab28df54d897314e319508a3, type: 2}
   _dialogueObjectRef:
     ID: LinearDialogueTest
