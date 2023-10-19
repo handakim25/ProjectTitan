@@ -9,6 +9,7 @@ using Titan.Stage;
 using Titan.Audio;
 using Titan.UI;
 using Titan.Character.Player;
+using System;
 
 namespace Titan.Core
 {
@@ -116,6 +117,7 @@ namespace Titan.Core
             
             InitPlayer();
             InitHudUI();
+            InitCamera();
         }
 
         private void InitPlayer()
@@ -159,6 +161,16 @@ namespace Titan.Core
             if(hudController != null)
             {
                 hudController.UpdateStageName(_curStage.StageName);
+            }
+        }
+
+        private void InitCamera()
+        {
+            Billboard.TargetCamera = Camera.main;
+            var playerCam = Player.GetComponentInChildren<PlayerCameraController>();
+            if(playerCam != null)
+            {
+                playerCam.InitCameraPos();
             }
         }
 
