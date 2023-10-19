@@ -786,5 +786,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36038d6bb1b3e3f4cb9dd481751b5544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _footStepSounds: 
+  _isPlayer: 0
+  _footStepSounds: 0100000002000000
   _landSound: 0

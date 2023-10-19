@@ -249,6 +249,15 @@ namespace Titan.Audio
             source.Play();
         }
 
+        private void PlayAudioSource(AudioSource source, SoundClip clip)
+        {
+            if(source == null || clip == null)
+            {
+                return;
+            }
+            PlayAudioSource(source, clip, clip.maxVolume);
+        }
+
         private void PlayAudioSourceAtPoint(SoundClip clip, Vector3 position, float volume)
         {
             AudioSource.PlayClipAtPoint(clip.GetClip(), position, volume);
@@ -447,15 +456,15 @@ namespace Titan.Audio
             {
                 if(_effectSources[i].isPlaying == false)
                 {
-                    PlayAudioSource(_effectSources[i], clip, clip.maxVolume);
+                    PlayAudioSource(_effectSources[i], clip);
                     _effectPlayStartTime[i] = Time.realtimeSinceStartup;
                     isPlaySuccess = true;
                     break;
                 }
-                else if(_effectSources[i].clip == clip.GetClip())
+                else if(_effectSources[i].clip == clip?.GetClip())
                 {
                     _effectSources[i].Stop();
-                    PlayAudioSource(_effectSources[i], clip, clip.maxVolume);
+                    PlayAudioSource(_effectSources[i], clip);
                     _effectPlayStartTime[i] = Time.realtimeSinceStartup;
                     isPlaySuccess = true;
                     break;
@@ -474,7 +483,7 @@ namespace Titan.Audio
                         selectIndex = i;
                     }
                 }
-                PlayAudioSource(_effectSources[selectIndex], clip, clip.maxVolume);
+                PlayAudioSource(_effectSources[selectIndex], clip);
                 _effectPlayStartTime[selectIndex] = Time.realtimeSinceStartup;
             }
         }
@@ -492,8 +501,6 @@ namespace Titan.Audio
 
         public void PlayOneShotEffect(int index, Vector3 position, float volume)
         {
-            // if(index == (int))
-
             SoundClip clip = DataManager.SoundData.GetCopy(index);
             if(clip == null)
             {
