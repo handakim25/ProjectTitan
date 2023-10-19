@@ -35,7 +35,7 @@ namespace Titan.Character
         private void PlayFootStep()
         {
             var curFootStep = GetFootStepSound();
-            SoundManager.Instance.PlayOneShotEffect((int)curFootStep, transform.position, 1f);
+            SoundManager.Instance.PlayEffectSound((int)curFootStep);
         }
 
         private SoundList GetFootStepSound()

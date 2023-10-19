@@ -178,7 +178,7 @@ namespace Titan.Core
             SoundManager.Instance.PlayBGM((int)_curStage.BGM);
             if(Player.TryGetComponent<PlayerInput>(out var input))
             {
-                // input.InputEnable = true;
+                input.InputEnable = true;
             }
         }
         
