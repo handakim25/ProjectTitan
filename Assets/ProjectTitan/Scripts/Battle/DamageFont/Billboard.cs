@@ -6,16 +6,16 @@ namespace Titan
 {
     public class Billboard : MonoBehaviour
     {
-        private Camera _cam;
-
-        private void Start()
-        {
-            _cam = Camera.main;
-        }
+        public static Camera TargetCamera;
 
         private void LateUpdate()
         {
-            transform.LookAt(transform.position + _cam.transform.forward, _cam.transform.up);
+            if(TargetCamera == null)
+            {
+                return;
+            }
+
+            transform.LookAt(transform.position + TargetCamera.transform.forward, TargetCamera.transform.up);
         }
     }
 }

@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +7,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 
 using Titan.Core;
-using System;
-using UnityEngine.EventSystems;
+using Titan.UI;
 
 namespace Titan.DialogueSystem
 {
@@ -207,22 +206,12 @@ namespace Titan.DialogueSystem
                 // control.name : 어떤 입력인지
 
                 var device = InputSystem.GetDevice<Pointer>();
-                if(device != null && IsRaycastHitTargetUI(device.position.ReadValue()))
+                if(device != null && UIManager.Instance.IsRaycastHitTargetUI(device.position.ReadValue()))
                 {
                     return;
                 }
                 ProcessNextDialogue();
             }
-        }
-
-        private PointerEventData _pointerEventData;
-        private List<RaycastResult> _raycastResults = new();
-        private bool IsRaycastHitTargetUI(Vector2 position)
-        {
-            _pointerEventData ??= new PointerEventData(EventSystem.current);
-            _pointerEventData.position = position;
-            EventSystem.current.RaycastAll(_pointerEventData, _raycastResults);
-            return _raycastResults.Any(result => result.gameObject == _autoButton.gameObject);
         }
     }
 }

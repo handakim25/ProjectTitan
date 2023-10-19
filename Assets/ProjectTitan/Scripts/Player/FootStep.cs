@@ -12,6 +12,7 @@ namespace Titan.Character
     /// </summary>
     public class FootStep : MonoBehaviour
     {
+        [SerializeField] private bool _isPlayer = false;
         [SerializeField] private SoundList[] _footStepSounds;
         [SerializeField] private SoundList _landSound;
 
@@ -35,7 +36,14 @@ namespace Titan.Character
         private void PlayFootStep()
         {
             var curFootStep = GetFootStepSound();
-            SoundManager.Instance.PlayOneShotEffect((int)curFootStep, transform.position, 1f);
+            if(_isPlayer)
+            {
+                SoundManager.Instance.PlayEffectSound((int)curFootStep);
+            }
+            else
+            {
+                SoundManager.Instance.PlayOneShotEffect((int)curFootStep, transform.position, 1.0f);
+            }
         }
 
         private SoundList GetFootStepSound()

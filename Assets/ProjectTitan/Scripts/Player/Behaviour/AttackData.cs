@@ -17,7 +17,7 @@ namespace Titan.Battle
     {
         public AttackCollider damageHitBox;
         public GameObject projectilePrefab;
-        public GameObject sfx; // 추후에 변경
+        public SoundList sfx = SoundList.None;
         public GameObject vfx; // 추후에 변경
         public int animIndex;
         public int damageFactor;

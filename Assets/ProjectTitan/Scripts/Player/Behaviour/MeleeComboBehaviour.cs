@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Titan.Battle;
+using Titan.Audio;
 
 namespace Titan.Character.Player
 {
@@ -84,6 +85,8 @@ namespace Titan.Character.Player
                     targetHealth.TakeDamage(new Vector3(0, 0, 0), new Vector3(0, 0, 0), attack.damageFactor);
                 }
             }
+
+            SoundManager.Instance.PlayEffectSound((int)attack.sfx);
         }
     }
 }

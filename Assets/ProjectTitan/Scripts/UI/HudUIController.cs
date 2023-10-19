@@ -5,7 +5,7 @@ using TMPro;
 
 using DG.Tweening;
 
-using Titan.Character;
+using Titan.Character.Player;
 
 namespace Titan.UI
 {
@@ -23,6 +23,7 @@ namespace Titan.UI
         [SerializeField] GameObject _healthPannel;
         [SerializeField] GameObject _minimapPannel;
         [SerializeField] GameObject _skillPannel;
+        private SkillPannelController _skillPannelController;
 
         [Header("Animation")]
         [SerializeField] float _transitionTime;
@@ -31,6 +32,13 @@ namespace Titan.UI
 
         #region UIScene
 
+        private void Awake()
+        {
+            if(_skillPannel != null)
+            {
+                _skillPannelController = _skillPannel.GetComponent<SkillPannelController>();
+            }
+        }
         private void Start()
         {
             _interactionStartAnchorX = _interactionPannel.GetComponent<RectTransform>().anchoredPosition.x;
@@ -115,9 +123,25 @@ namespace Titan.UI
             }
         }
 
-        public void UpdatePlayerData(PlayerController playerController)
+        public void InitPlayerView(PlayerStatus status)
         {
-            
+            if(_skillPannelController != null)
+            {
+                _skillPannelController.InitSkillData(status);
+            }
+        }
+
+        /// <summary>
+        /// Update Ui by player status
+        /// </summary>
+        /// <param name="status"></param>
+        public void UpdatePlayerData(PlayerStatus status)
+        {
+            // // Skill Control
+            if(_skillPannelController != null)
+            {
+                _skillPannelController.UpdateSkillData(status);
+            }
         }
 
         #endregion UIScene

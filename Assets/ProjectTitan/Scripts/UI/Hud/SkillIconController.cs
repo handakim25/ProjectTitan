@@ -148,6 +148,15 @@ namespace Titan.UI
 
         private void OnValidate()
         {
+            if(this == null)
+            {
+                return;
+            }
+            if(!gameObject.activeSelf)
+            {
+                return;
+            }
+
             // Update Color
             if(_backgroundImage != null)
             {
@@ -245,7 +254,9 @@ namespace Titan.UI
         {
             if(_energySlider != null)
             {
-                _energySlider.value = _curEnergy / _maxEnergy;
+                // Bug fix
+                // 나누기 연산을 할 경우 Divide by zero 에러가 발생할 수 있다.
+                _energySlider.value = _maxEnergy == 0f ? 0f : _curEnergy / _maxEnergy;
             }
             if(_energyFillImage != null)
             {

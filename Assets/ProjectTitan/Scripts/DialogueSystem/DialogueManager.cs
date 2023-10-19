@@ -22,6 +22,8 @@ namespace Titan.DialogueSystem
         private DialogueObject _currentDialogueObject;
         private DialogInteractable _curDialogueInteractable;
         private DialogueNode _currentDialogueNode;
+        private string _curSpeaker => _curDialogueInteractable != null ? 
+            _curDialogueInteractable.InteractText : null ?? _currentDialogueNode.SpeakerName;
         private float _lastDialogueEndTime;
         private ConditionEvaluator _conditionEvaluator;
 
@@ -63,7 +65,7 @@ namespace Titan.DialogueSystem
             }
 
             _dialogueUI.GetComponent<DialogueUIScene>().OpenUI();
-            _dialogueUI.SetDialogue(_currentDialogueNode.SpeakerName, _currentDialogueNode.DialogueText);
+            _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.DialogueText);
         }
 
         private DialogueNode GetNextDialogue()
@@ -154,7 +156,7 @@ namespace Titan.DialogueSystem
                         Status = System.Enum.Parse<QuestStatus>(_currentDialogueNode.TriggerQuestState),
                     });
                 }
-                _dialogueUI.SetDialogue(_currentDialogueNode.SpeakerName, _currentDialogueNode.DialogueText);
+                _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.DialogueText);
             }
             else
             {

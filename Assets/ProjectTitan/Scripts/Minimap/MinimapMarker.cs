@@ -9,6 +9,7 @@ namespace Titan.Character
         // Setting 관련 정보 필요
         // 1. 기초적인 높이
         // https://qkrguscjf176.tistory.com/22 참고
+        // https://darkcatgame.tistory.com/78 참고
 
         private readonly string MarkerName = "Marker";
         private const float DefaultHeight = 10f;

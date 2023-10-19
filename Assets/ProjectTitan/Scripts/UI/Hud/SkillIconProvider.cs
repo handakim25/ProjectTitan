@@ -32,6 +32,18 @@ namespace Titan.UI
 
         private void Update()
         {
+            if(_updateCooltime)
+            {
+                _curCooltime += Time.deltaTime;
+                _curCooltime = Mathf.Clamp(_curCooltime, 0, _coolTime);
+            }
+
+            if(_regenEnergy)
+            {
+                _curEnergy += Time.deltaTime;
+                _curEnergy = Mathf.Clamp(_curEnergy, 0, _energy);
+            }
+
             _controller.UpdateUI(_curCooltime, _curEnergy);
         }
     }

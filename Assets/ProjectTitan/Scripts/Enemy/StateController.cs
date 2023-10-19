@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,6 @@ using UnityEngine.AI;
 
 using Titan.Character.Enemy.FSM;
 using Titan.Battle;
-using Titan.Audio;
 
 namespace Titan.Character.Enemy
 {
@@ -85,6 +85,8 @@ namespace Titan.Character.Enemy
             {
                 aiActive = false;
             }
+
+            PatrolWaypoints = PatrolWaypoints.Where(x => x != null).ToArray();
         }
 
         private void Start()

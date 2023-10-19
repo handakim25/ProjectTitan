@@ -2,10 +2,11 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 using Titan.Core;
-using Titan.InventorySystem.Items;
+using UnityEngine.EventSystems;
 
 namespace Titan.UI
 {
@@ -157,6 +158,7 @@ namespace Titan.UI
         public void ShowCursor()
         {
             Cursor.lockState = CursorLockMode.None;
+            _action.Player.Look.Disable();
         }
 
         // To-Do
@@ -169,6 +171,26 @@ namespace Titan.UI
         public void HideCursor()
         {
             Cursor.lockState = CursorLockMode.Locked;
+            _action.Player.Look.Enable();
         }
+
+        #region Utillity
+        
+        private PointerEventData _pointerEventData;
+        private List<RaycastResult> _raycastResults = new();
+        /// <summary>
+        /// Check if hits UI
+        /// </summary>
+        /// <param name="position">Screen Space Position</param>
+        /// <returns>True if, hits ui</returns>
+        public bool IsRaycastHitTargetUI(Vector2 position)
+        {
+            _pointerEventData ??= new PointerEventData(EventSystem.current);
+            _pointerEventData.position = position;
+            EventSystem.current.RaycastAll(_pointerEventData, _raycastResults);
+            return _raycastResults.Any(result => result.gameObject.GetComponent<Button>() != null);
+        }
+        
+        #endregion Utillity
     }
 }

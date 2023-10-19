@@ -43,6 +43,7 @@ namespace Titan.Character.Player
         public PlayerInput PlayerInput {get; private set;}
         public PlayerMove PlayerMove {get; private set;}
         public PlayerController Controller {get; private set;}
+        public PlayerStatus Status => Controller.Status;
 
         private int BasicAnimatorLayerIndex = 0;
         private int SkillAnimatorLayerIndex = 0;

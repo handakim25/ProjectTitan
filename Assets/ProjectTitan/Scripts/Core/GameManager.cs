@@ -8,6 +8,8 @@ using Titan.Character;
 using Titan.Stage;
 using Titan.Audio;
 using Titan.UI;
+using Titan.Character.Player;
+using System;
 
 namespace Titan.Core
 {
@@ -86,7 +88,7 @@ namespace Titan.Core
         // 양이 많아지면 분리한다.
 
         /// <summary>
-        /// Scene이 로드되면 호출된다. 아직 로딩이 긑나지 않은 단계
+        /// Scene이 로드되면 호출된다. 아직 로딩이 끝나지 않은 단계
         /// </summary>
         private void OnSceneLoaded()
         {
@@ -115,6 +117,7 @@ namespace Titan.Core
             
             InitPlayer();
             InitHudUI();
+            InitCamera();
         }
 
         private void InitPlayer()
@@ -141,11 +144,14 @@ namespace Titan.Core
             // Player와 UI 연결
             if(Player.TryGetComponent<PlayerController>(out var playerController))
             {
+                playerController.InitPlayer();
                 var hudController = UIManager.Instance.HudUIController;
                 if(hudController != null)
                 {
+                    hudController.InitPlayerView(playerController.Status);
                     playerController.PlayerDataChanged += hudController.UpdatePlayerData;
                 }
+                playerController.ForceUpdateStatus();
             }
         }
 
@@ -159,6 +165,20 @@ namespace Titan.Core
             }
         }
 
+        private void InitCamera()
+        {
+            Billboard.TargetCamera = Camera.main;
+            var playerCam = Player.GetComponentInChildren<PlayerCameraController>();
+            if(playerCam != null)
+            {
+                playerCam.InitCameraPos();
+            }
+        }
+
+        /// <summary>
+        /// 모든 Scene이 로드되었고 준비가 끝났을 때 호출된다.
+        /// 즉, 게임의 시작 부분이다.
+        /// </summary>
         private void OnSceneStart()
         {
             // Stage가 아닐 경우
@@ -169,6 +189,10 @@ namespace Titan.Core
             Debug.Log($"OnSceneLoaded : {_curStage.SceneName}");
 
             SoundManager.Instance.PlayBGM((int)_curStage.BGM);
+            if(Player.TryGetComponent<PlayerInput>(out var input))
+            {
+                input.InputEnable = true;
+            }
         }
         
         #endregion Callback

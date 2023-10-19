@@ -8,8 +8,11 @@ namespace Titan.Interaction
 {
     public class DialogInteractable : Interactable
     {
+        [SerializeField] private string _npcName;
         [SerializeField] private DialogueObject _dialogueObject;
         [SerializeField] private ReferenceID<DialogueObject> _dialogueObjectRef;
+
+        public override string InteractText => _npcName;
 
         public override void Interact()
         {
