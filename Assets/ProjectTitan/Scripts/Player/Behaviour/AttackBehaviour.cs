@@ -40,6 +40,7 @@ namespace Titan.Character.Player
         {
             _controller.SubscribeGenericBehaviour(this);
 
+            // Register Animator Behaviour
             var animatorBehaviours = _controller.Animator.GetBehaviours<AttackStateMachineBehaviour>();
             var animatorBehaviour = animatorBehaviours.FirstOrDefault((behaviour) => behaviour.AttackType == _attackType);
             if(animatorBehaviour == null)
@@ -51,6 +52,7 @@ namespace Titan.Character.Player
                 animatorBehaviour.OnAttackEnd += AttackEndHandler;
             }
 
+            // Register input
             switch(_attackType)
             {
                 case AttackType.Basic:

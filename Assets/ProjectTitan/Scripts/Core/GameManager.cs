@@ -128,6 +128,7 @@ namespace Titan.Core
                 return;
             }
 
+            // Reset Player Position
             var startPoint = GameObject.FindGameObjectWithTag(StartPoint);
             if (startPoint)
             {
