@@ -75,7 +75,7 @@ namespace Titan.UI.Interaction
             {
                 GameObject slotUI = CreateSlot(parent);
                 
-                SetInteractSlot(slotUI, interactObject.GetComponent<Interactable>());
+                SetInteractSlot(slotUI, interactObject.GetComponentInParent<Interactable>());
                 var interactionUI = slotUI.GetComponent<InteractionUI>();
                 interactionUI.Interactable = interactObject;
                 _interactionUIs[interactObject] = interactionUI;
@@ -121,6 +121,12 @@ namespace Titan.UI.Interaction
         /// <param name="interactable">Interactable target</param>
         private void SetInteractSlot(GameObject slotUI, Interactable interactable)
         {
+            if(interactable == null)
+            {
+                Debug.LogError("Interactable must attached to GameObject");
+                return;
+            }
+
             var interactText = slotUI.transform.Find("InteractText");
             if(interactText && interactText.TryGetComponent<TextMeshProUGUI>(out var text))
             {

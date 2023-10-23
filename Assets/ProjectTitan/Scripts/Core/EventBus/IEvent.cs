@@ -16,7 +16,13 @@ namespace Titan
 
     public struct ItemCollectedEvent : IEvent
     {
-        public string ItemID;
+        public int ItemID;
+        public int Count;
+    }
+
+    public struct ItemUsedEvent : IEvent
+    {
+        public int ItemID;
         public int Count;
     }
 

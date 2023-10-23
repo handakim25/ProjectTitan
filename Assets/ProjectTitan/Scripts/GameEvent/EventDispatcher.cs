@@ -7,6 +7,7 @@ namespace Titan.GameEventSystem
 {
     public class EventDispatcher : MonoBehaviour
     {
+        // Game Event를 Listen해서 특정 상태가 되면 Cadllback을 호출함
         [SerializeField] private ReferenceID<GameEventObject> _gameEvent;
 
         public bool TargetStatus;

@@ -53,7 +53,7 @@ namespace Titan.UI.InventorySystem
                 _detailSlot.UpdateSlot(slot.item.Clone(), 0);
 
                 _interactButton.gameObject.SetActive(true);
-                ItemObject item = ItemDatabase.GetItemObject(slot.item.id);
+                ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
                 TextMeshProUGUI text = _interactButton.GetComponentInChildren<TextMeshProUGUI>();
                 text.text = item.type switch
                     {
@@ -159,7 +159,7 @@ namespace Titan.UI.InventorySystem
                 return;
             }
 
-            var itemObject = ItemDatabase.GetItemObject(slot.item.id);
+            var itemObject = DataManager.ItemDatabase.GetItemObject(slot.item.id);
             
             if(_detailSlot.SlotUI.TryGetComponent<SlotUI>(out var slotUI))
             {

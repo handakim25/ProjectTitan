@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Titan.Core;
+using Titan.Resource;
 
 namespace Titan.InventorySystem.Items
 {
-    public sealed class ItemDatabase : MonoSingleton<ItemDatabase>
+    public sealed class ItemDatabase : BaseData
     {
-        [SerializeField] private ItemDatabaseObject itemDatabase;
+        public ItemDatabaseObject itemDatabase;
         
-        static public ItemObject GetItemObject(int id)
+        public ItemObject GetItemObject(int id)
         {
-            if(id < 0 || id > Instance.itemDatabase.itemObjects.Length)
+            if(id < 0 || id > itemDatabase.itemObjects.Length)
                 return null;
-            return Instance.itemDatabase.itemObjects[id];
+            return itemDatabase.itemObjects[id];
         }
 
-        static public int Length => Instance.itemDatabase.itemObjects.Length;
+        public int Length => itemDatabase.itemObjects.Length;
     }
 }

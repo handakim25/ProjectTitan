@@ -114,7 +114,7 @@ namespace Titan.UI.InventorySystem
             if(slot == null || slot.SlotUI == null || slot.amount <= 0)
                 return;
 
-            ItemObject itemObject = ItemDatabase.GetItemObject(slot.item.id);
+            ItemObject itemObject = DataManager.ItemDatabase.GetItemObject(slot.item.id);
 
             if(slot.SlotUI.TryGetComponent<SlotUI>(out var slotUi))
             {
@@ -308,7 +308,7 @@ namespace Titan.UI.InventorySystem
             }
 
             InventorySlot slot = slotUIs[slotUI];
-            ItemObject item = ItemDatabase.GetItemObject(slot.item.id);
+            ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
             if(_allowedType.Contains(ItemType.None) || _allowedType.Count ==0)
             {
                 return true;
@@ -335,7 +335,7 @@ namespace Titan.UI.InventorySystem
 
         private bool IsFilteredSlot(InventorySlot slot)
         {
-            ItemObject item = ItemDatabase.GetItemObject(slot.item.id);
+            ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
             return _allowedType.Contains(item.type);
         }
 

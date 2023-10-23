@@ -42,7 +42,7 @@ namespace Titan.InventorySystem
         public bool AddItem(Item item, int amount)
         {
             InventorySlot slot = FindItemInInventory(item);
-            if (!ItemDatabase.GetItemObject(item.id).stackable || slot == null)
+            if (!DataManager.ItemDatabase.GetItemObject(item.id).stackable || slot == null)
             {
                 // a. stackable true, slot == null : Item does not exist.
                 // b. stackable false, slot == null : Item does not exist.
@@ -87,7 +87,7 @@ namespace Titan.InventorySystem
                 return false;
             }
 
-            ItemObject itemObject = ItemDatabase.GetItemObject(slotToUse.item.id);
+            ItemObject itemObject = DataManager.ItemDatabase.GetItemObject(slotToUse.item.id);
             slotToUse.UpdateSlot(slotToUse.item, slotToUse.amount - amount);
 
             if (slotToUse.amount <= 0)
@@ -110,13 +110,13 @@ namespace Titan.InventorySystem
 
         public void AddRandomItem()
         {
-            if (ItemDatabase.Length == 0)
+            if (DataManager.ItemDatabase.Length == 0)
             {
                 return;
             }
 
-            int randomIndex = Random.Range(0, ItemDatabase.Length);
-            ItemObject newItemObject = ItemDatabase.GetItemObject(randomIndex);
+            int randomIndex = Random.Range(0, DataManager.ItemDatabase.Length);
+            ItemObject newItemObject = DataManager.ItemDatabase.GetItemObject(randomIndex);
             Item newItem = new Item(newItemObject);
             Debug.Log($"Create item / id : {newItem.id}");
             AddItem(newItem, 1);
