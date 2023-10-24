@@ -57,7 +57,7 @@ namespace Titan.GameEventSystem
             }
             if(GameEventManager.Instance == null)
             {
-                Debug.LogError("GameEventManager is not initialized");
+                // Debug.LogError("GameEventManager is not initialized");
                 return;
             }
             GameEventManager.Instance.UnregisterEvent(_gameEvent.ID, HandleEvent);

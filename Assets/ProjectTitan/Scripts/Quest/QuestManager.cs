@@ -5,6 +5,7 @@ using UnityEngine;
 using Titan.Core;
 using System.Linq;
 using System;
+using Titan.GameEventSystem;
 
 namespace Titan.QuestSystem
 {
@@ -17,13 +18,20 @@ namespace Titan.QuestSystem
         private void OnEnable()
         {
             EventBus.RegisterCallback<QuestEvent>(QuestEventHandler);
+            EventBus.RegisterCallback<EnemyDeadEvent>(EnemyDeadEventHandler);
         }
 
         private void OnDisable()
         {
             EventBus.UnregisterCallback<QuestEvent>(QuestEventHandler);
+            EventBus.UnregisterCallback<EnemyDeadEvent>(EnemyDeadEventHandler);
         }
 
+        /// <summary>
+        /// 퀘스트를 받는다.
+        /// </summary>
+        /// <param name="questID">받을려는 QuestID</param>
+        /// <param name="notify">true일 경우 GameEvent를 발생</param>
         public void ReceiveQuest(string questID, bool notify = false)
         {
             if(questProgressDictionary.ContainsKey(questID))
@@ -56,6 +64,12 @@ namespace Titan.QuestSystem
             }
         }
 
+        /// <summary>
+        /// Quest를 Complete 상태로 전환하고 처리한다.
+        /// Reward를 주고, Event를 발생시킨다.
+        /// </summary>
+        /// <param name="questID">Quest ID</param>
+        /// <param name="notify">true일 경우 이벤트 발생</param>
         public void CompleteQuest(string questID, bool notify = false)
         {
             if(!questProgressDictionary.ContainsKey(questID))
@@ -64,9 +78,28 @@ namespace Titan.QuestSystem
                 return;
             }
 
-            var questProgressData = questProgressDictionary[questID];
-            questProgressData.Status = QuestStatus.Completed;
+            SetQuestComplete(questID, notify);
 
+            var quest = GetQuest(questID);
+            if(quest.QuestCompleteTriggerEvents != null)
+            {
+                foreach(var triggerEvent in quest.QuestCompleteTriggerEvents)
+                {
+                    GameEventManager.Instance.SetEventStatus(triggerEvent, true);
+                }
+            }
+        }
+
+        private void SetQuestComplete(string questID, bool notify = false)
+        {
+            var questProgressData = questProgressDictionary[questID];
+            if(questProgressData.Status == QuestStatus.Completed)
+            {
+                Debug.LogWarning($"Already completed quest {questID}");
+                return;
+            }
+            questProgressData.Status = QuestStatus.Completed;
+            
             if (notify)
             {
                 var QuestEvent = new QuestEvent
@@ -75,7 +108,7 @@ namespace Titan.QuestSystem
                     Status = QuestStatus.Completed,
                 };
                 EventBus.RaiseEvent(QuestEvent);
-            }
+            }                
         }
 
         public List<QuestProgressData> GetAcceptedQuestList()
@@ -103,29 +136,10 @@ namespace Titan.QuestSystem
             return questProgressDictionary[QuestID].Status;
         }
 
-        // private void ItemCollectHandler(ItemCollectedEvent itemCollectedEvent)
-        // {
-        //     foreach(var questProgressData in questProgressDictionary.Values)
-        //     {
-        //         var quest = DataManager.QuestDatabase.GetQuest(questProgressData.QuestID);
-        //         if(quest == null)
-        //         {
-        //             Debug.LogWarning($"No quest {questProgressData.QuestID}");
-        //             continue;
-        //         }
-
-        //         foreach(var questGoal in quest.QuestGoal)
-        //         {
-        //             if(questGoal.Type != QuestRequirement.RequirementType.Item)
-        //             {
-        //                 continue;
-        //             }
-
-        //             // Inventory System과 통신해서 처리
-        //         }
-        //     }
-        // }
-
+        /// <summary>
+        /// Enemy가 죽는 것을 확인하는 이벤트 핸들러
+        /// </summary>
+        /// <param name="enemyDeadEvent"></param>
         private void EnemyDeadEventHandler(EnemyDeadEvent enemyDeadEvent)
         {
             foreach(var questProgressData in questProgressDictionary.Values)

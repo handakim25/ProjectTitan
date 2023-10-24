@@ -7,6 +7,7 @@ using UnityEngine;
 using Titan.UI;
 using Titan.QuestSystem;
 using Titan.Interaction;
+using Titan.InventorySystem.Items;
 
 namespace Titan.DialogueSystem
 {
@@ -21,9 +22,11 @@ namespace Titan.DialogueSystem
 
         private DialogueObject _currentDialogueObject;
         private DialogInteractable _curDialogueInteractable;
+        private System.Action _onDialogueEnd;
         private DialogueNode _currentDialogueNode;
         private string _curSpeaker => _curDialogueInteractable != null ? 
             _curDialogueInteractable.InteractText : null ?? _currentDialogueNode.SpeakerName;
+        
         private float _lastDialogueEndTime;
         private ConditionEvaluator _conditionEvaluator;
 
@@ -39,7 +42,7 @@ namespace Titan.DialogueSystem
             }
         }
 
-        public void StartDialogue(DialogueObject dialogueObject, DialogInteractable interactable = null)
+        public void StartDialogue(DialogueObject dialogueObject, DialogInteractable interactable = null, System.Action OnDialogueEnd = null)
         {
             if(Time.time - _lastDialogueEndTime < _dialogueInterval)
             {
@@ -55,6 +58,7 @@ namespace Titan.DialogueSystem
                 }
             }
             _curDialogueInteractable = interactable;
+            _onDialogueEnd = OnDialogueEnd;
 
             _currentDialogueObject = dialogueObject;
             _currentDialogueNode = dialogueObject.GetStartingNode();
@@ -84,6 +88,7 @@ namespace Titan.DialogueSystem
 
             _currentDialogueObject = null;
             _lastDialogueEndTime = Time.time;
+            _onDialogueEnd?.Invoke();
         }
 
         private void FindUI()
@@ -118,7 +123,10 @@ namespace Titan.DialogueSystem
             if (_currentDialogueNode.Choices.Count > 0)
             {
                 // show choices
-                _conditionEvaluator ??= new ConditionEvaluator() {QuestManager = QuestManager.Instance};
+                _conditionEvaluator ??= new ConditionEvaluator() {
+                    QuestManager = QuestManager.Instance,
+                    InventoryManager = InventoryManager.Instance,
+                };
                 var choiceText = _currentDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator)).Select(x => x.ChoiceText).ToList();
                 // var choiceText = _currentDialogueNode.Choices.Select(x => x.ChoiceText).ToList();
                 _dialogueUI.ShowChoice(choiceText);

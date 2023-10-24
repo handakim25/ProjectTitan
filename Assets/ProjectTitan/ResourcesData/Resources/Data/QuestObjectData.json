@@ -13,7 +13,9 @@
     "QuestRewardGold": 0,
     "QuestRewardExp": 0,
     "QuestRewardItems": [],
-    "QuestCompleteTriggerEvents": []
+    "QuestCompleteTriggerEvents": [
+      "DoorOpenEvent"
+    ]
   },
   {
     "QuestIndex": 1,

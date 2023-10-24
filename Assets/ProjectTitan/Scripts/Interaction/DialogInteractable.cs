@@ -6,6 +6,7 @@ using Titan.DialogueSystem;
 
 namespace Titan.Interaction
 {
+    [SelectionBase]
     public class DialogInteractable : Interactable
     {
         [SerializeField] private string _npcName;
@@ -18,7 +19,9 @@ namespace Titan.Interaction
         {
             if(_dialogueObject != null)
             {
-                DialogueManager.Instance.StartDialogue(_dialogueObject, this);
+                DialogueManager.Instance.StartDialogue(_dialogueObject, this, () => {
+                    CanInteract = true;
+                });
                 CanInteract = false;
             }
         }

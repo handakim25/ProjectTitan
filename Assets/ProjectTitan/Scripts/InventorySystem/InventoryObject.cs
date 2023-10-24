@@ -73,9 +73,7 @@ namespace Titan.InventorySystem
             throw new System.NotImplementedException();
         }
 
-        // As the appropriate access modifer is unclear at this time,
-        // it will be kept private for now.
-        private InventorySlot FindItemInInventory(Item item)
+        public InventorySlot FindItemInInventory(Item item)
         {
             return inventory.FindItemInInventory(item);
         }

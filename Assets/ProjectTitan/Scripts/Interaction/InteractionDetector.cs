@@ -63,11 +63,17 @@ namespace Titan.Interaction
             while(true)
             {
                 int numCollider = Physics.OverlapSphereNonAlloc(transform.position, _detectRadius, colliders, _targetMask);
+                int validCount = 0;
                 for(int i = 0; i < numCollider; i++)
                 {
-                    interactObjects[i] = colliders[i].gameObject;
+                    if(colliders[i].gameObject.TryGetComponent<Interactable>(out var interactable)
+                        && interactable.CanInteract)
+                    {
+                            interactObjects[i] = colliders[i].gameObject;
+                            validCount++;
+                    }
                 }
-                _interactionList.UpdateInteractionList(interactObjects, numCollider);
+                _interactionList.UpdateInteractionList(interactObjects, validCount);
                 yield return wait;
             }
         }

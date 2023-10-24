@@ -49,6 +49,17 @@ MonoBehaviour:
         Type: 0
         ExpectedBool: 0
         Requirements: []
+    - ChoiceText: "\uC5F4\uC1E0\uB97C \uAC00\uC838\uC654\uC5B4."
+      NextNode: 47d6422f-8776-49a4-919d-22aa9d5e8fa0
+      Condition:
+        Type: 1
+        ExpectedBool: 1
+        Requirements:
+        - Type: 1
+          ExpectedBool: 1
+          TargetID: 7
+          TargetCount: 1
+          QuestStatus: 0
   - NodeID: 4d76cd99-42d5-4eb9-b268-6fef4b1db04e
     NextNode: 9d881225-05a2-41ba-b0b0-d6f8179261f4
     SpeakerName: test
@@ -123,4 +134,15 @@ MonoBehaviour:
     TriggerSetValue: 0
     TriggerQuest: Test_Quest
     TriggerQuestState: Received
+    Choices: []
+  - NodeID: 47d6422f-8776-49a4-919d-22aa9d5e8fa0
+    NextNode: 
+    SpeakerName: test
+    DialogueText: "\uD6CC\uB96D\uD569\uB2C8\uB2E4. \uBB38\uC758 \uC7A0\uAE08\uC744
+      \uD574\uC81C\uD588\uC2B5\uB2C8\uB2E4. \uC55E\uC73C\uB85C \uB098\uC544\uAC00\uC11C
+      \uBCF4\uC2A4\uB97C \uC4F0\uB7EC\uB728\uB9AC\uC138\uC694."
+    TriggerEventID: test
+    TriggerSetValue: 0
+    TriggerQuest: Test_Quest
+    TriggerQuestState: Completed
     Choices: []
