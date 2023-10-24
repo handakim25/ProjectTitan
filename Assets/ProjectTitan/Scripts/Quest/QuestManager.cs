@@ -99,7 +99,7 @@ namespace Titan.QuestSystem
                 return;
             }
             questProgressData.Status = QuestStatus.Completed;
-            
+
             if (notify)
             {
                 var QuestEvent = new QuestEvent
@@ -111,22 +111,42 @@ namespace Titan.QuestSystem
             }                
         }
 
+        /// <summary>
+        /// Accep 상태인 Quest를 반환한다.
+        /// </summary>
+        /// <returns></returns>
         public List<QuestProgressData> GetAcceptedQuestList()
         {
             // Quest 량이 엄청나게 길어지면 이것은 유효하지 않게 된다.
             return questProgressDictionary.Values.Where(questProgressData => questProgressData.Status == QuestStatus.Received).ToList();
         }
 
+        /// <summary>
+        /// QuestID를 기준으로 Quest를 반환한다.
+        /// </summary>
+        /// <param name="questID">해당하는 Quest가 없을 경우 null이 반환된다.</param>
+        /// <returns></returns>
         public Quest GetQuest(string questID)
         {
             return DataManager.QuestDatabase.GetQuest(questID);
         }
 
+        /// <summary>
+        /// QuestID를 기준으로 Try 형식으로 퀘스트를 반환한다.
+        /// </summary>
+        /// <param name="questID">Quest ID</param>
+        /// <param name="quest">Quest 반환값</param>
+        /// <returns>true일 경우 존재, false일 경우 존재하지 않는다</returns>
         public bool TryGetQuest(string questID, out Quest quest)
         {
             return DataManager.QuestDatabase.TryGetQuest(questID, out quest);
         }
 
+        /// <summary>
+        /// QuestID를 기반으로 QuestStatus를 반환한다.
+        /// </summary>
+        /// <param name="QuestID">QuestID</param>
+        /// <returns>Quest가 없을 경우 Not Received를 반환</returns>
         public QuestStatus GetQuestStatus(string QuestID)
         {
             if(!questProgressDictionary.ContainsKey(QuestID))
@@ -167,8 +187,10 @@ namespace Titan.QuestSystem
             }
         }
 
-        // Some Save / Load Logic
-
+        /// <summary>
+        /// Quest Event를 처리하는 이벤트 핸들러
+        /// </summary>
+        /// <param name="questEvent"></param>
         private void QuestEventHandler(QuestEvent questEvent)
         {
             switch (questEvent.Status)
