@@ -54543,10 +54543,10 @@ MonoBehaviour:
   _openOffset: {x: 0, y: 6, z: 0}
   openEase: 4
   closeEase: 4
-  _openDuration: 5
-  _closeDuration: 5
-  _openSound: -1
-  _closeSound: -1
+  _openDuration: 8
+  _closeDuration: 8
+  _openSound: 12
+  _closeSound: 12
   OnClose:
     m_PersistentCalls:
       m_Calls: []

@@ -13,5 +13,6 @@ public enum SoundList
     Player_Hyper_01 = 9,
     Player_Dash = 10,
     Player_Skill = 11,
+    Door_Open_Sound = 12,
 
 }
