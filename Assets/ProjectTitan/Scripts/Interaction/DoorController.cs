@@ -51,7 +51,7 @@ namespace Titan
             }
             _isOpen = true;
             SoundManager.Instance.PlayeEffectSound((int)_openSound, transform.position);
-            transform.DOMove(_openPos, 1f).SetEase(openEase);
+            transform.DOMove(_openPos, _openDuration).SetEase(openEase);
         }
 
         [ContextMenu("Close")]
@@ -63,7 +63,7 @@ namespace Titan
             }
             _isOpen = false;
             SoundManager.Instance.PlayeEffectSound((int)_closeSound, transform.position);
-            transform.DOMove(_originPos, 1f).SetEase(closeEase);
+            transform.DOMove(_originPos, _closeDuration).SetEase(closeEase);
         }
     }
 }
