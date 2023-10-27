@@ -29,7 +29,9 @@ namespace Titan.UI
             UIManager.Instance.OpenUIScene(this);
 
             _canvasGroup.alpha = 0f;
-            _canvasGroup.DOFade(1.0f, 0.0f).SetDelay(_transitionTime);
+            _canvasGroup.DOFade(1.0f, 0.0f)
+                        .SetDelay(_transitionTime)
+                        .SetUpdate(true);
         }
 
         public override void CloseUI()

@@ -96,6 +96,8 @@ namespace Titan.UI
             isMouseMode = true;
             ShowCursor();
             _action.Player.Disable();
+
+            GameManager.Instance.PauseGame();
         }
         
         public void CloseUIScene(UIScene scene)
@@ -108,6 +110,8 @@ namespace Titan.UI
             HideCursor();
             _action.Player.Enable();
             _HudScene.OpenUI();
+
+            GameManager.Instance.ResumeGame();
         }
 
         #region Input Callback
