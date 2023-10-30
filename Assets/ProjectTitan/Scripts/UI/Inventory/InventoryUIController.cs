@@ -27,6 +27,7 @@ namespace Titan.UI.InventorySystem
         /// InventoryUI와는 다른 슬롯이다.
         /// </summary>
         private InventorySlot _detailSlot = new InventorySlot();
+        [SerializeField] protected GameObject _equipIndicatorUI;
         [SerializeField] protected FormatString _capacityText;
         [SerializeField] protected Button _interactButton;
 
@@ -42,6 +43,7 @@ namespace Titan.UI.InventorySystem
             UnityEngine.Assertions.Assert.IsNotNull(_cartegoryTab.GetComponent<TabGroup>(), "Cartegory tab should have TabGroupd");
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryUI, "Inventory ui is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_detailSlotUI, "Detail Slot Ui is not set");
+            UnityEngine.Assertions.Assert.IsNotNull(_equipIndicatorUI, "Equip Indicator Ui is not set");
 
             // Detail Slot
             _detailSlot.SlotUI = _detailSlotUI;
@@ -53,12 +55,13 @@ namespace Titan.UI.InventorySystem
                 {
                     _detailSlot.UpdateSlot(new Item(), 0);
                     _interactButton.gameObject.SetActive(false);
+                    _equipIndicatorUI.SetActive(false);
                     return;
                 }
                 _detailSlot.UpdateSlot(slot.item.Clone(), 0);
+                ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
 
                 _interactButton.gameObject.SetActive(true);
-                ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
                 TextMeshProUGUI text = _interactButton.GetComponentInChildren<TextMeshProUGUI>();
                 text.text = item.type switch
                     {
@@ -66,6 +69,8 @@ namespace Titan.UI.InventorySystem
                         ItemType.Food => "사용",
                         _ => "상세",
                     };
+
+                // _equipIndicatorUI.SetActive(true);
             };
 
             // tab button -> Select -> Filter Inventory UI 
@@ -157,9 +162,11 @@ namespace Titan.UI.InventorySystem
 
         private void OnDetailSlotPostUpdate(InventorySlot slot)
         {
+            Debug.Log($"OnDetailSlotPostUpdate");
             // Empty Selected Slot
             if(!slot.IsValid)
             {
+                Debug.Log($"Empty Slot");
                 _detailSlot.SlotUI.SetActive(false);
                 return;
             }

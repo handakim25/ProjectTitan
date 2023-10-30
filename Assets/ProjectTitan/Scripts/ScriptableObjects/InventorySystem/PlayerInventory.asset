@@ -12,136 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9108f01420821ee42b699a62665860bf, type: 3}
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
-  itemDatabase: {fileID: 11400000, guid: d37407e5a8c5b764e8564b734b6313d7, type: 2}
   _maxCapacity: 500
   inventory:
     slots:
     - item:
-        id: 0
+        id: 1
+      amount: 1
+    - item:
+        id: 4
+      amount: 1
+    - item:
+        id: 5
+      amount: 1
+    - item:
+        id: 5
+      amount: 1
+    - item:
+        id: 4
+      amount: 1
+    - item:
+        id: 8
       amount: 1
     - item:
         id: 1
       amount: 1
     - item:
         id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 3
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 3
-      amount: 1
-    - item:
-        id: 3
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 3
-      amount: 1
-    - item:
-        id: 3
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 1
-      amount: 1
-    - item:
-        id: 2
-      amount: 1
-    - item:
-        id: 0
-      amount: 1
-    - item:
-        id: 0
       amount: 1
