@@ -9,15 +9,23 @@ using Titan.InventorySystem.Items;
 
 namespace Titan.UI.InventorySystem
 {
+    /// <summary>
+    /// Invenotry UI Scene의 전체적인 작동을 관리하는 클래스
+    /// </summary>
     public class InventoryUIController : MonoBehaviour
     {
         [Header("Inventory")]
+        [Tooltip("Player Inventory")]
         [SerializeField] InventoryObject _inventoryObject;
 
         [Header("UI")]
         [SerializeField] protected GameObject _cartegoryTab;
         [SerializeField] protected InventoryUI _inventoryUI;
         [SerializeField] protected GameObject _detailSlotUI;
+        /// <summary>
+        /// 선택된 아이템의 상세 정보를 보여주는 슬롯
+        /// InventoryUI와는 다른 슬롯이다.
+        /// </summary>
         private InventorySlot _detailSlot = new InventorySlot();
         [SerializeField] protected FormatString _capacityText;
         [SerializeField] protected Button _interactButton;
@@ -35,14 +43,11 @@ namespace Titan.UI.InventorySystem
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryUI, "Inventory ui is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_detailSlotUI, "Detail Slot Ui is not set");
 
-            // setup detail slot
+            // Detail Slot
             _detailSlot.SlotUI = _detailSlotUI;
             _detailSlot.OnPostUpdate += OnDetailSlotPostUpdate;
-            
             _detailSlot.UpdateSlot(new Item(), 0);
 
-            // @To-Do
-            // 시나리오를 나누어서 생각할 것
             _inventoryUI.OnSlotSelected += (InventorySlot slot) => {
                 if(slot == null)
                 {
@@ -65,7 +70,7 @@ namespace Titan.UI.InventorySystem
 
             // tab button -> Select -> Filter Inventory UI 
             // ->  TabGroup.OntabSelected -> OnTabSelectedEvent -> Select Slot
-            // If cartegory is changed, select first slot
+            // 만약, Category가 바뀌면, 첫번째 슬롯을 선택한다.
             _cartegoryTab.GetComponent<TabGroup>().OnTabSelectedEvent += (tabButton) => {
                 var firstSlot = _inventoryUI.GetFirstSlotGo();
                 _inventoryUI.SelectSlot(firstSlot);
@@ -89,9 +94,6 @@ namespace Titan.UI.InventorySystem
             _capacityText.Format(_inventoryObject.ItemCount, _inventoryObject.Capacity);
         }
 
-        /// <summary>
-        /// This function is called when the behaviour becomes disabled or inactive.
-        /// </summary>
         private void OnDisable()
         {
             _inventoryObject.OnSlotCountChanged -= OnSlotCountChangedHandler;
@@ -101,6 +103,9 @@ namespace Titan.UI.InventorySystem
 
         #region Callback
 
+        /// <summary>
+        /// Inventory Object에 변경이 있을 때 호출되는 콜백
+        /// </summary>
         protected void OnSlotCountChangedHandler(object e, InventoryObject.SlotCountChangedEventArgs handler)
         {
             if(handler.UpdatedSlots != null)
@@ -120,8 +125,17 @@ namespace Titan.UI.InventorySystem
             _capacityText.Format(inventory.ItemCount, inventory.Capacity);
         }  
 
+        /// <summary>
+        /// StartIndex를 기반으로 다음 슬롯을 선택한다.
+        /// Start 다음부터 선택을 하며 없을 경우, Start 이전부터 선택한다.
+        /// </summary>
+        /// <param name="startIndex">시작할 인덱스</param>
+        /// <returns>선택될 Index, 만약에 선택할 slot이 없다면 null</returns>
         private GameObject SelectNextSlot(int startIndex)
         {
+            // 주의
+            // Slot이 Destroy 되는 것은 Update 이후에 발생하므로 현 Update Loop 내애서도 접근이 가능하다.
+            // 따라서 반드시 유효성을 확인해야 한다.
             for(int i = startIndex; i < _inventoryUI.SlotCount; i++)
             {
                 GameObject nextSlot = _inventoryUI.GetSlotByIndex(i);
@@ -143,24 +157,21 @@ namespace Titan.UI.InventorySystem
 
         private void OnDetailSlotPostUpdate(InventorySlot slot)
         {
+            // Empty Selected Slot
             if(!slot.IsValid)
             {
-                Debug.Log($"Deslect is not implemented");
-                var text = _detailSlot.SlotUI.transform.Find("UpperBar/ItemNameText").gameObject;
-                if(text != null)
-                {
-                    text.GetComponent<TMP_Text>().text = "name";
-                }
-                var icon = _detailSlot.SlotUI.transform.Find("DetailIcon/IconImage");
-                if(icon != null)
-                {
-                    icon.GetComponent<Image>().sprite = null;
-                }
+                _detailSlot.SlotUI.SetActive(false);
                 return;
             }
 
             var itemObject = DataManager.ItemDatabase.GetItemObject(slot.item.id);
-            
+            if(itemObject == null)
+            {
+                Debug.LogError($"ItemObject is not found. id: {slot.item.id}");
+                return;
+            }
+
+            _detailSlot.SlotUI.SetActive(true);
             if(_detailSlot.SlotUI.TryGetComponent<SlotUI>(out var slotUI))
             {
                 slotUI.ItemNameText = itemObject.name;
@@ -178,6 +189,9 @@ namespace Titan.UI.InventorySystem
         {
             InventorySlot slectedSlot = _inventoryUI.SelectedSlot;
 
+            // @To-Do
+            // 아이템 사용, 착용, 읽기 등을 구현
+            // Think. 각각의 구현은 누가 담당해야 하는가?
             if(slectedSlot != null)
                 _inventoryObject.RemoveItem(slectedSlot, 1);
         }
@@ -203,7 +217,7 @@ namespace Titan.UI.InventorySystem
 
         #endregion Button Callback
     
-#region TestMethods in editor
+#region TestMethods
     #if UNITY_EDITOR
             // Test methods for testing
             public void AddRandomItem()

@@ -6,6 +6,9 @@ using DG.Tweening;
 
 namespace Titan.UI
 {
+    /// <summary>
+    /// Inventory UI Scene을 관리하는 클래스
+    /// </summary>
     public class InventoryUIScene : UIScene
     {
         private CanvasGroup _canvasGroup;

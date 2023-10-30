@@ -12,6 +12,9 @@ using Titan.InventorySystem.Items;
 
 namespace Titan.UI.InventorySystem
 {
+    /// <summary>
+    /// Invenotry UI Scene 중에서 Inventory를 직접 관리하는 클래스
+    /// </summary>
     public class InventoryUI : MonoBehaviour
     {
         #region Variables
@@ -53,7 +56,7 @@ namespace Titan.UI.InventorySystem
         }
 
         /// <summary>
-        /// This function is called when the behaviour becomes disabled or inactive.
+        /// 비활성화되면 초기화한다.
         /// </summary>
         private void OnDisable()
         {
