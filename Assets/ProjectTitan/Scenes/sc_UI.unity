@@ -16373,7 +16373,7 @@ MonoBehaviour:
   _cartegoryTab: {fileID: 456501171}
   _inventoryUI: {fileID: 1039399201}
   _detailSlotUI: {fileID: 7190287991567588276}
-  _equipIndicatorUI: {fileID: 921389039}
+  _equipIndicatorUI: {fileID: 47696476}
   _capacityText: {fileID: 1940283638}
   _interactButton: {fileID: 1227979674}
 --- !u!225 &2115621305

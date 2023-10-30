@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
   m_Name: TestSword
   m_EditorClassIdentifier: 
-  ItemName: "\uD14C\uC2A4\uD2B8 \uBB34\uAE30"
+  ItemName: "\uD55C\uC190\uAC80"
   type: 1
   stackable: 0
   icon: {fileID: 21300000, guid: 4f4b3730cb977d144b41fcd8e14597c6, type: 3}
-  description: 
+  description: "\uD3C9\uBC94\uD55C \uAC80\uC774\uB2E4."
   data:
     id: 8

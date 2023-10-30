@@ -181,7 +181,7 @@ namespace Titan.UI.InventorySystem
             _detailSlot.SlotUI.SetActive(true);
             if(_detailSlot.SlotUI.TryGetComponent<SlotUI>(out var slotUI))
             {
-                slotUI.ItemNameText = itemObject.name;
+                slotUI.ItemNameText = itemObject.ItemName;
                 slotUI.IconImage = itemObject.icon;
                 slotUI.ItemDescText = itemObject.description;
                 slotUI.ItemTypeText = itemObject.type.ToString();
