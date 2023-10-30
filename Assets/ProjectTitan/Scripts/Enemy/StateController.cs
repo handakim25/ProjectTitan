@@ -19,6 +19,15 @@ namespace Titan.Character.Enemy
     [RequireComponent(typeof(NavMeshAgent))]
     public class StateController : MonoBehaviour
     {
+        // @Refactor
+        // 추후에 Enemy를 Data화할 것
+        [Header("Enemy Data")]
+        [SerializeField] private bool _isBoss = false;
+        public bool IsBoss => _isBoss;
+        public float MaxHealth = 3000f;// Stat System으로 들어갈 것
+        public float CurHealth = 3000f; // Stat System으로 들어갈 것
+
+
         [Header("Behaviour Data")]
         public GeneralStats GeneralStats;
 
@@ -49,12 +58,13 @@ namespace Titan.Character.Enemy
         [HideInInspector] public bool IsAttack;
         public bool IsInvincible = false;
         
-        [Header("Temp Data")]
-        public float AttackRange = 1.5f; // Will move to attack component
-        public float CombatSpacing = 4f; // Will move to attack component, 전투 거리 유지. 이 정도 거리를 이동한다.
+        [Header("FSM Settings")]
+        [Tooltip("공격하기 위해 접근하는 거리")]
+        public float AttackRange = 1.5f;
+        [Tooltip("공격하고 나서 플레이어와 유지하는 거리")]
+        public float CombatSpacing = 4f;
+        [Tooltip("공격 유지 거리, 이 거리를 벗어나면 접근을 시도한다")]
         public float RepositionThreshold = 7f; // Will move to attack component
-        public float MaxHealth = 3000f;// Stat System으로 들어갈 것
-        public float CurHealth = 3000f; // Stat System으로 들어갈 것
 
         // Cache and access from state
         [HideInInspector] public NavMeshAgent Nav;
@@ -159,11 +169,12 @@ namespace Titan.Character.Enemy
             EnemyAnim.Animator.SetTrigger(AnimatorKey.Enemy.DeathTrigger);
             // Death Sound
             // Death Vfx
-            // Drop Item
-            // Quest Sytem
-            // Level System
+            EventBus.RaiseEvent<EnemyDeadEvent>(new EnemyDeadEvent
+            {
+                EnemyID = gameObject.name,
+                IsBoss = IsBoss
+            });
 
-            // Temp data
             Destroy(gameObject, GeneralStats.DeathDelayTime);
         }
     }

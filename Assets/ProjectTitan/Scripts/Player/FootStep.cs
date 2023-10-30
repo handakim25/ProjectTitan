@@ -14,7 +14,7 @@ namespace Titan.Character
     {
         [SerializeField] private bool _isPlayer = false;
         [SerializeField] private SoundList[] _footStepSounds;
-        [SerializeField] private SoundList _landSound;
+        [SerializeField] private SoundList _landSound = SoundList.None;
 
         private int _footStepIndex = 0;
 

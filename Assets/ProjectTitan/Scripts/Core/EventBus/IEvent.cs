@@ -12,6 +12,7 @@ namespace Titan
     public struct EnemyDeadEvent : IEvent
     {
         public string EnemyID;
+        public bool IsBoss; // 현재는 이렇게 구현할 것, 추후에는 EnemyData를 통해서 구현할 것
     }
 
     public struct ItemCollectedEvent : IEvent
@@ -36,5 +37,14 @@ namespace Titan
     {
         public string QuestID;
         public QuestSystem.QuestStatus Status;
+    }
+
+    public enum EventList
+    {
+        EnemyDeadEvent,
+        ItemCollectedEvent,
+        ItemUsedEvent,
+        GameEventTriggeredEvent,
+        QuestEvent
     }
 }

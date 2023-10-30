@@ -1960,6 +1960,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrok W Kurniawan
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: b251a0080d3011a49a91c24e0094248c,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 342eb4c4eb31c0d408b2c9eaee18b6e9, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b251a0080d3011a49a91c24e0094248c, type: 3}
 --- !u!4 &41775831 stripped
@@ -84498,6 +84503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e339e8d55299a4392c473c38da4482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isBoss: 1
   GeneralStats: {fileID: 11400000, guid: 8f6751cb38ddfdd48adb2b811af7828f, type: 2}
   currentState: {fileID: 11400000, guid: 0babc204a195c904bb0daf503a4a7974, type: 2}
   remainState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
@@ -84616,6 +84622,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameEvent:
-    ID: 
-    reference: {fileID: 0}
+    ID: DoorOpenEvent
+    reference: {fileID: 11400000, guid: 5ab3b9d216d6a6543a6e43ed67fe3a12, type: 2}
   TargetStatus: 0
