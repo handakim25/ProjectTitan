@@ -6,6 +6,9 @@ using DG.Tweening;
 
 namespace Titan.UI
 {
+    /// <summary>
+    /// Inventory UI Scene을 관리하는 클래스
+    /// </summary>
     public class InventoryUIScene : UIScene
     {
         private CanvasGroup _canvasGroup;
@@ -29,7 +32,9 @@ namespace Titan.UI
             UIManager.Instance.OpenUIScene(this);
 
             _canvasGroup.alpha = 0f;
-            _canvasGroup.DOFade(1.0f, 0.0f).SetDelay(_transitionTime);
+            _canvasGroup.DOFade(1.0f, 0.0f)
+                        .SetDelay(_transitionTime)
+                        .SetUpdate(true);
         }
 
         public override void CloseUI()

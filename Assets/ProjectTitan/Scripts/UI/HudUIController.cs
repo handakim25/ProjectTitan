@@ -49,7 +49,8 @@ namespace Titan.UI
             _upperBar.SetActive(true);
             var upperRect = _upperBar.GetComponent<RectTransform>();
             upperRect.DOAnchorPosY(0, _transitionTime)
-                .SetEase(openEaseType);
+                .SetEase(openEaseType)
+                .SetUpdate(true);
 
             // move to right
             _interactionPannel.SetActive(true);
@@ -57,24 +58,27 @@ namespace Titan.UI
             var interactCanvasGroup = _interactionPannel.GetComponent<CanvasGroup>();
             var interactSequnce = DOTween.Sequence();
             interactSequnce.Append(interactRect.DOAnchorPosX(_interactionStartAnchorX, _transitionTime).SetEase(openEaseType));
-            interactSequnce.Join(interactCanvasGroup.DOFade(1, _transitionTime).SetEase(openEaseType));
+            interactSequnce.Join(interactCanvasGroup.DOFade(1, _transitionTime).SetEase(openEaseType)).SetUpdate(true);
             
 
             _healthPannel.SetActive(true);
             var healthRect = _healthPannel.GetComponent<RectTransform>();
             healthRect.DOAnchorPosY(0, _transitionTime)
-                .SetEase(openEaseType);
+                .SetEase(openEaseType)
+                .SetUpdate(true);
 
             // move from left
             _minimapPannel.SetActive(true);
             var minimapRct = _minimapPannel.GetComponent<RectTransform>();
             minimapRct.DOAnchorPosX(0, _transitionTime)
-                .SetEase(openEaseType);
+                .SetEase(openEaseType)
+                .SetUpdate(true);
 
             _skillPannel.SetActive(true);
             var skillRect = _skillPannel.GetComponent<RectTransform>();
             skillRect.DOAnchorPosX(0, _transitionTime)
-                .SetEase(openEaseType);
+                .SetEase(openEaseType)
+                .SetUpdate(true);
         }
 
         public override void CloseUI()
@@ -82,7 +86,8 @@ namespace Titan.UI
             var upperRect = _upperBar.GetComponent<RectTransform>();
             upperRect.DOAnchorPosY(upperRect.sizeDelta.y, _transitionTime)
                 .SetEase(closeEaseType)
-                .OnComplete( () => _upperBar.SetActive(false));
+                .OnComplete( () => _upperBar.SetActive(false))
+                .SetUpdate(true);
 
             // move from right
             var interactRect = _interactionPannel.GetComponent<RectTransform>();
@@ -90,23 +95,27 @@ namespace Titan.UI
             var interactSequnce = DOTween.Sequence();
             interactSequnce.Append(interactRect.DOAnchorPosX(0, _transitionTime).SetEase(closeEaseType));
             interactSequnce.Join(interactCanvasGroup.DOFade(0, _transitionTime).SetEase(closeEaseType));
-            interactSequnce.OnComplete(() => _interactionPannel.SetActive(false));
+            interactSequnce.OnComplete(() => _interactionPannel.SetActive(false))
+                            .SetUpdate(true);
 
             var healthRect = _healthPannel.GetComponent<RectTransform>();
             healthRect.DOAnchorPosY(-healthRect.sizeDelta.y, _transitionTime)
                 .SetEase(closeEaseType)
-                .OnComplete(() => _healthPannel.SetActive(false));
+                .OnComplete(() => _healthPannel.SetActive(false))
+                .SetUpdate(true);
 
             // move left
             var minimapRct = _minimapPannel.GetComponent<RectTransform>();
             minimapRct.DOAnchorPosX(-minimapRct.sizeDelta.x, _transitionTime)
                 .SetEase(closeEaseType)
-                .OnComplete(() => _minimapPannel.SetActive(false));
+                .OnComplete(() => _minimapPannel.SetActive(false))
+                .SetUpdate(true);
 
             var skillRect = _skillPannel.GetComponent<RectTransform>();
             skillRect.DOAnchorPosX(skillRect.sizeDelta.x, _transitionTime)
                 .SetEase(closeEaseType)
-                .OnComplete(() => _skillPannel.SetActive(false));
+                .OnComplete(() => _skillPannel.SetActive(false))
+                .SetUpdate(true);
         }
 
         public void UpdateStageName(string stageName)

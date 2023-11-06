@@ -6,6 +6,7 @@ using Titan.Effects;
 using Titan.Audio;
 using Titan.QuestSystem;
 using Titan.GameEventSystem;
+using Titan.InventorySystem.Items;
 
 namespace Titan
 {
@@ -18,6 +19,8 @@ namespace Titan
         private static SoundData _soundData = null;
         private static QuestObjectDatabase _questDatabase = null;
         private static GameEventData _gameEventData = null;
+        [SerializeField] private ItemDatabaseObject _itemDatabase = null;
+        private static ItemDatabase _itemDatabaseStatic = null;
 
         private void Start()
         {
@@ -40,6 +43,11 @@ namespace Titan
             {
                 _gameEventData = ScriptableObject.CreateInstance<GameEventData>();
                 _gameEventData.LoadData();
+            }
+            if(_itemDatabase != null)
+            {
+                _itemDatabaseStatic = ScriptableObject.CreateInstance<ItemDatabase>();
+                _itemDatabaseStatic.itemDatabase = _itemDatabase;
             }
         }
 
@@ -92,6 +100,14 @@ namespace Titan
                     _gameEventData.LoadData();
                 }
                 return _gameEventData;
+            }
+        }
+
+        public static ItemDatabase ItemDatabase
+        {
+            get
+            {
+                return _itemDatabaseStatic;
             }
         }
     }

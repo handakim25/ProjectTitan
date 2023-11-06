@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
   m_Name: TestHammer
   m_EditorClassIdentifier: 
+  ItemName: "\uB9DD\uCE58"
   type: 3
   stackable: 0
   icon: {fileID: 21300000, guid: 9ee6e7685d63c2746881ef3ccb01be5d, type: 3}
-  dropModel: {fileID: 0}
-  description: 
+  description: "\uD3C9\uBC94\uD55C \uB9DD\uCE58\uC774\uB2E4."
   data:
     id: 3

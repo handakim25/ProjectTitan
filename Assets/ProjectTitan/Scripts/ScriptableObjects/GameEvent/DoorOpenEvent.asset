@@ -16,4 +16,5 @@ MonoBehaviour:
     index: 0
     EventName: DoorOpenEvent
     DefaultStatus: 0
-  EventDescription: 
+  EventDescription: "Quest\uB97C \uC218\uD589\uD558\uBA74 Door\uC744 \uC5F4 \uC218
+    \uC788\uAC8C \uB41C\uB2E4."

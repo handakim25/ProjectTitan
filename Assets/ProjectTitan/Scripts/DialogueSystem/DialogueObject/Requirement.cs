@@ -30,6 +30,7 @@ namespace Titan
             return Type switch
             {
                 RequirementType.Quest => ExpectedBool == CheckQuestCondition(conditionEvaluator),
+                RequirementType.Item => ExpectedBool == CheckItemCondition(conditionEvaluator),
                 _ => false,
             };
         }
@@ -37,6 +38,11 @@ namespace Titan
         private bool CheckQuestCondition(ConditionEvaluator conditionEvaluator)
         {
             return conditionEvaluator.CheckQuestConditon(TargetID, QuestStatus);
+        }
+
+        private bool CheckItemCondition(ConditionEvaluator conditionEvaluator)
+        {
+            return conditionEvaluator.CheckItemCondition(TargetID, TargetCount);
         }
     }
 }

@@ -11,6 +11,9 @@ namespace Titan.QuestSystem
     {
         public string QuestID;
         public QuestStatus Status;
+        /// <summary>
+        /// Quest의 목표 달성률. 몬스터 킬, 채집 등을 기록한다.
+        /// </summary>
         public int CurrentProgress;
     }
 }

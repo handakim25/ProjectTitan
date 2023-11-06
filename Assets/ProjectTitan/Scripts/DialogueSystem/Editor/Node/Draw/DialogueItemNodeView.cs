@@ -11,6 +11,11 @@ namespace Titan.DialogueSystem.Data.Nodes
 {
     public class DialogueItemNodeView : DialogueConditionNodeView
     {
+        public string ItemGUID;
+        public string ItemID;
+        public int ItemCount;
+        private int _maxItemCount = 999;
+        
         protected override void BuildView()
         {
             base.BuildView();
@@ -18,27 +23,58 @@ namespace Titan.DialogueSystem.Data.Nodes
             var customContainer = new VisualElement();
 
             var foldout = new Foldout() {text = "Item Require", value = true};
-            var objectField = new ObjectField("test")
+            var itemField = new ObjectField("Item Object")
             {
                 objectType = typeof(ItemObject)
             };
-            objectField.RegisterValueChangedCallback(evt =>
+            if(string.IsNullOrEmpty(ItemGUID) == false)
             {
-                Debug.Log(evt.newValue);
-                Debug.Log(evt.newValue.GetType());
-                Debug.Log($"ItemObject : {evt.newValue as ItemObject}");
-                Debug.Log($"Binding path : {objectField.bindingPath}");
-                Debug.Log($"Value : {objectField.value}");
-                Debug.Log($"Asset Path : {AssetDatabase.GetAssetPath(objectField.value)}");
-                Debug.Log($"GUID : {AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(objectField.value))}");
+                var assetPath = AssetDatabase.GUIDToAssetPath(ItemGUID);
+                var item = AssetDatabase.LoadAssetAtPath<ItemObject>(assetPath);
+                itemField.SetValueWithoutNotify(item);
+                ItemID = item.data.id.ToString();
+            }
+            itemField.RegisterValueChangedCallback(evt =>
+            {
+                var item = evt.newValue as ItemObject;
+                if(item != null)
+                {
+                    ItemID = item.data.id.ToString();
+                    var assetPath = AssetDatabase.GetAssetPath(item);
+                    ItemGUID = AssetDatabase.AssetPathToGUID(assetPath);
+                }
+                else
+                {
+                    ItemID = null;
+                    ItemGUID = null;
+                }
             });
 
-            
-            foldout.Add(objectField);
+            var itemCountField = new IntegerField("Item Count");
+            itemCountField.SetValueWithoutNotify(ItemCount);
+            itemCountField.RegisterValueChangedCallback(
+                evt => {
+                    ItemCount = Mathf.Clamp(evt.newValue, 0, _maxItemCount);
+                    itemCountField.SetValueWithoutNotify(ItemCount);
+                }
+            );
+
+            foldout.Add(itemField);
+            foldout.Add(itemCountField);
             customContainer.Add(foldout);
             extensionContainer.Add(customContainer);
 
             RefreshExpandedState();
+        }
+
+        public override Requirement GetRequirement()
+        {
+            return new Requirement()
+            {
+                Type = Requirement.RequirementType.Item,
+                TargetID = ItemID,
+                TargetCount = ItemCount,
+            };
         }
     }
 }

@@ -1194,7 +1194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &167087545
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1210,9 +1210,9 @@ RectTransform:
   m_Father: {fileID: 583248943}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200, y: -48}
   m_SizeDelta: {x: 64, y: 64}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &167087546
@@ -4047,7 +4047,7 @@ MonoBehaviour:
   _interactIconObject: {fileID: 639070938}
   _interactIconOffset: {x: -60, y: 80}
   _interactCursor: {fileID: 644946740}
-  _hightlightColor: {r: 0, g: 1, b: 1, a: 1}
+  _hightlightColor: {r: 0, g: 0, b: 0, a: 0.8}
   _selectedSlot: {fileID: 0}
 --- !u!1 &522857740
 GameObject:
@@ -5141,8 +5141,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: 72}
-  m_SizeDelta: {x: 50, y: 50}
+  m_AnchoredPosition: {x: -3.100006, y: -240}
+  m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &639070940
 MonoBehaviour:
@@ -5164,7 +5164,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1cd2614aaca7e714cb1ddf893d142cea, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4217cdef8b7eb9f4080cf57c6b5cdd62, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5553,7 +5553,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &719291306
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5632,7 +5632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9245283, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.6973516, g: 0.6784018, b: 0.83, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6905,7 +6905,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.6973516, g: 0.6784018, b: 0.83, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6981,7 +6981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.15, g: 0.15, b: 0.15, a: 0.4}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -15037,7 +15037,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uBB34\uAE30 {0}/ {1}"
+  m_text: "\uBC30\uB0AD {0}/ {1}"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e5dcb0739ed1ea845b9aa266bbdebc01, type: 2}
   m_sharedMaterial: {fileID: -4071424960430710973, guid: e5dcb0739ed1ea845b9aa266bbdebc01,
@@ -15128,7 +15128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 1940283636}
-  _formatStr: "\uBB34\uAE30 {0}/ {1}"
+  _formatStr: "\uBC30\uB0AD {0}/ {1}"
 --- !u!1 &1965764391
 GameObject:
   m_ObjectHideFlags: 0
@@ -16373,6 +16373,7 @@ MonoBehaviour:
   _cartegoryTab: {fileID: 456501171}
   _inventoryUI: {fileID: 1039399201}
   _detailSlotUI: {fileID: 7190287991567588276}
+  _equipIndicatorUI: {fileID: 47696476}
   _capacityText: {fileID: 1940283638}
   _interactButton: {fileID: 1227979674}
 --- !u!225 &2115621305

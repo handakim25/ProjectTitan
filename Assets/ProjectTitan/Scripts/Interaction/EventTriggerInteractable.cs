@@ -6,6 +6,7 @@ using Titan.GameEventSystem;
 
 namespace Titan.Interaction
 {
+    // Interact 시에 특정 Game Event를 발생시킴
     public class EventTriggerInteractable : Interactable
     {
         [SerializeField] private ReferenceID<GameEventObject> _gameEvent;

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
   m_Name: TestAmulet
   m_EditorClassIdentifier: 
+  ItemName: "\uC544\uBBAC\uB81B"
   type: 1
   stackable: 0
   icon: {fileID: 21300000, guid: aa223d7ef99edc14086f85672a896f1f, type: 3}
-  dropModel: {fileID: 0}
-  description: 
+  description: "\uC544\uBB34 \uD6A8\uACFC\uAC00 \uC5C6\uB294 \uC7A5\uC2E0\uAD6C\uC774\uB2E4."
   data:
     id: 1

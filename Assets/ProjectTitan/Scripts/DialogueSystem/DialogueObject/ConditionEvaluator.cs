@@ -7,6 +7,7 @@ namespace Titan
     public class ConditionEvaluator
     {
         public QuestSystem.QuestManager QuestManager;
+        public InventorySystem.Items.InventoryManager InventoryManager;
         public ConditionEvaluator()
         {
 
@@ -25,11 +26,20 @@ namespace Titan
         /// <returns>ItemCount보다 많거나 같으면 True, 아니면 False</returns>
         public bool CheckItemCondition(string ItemID, int ItemCount)
         {
-            return true;
+            if(InventoryManager == null)
+            {
+                return false;
+            }
+            var count = InventoryManager.GetItemCount(ItemID);
+            return ItemCount <= count;
         }
 
         public bool CheckQuestConditon(string QuestID, QuestSystem.QuestStatus QuestStatus)
         {
+            if(QuestManager == null)
+            {
+                return false;
+            }
             return QuestStatus == QuestManager.GetQuestStatus(QuestID);
         }
     }

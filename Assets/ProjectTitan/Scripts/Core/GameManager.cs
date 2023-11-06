@@ -194,7 +194,20 @@ namespace Titan.Core
                 input.InputEnable = true;
             }
         }
-        
+
+        public void PauseGame()
+        {
+            Time.timeScale = 0f;
+            _status = GameStatus.Pause;
+        }
+
+        public void ResumeGame()
+        {
+            Time.timeScale = 1f;
+            _status = GameStatus.Play;
+        }
+
+
         #endregion Callback
     }
 }

@@ -260,7 +260,20 @@ namespace Titan.Audio
 
         private void PlayAudioSourceAtPoint(SoundClip clip, Vector3 position, float volume)
         {
+            if(clip == null)
+            {
+                return;
+            }
             AudioSource.PlayClipAtPoint(clip.GetClip(), position, volume);
+        }
+
+        private void PlayAudioSourceAtPoint(SoundClip clip, Vector3 position)
+        {
+            if(clip == null)
+            {
+                return;
+            }
+            PlayAudioSourceAtPoint(clip, position, clip.maxVolume);
         }
         
         #endregion Basic Audio
@@ -494,9 +507,15 @@ namespace Titan.Audio
             PlayEffectSound(clip);
         }
 
+        public void PlayeEffectSound(int index, Vector3 position)
+        {
+            SoundClip clip = DataManager.SoundData.GetCopy(index);
+            PlayEffectSound(clip, position);
+        }
+
         public void PlayEffectSound(SoundClip clip, Vector3 position)
         {
-            PlayAudioSourceAtPoint(clip, position, clip.maxVolume);
+            PlayAudioSourceAtPoint(clip, position);
         }
 
         public void PlayOneShotEffect(int index, Vector3 position, float volume)

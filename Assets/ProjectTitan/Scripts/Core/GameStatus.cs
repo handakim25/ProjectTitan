@@ -7,7 +7,7 @@ namespace Titan.Core
    public enum GameStatus
    {
         None,
-        Menu,
+        Pause,
         Play,
    }
 }
