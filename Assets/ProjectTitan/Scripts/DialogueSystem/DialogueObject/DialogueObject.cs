@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Titan.DialogueSystem
 {
+    /// <summary>
+    /// Dialogue Graph Object로부터 생성되는 Dialogue Object. 게임 내에서 실질적으로 사용된다.
+    /// </summary>
     public class DialogueObject : ScriptableObject, IRefereceable
     {
         public string DialogueName;
@@ -33,6 +36,9 @@ namespace Titan.DialogueSystem
             return GetNode(StartingNodeID);
         }
 
+        /// <summary>
+        /// 사용될 때 Dictionary 초기화. 실질적으로는 Dictinoary를 이용한다.
+        /// </summary>
         private void OnEnable()
         {
             Debug.Log($"Dialogue : {DialogueName} has been enabled.");

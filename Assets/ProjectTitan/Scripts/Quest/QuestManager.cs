@@ -11,6 +11,7 @@ namespace Titan.QuestSystem
 {
     public class QuestManager : MonoSingleton<QuestManager>
     {
+        // @Refactor
         // 지금은 통합이지만 Received 만 남기고 completed는 따로 남기자.
         // 퀘스트 양이 엄청나게 많아지면 문제가 생길 수 있다.
         private Dictionary<string, QuestProgressData> questProgressDictionary = new();
