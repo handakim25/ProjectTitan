@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 using Titan.Character.Enemy.FSM;
 using Titan.Battle;
+using Titan.Audio;
 
 namespace Titan.Character.Enemy
 {
@@ -26,6 +27,7 @@ namespace Titan.Character.Enemy
         public bool IsBoss => _isBoss;
         public float MaxHealth = 3000f;// Stat System으로 들어갈 것
         public float CurHealth = 3000f; // Stat System으로 들어갈 것
+        public SoundList _deathSound;
 
 
         [Header("Behaviour Data")]
@@ -156,6 +158,7 @@ namespace Titan.Character.Enemy
             
         }
 
+        [ContextMenu("Death")]
         public void OnDeathHandler()
         {
             aiActive = false;
@@ -166,9 +169,18 @@ namespace Titan.Character.Enemy
             Nav.enabled = false;
             _marker.MarkerOn = false;
 
+            // Death 연출
             EnemyAnim.Animator.SetTrigger(AnimatorKey.Enemy.DeathTrigger);
             // Death Sound
+            SoundManager.Instance.PlayEffectSound((int)_deathSound, transform.position);
             // Death Vfx
+            var dissolver = GetComponentInChildren<Graphics.DissolveController>();
+            if(dissolver != null)
+            {
+                float dissolveTime = GeneralStats.DeathDelayTime * 2 / 3;
+                dissolver.StartDissolve(dissolveTime);
+            }
+
             EventBus.RaiseEvent<EnemyDeadEvent>(new EnemyDeadEvent
             {
                 EnemyID = gameObject.name,

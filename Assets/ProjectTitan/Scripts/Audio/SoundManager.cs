@@ -507,7 +507,7 @@ namespace Titan.Audio
             PlayEffectSound(clip);
         }
 
-        public void PlayeEffectSound(int index, Vector3 position)
+        public void PlayEffectSound(int index, Vector3 position)
         {
             SoundClip clip = DataManager.SoundData.GetCopy(index);
             PlayEffectSound(clip, position);

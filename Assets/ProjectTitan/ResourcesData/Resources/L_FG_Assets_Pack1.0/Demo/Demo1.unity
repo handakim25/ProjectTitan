@@ -18073,6 +18073,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f90ab63a792a49d4c946d12a5d0a5d0a, type: 3}
+--- !u!1 &383561335 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5377705659299318666, guid: dce1de8f19fa9154a8a2c2ada1e3f4ce,
+    type: 3}
+  m_PrefabInstance: {fileID: 1528810836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &383561338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383561335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2827f6f7b545ba04aa69a7b76a7e2bbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dissolveTime: 1
+  _refreshRate: 0.025
 --- !u!1001 &384145812
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84504,6 +84524,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isBoss: 1
+  MaxHealth: 500
+  CurHealth: 500
+  _deathSound: 0
   GeneralStats: {fileID: 11400000, guid: 8f6751cb38ddfdd48adb2b811af7828f, type: 2}
   currentState: {fileID: 11400000, guid: 0babc204a195c904bb0daf503a4a7974, type: 2}
   remainState: {fileID: 11400000, guid: 0bdc21147847def41bf74884e99e01cc, type: 2}
@@ -84521,8 +84544,6 @@ MonoBehaviour:
   AttackRange: 1.5
   CombatSpacing: 4
   RepositionThreshold: 7
-  MaxHealth: 500
-  CurHealth: 500
   Nav: {fileID: 0}
   EnemyAnim: {fileID: 0}
   EnemyAttackController: {fileID: 0}
