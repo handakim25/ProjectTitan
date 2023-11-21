@@ -53,6 +53,7 @@ namespace UnityEngine.Rendering.Universal
             {
                 sourceId = -1;
                 source = renderer.cameraColorTarget;
+                Debug.Log($"Use Camera Color Target");
             }
             else
             {
@@ -60,6 +61,7 @@ namespace UnityEngine.Rendering.Universal
                 // cmd.GetTemporaryRT(sourceId, blitTargetDescriptor, filterMode);
                 cmd.GetTemporaryRT(sourceId, width, height, 0, FilterMode.Trilinear, RenderTextureFormat.ARGBHalf);
                 source = new RenderTargetIdentifier(sourceId);
+                Debug.Log($"Use Temp Rt");
             }
 
             if (isSourceAndDestinationSameTarget)
@@ -94,7 +96,6 @@ namespace UnityEngine.Rendering.Universal
             // Command Buffer에 Command를 기록하고 한 번에 수행하는 듯 하다.
             CommandBuffer cmd = CommandBufferPool.Get(_profilerTag);
 
-
             // Blit(Bit Block Transfer) : 한 Render Target에서 다른 Render Target으로 텍스처를 복사하는 것
             // cmd : Command를 기록할 Command Buffer
             // source : Source Texture 혹은 Target Identifier. Blit froim
@@ -107,10 +108,12 @@ namespace UnityEngine.Rendering.Universal
             {
                 Blit(cmd, source, destination, Settings.blitMaterial, Settings.blitMaterialPassIndex);
                 Blit(cmd, destination, source);
+                Debug.Log($"Samte Target");
             }
             else
             {
                 Blit(cmd, source, destination, Settings.blitMaterial, Settings.blitMaterialPassIndex);
+                Debug.Log($"Different Target");
             }
 
             context.ExecuteCommandBuffer(cmd);
