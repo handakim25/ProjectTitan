@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 using Titan.Core;
-using UnityEngine.EventSystems;
+using Titan.Graphics.PostProcessing;
 
 namespace Titan.UI
 {
@@ -98,6 +99,7 @@ namespace Titan.UI
             _action.Player.Disable();
 
             GameManager.Instance.PauseGame();
+            BlurManager.Instance.BlurActive = true;
         }
         
         public void CloseUIScene(UIScene scene)
@@ -112,6 +114,7 @@ namespace Titan.UI
             _HudScene.OpenUI();
 
             GameManager.Instance.ResumeGame();
+            BlurManager.Instance.BlurActive = false;
         }
 
         #region Input Callback
