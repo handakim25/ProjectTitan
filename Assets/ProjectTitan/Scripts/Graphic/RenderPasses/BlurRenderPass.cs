@@ -8,30 +8,44 @@ namespace Titan.Graphics.PostProcessing
     // Document : https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.0/api/UnityEngine.Rendering.Universal.ScriptableRenderPass.html
     public class BlurRenderPass : ScriptableRenderPass
     {
-        private Material _material;
+        private Material _blurMat;
         private BlurSettings _settings;
+        public Material BlurMat
+        {
+            get => _blurMat;
+            set 
+            {
+                _blurMat = value;
+                if(_blurMat == null)
+                {
+                    _blurMat = CoreUtils.CreateEngineMaterial(_defaultShaderName);
+                }
+            }
+        }
 
         private RenderTargetIdentifier _source;
         private RenderTargetHandle _blurTex;
         private int _blurTexID;
 
         private bool IsActive => _settings != null && _settings.IsActive();
+        readonly string _profilerTag = "Blur Post Process";
+        readonly string _defaultShaderName = "Titan/Blur";
+
+        public BlurRenderPass(Material blurMat = null)
+        {
+            BlurMat = blurMat;
+        }
 
         public bool Setup(ScriptableRenderer renderer)
         {
-            // Camera Output Texture를 가져온다.
             _settings = VolumeManager.instance.stack.GetComponent<BlurSettings>();
-            renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
 
-            if(IsActive)
-            {
-                // @Memo
-                // 매 프레임마다 Material을 생성하는 것은 비효율적이다.
-                _material = new Material(Shader.Find("Titan/Blur"));
-                return true;
-            }
+            // OnCameraSetup 주석 확인할 것
+            // _source = renderer.cameraColorTarget;
+            // Debug.Log($"Setup Source : {_source}");
+            // Type CameraTarget NameID -1 InstanceID 0 BufferPointer 0 MipLevel 0 CubeFace Unknown DepthSlice 0
 
-            return false;
+            return IsActive;
         }
 
         // @note
@@ -39,24 +53,29 @@ namespace Titan.Graphics.PostProcessing
         // 만약 오버라이드를 하지 않을 경우 활성화된 카메라된 카메라에 렌더링을 한다.
         // OnCameraSetup : 카메라를 렌더링하기 전에 호출. 하는 역할은 Configure와 동일하다.
         // https://qiita.com/ScreenPocket/items/c5e6f5d8959e22b61522 링크를 확인할 것
-        // 카메라 Setup이 제일 밖에서 수행되고 각 렌더링마다 Configure가 수행된다.
+        // 카메라 OnCameraSetup이 제일 밖에서 수행되고 각 렌더링마다 Configure가 수행된다.
         public override void OnCameraSetup(CommandBuffer cmd, ref RenderingData renderingData)
         {
             if(!IsActive)
             {
                 return;
             }
-            Debug.Log($"On Camera Setup");
 
             // @Note
             // Setup에서 호출하면 제대로 작동하지 않는다.
+            // Intermediate Texture가 Always일 경우에는 Setup에서 호출해도 동작한다.
+            // https://issuetracker.unity3d.com/issues/incorrect-rendering-when-intermediate-texture-is-set-to-auto
+            // 해당 링크에 따르면 2021.2 이후에서는 Always가 기본값이고
+            // 2022.1에서는 SetupRenderPasses를 지원한다.
             var renderer = renderingData.cameraData.renderer;
             _source = renderer.cameraColorTarget;
+            // source :  Type PropertyName NameID 1615 InstanceID 0 BufferPointer 0 MipLevel 0 CubeFace Unknown DepthSlice -1
+            // Debug.Log($"OnCameraSetup Source : {_source}");
 
             var blurTargetDescriptor = renderingData.cameraData.cameraTargetDescriptor;
-            blurTargetDescriptor.depthBufferBits = 0;
-            int width = blurTargetDescriptor.width;
-            int height = blurTargetDescriptor.height;
+            // @To-Do : Downsample을 설정할 수 있도록 한다.
+            int width = blurTargetDescriptor.width / _settings.DownSample.value;
+            int height = blurTargetDescriptor.height / _settings.DownSample.value;
 
             _blurTexID = Shader.PropertyToID("_BlurTex");
             _blurTex = new RenderTargetHandle
@@ -64,41 +83,37 @@ namespace Titan.Graphics.PostProcessing
                 id = _blurTexID
             };
 
-            // cmd.GetTemporaryRT(_blurTex.id, blurTargetDescriptor);
-
             cmd.GetTemporaryRT(_blurTex.id, width, height, 0, FilterMode.Trilinear);
         }
 
-        // @optimize
-        // Gausiaan 함수를 직접 구현하는 것보다는 미리 계산된 값을 가져오는 것이 더 빠르다.
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             if(!IsActive)
             {
                 return;
             }
-            Debug.Log($"Execute");
-            Debug.Log($"Source : {_source}");
+            if(_blurMat == null)
+            {
+                Debug.LogWarning($"Blur Material is null");
+                return;
+            }
 
-            // Command Buffer Pool 이름은 Profiler에 잡힌다.
-            CommandBuffer cmd = CommandBufferPool.Get("Blur Post Process");
+            CommandBuffer cmd = CommandBufferPool.Get(_profilerTag);
 
+            // @optimize
+            // Gausiaan 함수를 직접 구현하는 것보다는 미리 계산된 값을 가져오는 것이 더 빠르다.
             int gridSize = Mathf.CeilToInt(_settings.Strength.value * 3.0f);
             if(gridSize % 2 == 0)
             {
                 gridSize++;
             }
-            _material.SetInteger("_GridSize", gridSize);
-            _material.SetFloat("_Spread", _settings.Strength.value);
-            Debug.Log($"GridSize : {gridSize}, Spread : {_settings.Strength.value}");
+            _blurMat.SetInteger("_GridSize", gridSize);
+            _blurMat.SetFloat("_Spread", _settings.Strength.value);
 
-            // Execute Effect using effect material with two passes
             // Pass 0 : Horizontal Blur
             // Pass 1 : Vertical Blur
-            Blit(cmd, _source, _blurTex.id, _material, 0);
-            // Blit(cmd, _blurTex.id, _source, _material, 1);
-            Blit(cmd, _blurTex.id, _source);
-            Debug.Log($"Material : {_material}");
+            Blit(cmd, _source, _blurTex.id, _blurMat, 0);
+            Blit(cmd, _blurTex.id, _source, _blurMat, 1);
 
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
@@ -110,7 +125,6 @@ namespace Titan.Graphics.PostProcessing
             {
                 return;
             }
-            Debug.Log($"On Camera Cleanup");
             cmd.ReleaseTemporaryRT(_blurTexID);
         }
     }

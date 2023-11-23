@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Name: Blur
   m_EditorClassIdentifier: 
   m_Active: 1
+  _blurMat: {fileID: 0}
+  _renderPassEvent: 550
 --- !u!114 &6064420882976842138
 MonoBehaviour:
   m_ObjectHideFlags: 0

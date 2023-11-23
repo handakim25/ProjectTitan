@@ -84,7 +84,10 @@ MonoBehaviour:
   active: 1
   Strength:
     m_OverrideState: 1
-    m_Value: 15
+    m_Value: 7
+  DownSample:
+    m_OverrideState: 0
+    m_Value: 4
 --- !u!114 &-452881839239247188
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -101,6 +104,9 @@ MonoBehaviour:
   Strength:
     m_OverrideState: 1
     m_Value: 6.82
+  DownSample:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0

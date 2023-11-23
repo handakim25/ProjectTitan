@@ -10,10 +10,13 @@ namespace Titan.Graphics.PostProcessing
     public class BlurRenderFeature : ScriptableRendererFeature
     {
         BlurRenderPass _pass;
+        [Tooltip("Blur에 사용할 Material, null일 경우 Titan/Blur Shader를 사용한다.")]
+        [SerializeField] private Material _blurMat;
+        [SerializeField] private RenderPassEvent _renderPassEvent = RenderPassEvent.AfterRenderingOpaques;
 
         public override void Create()
         {
-            _pass = new();
+            _pass = new(_blurMat);
             name = "Blur";
         }
 
@@ -22,12 +25,13 @@ namespace Titan.Graphics.PostProcessing
         {
             if(_pass.Setup(renderer))
             {
+                _pass.BlurMat = _blurMat;
+                _pass.renderPassEvent = _renderPassEvent;
                 // @note
                 // https://issuetracker.unity3d.com/issues/incorrect-rendering-when-intermediate-texture-is-set-to-auto
                 // _pass.ConfigureInput(ScriptableRenderPassInput.Color);
                 renderer.EnqueuePass(_pass);
             }
-
         }
 
     }
