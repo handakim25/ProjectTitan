@@ -109,12 +109,14 @@ namespace Titan.Graphics.PostProcessing
             }
             _blurMat.SetInteger("_GridSize", gridSize);
             _blurMat.SetFloat("_Spread", _settings.Strength.value);
-            Debug.Log($"Strength in Render Pass : {_settings.Strength.value}");
 
             // Pass 0 : Horizontal Blur
             // Pass 1 : Vertical Blur
-            Blit(cmd, _source, _blurTex.id, _blurMat, 0);
-            Blit(cmd, _blurTex.id, _source, _blurMat, 1);
+            // cmd.Blit(_source, _blurTex.id, _blurMat, 0);
+            // cmd.Blit(_blurTex.id, _source, _blurMat, 1);
+
+            cmd.Blit(_source, _blurTex.id, _blurMat, 0);
+            cmd.Blit(_blurTex.id, _source);
 
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);

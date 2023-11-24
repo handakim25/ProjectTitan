@@ -108,7 +108,7 @@ namespace UnityEngine.Rendering.Universal
             {
                 Blit(cmd, source, destination, Settings.blitMaterial, Settings.blitMaterialPassIndex);
                 Blit(cmd, destination, source);
-                Debug.Log($"Samte Target");
+                Debug.Log($"Same Target");
             }
             else
             {
