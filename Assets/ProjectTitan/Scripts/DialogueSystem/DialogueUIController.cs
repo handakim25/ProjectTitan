@@ -8,6 +8,7 @@ using TMPro;
 
 using Titan.Core;
 using Titan.UI;
+using Titan.Audio;
 
 namespace Titan.DialogueSystem
 {
@@ -37,8 +38,8 @@ namespace Titan.DialogueSystem
         [Header("UI Sound")]
         [Tooltip("대화창이 열릴 때 나오는 사운드")]
         [SerializeField] private SoundList _dialogueStartSound = SoundList.None;
-        [Tooltip("대화 종료 시 재생되는 사운드")]
-        [SerializeField] private SoundList _dialogueEndSound = SoundList.None;
+        [Tooltip("다음 대사로 넘어갈 때 재생되는 사운드")]
+        [SerializeField] private SoundList _nextDialogueSound = SoundList.None;
 
         /// <summary>
         /// 현재 출력중인 대사
@@ -80,6 +81,8 @@ namespace Titan.DialogueSystem
             _action.Dialogue.Disable();
 
             _autoButton.onClick.AddListener(ToggleAuto);
+
+            OnNextDialogue += () => SoundManager.Instance.PlayUISound((int)_nextDialogueSound);
         }
 
         private void OnEnable()
@@ -177,11 +180,12 @@ namespace Titan.DialogueSystem
                 yield return null;
             }
 
-            // 대사를 출력
+            // 대사를 한 글자씩 출력
+            var wait = new WaitForSecondsRealtime(_charOutputInterval);
             for(int i = 0; i < sentence.Length; i++)
             {
                 _sentenceText.text += sentence[i];
-                yield return new WaitForSecondsRealtime(_charOutputInterval);
+                yield return wait;
             }
 
             OnDialougeEnd?.Invoke();
@@ -212,7 +216,7 @@ namespace Titan.DialogueSystem
         /// <remarks> 입력을 차단하는 함수가 있기 때문에 항상 다음 문장이 출력되지 않는다. Auto mode에서 주의할 것 </remarks>
         public void ProcessNextDialogue()
         {
-            if(Time.time - _lastDialogueTextTime < _blockInputDuration)
+            if(Time.unscaledTime - _lastDialogueTextTime < _blockInputDuration)
             {
                 return;
             }
