@@ -20,24 +20,37 @@ namespace Titan.DialogueSystem
         [Header("UI Components")]
         [SerializeField] private TextMeshProUGUI _speakerText;
         [SerializeField] private TextMeshProUGUI _dialogueText;
+        [Tooltip("선택지 패널 Object")]
         [SerializeField] private GameObject _choicePanel;
         [SerializeField] private Button _autoButton;
 
         [Header("UI Settings")]
+        [Tooltip("문자간 출력 간격")]
         [SerializeField] private float _dialogueTextSpeed = 0.1f;
-        [Tooltip("Auto mode wait time")]
+        [Tooltip("Auto 모드일 때 텍스트가 출력된 후 대기 시간")]
         [SerializeField] private float _autoWaitTime = 1f;
-        [Tooltip("Block input interval when setntence starts")]
+        [Tooltip("텍스트가 출력된 후 입력을 차단하는 시간")]
         [SerializeField] private float _blockInputInterval = 0.5f;
         private float _lastDialogueTextTime;
 
         [Header("UI Sound")]
-        [SerializeField] private AudioClip _dialogueStartSound;
-        [SerializeField] private AudioClip _dialogueEndSound;
+        [Tooltip("대화창이 열릴 때 나오는 사운드")]
+        [SerializeField] private SoundList _dialogueStartSound = SoundList.None;
+        [Tooltip("대화 종료 시 재생되는 사운드")]
+        [SerializeField] private SoundList _dialogueEndSound = SoundList.None;
 
+        /// <summary>
+        /// 현재 출력중인 대사
+        /// </summary>
         private string _curSentence;
         private bool _isAutoMode = false;
+        /// <summary>
+        /// 대사 출력 코루틴. 스킵 등이 발생하면 코루틴을 중단하고 출력을 마무리한다.
+        /// </summary>
         private Coroutine _dialogueTextCoroutine;
+        /// <summary>
+        /// Dialgoue Animation이 진행중인지를 나타내는 변수. 애니메이션이 종료되고 내용이 출력된다.
+        /// </summary>
         [HideInInspector] public bool _isDialogueAnimating = false;
 
         public event Action OnNextDialogue;
@@ -136,7 +149,7 @@ namespace Titan.DialogueSystem
             for(int i = 0; i < sentence.Length; i++)
             {
                 _dialogueText.text += sentence[i];
-                yield return new WaitForSeconds(_dialogueTextSpeed);
+                yield return new WaitForSecondsRealtime(_dialogueTextSpeed);
             }
 
             OnDialougeEnd?.Invoke();
@@ -144,7 +157,7 @@ namespace Titan.DialogueSystem
             if(_isAutoMode && _autoWaitTime > 0f)
             {
                 Debug.Log($"Start Wait Auto");
-                yield return new WaitForSeconds(_autoWaitTime);
+                yield return new WaitForSecondsRealtime(_autoWaitTime);
                 OnDialougeEnd?.Invoke();
                 OnNextDialogue?.Invoke();
             }

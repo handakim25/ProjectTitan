@@ -94,12 +94,20 @@ namespace Titan.UI
                     scene.CloseUI();
                 }
             }
+
+            // Input 처리
             isMouseMode = true;
             ShowCursor();
             _action.Player.Disable();
 
-            GameManager.Instance.PauseGame();
-            BlurManager.Instance.BlurActive = true;
+            if(targetScene.shouldTimeStop)
+            {
+                GameManager.Instance.PauseGame();
+            }
+            if(targetScene.shouldBlur)
+            {
+                BlurManager.Instance.BlurActive = true;
+            }
         }
         
         public void CloseUIScene(UIScene scene)

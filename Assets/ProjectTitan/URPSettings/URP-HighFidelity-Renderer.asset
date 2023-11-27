@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Name: Blur
   m_EditorClassIdentifier: 
   m_Active: 1
-  _blurMat: {fileID: 2100000, guid: b67434923c3e2de40b37e9316859614c, type: 2}
+  _blurMat: {fileID: 2100000, guid: 7436819b352362f45950e1fbaf9098b5, type: 2}
   _renderPassEvent: 550
 --- !u!114 &6064420882976842138
 MonoBehaviour:

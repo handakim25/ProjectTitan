@@ -25,8 +25,12 @@ namespace Titan.UI
 
             UIManager.Instance.OpenUIScene(this);
 
+            // @Fix
             _canvasGroup.alpha = 0f;
-            _canvasGroup.DOFade(1.0f, 0.0f).SetDelay(_transitionTime).OnComplete(() =>
+            _canvasGroup.DOFade(1.0f, 0.0f)
+                        .SetDelay(_transitionTime)
+                        .SetUpdate(true)
+                        .OnComplete(() =>
             {
                 dialogueUIConroller._isDialogueAnimating = false;
             });
