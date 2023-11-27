@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Titan
 {
+    /// <summary>
+    /// 조건을 평가하는 클래스. 각 객체에서 직접하지 않고 이 클래스를 통해 평가한다.
+    /// </summary>
     public class ConditionEvaluator
     {
         public QuestSystem.QuestManager QuestManager;

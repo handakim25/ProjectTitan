@@ -7,7 +7,7 @@ namespace Titan.Core
    public enum GameStatus
    {
         None,
-        Pause,
+        Pause, // UI를 활성화 했을 경우
         Play,
    }
 }
