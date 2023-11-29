@@ -10,7 +10,7 @@ namespace Titan.DialogueSystem.Data.Nodes
     /// </summary>
     public abstract class DialougeLogicNodeView : DialogueBaseNodeView
     {
-        public PortData _choiceInputPortData;
+        public PortData ChoiceInputPortData;
         // 동시 연결은 불가능
         public PortData trueOutputPortData; // True일 경우 출력
         public PortData falseOutputPortData; // False일 경우 출력
@@ -18,7 +18,7 @@ namespace Titan.DialogueSystem.Data.Nodes
         protected override void BuildView()
         {
             base.BuildView();
-            var inputChoice = CreatePort(DialoguePortType.Choice, Direction.Input, Port.Capacity.Single, ref _choiceInputPortData);
+            var inputChoice = CreatePort(DialoguePortType.Choice, Direction.Input, Port.Capacity.Single, ref ChoiceInputPortData);
             inputChoice.portName = "Choice";
             inputContainer.Add(inputChoice);
 
