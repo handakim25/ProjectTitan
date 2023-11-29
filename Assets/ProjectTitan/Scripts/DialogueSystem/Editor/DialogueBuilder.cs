@@ -74,9 +74,9 @@ namespace Titan.DialogueSystem
         {
             var dialogueNode = new DialogueNode();
             dialogueNode.NodeID = sentenceNodeView.ID;
-            dialogueNode.SpeakerName = "test";
-            dialogueNode.DialogueText = sentenceNodeView.Sentence;
-            dialogueNode.TriggerEventID = "test";
+            dialogueNode.SpeakerName = "";
+            dialogueNode.SentenceText = sentenceNodeView.Sentence;
+            dialogueNode.TriggerEventID = "";
             dialogueNode.TriggerSetValue = false;
             dialogueNode.TriggerQuest = sentenceNodeView.TriggerQuestID;
             dialogueNode.TriggerQuestState = sentenceNodeView.QuestStatus.ToString();

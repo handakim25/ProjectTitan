@@ -7,6 +7,9 @@ using Titan.Interaction;
 
 namespace Titan
 {
+    /// <summary>
+    /// 적의 드랍 아이템을 관리하는 클래스
+    /// </summary>
     public class EnemyDrop : MonoBehaviour
     {
         [SerializeField] private ItemObject _itemObject;

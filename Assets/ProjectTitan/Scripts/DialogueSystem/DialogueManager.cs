@@ -79,7 +79,7 @@ namespace Titan.DialogueSystem
             }
 
             _dialogueUI.GetComponent<DialogueUIScene>().OpenUI();
-            _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.DialogueText);
+            _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.SentenceText);
         }
 
         private DialogueNode GetNextDialogue()
@@ -179,7 +179,7 @@ namespace Titan.DialogueSystem
                         Status = System.Enum.Parse<QuestStatus>(_currentDialogueNode.TriggerQuestState),
                     });
                 }
-                _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.DialogueText);
+                _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.SentenceText);
             }
             else
             {
