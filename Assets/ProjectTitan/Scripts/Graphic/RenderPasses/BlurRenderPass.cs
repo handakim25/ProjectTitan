@@ -8,7 +8,13 @@ namespace Titan.Graphics.PostProcessing
     // Document : https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.0/api/UnityEngine.Rendering.Universal.ScriptableRenderPass.html
     public class BlurRenderPass : ScriptableRenderPass
     {
+        /// <summary>
+        /// Blur를 적용할 Material, 만약 지정되지 않는다면 Titan/Blur를 사용한다.
+        /// </summary>
         private Material _blurMat;
+        /// <summary>
+        /// Blur 설정값. Volume에서 설정한다.
+        /// </summary>
         private BlurSettings _settings;
         public Material BlurMat
         {
