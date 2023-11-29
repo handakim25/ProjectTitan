@@ -7,6 +7,7 @@ namespace Titan.GameEventSystem
 {
     /// <summary>
     /// Game의 사건을 기록하는 이벤트
+    /// Run-Time에서 사용된다.
     /// </summary>
     [System.Serializable]
     public class GameEvent
