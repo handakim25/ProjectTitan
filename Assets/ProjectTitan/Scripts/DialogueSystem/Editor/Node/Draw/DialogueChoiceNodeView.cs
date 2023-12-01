@@ -11,7 +11,13 @@ namespace Titan.DialogueSystem.Data.Nodes
     /// </summary>
     public class DialogueChoiceNodeView : DialogueBaseNodeView
     {
+        /// <summary>
+        /// 선택지 문장
+        /// </summary>
         public string Sentence;
+        /// <summary>
+        /// 선택지 Port 정보
+        /// </summary>
         public PortData choicePortData;
 
         protected override void BuildView()

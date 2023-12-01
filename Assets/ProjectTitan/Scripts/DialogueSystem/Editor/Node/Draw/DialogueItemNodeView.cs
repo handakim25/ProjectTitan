@@ -11,8 +11,17 @@ namespace Titan.DialogueSystem.Data.Nodes
 {
     public class DialogueItemNodeView : DialogueConditionNodeView
     {
+        /// <summary>
+        /// ItemSO의 GUID
+        /// </summary>
         public string ItemGUID;
+        /// <summary>
+        /// Item ID
+        /// </summary>
         public string ItemID;
+        /// <summary>
+        /// Item 개수
+        /// </summary>
         public int ItemCount;
         private int _maxItemCount = 999;
         

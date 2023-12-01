@@ -13,9 +13,12 @@ namespace Titan.DialogueSystem.Data.Nodes
     /// </summary>
     public class DialogueSelectorNodeView : DialogueBaseNodeView
     {
+        /// <summary>
+        /// 선택지 자료를 저장. Pair로 쌍으로 저장되어 있다.
+        /// </summary>
         public List<PortDataPair> selectionPortData = new();
 
-        private VisualElement bodyContainer;
+        private VisualElement _bodyContainer;
         private VisualElement _selectorInputContaienr;
         private VisualElement _selectorOutputContainer;
 
@@ -31,10 +34,11 @@ namespace Titan.DialogueSystem.Data.Nodes
             // 굳이 이런식으로 하면 실수할 가능성이 높다.
             // 따로 메소드로 분리하는 것이 나아 보인다.
             styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueSelectorNodeView.uss"));
-            bodyContainer = topContainer.parent;
+            _bodyContainer = topContainer.parent;
 
             BuildAddSelection();
 
+            // Sentence로부터 들어오는 Port
             var inputPort = CreatePort(DialoguePortType.Dialogue, Direction.Input, Port.Capacity.Multi, ref dialogueInputPortData);
             inputPort.portName = "Dialogue Connection";
             inputContainer.Add(inputPort);
@@ -47,9 +51,10 @@ namespace Titan.DialogueSystem.Data.Nodes
         /// </summary>
         private void BuildAddSelection()
         {
+            // 구분줄을 위해 divider를 추가하고 그 뒤에 Add 버튼을 추가
             var divider = new VisualElement { name = "divider" };
             divider.AddToClassList("horizontal");
-            bodyContainer.Add(divider);
+            _bodyContainer.Add(divider);
 
             var selectorAddContainer = new VisualElement() { name = "selector-add"};
 
@@ -64,7 +69,7 @@ namespace Titan.DialogueSystem.Data.Nodes
             };
 
             selectorAddContainer.Add(selectorAddButton);
-            bodyContainer.Add(selectorAddContainer);
+            _bodyContainer.Add(selectorAddContainer);
         }
 
         /// <summary>
@@ -74,7 +79,7 @@ namespace Titan.DialogueSystem.Data.Nodes
         {
             var divider = new VisualElement { name = "divider" };
             divider.AddToClassList("horizontal");
-            bodyContainer.Add(divider);
+            _bodyContainer.Add(divider);
 
             var selectorContainer = new VisualElement() { name = "selector" };
 
@@ -98,18 +103,25 @@ namespace Titan.DialogueSystem.Data.Nodes
             }
             ReOrderNumber();
 
-            bodyContainer.Add(selectorContainer);
+            _bodyContainer.Add(selectorContainer);
         }
 
+        /// <summary>
+        /// Selection 부분에 Port를 추가, 존재하는 PortDataPair를 통해서 생성된다.
+        /// </summary>
+        /// <param name="selectionPortData"></param>
         private void AddSelection(PortDataPair selectionPortData)
         {
+            // Selector Input Port
             var selectorInputPort = CreatePort(DialoguePortType.Choice, Direction.Input, Port.Capacity.Single, ref selectionPortData.inputPortData);
             selectorInputPort.portName = $"Selector";
             _selectorInputContaienr.Add(selectorInputPort);
 
+            // Selector Output Port
             var selectorOutputPort = CreatePort(DialoguePortType.Dialogue, Direction.Output, Port.Capacity.Single, ref selectionPortData.outputPortData);
             selectorOutputPort.portName = $"Next Dialogue";
             var selectDeleteButton = new Button(() => {
+                    // 최소한 하나의 선택지는 있어야 한다.
                     if(this.selectionPortData.Count == 1)
                     {
                         return;
@@ -136,6 +148,9 @@ namespace Titan.DialogueSystem.Data.Nodes
             _selectorOutputContainer.Add(selectorOutputPort);
         }
 
+        /// <summary>
+        /// Selector들의 숫자를 재정렬. 시작 인덱스는 0부터 시작한다.
+        /// </summary>
         private void ReOrderNumber()
         {
             if(_selectorInputContaienr.childCount != _selectorOutputContainer.childCount)

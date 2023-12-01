@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
@@ -10,10 +8,13 @@ using Titan.DialogueSystem.Data.Nodes;
 namespace Titan.DialogueSystem.Data.View
 {
     /// <summary>
-    /// Dialogue Graph View
+    /// Dialogue Editor View에서 Graph View를 형성하는 클래스
     /// </summary>
     public class DialogueGraphView : GraphView
     {
+        /// <summary>
+        /// StyelSheet를 적용하고 Callback을 등록하는 생성자
+        /// </summary>
         public DialogueGraphView()
         {
             styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueGraphView.uss"));

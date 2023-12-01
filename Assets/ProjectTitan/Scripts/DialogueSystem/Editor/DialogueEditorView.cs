@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
@@ -11,19 +9,31 @@ using UnityEngine.UIElements;
 namespace Titan.DialogueSystem.Data.View
 {
     /// <summary>
-    /// Editor View. Holds all the UI elements.
+    /// 모든 UI 요소를 담는 클래스
     /// e.g. Toolbar, GraphView, Blackboard, Inspector
     /// </summary>
     public class DialogueEditorView : VisualElement
     {
+        /// <summary>
+        /// Paretnt Window
+        /// </summary>
         private DialogueEditorWindow _window;
 
+        // View Elements
+        /// <summary>
+        /// Editor View 중에서 Graph를 표현하는 Graph View
+        /// </summary>
         private DialogueGraphView _graphView;
+        /// <summary>
+        /// GraphView에서 생성 Window를 띄울 때 사용하는 Search Window
+        /// </summary>
         private DialogueSearchWindow _searchWindow;
 
+        // Toolbar Buttons
         private Button _blackBoardButton;
         private Button _inspectorButton;
 
+        // Callbacks
         public Action SaveRequest;
         public Action SaveAsRequest;
 
@@ -39,7 +49,7 @@ namespace Titan.DialogueSystem.Data.View
             styleSheets.Add(styleSheet);
             styleSheets.Add(styleVar);
 
-            // Add toolbar
+            // Create Elements
             CreateToolbar();
             CreateContent();
             CreateSearchWindow();
@@ -97,6 +107,7 @@ namespace Titan.DialogueSystem.Data.View
         private void CreateContent()
         {
             // Content로 분리함으로써 나중에 하단바를 추가할 수도 있다.
+            // Graph View를 담는 Element
             var content = new VisualElement() { name = "content" };
 
             // Graph View
@@ -126,11 +137,17 @@ namespace Titan.DialogueSystem.Data.View
 
         #region Callbacks
         
+        /// <summary>
+        /// Blackboard를 토글한다. 현재 기능은 없다.
+        /// </summary>
         private void ToggleBlackBoard()
         {
             _blackBoardButton.ToggleInClassList("toolbar__button-selected");
         }
 
+        /// <summary>
+        /// Inspector를 토글한다. 현재 기능은 없다.
+        /// </summary>
         private void ToggleInspector()
         {
             _inspectorButton.ToggleInClassList("toolbar__button-selected");

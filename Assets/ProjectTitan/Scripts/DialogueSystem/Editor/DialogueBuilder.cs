@@ -16,13 +16,19 @@ namespace Titan.DialogueSystem
     {
         public DialogueObject DialogueObject;
         private DialogueGraphView _graph;
-        // Key : ID, Value : Node
-        // Builder의 완성된 결과물
+        /// <summary>
+        /// Key : NodeID, Value : DialogueNode
+        /// Build를 한 결과물
+        /// </summary>
         private Dictionary<string, DialogueNode> _nodeResult = new();
 
-        // Key : ID, Value : NodeView
+        /// <summary>
+        /// Key : NodeID, Value : NodeView
+        /// </summary>
         private Dictionary<string, DialogueBaseNodeView> _nodeViewMap = new();
-        // Key : PortID, Value : PortData
+        /// <summary>
+        /// Key : PortID, Value : PortData
+        /// </summary>
         private Dictionary<string, PortData> _portDataMap = new();
 
         public DialogueBuilder(DialogueObject dialogueObject, DialogueGraphView graph)
@@ -55,7 +61,7 @@ namespace Titan.DialogueSystem
         /// <summary>
         /// Dialogue Grpah를 이용해서 Dialogue Object를 업데이트한다.
         /// </summary>
-        public void UpdateDialogueObject()
+        public void Build()
         {
             ProcessSentences();
 
@@ -163,9 +169,9 @@ namespace Titan.DialogueSystem
                 // proceed to next node
                 connectedFromNode = FindNodeFromPortID(logicNodeView.ChoiceInputPortData.ConnectedPortID);
             }
-            // 현재는 중첩된 Logic Node를 지원하지 않는다.
             // @Warning
-            // Logic Node를 처리할 경우 ConnectedFromNode를 이동시키기 때문에 else if 로 하면 Logic Node 처리가 불가능하다.
+            // 1. 현재는 중첩된 Logic Node를 지원하지 않는다.
+            // 2. Logic Node를 처리할 경우 ConnectedFromNode를 이동시키기 때문에 else if 로 하면 Logic Node 처리가 불가능하다.
             if(connectedFromNode is DialogueChoiceNodeView choiceNodeView)
             {
                 choice.ChoiceText = choiceNodeView.Sentence;
@@ -176,6 +182,11 @@ namespace Titan.DialogueSystem
 
         #region Utility
 
+        /// <summary>
+        /// PortData로 NodeView를 찾는다.
+        /// </summary>
+        /// <param name="portData"></param>
+        /// <returns>연결된 Node를 반환하나, 잘못된 값일 경우 null을 반환</returns>
         private DialogueBaseNodeView FindNodeFromPortData(PortData portData)
         {
             if(portData == null)
@@ -190,7 +201,7 @@ namespace Titan.DialogueSystem
             }
             if (!_nodeViewMap.TryGetValue(port.nodeId, out var nodeView))
             {
-                Debug.LogError($"NodeView is not found. NodeID : {port.nodeId}");
+                Debug.LogError($"NodeView is not found. NodeID : {portData.nodeId}");
                 return null;
             }
 

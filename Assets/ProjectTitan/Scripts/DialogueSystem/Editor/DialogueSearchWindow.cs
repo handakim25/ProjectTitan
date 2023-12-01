@@ -33,6 +33,8 @@ namespace Titan.DialogueSystem.Data.View
         {
             // SearchTreeGroupEntry
             // 하나의 그룹을 표현한다.
+            // - GUIContent : 그룹의 이름
+            // - level
             // SearchTreeEntry
             // 하나의 요소를 표현한다.
             // - GUIContent : 화면에 보여지는 하나의 그룹
@@ -109,7 +111,7 @@ namespace Titan.DialogueSystem.Data.View
         }
 
         /// <summary>
-        /// Action을 정의
+        /// Action을 정의, 선택된 Entry에 따라 마우스 위치에 Node를 생성한다.
         /// </summary>
         /// <param name="SearchTreeEntry"></param>
         /// <param name="context"></param>
