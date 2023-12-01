@@ -13,7 +13,10 @@ namespace Titan.DialogueSystem.Data.Nodes
         /// <summary>
         /// 선택지 정보
         /// </summary>
-        public PortData ChoiceInputPortData;
+        // @Warning
+        // 직렬화되어 있는 변수를 함부로 변경하면 호환성 문제가 발생한다.
+        // public naming convention에 어긋나지만 호환성 유지를 위해 이름을 변경하지 않는다.
+        public PortData _choiceInputPortData;
         // 동시 연결은 불가능
         public PortData trueOutputPortData; // True일 경우 출력
         public PortData falseOutputPortData; // False일 경우 출력
@@ -26,7 +29,8 @@ namespace Titan.DialogueSystem.Data.Nodes
         protected override void BuildView()
         {
             base.BuildView();
-            var inputChoice = CreatePort(DialoguePortType.Choice, Direction.Input, Port.Capacity.Single, ref ChoiceInputPortData);
+            Debug.Log($"Choice Input Port Data : {_choiceInputPortData} / Node ID : {ID}");
+            var inputChoice = CreatePort(DialoguePortType.Choice, Direction.Input, Port.Capacity.Single, ref _choiceInputPortData);
             inputChoice.portName = "Choice";
             inputContainer.Add(inputChoice);
 

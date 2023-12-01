@@ -54,7 +54,11 @@ namespace Titan.DialogueSystem
             foreach(var port in graph.ports)
             {
                 var portData = port.userData as PortData;
-                _portDataMap.Add(portData.PortID, portData);
+                // _portDataMap.Add(portData.PortID, portData);
+                if(_portDataMap.TryAdd(portData.PortID, portData) == false)
+                {
+                    Debug.LogError($"PortData is already exist. PortID : {portData.PortID} / PortData : {portData}");
+                }
             }
         }
 
@@ -167,7 +171,7 @@ namespace Titan.DialogueSystem
                 }
 
                 // proceed to next node
-                connectedFromNode = FindNodeFromPortID(logicNodeView.ChoiceInputPortData.ConnectedPortID);
+                connectedFromNode = FindNodeFromPortID(logicNodeView._choiceInputPortData.ConnectedPortID);
             }
             // @Warning
             // 1. 현재는 중첩된 Logic Node를 지원하지 않는다.

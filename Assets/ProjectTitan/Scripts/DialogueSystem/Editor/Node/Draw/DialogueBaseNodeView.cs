@@ -155,10 +155,12 @@ namespace Titan.DialogueSystem.Data.Nodes
         [Serializable]
         public class PortData
         {
+            // @Warning
+            // Port ID는 변하지 않는 값이지만 그렇다고 Readonly로 설정하면 역직렬화가 안 된다.
             /// <summary>
             /// Port의 ID
             /// </summary>
-            public readonly string PortID;
+            public string PortID;
             /// <summary>
             /// 연결된 Port의 ID, 연결이 없을 경우 null or empty
             /// </summary>
