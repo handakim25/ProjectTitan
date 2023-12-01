@@ -551,6 +551,10 @@ namespace Titan.Audio
 
         public void PlayUISound(SoundClip clip)
         {
+            if(clip == null)
+            {
+                return;
+            }
             PlayAudioSource(_uiSource, clip, clip.maxVolume);
         }
 
