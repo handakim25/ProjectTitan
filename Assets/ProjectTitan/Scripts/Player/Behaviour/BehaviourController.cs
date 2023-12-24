@@ -230,11 +230,7 @@ namespace Titan.Character.Player
             _defaultBehaviourCode = behaivourCode;
             _currentBehaviourCode = behaivourCode;
 
-            var curBehaviour = GetCurrentBehaviour();
-            if(curBehaviour != null)
-            {
-                curBehaviour.OnEnter();
-            }
+            ExecuteFunctionWithBehaviour(behaivourCode, (behaviour) => behaviour.OnEnter());
         }
 
         /// <summary>
@@ -264,11 +260,7 @@ namespace Titan.Character.Player
                     Debug.Log($"{GetCurrentBehaviour().GetType()} : Exit");
                 }
 #endif
-                var prevBehaviour = GetCurrentBehaviour();
-                if(prevBehaviour != null)
-                {
-                    prevBehaviour.OnExit();
-                }
+                ExecuteFunctionWithBehaviour(_currentBehaviourCode, (behaviour) => behaviour.OnExit());
                 _currentBehaviourCode = behaviourCode;
 #if UNITY_EDITOR
                 if(DebugMode)
@@ -276,11 +268,7 @@ namespace Titan.Character.Player
                     Debug.Log($"{GetCurrentBehaviour().GetType()} : Enter");
                 }                
 #endif
-                var newBehaivour= GetCurrentBehaviour();
-                if(newBehaivour != null)
-                {
-                    newBehaivour.OnEnter();
-                }
+                ExecuteFunctionWithBehaviour(_currentBehaviourCode, (behaviour) => behaviour.OnEnter());
             }
         }
 
@@ -299,7 +287,7 @@ namespace Titan.Character.Player
                     Debug.Log($"{GetCurrentBehaviour().GetType()} : Exit");
                 }
 #endif                
-                GetCurrentBehaviour()?.OnExit();
+                ExecuteFunctionWithBehaviour(_currentBehaviourCode, (behaviour) => behaviour.OnExit());
                 _currentBehaviourCode = _defaultBehaviourCode;
 #if UNITY_EDITOR
                 if(DebugMode)
@@ -307,7 +295,7 @@ namespace Titan.Character.Player
                     Debug.Log($"{GetCurrentBehaviour().GetType()} : Enter");
                 }
 #endif                
-                GetCurrentBehaviour()?.OnEnter();
+                ExecuteFunctionWithBehaviour(_currentBehaviourCode, (behaviour) => behaviour.OnEnter());
             }
         }
 
@@ -433,6 +421,23 @@ namespace Titan.Character.Player
             return _behaviours.FirstOrDefault((behaviour) =>
                 behaviour.isActiveAndEnabled && 
                 behaviour.BehaviourCode == behaviourCode);
+        }
+
+        /// <summary>
+        /// Behaviour Code를 통해서 Behaviour를 찾고, action을 실행한다.
+        /// </summary>
+        /// <param name="behaviourCode">찾으려는 행동 코드</param>
+        /// <param name="action">Behaviour Delegate</param>
+        /// <returns>함수 호출을 성공하면 True, 실패하면 False</returns>
+        private bool ExecuteFunctionWithBehaviour(int behaviourCode, System.Action<GenericBehaviour> action)
+        {
+            var behaviour = SearchBehaviour(behaviourCode);
+            if(behaviour != null)
+            {
+                action(behaviour);
+                return true;
+            }
+            return false;
         }
 
         #endregion Conroller Methods
