@@ -5,6 +5,11 @@ using UnityEngine;
 
 namespace Titan.Character.Player
 {
+    // @Refactor
+    // Animation을 관리하는 PlayerAnim을 고려할 것
+    // OnGroundEnter, OnGroundExit을 GroundChecker로 옮길 것
+    // 되도록 Behavioiur를 관리하도록 분리한다. 가령, 그라운드 로직이 수정되면 이 코드가 수정될 이유가 없다.
+
     /// <summary>
     /// Behaviour를 등록해서 관리하는 클래스
     /// 각각의 Behaviour는 Behaviour Code를 통해서 선택된다.
@@ -26,17 +31,22 @@ namespace Titan.Character.Player
         private List<GenericBehaviour> _overrideBehaviours;
 
         /// <summary>
-        /// 보통 동작들이다.
-        /// CurrentBehavioiur는 현재 동작이다.
-        /// DefaultBehaviour는 기본 동작이다. 동작이 선택되지 않으면 여기로 온다.
-        /// behaviourLocked 동작 잠금이다. 일시적으로 동작을 잠가서 동작하지 않게 한다.
+        /// 현재 동작하는 행동 코드, RegisterBehaviour를 통해서 변경할 수 있다.
         /// </summary>
-        private int _currentBehaviour;
-        private int _defaultBehaviour;
+        private int _currentBehaviourCode;
+        /// <summary>
+        /// 기본 동작 행동 코드, 기본 동작은 행동이 비어 있을 경우 호출된다.
+        /// </summary>
+        private int _defaultBehaviourCode;
+        /// <summary>
+        /// 잠겨 있는 동작 코드, 잠겨 있을 경우 Update되지 않는다.
+        /// 잠겨있지 않을 경우 0이다
+        /// </summary>
         private int _behaviourLocked;
 
         // Cahching
-        public Animator Animator {get; private set;} // 이런 방식의 코드 지양할 것. static method 쓰기 어렵게 한다.
+        // 각각의 Bahaviour에서 접근할 수 있도록 한다.
+        public Animator Animator {get; private set;}
         public CharacterController CharacterController {get; private set;}
         public GroundChecker GroundChecker {get; private set;}
         public Camera Camera {get; private set;}
@@ -45,6 +55,8 @@ namespace Titan.Character.Player
         public PlayerController Controller {get; private set;}
         public PlayerStatus Status => Controller.Status;
 
+        // Animator Layer Index
+        // 공격 애니메이션을 처리하기 위한 Layer Index
         private int BasicAnimatorLayerIndex = 0;
         private int SkillAnimatorLayerIndex = 0;
         private int HyperAnimatorLayerIndex = 0;
@@ -54,9 +66,27 @@ namespace Titan.Character.Player
         /// </summary>
         /// <value></value>
         [field : SerializeField] public bool IsGround {get; private set;}
+        /// <summary>
+        /// 지면에 닿았을 때 호출되는 이벤트
+        /// </summary>
         public event System.Action OnGroundEnter;
+        /// <summary>
+        /// 지면에서 벗어났을 때 호출되는 이벤트
+        /// </summary>
         public event System.Action OnGroundExit;
         private bool _applyGravity;
+        public bool ApplyGravity {
+            get
+            {
+                return _applyGravity;
+            }
+            set
+            {
+                _applyGravity = value;
+                PlayerMove.IsApplyGravity = _applyGravity;
+            }
+        }
+
         private Vector3 _lastDirection = Vector3.zero;
 
 #if UNITY_EDITOR
@@ -74,6 +104,7 @@ namespace Titan.Character.Player
             _behaviours = new List<GenericBehaviour>();
             _overrideBehaviours = new List<GenericBehaviour>();
 
+            // Caching
             Animator = GetComponent<Animator>();
             CharacterController = GetComponent<CharacterController>();
             GroundChecker = GetComponent<GroundChecker>();
@@ -82,14 +113,11 @@ namespace Titan.Character.Player
             PlayerMove = GetComponent<PlayerMove>();
             Controller = GetComponent<PlayerController>();
 
+            // Get Animator Index
             BasicAnimatorLayerIndex = Animator.GetLayerIndex("Basic");
             SkillAnimatorLayerIndex = Animator.GetLayerIndex("Skill");
         }
         
-        /// <summary>
-        /// Start is called on the frame when a script is enabled just before
-        /// any of the Update methods is called the first time.
-        /// </summary>
         private void Start()
         {
             IsGround = GroundChecker.IsGround();
@@ -102,19 +130,21 @@ namespace Titan.Character.Player
             // 2. Fall 상태가 되면 Jump 불가능, Move 불가능
             UpdatGroundState();
 
-            // 주의해야할 점은 등록된 behaviour들 중에서만 호출 되는 것이다.
-            // 여기에 등록되지 않고 독자적으로 작동하는 것은 여기에 호출되지 않는다.
+            // 등록되지 않은 함수들은 Update되지 않는다.
+
+            // 잠겨 있거나 오버라이드가 되지 않았을 경우
             if(_behaviourLocked > 0 || _overrideBehaviours.Count == 0)
             {
                 var curBehaviour = _behaviours.FirstOrDefault((behaviour) => 
                     behaviour.isActiveAndEnabled && 
-                    behaviour.BehaviourCode == _currentBehaviour);
+                    behaviour.BehaviourCode == _currentBehaviourCode);
 
                 if(curBehaviour != null)
                 {
                     curBehaviour.LocalUpdate();
                 }
             }
+            // 오버라이드가 되어 있을 경우
             else
             {
                 foreach(GenericBehaviour behaviour in _overrideBehaviours)
@@ -126,22 +156,23 @@ namespace Titan.Character.Player
             PlayerMove.Move();
             Animator.SetBool(AnimatorKey.Player.IsGround, IsGround);
             Animator.SetBool(AnimatorKey.Player.HasMoveInput, PlayerInput.MoveDir != Vector2.zero);
-            // Debug.Log($"Animaotr Layer : {Animator.GetLayerIndex("Basic")}");
             Animator.SetFloat(AnimatorKey.Player.BasicStateTime, Mathf.Repeat(Animator.GetCurrentAnimatorStateInfo(1).normalizedTime, 1f));
         }
 
         private void FixedUpdate()
         {
             bool isAnyBehaviourUpdate = false;
+            // 잠겨 있거나 오버라이드가 되지 않았을 경우
             if(_behaviourLocked > 0 || _overrideBehaviours.Count == 0)
             {
-                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehaviourCode == _currentBehaviour);
+                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehaviourCode == _currentBehaviourCode);
                 if(curBehaviour != null)
                 {
                     curBehaviour.LocalFixedUpdate();
                     isAnyBehaviourUpdate = true;
                 }
             }
+            // 오버라이드가 되어 있을 경우
             else
             {
                 foreach(GenericBehaviour behaviour in _overrideBehaviours)
@@ -158,16 +189,16 @@ namespace Titan.Character.Player
 
         private void LateUpdate()
         {
-            // 잠겨 있지 않고 오버라이드 되지 않았을 경우
-            // 현재 행동만 update
-            // 중간에 잠갔을 경우 else로 가지만 Override가 되지 않았으므로 
-            // 그냥 통과
-            // 잠긴 상태에서 넘어갔을 경우 어찌되든 자기 자신이 풀어주어야 한다.
+            // 잠겨 있거나 오버라이드가 되지 않았을 경우
             if(_behaviourLocked > 0 || _overrideBehaviours.Count == 0)
             {
-                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehaviourCode == _currentBehaviour);
-                curBehaviour?.LocalLateUpdate();
+                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled && behaviour.BehaviourCode == _currentBehaviourCode);
+                if(curBehaviour != null)
+                {
+                    curBehaviour.LocalLateUpdate();
+                }
             }
+            // 오버라이드가 되어 있을 경우
             else
             {
                 foreach(GenericBehaviour behaviour in _overrideBehaviours)
@@ -181,23 +212,35 @@ namespace Titan.Character.Player
 
         #region Conroller Methods
         
+        /// <summary>
+        /// 행동을 구독한다. 구독된 행동들은 관리가 된다.
+        /// </summary>
+        /// <param name="behaviour">등록을 하고자 하는 행동</param>
         public void SubscribeGenericBehaviour(GenericBehaviour behaviour)
         {
             _behaviours.Add(behaviour);
         }
 
+        /// <summary>
+        /// 디폴트 행동을 설정한다. 디폴트 행동은 행동이 비어 있을 경우 호출된다.
+        /// </summary>
+        /// <param name="behaivourCode">행동 코드</param>
         public void RegisterDefaultBehaviour(int behaivourCode)
         {
-            _defaultBehaviour = behaivourCode;
-            _currentBehaviour = behaivourCode;
+            _defaultBehaviourCode = behaivourCode;
+            _currentBehaviourCode = behaivourCode;
 
             var curBehaviour = GetCurrentBehaviour();
-            curBehaviour?.OnEnter();
+            if(curBehaviour != null)
+            {
+                curBehaviour.OnEnter();
+            }
         }
 
         /// <summary>
-        /// 일반 동작으로 등록한다. 등록을 하기 위해서는 행동이 비어 있어야 한다.
+        /// 일반 동작으로 등록한다. 등록을 하기 위해서는 현재 행동이 없어야 한다.
         /// 등록을 하면 다른 행동은 등록을 할 수 없다. 이 경우는 다른 동작을 하지 않는다.
+        /// 행동을 해제하기 위해서는 UnregisterBehaviour를 호출
         /// </summary>
         /// <param name="behaviourCode">등록하기 위한 행동의 코드</param>
         public void RegisterBehaviour(int behaviourCode)
@@ -212,7 +255,8 @@ namespace Titan.Character.Player
 #endif
                 return;
             }            
-            if(_currentBehaviour == _defaultBehaviour)
+            // 현재 행동이 비어있을 경우, 즉 기본 행동일 때만 새로운 행동을 등록할 수 있다.
+            if(_currentBehaviourCode == _defaultBehaviourCode)
             {
 #if UNITY_EDITOR
                 if(DebugMode)
@@ -220,15 +264,23 @@ namespace Titan.Character.Player
                     Debug.Log($"{GetCurrentBehaviour().GetType()} : Exit");
                 }
 #endif
-                GetCurrentBehaviour()?.OnExit();
-                _currentBehaviour = behaviourCode;
+                var prevBehaviour = GetCurrentBehaviour();
+                if(prevBehaviour != null)
+                {
+                    prevBehaviour.OnExit();
+                }
+                _currentBehaviourCode = behaviourCode;
 #if UNITY_EDITOR
                 if(DebugMode)
                 {
                     Debug.Log($"{GetCurrentBehaviour().GetType()} : Enter");
                 }                
 #endif
-                GetCurrentBehaviour()?.OnEnter();
+                var newBehaivour= GetCurrentBehaviour();
+                if(newBehaivour != null)
+                {
+                    newBehaivour.OnEnter();
+                }
             }
         }
 
@@ -239,7 +291,7 @@ namespace Titan.Character.Player
         /// <param name="behaviourCode">등록하기 위한 행동의 코드</param>
         public void UnregisterBehaviour(int behaviourCode)
         {
-            if(_currentBehaviour == behaviourCode)
+            if(_currentBehaviourCode == behaviourCode)
             {
 #if UNITY_EDITOR
                 if(DebugMode)
@@ -248,7 +300,7 @@ namespace Titan.Character.Player
                 }
 #endif                
                 GetCurrentBehaviour()?.OnExit();
-                _currentBehaviour = _defaultBehaviour;
+                _currentBehaviourCode = _defaultBehaviourCode;
 #if UNITY_EDITOR
                 if(DebugMode)
                 {
@@ -273,14 +325,22 @@ namespace Titan.Character.Player
             }
             if(_overrideBehaviours.Count == 0)
             {
-                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled &&behaviour.BehaviourCode == _currentBehaviour);
-                curBehaviour?.OnOverride();
+                var curBehaviour = _behaviours.FirstOrDefault((behaviour) => behaviour.isActiveAndEnabled &&behaviour.BehaviourCode == _currentBehaviourCode);
+                if(curBehaviour != null)
+                {
+                    curBehaviour.OnOverride();
+                }
             }
 
             _overrideBehaviours.Add(behaviour);
             return true;
         }
 
+        /// <summary>
+        /// 행동을 Override 해제한다. Override가 되어 있지 않으면 아무런 동작을 하지 않는다.
+        /// </summary>
+        /// <param name="behaviour">Override를 해제할 행동</param>
+        /// <returns>해제했으면 True, 없을 경우 False</returns>
         public bool RevokeOverridingBehaviour(GenericBehaviour behaviour)
         {
             if(_overrideBehaviours.Contains(behaviour))
@@ -307,13 +367,12 @@ namespace Titan.Character.Player
             return _overrideBehaviours.Contains(behaviour);
         }
 
-        public bool IsCurrentBehaviour(int behaivourCode) => _currentBehaviour == behaivourCode;
+        public bool IsCurrentBehaviour(int behaivourCode) => _currentBehaviourCode == behaivourCode;
         
         /// <summary>
-        /// Lock 상황을 확인한다.
-        /// 
+        /// Behaviour Code가 잠겨있는지 확인한다. behaviourCode가 0일 경우 잠겨 있는지만 확인한다.
         /// </summary>
-        /// <param name="behaviourCode"></param>
+        /// <param name="behaviourCode">잠그기 전에 잠글 수 있는 상태를 확인할 수 있다.</param>
         /// <returns></returns>
         public bool GetTempLockStatus(int behaviourCode = 0)
         {
@@ -331,9 +390,13 @@ namespace Titan.Character.Player
             // c. _behaviourLocked != behaviourCode : 자기 자신이 Lock을 걸은 것이 아니라면 true
             // 즉, Lock을 확인하는데 자기 자신이 걸은 것이라면 false, 다른 것이 걸려 있으면 true
             // 해제하기 전에 미리 체크할 수 있다.
-            return (_behaviourLocked != 0 && _behaviourLocked != behaviourCode);
+            return _behaviourLocked != 0 && _behaviourLocked != behaviourCode;
         }
 
+        /// <summary>
+        /// Behaviour를 잠근다. 현재 상태가 잠겨있지 않아야 한다.
+        /// </summary>
+        /// <param name="behaivourCode"></param>
         public void LockTempBehaviour(int behaivourCode)
         {
             if(_behaviourLocked == 0)
@@ -342,6 +405,10 @@ namespace Titan.Character.Player
             }
         }
 
+        /// <summary>
+        /// 잠긴 Behaviour를 해제한다. 현재 상태가 잠겨있어야 한다.
+        /// </summary>
+        /// <param name="behaviourCode"></param>
         public void UnLockTempBehaviour(int behaviourCode)
         {
             if(_behaviourLocked == behaviourCode)
@@ -350,11 +417,17 @@ namespace Titan.Character.Player
             }
         }
 
-        public GenericBehaviour GetCurrentBehaviour()
-        {
-            return SearchBehaviour(_currentBehaviour);
-        }
-        
+        /// <summary>
+        /// 현재 행동을 반환한다.
+        /// </summary>
+        /// <returns>찾지 못했을 경우 null을 반환</returns>
+        public GenericBehaviour GetCurrentBehaviour() => SearchBehaviour(_currentBehaviourCode);
+
+        /// <summary>
+        /// 행동 코드를 통해서 Behaviour를 찾는다.
+        /// </summary>
+        /// <param name="behaviourCode">찾고자 하는 행동 코드</param>
+        /// <returns>행동 코드에 해당하는 행동, 없을 경우 null을 반환</returns>
         private GenericBehaviour SearchBehaviour(int behaviourCode)
         {
             return _behaviours.FirstOrDefault((behaviour) =>
@@ -367,10 +440,6 @@ namespace Titan.Character.Player
         #region Update Controller
         
         // @Note
-        // Player Controller로 옮겨도 될지도 모른다
-        // 혹은 Gravity Checker로 다른 컴포넌트로 분리
-
-        // @Note
         // CharacterController는 이전 프레임의 Ground 상태인 것에 주의
 
         // @Note
@@ -380,9 +449,10 @@ namespace Titan.Character.Player
         // 상황에 따라 Ground Exit / Ground Enter 등을 호출한다
         void UpdatGroundState()
         {
+            bool prevGround = IsGround;
             bool curGround = CharacterController.isGrounded;
             // Fall or Jump
-            if(!curGround && IsGround)
+            if(!curGround && prevGround)
             {
 #if UNITY_EDITOR
                     if(DebugMode)
@@ -393,7 +463,7 @@ namespace Titan.Character.Player
                 OnGroundExit?.Invoke();
             }
             // Land
-            else if(curGround && !IsGround)
+            else if(curGround && !prevGround)
             {
 #if UNITY_EDITOR
                 if (DebugMode)
@@ -405,18 +475,6 @@ namespace Titan.Character.Player
             }
 
             IsGround = curGround;
-        }
-
-        public bool ApplyGravity {
-            get
-            {
-                return _applyGravity;
-            }
-            set
-            {
-                _applyGravity = value;
-                PlayerMove.IsApplyGravity = _applyGravity;
-            }
         }
         
         #endregion Update Controller
@@ -469,7 +527,7 @@ namespace Titan.Character.Player
         }                
 
         /// <summary>
-        /// 이동 방향의 마지막을 기록해 둔다. Vector3.zero가 기록되지 않도록 주의할 것
+        /// 이동 방향의 마지막을 기록해 둔다. Vector3.zero는 기록되지 않는다.
         /// </summary>
         /// <param name="dir">이동 방향</param>
         public void SetLastDirection(Vector3 dir)
