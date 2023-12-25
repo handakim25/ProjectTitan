@@ -19,21 +19,28 @@ namespace Titan.Character.Player
         #region Variables
 
         [Header("Locomotion")]
+        [Tooltip("달리기 속도")]
         [SerializeField] private float RunSpeed = 5f;
+        [Tooltip("걷기 속도")]
         [SerializeField] private float WalkSpeed = 3f;
+        [Tooltip("가속도")]
         [SerializeField] private float SpeedAccelaration = 20f;
+        [Tooltip("회전 Damp")]
         [SerializeField] private float TurnSmoothingDamp = 20f;
         
         [Header("Jump")]
+        [Tooltip("Jump 시작 시에 상승 속도")]
         [SerializeField] private float JumpForce = 5f;
+        [Tooltip("Jump 시작 시에 전진 속도")]
         [SerializeField] private float JumpForwardSpeed = 5f;
         [SerializeField] private float JumpDeacceleration = 5f;
+        [Tooltip("Jump 시에 재생할 사운드")]
         [SerializeField] private SoundList _jumpSfx = SoundList.None;
 
         /// <summary>
-        /// Jump 진행 중인지
+        /// Jump 중인지 여부
         /// </summary>
-        private bool startJump = false;
+        private bool _isJumping = false;
 
         #endregion Variables
 
@@ -62,7 +69,7 @@ namespace Titan.Character.Player
         // 2. Rotation
         public override void LocalUpdate()
         {
-            if(_controller.IsGround && !startJump)
+            if(_controller.IsGround && !_isJumping)
             {
                 _controller.PlayerMove.ResetFall();
                 PlaneMove();
@@ -81,12 +88,18 @@ namespace Titan.Character.Player
 
         public override void OnExit()
         {
+            // MoveSpeed를 초기화해야 다시 돌아왔을 때 제대로 보간된다.
+            // 만약에 빠른 속도에서 보간되어야 한다면 해당 행동에서 처리한다.
             _controller.Animator.SetFloat(AnimatorKey.Player.MoveSpeed, 0.0f);
         }
 
+        /// <summary>
+        /// 지상에서 이동. 이동에 대한 처리는 PlayerMove에서 한다.
+        /// </summary>
         private void PlaneMove()
         {
             // Calculate Target Speed
+            // 이동 없을 경우 Target Speed는 0이 된다.
             float targetSpeed = _controller.Controller.IsWalk ? WalkSpeed : RunSpeed;
             targetSpeed = _controller.PlayerInput.MoveDir == Vector2.zero ? 0 : targetSpeed;
             _controller.PlayerMove.Speed = CalculateSpeed(targetSpeed, _controller.PlayerMove.Speed);
@@ -95,12 +108,19 @@ namespace Titan.Character.Player
             Vector3 moveDir = _controller.GetCameraFaceDir();
             _controller.PlayerMove.MoveDir = moveDir;
             _controller.FaceDirection(moveDir, false, TurnSmoothingDamp);
-            _controller.SetLastDirection(moveDir);
+            _controller.SetLastDirection(moveDir); // @Refator : 입력 처리는 일괄적으로 해야한다. 이런 식이면 다른 비슷한 코드에서도 관리해야 된다.
 
             // Update Animation
             _controller.Animator.SetFloat(AnimatorKey.Player.MoveSpeed, _controller.PlayerMove.Speed);
         }
 
+        /// <summary>
+        /// TargetSpeed를 기반으로 현재 속도를 계산한다. 속도 계산은 선형 보간을 이용
+        /// </summary>
+        /// <param name="targetSpeed">목표 속도</param>
+        /// <param name="curSpeed">현재 속도</param>
+        /// <param name="changeImmedatie">속도를 즉각적으로 변화</param>
+        /// <returns></returns>
         protected float CalculateSpeed(float targetSpeed, float curSpeed, bool changeImmedatie = false)
         {
             if(curSpeed < targetSpeed - 0.1f || curSpeed > targetSpeed + 0.1f)
@@ -115,6 +135,9 @@ namespace Titan.Character.Player
 
         #region Callbacks
         
+        /// <summary>
+        /// Jump 입력이 들어왔을 때 처리, 지상에서만 점프 가능
+        /// </summary>
         private void OnJumpPerformedHandler()
         {
             if(!_controller.IsCurrentBehaviour(BehaviourCode))
@@ -125,7 +148,10 @@ namespace Titan.Character.Player
 
             if(_controller.IsGround)
             {
-                startJump = true;
+                // Jump 상태로 설정하고,
+                // 지상 속도, Y축 속도를 설정
+                // 이동 방향으로 회전
+                _isJumping = true;
                 _controller.PlayerMove.SetYSpeed(JumpForce);
                 _controller.PlayerMove.Speed = JumpForwardSpeed;
                 _controller.FaceDirection(_controller.GetLastDirection(), true);
@@ -136,11 +162,13 @@ namespace Titan.Character.Player
             }
         }
 
-        // Land
+        /// <summary>
+        /// Ground에 닿았을 때 처리, 이동 속도를 초기화, Jump 상태를 False로 설정
+        /// </summary>
         private void OnGroundEnterHandler()
         {
             _controller.PlayerMove.Speed = 0;
-            startJump = false;
+            _isJumping = false;
 
             _controller.Animator.SetBool(AnimatorKey.Player.IsJump, false);
         }
