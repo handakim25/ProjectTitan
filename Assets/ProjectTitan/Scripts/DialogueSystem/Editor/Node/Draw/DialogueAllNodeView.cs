@@ -6,6 +6,9 @@ using UnityEngine.UIElements;
 
 namespace Titan.DialogueSystem.Data.Nodes
 {
+    /// <summary>
+    /// 모든 조건을 만족해야 하는 노드
+    /// </summary>
     public class DialogueAllNodeView : DialougeLogicNodeView
     {
         [SerializeField] protected List<PortData> _conditionInputPortDataList = new List<PortData>();
@@ -40,6 +43,7 @@ namespace Titan.DialogueSystem.Data.Nodes
             }
             else
             {
+                // Load 과정, 직렬화되어 있는 데이터를 기준으로 View를 생성
                 foreach(var portData in _conditionInputPortDataList)
                 {
                     AddCondition(portData);
@@ -79,7 +83,11 @@ namespace Titan.DialogueSystem.Data.Nodes
 
         public override Condition GetCondtion()
         {
-            throw new System.NotImplementedException();
+            return new Condition()
+            {
+                Type = Condition.ConditionType.All,
+                ExpectedBool = GetExpectedBool(),
+            };
         }
     }
 }

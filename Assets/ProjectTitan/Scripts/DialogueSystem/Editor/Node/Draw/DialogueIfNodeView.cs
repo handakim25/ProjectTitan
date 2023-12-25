@@ -5,8 +5,14 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Titan.DialogueSystem.Data.Nodes
 {
+    /// <summary>
+    /// If 노드를 표현하는 노드, 한 가지 조건식을 포함할 수 있다.
+    /// </summary>
     public class DialogueIfNodeView : DialougeLogicNodeView
     {
+        /// <summary>
+        /// 조건식을 입력받는 Port
+        /// </summary>
         public PortData _conditionInputPortData;
 
         protected override void BuildView()

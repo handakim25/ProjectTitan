@@ -1,14 +1,10 @@
-using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Titan.DialogueSystem.Data;
 using Titan.DialogueSystem.Data.Nodes;
-using UnityEditor.Experimental.GraphView;
 using Titan.DialogueSystem.Data.View;
 using static Titan.DialogueSystem.Data.Nodes.DialogueBaseNodeView;
-using System.Linq;
-using System;
 
 namespace Titan.DialogueSystem
 {
@@ -20,16 +16,30 @@ namespace Titan.DialogueSystem
     {
         public DialogueObject DialogueObject;
         private DialogueGraphView _graph;
-        // Key : ID, Value : Node
+        /// <summary>
+        /// Key : NodeID, Value : DialogueNode
+        /// Build를 한 결과물
+        /// </summary>
         private Dictionary<string, DialogueNode> _nodeResult = new();
 
-        // Cache
+        /// <summary>
+        /// Key : NodeID, Value : NodeView
+        /// </summary>
         private Dictionary<string, DialogueBaseNodeView> _nodeViewMap = new();
+        /// <summary>
+        /// Key : PortID, Value : PortData
+        /// </summary>
         private Dictionary<string, PortData> _portDataMap = new();
+
         public DialogueBuilder(DialogueObject dialogueObject, DialogueGraphView graph)
         {
             DialogueObject = dialogueObject;
             _graph = graph;
+            if(dialogueObject == null || graph == null)
+            {
+                Debug.LogError("DialogueObject or DialogueGraphView is null");
+                return;
+            }
 
             // Cache Node Views
             foreach(var nodeView in graph.nodes)
@@ -44,11 +54,18 @@ namespace Titan.DialogueSystem
             foreach(var port in graph.ports)
             {
                 var portData = port.userData as PortData;
-                _portDataMap.Add(portData.PortID, portData);
+                // _portDataMap.Add(portData.PortID, portData);
+                if(_portDataMap.TryAdd(portData.PortID, portData) == false)
+                {
+                    Debug.LogError($"PortData is already exist. PortID : {portData.PortID} / PortData : {portData}");
+                }
             }
         }
 
-        public void UpdateDialogueObject()
+        /// <summary>
+        /// Dialogue Grpah를 이용해서 Dialogue Object를 업데이트한다.
+        /// </summary>
+        public void Build()
         {
             ProcessSentences();
 
@@ -57,11 +74,15 @@ namespace Titan.DialogueSystem
             DialogueObject.Nodes = _nodeResult.Values.ToList();
         }
 
+        /// <summary>
+        /// Sentence Node를 처리한다. _nodeResult에 추가한다.
+        /// </summary>
         private void ProcessSentences()
         {
             foreach (var sentenceNodeView in _graph.nodes.OfType<DialogueSentenceNodeView>())
             {
                 DialogueNode dialogueNode = CraeteDialogueNodeFromView(sentenceNodeView);
+                // Input Port가 연결되어 있지 않으면 Starting Node로 설정한다.
                 if (string.IsNullOrEmpty(sentenceNodeView.inputPortData.ConnectedPortID))
                 {
                     DialogueObject.StartingNodeID = dialogueNode.NodeID;
@@ -70,13 +91,15 @@ namespace Titan.DialogueSystem
             }
         }
 
+        // @Refactor
+        // Node View와 Node Data를 동일하게 처리하면 실수를 줄이고 간결하게 작성할 수 있을 것 같다.
         private DialogueNode CraeteDialogueNodeFromView(DialogueSentenceNodeView sentenceNodeView)
         {
             var dialogueNode = new DialogueNode();
             dialogueNode.NodeID = sentenceNodeView.ID;
-            dialogueNode.SpeakerName = "test";
-            dialogueNode.DialogueText = sentenceNodeView.Sentence;
-            dialogueNode.TriggerEventID = "test";
+            dialogueNode.SpeakerName = "";
+            dialogueNode.SentenceText = sentenceNodeView.Sentence;
+            dialogueNode.TriggerEventID = "";
             dialogueNode.TriggerSetValue = false;
             dialogueNode.TriggerQuest = sentenceNodeView.TriggerQuestID;
             dialogueNode.TriggerQuestState = sentenceNodeView.QuestStatus.ToString();
@@ -87,16 +110,22 @@ namespace Titan.DialogueSystem
             return dialogueNode;
         }
 
+        /// <summary>
+        /// Selector Node들을 처리한다. Selector Node를 기준으로 연결된 Sentence Node에 선택지 정보를 추가한다.
+        /// </summary>
         private void ProcessSelectors()
         {
             foreach (var selectorNodeView in _graph.nodes.OfType<DialogueSelectorNodeView>())
             {
-                var connectedSentenceView = FindNodeFromPortID(selectorNodeView.dialogueInputPortData.ConnectedPortID);
-                if (connectedSentenceView == null)
+                // Sentence Node는 Dialogue Node에서 넘어왔기 때문에 이전 노드를 찾으면 연결된 노드를 찾을 수 있다.
+                // 만약에 연결된 노드가 없으면 의미 없는 노드이다.
+                // nextNode의 경우 의미가 없ㅇ므으로 null로 설정한다.
+                var connectedFromSentenceView = FindNodeFromPortID(selectorNodeView.dialogueInputPortData.ConnectedPortID);
+                if (connectedFromSentenceView == null)
                 {
                     continue;
                 }
-                var dialogueNode = _nodeResult[connectedSentenceView.ID];
+                var dialogueNode = _nodeResult[connectedFromSentenceView.ID];
                 dialogueNode.NextNode = null;
 
                 foreach (var pair in selectorNodeView.selectionPortData)
@@ -106,6 +135,11 @@ namespace Titan.DialogueSystem
             }
         }
 
+        /// <summary>
+        /// Port Data를 기준으로 대사 노드에 선택지를 추가한다.
+        /// </summary>
+        /// <param name="portDataPair"></param>
+        /// <param name="choices"></param>
         private void ProcessSelectorChoice(PortDataPair portDataPair, List<Choice> choices)
         {
             if(string.IsNullOrEmpty(portDataPair.inputPortData.ConnectedPortID))
@@ -113,14 +147,17 @@ namespace Titan.DialogueSystem
                 return;
             }
 
-            var connectedNode = FindNodeFromPortID(portDataPair.inputPortData.ConnectedPortID);
-            if(connectedNode == null)
+            var connectedFromNode = FindNodeFromPortID(portDataPair.inputPortData.ConnectedPortID);
+            if(connectedFromNode == null)
             {
                 return;
             }
 
+            // Selector Node에 연결된 노드는 LogiceNodeView 혹은 ChoiceNodeView이다.
+            // ChoiceNodeView는 그대로 Choice에 연결하면 되고 LogicNodeView는 조건을 추가해야 한다.
+            // 따라서 Logic Node View를 처리할 경우, ConnectedFromNode를 연결된 노드로 이동한다.
             var choice = new Choice();
-            if(connectedNode is DialougeLogicNodeView logicNodeView)
+            if(connectedFromNode is DialougeLogicNodeView logicNodeView)
             {
                 choice.Condition = logicNodeView.GetCondtion();
                 var conditionPortData = logicNodeView.GetConditionPortsData();
@@ -134,10 +171,12 @@ namespace Titan.DialogueSystem
                 }
 
                 // proceed to next node
-                connectedNode = FindNodeFromPortID(logicNodeView._choiceInputPortData.ConnectedPortID);
+                connectedFromNode = FindNodeFromPortID(logicNodeView._choiceInputPortData.ConnectedPortID);
             }
-            // 현재는 중첩된 Logic Node를 지원하지 않는다.
-            if(connectedNode is DialogueChoiceNodeView choiceNodeView)
+            // @Warning
+            // 1. 현재는 중첩된 Logic Node를 지원하지 않는다.
+            // 2. Logic Node를 처리할 경우 ConnectedFromNode를 이동시키기 때문에 else if 로 하면 Logic Node 처리가 불가능하다.
+            if(connectedFromNode is DialogueChoiceNodeView choiceNodeView)
             {
                 choice.ChoiceText = choiceNodeView.Sentence;
                 choice.NextNode = FindNodeFromPortID(portDataPair.outputPortData.ConnectedPortID)?.ID ?? null;
@@ -147,6 +186,11 @@ namespace Titan.DialogueSystem
 
         #region Utility
 
+        /// <summary>
+        /// PortData로 NodeView를 찾는다.
+        /// </summary>
+        /// <param name="portData"></param>
+        /// <returns>연결된 Node를 반환하나, 잘못된 값일 경우 null을 반환</returns>
         private DialogueBaseNodeView FindNodeFromPortData(PortData portData)
         {
             if(portData == null)
@@ -161,7 +205,7 @@ namespace Titan.DialogueSystem
             }
             if (!_nodeViewMap.TryGetValue(port.nodeId, out var nodeView))
             {
-                Debug.LogError($"NodeView is not found. NodeID : {port.nodeId}");
+                Debug.LogError($"NodeView is not found. NodeID : {portData.nodeId}");
                 return null;
             }
 

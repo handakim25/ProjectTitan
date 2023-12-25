@@ -551,7 +551,17 @@ namespace Titan.Audio
 
         public void PlayUISound(SoundClip clip)
         {
+            if(clip == null)
+            {
+                return;
+            }
             PlayAudioSource(_uiSource, clip, clip.maxVolume);
+        }
+
+        public void PlayUISound(int index)
+        {
+            SoundClip clip = DataManager.SoundData.GetCopy(index);
+            PlayUISound(clip);
         }
 
         public void Stop(bool allStop = false)

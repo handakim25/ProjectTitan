@@ -11,7 +11,7 @@ using Titan.Resource;
 namespace Titan.GameEventSystem
 {
     /// <summary>
-    /// Game Event의 Editor Data
+    /// Game Event의 Data를 관리하는 클래스. Game Event의 Data는 Json 파일로 저장되어 있다.
     /// </summary>
     public class GameEventData : BaseData
     {
@@ -26,6 +26,9 @@ namespace Titan.GameEventSystem
         protected override string ResourcePath => "Data/GameEventData";
         protected override string DataFileName => "GameEventData.json";
 
+        /// <summary>
+        /// Editor에서 호출되는 Class. Game Event Data를 Json 파일로 저장한다.
+        /// </summary>
         public override void SaveData()
         {
             var eventList = GameEvents.Select(x => x.GameEvent).ToList();
@@ -33,6 +36,9 @@ namespace Titan.GameEventSystem
             File.WriteAllText(SaveFilePath + DataFileName, data); 
         }
 
+        /// <summary>
+        /// Editor 혹은 Run-Time에서 Data를 Load. Load 시에 ID를 기반으로 Dictionary를 생성
+        /// </summary>
         public override void LoadData()
         {
             TextAsset asset = ResourceManager.Load<TextAsset>(ResourcePath);
@@ -46,6 +52,10 @@ namespace Titan.GameEventSystem
             _gameEventDictionary = _gameEvent.ToDictionary(x => x.EventName, x => x);
         }
 
+        /// <summary>
+        /// Editor에서 호출되는 Class. Game Event Data를 추가한다.
+        /// </summary>
+        /// <param name="gameEventObject"></param>
         public void AddData(GameEventObject gameEventObject)
         {
             GameEvents.Add(gameEventObject);
@@ -71,6 +81,9 @@ namespace Titan.GameEventSystem
             return _gameEventDictionary.TryGetValue(eventName, out gameEvent);
         }
 
+        /// <summary>
+        /// Test를 위한 함수. 현재 JSON Data를 Log로 출력한다.
+        /// </summary>
         [ContextMenu("Show Json Data")]
         private void ShowJsonData()
         {

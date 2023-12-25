@@ -16,7 +16,7 @@ namespace Titan.DialogueSystem.Data.Nodes
 
     /// <summary>
     /// Dialogue System에 사용되는 Node들이 상속 받을 클래스
-    /// View에 해당된다.
+    /// View에 해당된다. 각각 필요한 데이터는 직렬화되어 있으며 BuildView를 실행할 때 자기 자신의 View를 생성해야한다.
     /// </summary>
     // Shader Graph에서는 AbstractMaterialNode가 데이터로 존재하고 이것을 리플렉션으로 MaterialNodeView 로 생성을 해주는 방식이다. 잠깐 근데 일부 틀린 곳이 존재. 추후 보강할 것.
     // 한 마디로 AbstractMaterilaNode는 Model이고 MaterialView는 View, GraphData가 Controller 역할을 한다.
@@ -31,6 +31,9 @@ namespace Titan.DialogueSystem.Data.Nodes
     // 따라서 un-do를 지원하지 않는다.
     public abstract class DialogueBaseNodeView : Node
     {
+        /// <summary>
+        /// Node의 ID. GUID를 사용한다. 직렬화될 때 사용된다.
+        /// </summary>
         [SerializeField] private string _id;
         public string ID
         {
@@ -38,15 +41,18 @@ namespace Titan.DialogueSystem.Data.Nodes
             protected set => _id = value;
         }
 
+        /// <summary>
+        /// Graph에서 View의 위치
+        /// </summary>
         [SerializeField] protected Vector2 _pos;
+
         /// <summary>
         /// Node View가 가지고 있는 Port 리스트
         /// </summary>
-
         protected DialogueGraphView _graphView;
 
         /// <summary>
-        /// View를 초기화한다.
+        /// View를 초기화한다. 새로 생성된 경우 id를 생성하고, 로드하는 경우 id를 기반으로 load한다.
         /// </summary>
         /// <param name="graphView"></param>
         /// <param name="id">null일 경우 새로 생성, 로드하는 과정일 경우 id를 기반으로 load</param>
@@ -66,7 +72,7 @@ namespace Titan.DialogueSystem.Data.Nodes
             styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueBaseNodeView.uss"));
             AddToClassList("dialogue--node");
 
-            // Set Title
+            // Set Title Text
             string typeName = GetType().Name;
             typeName = typeName.Replace("Dialogue", "").Replace("NodeView", "");
             title = typeName;
@@ -143,12 +149,29 @@ namespace Titan.DialogueSystem.Data.Nodes
 
         // Port 관련 데이터를 나중에 분리할 것
         
+        /// <summary>
+        /// Port를 직렬화하기 위한 데이터
+        /// </summary>
         [Serializable]
         public class PortData
         {
+            // @Warning
+            // Port ID는 변하지 않는 값이지만 그렇다고 Readonly로 설정하면 역직렬화가 안 된다.
+            /// <summary>
+            /// Port의 ID
+            /// </summary>
             public string PortID;
+            /// <summary>
+            /// 연결된 Port의 ID, 연결이 없을 경우 null or empty
+            /// </summary>
             public string ConnectedPortID;
+            /// <summary>
+            /// 연결되기 위한 Port의 종류
+            /// </summary>
             public DialoguePortType PortType;
+            /// <summary>
+            /// Port가 속한 Node의 ID
+            /// </summary>
             public string nodeId;
 
             public PortData(string PortID, DialoguePortType PortType, DialogueBaseNodeView node)
@@ -157,6 +180,11 @@ namespace Titan.DialogueSystem.Data.Nodes
                 this.PortType = PortType;
                 ConnectedPortID = null;
                 nodeId = node.ID;
+            }
+
+            public override string ToString()
+            {
+                return $"PortID : {(string.IsNullOrEmpty(PortID) ? "NULL" : PortID)} / ConnectedPortID : {ConnectedPortID} / PortType : {PortType} / NodeID : {nodeId}";
             }
         }
 
@@ -173,6 +201,15 @@ namespace Titan.DialogueSystem.Data.Nodes
         // https://github.com/Unity-Technologies/UnityCsReference/blob/master/Modules/GraphViewEditor/Elements/Port.cs#L243
         // https://forum.unity.com/threads/graphview-inheriting-from-port-to-store-custom-data.1161392/
         // https://github.com/Unity-Technologies/Graphics/blob/master/Packages/com.unity.shadergraph/Editor/Drawing/Views/ShaderPort.cs#L73
+        /// <summary>
+        /// Port를 생성한다. 만약에 Load와 같이 PortData가 존재할 경우 PortData를 이용해서 생성한다.
+        /// 없을 경우, 새로 생성한다.
+        /// </summary>
+        /// <param name="type">허용되는 Port Type</param>
+        /// <param name="direction">현재는 수평 방향만 사용</param>
+        /// <param name="capacity">연결될 수 있는 Port 개수설정</param>
+        /// <param name="portData">로드 시에 PortData를 이용해서 생성</param>
+        /// <returns>생성된 Port</returns>
         protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity, ref PortData portData)
         {
             var port = InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(float));
@@ -183,6 +220,13 @@ namespace Titan.DialogueSystem.Data.Nodes
             return port;
         }
 
+        /// <summary>
+        /// Port를 새로 생성한다.
+        /// </summary>
+        /// <param name="type">허용되는 Port Type</param>
+        /// <param name="direction">현재는 수평 방향만 사용</param>
+        /// <param name="capacity">연결될 수 있는 Port 개수설정</param>
+        /// <returns>생성된 Port</returns>
         protected Port CreatePort(DialoguePortType type, Direction direction, Port.Capacity capacity)
         {
             var port = InstantiatePort(Orientation.Horizontal, direction, capacity, typeof(float));
@@ -192,6 +236,12 @@ namespace Titan.DialogueSystem.Data.Nodes
             return port;
         }
 
+        /// <summary>
+        /// Porrt 연결이 가능한지 확인한다. 현재는 Port Type이 같을 경우에 True
+        /// </summary>
+        /// <param name="start">시작 Port</param>
+        /// <param name="end">끝 Port</param>
+        /// <returns>True일 경우 연결 가능, False일 경우 불가능</returns>
         public static bool CanConnect(Object start, Object end)
         {
             if(start == null || end == null || start == end)
@@ -205,6 +255,11 @@ namespace Titan.DialogueSystem.Data.Nodes
             return startType == endType;
         }
 
+        /// <summary>
+        /// Port를 연결한다.
+        /// </summary>
+        /// <param name="input">도착 Port(들어오는 포트)</param>
+        /// <param name="output">출발 Port(나가는 포트)</param>
         public static void Connect(Port input, Port output)
         {
             // input port가 도착, output port가 출발이란 것에 주의
@@ -214,6 +269,11 @@ namespace Titan.DialogueSystem.Data.Nodes
             inputPortData.ConnectedPortID = outputPortData.PortID;
         }
 
+        /// <summary>
+        /// Port 연결을 끊는다.
+        /// </summary>
+        /// <param name="input">도착 Port(들어오는 Port)</param>
+        /// <param name="output">출발 Port(나가는 포트)</param>
         public static void Disconnect(Port input, Port output)
         {
             var outputPortData = output.userData as PortData;
@@ -222,6 +282,11 @@ namespace Titan.DialogueSystem.Data.Nodes
             inputPortData.ConnectedPortID = null;
         }
 
+        /// <summary>
+        /// Port Type에 따라 Port의 색상을 반환한다.
+        /// </summary>
+        /// <param name="type">Port Type</param>
+        /// <returns></returns>
         private Color GetPortColor(DialoguePortType type)
         {
             return type switch
@@ -237,6 +302,10 @@ namespace Titan.DialogueSystem.Data.Nodes
 
         #region Callback
         
+        /// <summary>
+        /// 위치 변경을 감지해서 위치를 저장한다.
+        /// </summary>
+        /// <param name="evt"></param>
         private void OnGeometryChanged(GeometryChangedEvent evt)
         {
             _pos = GetPosition().position;

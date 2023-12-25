@@ -11,23 +11,32 @@ using Titan.InventorySystem.Items;
 
 namespace Titan.DialogueSystem
 {
+    /// <summary>
+    /// Dialogue를 관리하는 Class. Dialogue를 시작하고 종료한다.
+    /// Dialogue를 출력하는 것은 Dialogue UI가 담당한다.
+    /// Dialogue UI 가 Controller이므로 UI가 Dialogue Manager를 관리하고
+    /// Dialogue Manager가 반응해서 UI를 업데이트한다.
+    /// </summary>
     public class DialogueManager : MonoSingleton<DialogueManager>
     {
         [SerializeField] private DialogueUIController _dialogueUI;
         [Tooltip("다이얼로그가 종료되면 다음 다이얼로그가 바로 켜지지 않도록 텀을 둔다.")]
         [SerializeField] private float _dialogueInterval = 0.5f;
+        private float _lastDialogueEndTime;
 
         // @After-Work
+        // 대화 데이터를 한 번에 모아서 JSON File로 저장하도록 구현하자.
+        // 현재는 각각의 대화 데이터를 ScriptableObject로 저장하고 있다.
         private Dictionary<string, DialogueObject> _dialogueObjectDic = new();
 
         private DialogueObject _currentDialogueObject;
         private DialogInteractable _curDialogueInteractable;
-        private System.Action _onDialogueEnd;
         private DialogueNode _currentDialogueNode;
+        private System.Action _onDialogueEnd;
+
         private string _curSpeaker => _curDialogueInteractable != null ? 
             _curDialogueInteractable.InteractText : null ?? _currentDialogueNode.SpeakerName;
         
-        private float _lastDialogueEndTime;
         private ConditionEvaluator _conditionEvaluator;
 
         public void StartDialogue(string DialogueID)
@@ -44,6 +53,7 @@ namespace Titan.DialogueSystem
 
         public void StartDialogue(DialogueObject dialogueObject, DialogInteractable interactable = null, System.Action OnDialogueEnd = null)
         {
+            // 너무 짧은 시간 동안 대화를 다시 실행하지 않도록 한다.
             if(Time.time - _lastDialogueEndTime < _dialogueInterval)
             {
                 return;
@@ -69,7 +79,7 @@ namespace Titan.DialogueSystem
             }
 
             _dialogueUI.GetComponent<DialogueUIScene>().OpenUI();
-            _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.DialogueText);
+            _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.SentenceText);
         }
 
         private DialogueNode GetNextDialogue()
@@ -127,16 +137,21 @@ namespace Titan.DialogueSystem
                     QuestManager = QuestManager.Instance,
                     InventoryManager = InventoryManager.Instance,
                 };
-                var choiceText = _currentDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator)).Select(x => x.ChoiceText).ToList();
-                // var choiceText = _currentDialogueNode.Choices.Select(x => x.ChoiceText).ToList();
-                _dialogueUI.ShowChoice(choiceText);
+                var choiceTextList = _currentDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator)).Select(x => x.ChoiceText).ToList();
+                _dialogueUI.ShowChoice(choiceTextList);
             }
         }
 
-        private void OnChoiceSelectedHandler(string choice)
+        /// <summary>
+        /// 선택지를 선택했을 때 처리한다.
+        /// </summary>
+        /// <param name="choiceStr">선택지 내용</param>
+        private void OnChoiceSelectedHandler(string choiceStr)
         {
             // show next dialogue
-            var nextNodeID = _currentDialogueNode.Choices.Find(x => x.ChoiceText == choice).NextNode;
+            var choiceNode = _currentDialogueNode.Choices.Find(x => x.ChoiceText == choiceStr);
+
+            var nextNodeID = choiceNode.NextNode;
             var nextNode = _currentDialogueObject.GetNode(nextNodeID);
             ProcessDialogue(nextNode);
         }
@@ -164,7 +179,7 @@ namespace Titan.DialogueSystem
                         Status = System.Enum.Parse<QuestStatus>(_currentDialogueNode.TriggerQuestState),
                     });
                 }
-                _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.DialogueText);
+                _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.SentenceText);
             }
             else
             {

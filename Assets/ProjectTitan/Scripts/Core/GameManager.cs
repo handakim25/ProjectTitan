@@ -186,7 +186,7 @@ namespace Titan.Core
             {
                 return;
             }
-            Debug.Log($"OnSceneLoaded : {_curStage.SceneName}");
+            Debug.Log($"Stage Loaded : {_curStage.SceneName}");
 
             SoundManager.Instance.PlayBGM((int)_curStage.BGM);
             if(Player.TryGetComponent<PlayerInput>(out var input))

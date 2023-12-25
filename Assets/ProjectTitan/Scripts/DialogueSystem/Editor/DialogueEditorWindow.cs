@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -8,7 +6,7 @@ namespace Titan.DialogueSystem.Data
     using View;
 
     /// <summary>
-    /// Dialogue editor window
+    /// DialogueGraph를 편집하기 위한 Editor
     /// </summary>
     // DialogueEditorWindow <- DialogueEditorView <- toolbar, content(DialogueGraphView, inspector, blackboard)
     // DialogueEditorView <- Search Window
@@ -18,6 +16,9 @@ namespace Titan.DialogueSystem.Data
 
         private const string kTitleName = "Dialogue Editor";
 
+        /// <summary>
+        /// 현재 편집 중인 Dialogue Graph Object의 GUID
+        /// </summary>
         private string _selectedGuid;
         public string SelectedGuid {
             get => _selectedGuid;
@@ -39,6 +40,9 @@ namespace Titan.DialogueSystem.Data
             }
         }
 
+        /// <summary>
+        /// Toolbar, Content 등을 담고 있는 View
+        /// </summary>
         private DialogueEditorView _editorView;
         public DialogueEditorView EditorView 
         {
@@ -60,18 +64,18 @@ namespace Titan.DialogueSystem.Data
             }
         }
 
+        /// <summary>
+        /// Graph Object를 통해서 Editor를 연다.
+        /// </summary>
+        /// <param name="graphObject"></param>
         public static void Open(DialogueGraphObject graphObject)
         {
-            // Load data from guid
-
-            // Load graph from data
-
             var window = CreateWindow<DialogueEditorWindow>(kTitleName);
             window.Init(graphObject); // Init with data
         }
 
         /// <summary>
-        /// Load data from guid
+        /// GraphObject로부터 Editor를 초기화 한다.
         /// Create elements
         /// </summary>
         private void Init(DialogueGraphObject graphObject)
@@ -83,6 +87,8 @@ namespace Titan.DialogueSystem.Data
             graphObject.LoadData(EditorView.GraphView);
         }
 
+        // Asset refresh 시에 무효화되는 문제가 있다.
+        // 이를 위해 Log를 통해서 추적하도록 한다.
         private void OnEnable()
         {
             Debug.Log($"OnEnable / EditorView : {_editorView}");
@@ -111,10 +117,12 @@ namespace Titan.DialogueSystem.Data
 
         public bool SaveAsset()
         {
-            Debug.Log("SaveAsset");
+            Debug.Log("Save Dialogue Graph");
 
-            // Json으로 직접 직렬화 하는 것은 아니니까 그냥 Scriptable Object 저장 루틴을 따른다.
+            // @memo
             // 추후에는 Dialgoue Graph Object를 통해서 데이터를 저장하고 그것을 View에서 Visualize하는 루틴으로 수정할 것
+            
+            // Json으로 직접 직렬화 하는 것은 아니니까 그냥 Scriptable Object 저장 루틴을 따른다.
             GraphObject.SaveData(EditorView.GraphView);
 
             EditorUtility.SetDirty(GraphObject);

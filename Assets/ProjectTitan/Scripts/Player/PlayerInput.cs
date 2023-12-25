@@ -87,6 +87,9 @@ namespace Titan.Character.Player
         
         #endregion Callbacks
 
+        // @refactor
+        // Player 입력을 제어할 수 있는 부분을 제한할 것
+        // 여러곳에서 접근할 수 있으면 문제가 발생할 수 있다.
         public bool InputEnable
         {
             set

@@ -19,10 +19,17 @@ namespace Titan.DialogueSystem.Data.Nodes
     // output port : single, 분기는 할 수 없다. 분기를 하고 싶으면 selector를 이용할 것
     public class DialogueSentenceNodeView : DialogueBaseNodeView
     {
+        /// <summary>
+        /// 대사
+        /// </summary>
         public string Sentence;
+        /// <summary>
+        /// 대사가 출력됬을 때 퀘스트의 상태를 변경시킬 퀘스트의 ID
+        /// </summary>
         public string TriggerQuestID;
-        // if received -> Accep Quest
-        // if completed -> Complete Quest
+        /// <summary>
+        /// Received라면 퀘스트 수락, Completed라면 퀘스트 완료
+        /// </summary>
         public QuestStatus QuestStatus = QuestStatus.NotReceived;
 
         // Editor Only Data
@@ -38,6 +45,8 @@ namespace Titan.DialogueSystem.Data.Nodes
             base.BuildView();
             // Load Style sheet
             styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueSentenceNodeView.uss"));
+
+            Debug.Log($"Build Sentence Node : {ID} / InputPort : {inputPortData.PortID} / OutputPort : {outputPortData.PortID}");
 
             // 같은 데이터를 여러 방식으로 사용하는 것은 좋은 설계가 아니다.
             // 추후에 View의 형식에 맞춰서 Slot으로 추상화해서 중복된 코드를 줄이고 데이터의 애매함을 줄여 표현성을 늘릴 것

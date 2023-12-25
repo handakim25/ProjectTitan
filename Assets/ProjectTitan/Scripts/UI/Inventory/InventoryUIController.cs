@@ -162,7 +162,7 @@ namespace Titan.UI.InventorySystem
 
         private void OnDetailSlotPostUpdate(InventorySlot slot)
         {
-            Debug.Log($"OnDetailSlotPostUpdate");
+            // Debug.Log($"OnDetailSlotPostUpdate");
             // Empty Selected Slot
             if(!slot.IsValid)
             {

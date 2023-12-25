@@ -8,6 +8,9 @@ namespace Titan.UI
     // Inheritence?
     public class UIScene : MonoBehaviour
     {
+        public bool shouldTimeStop = true;
+        public bool shouldBlur = true;
+
         public virtual void OpenUI()
         {
             Debug.Log($"Open UI");

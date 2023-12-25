@@ -6,6 +6,9 @@ using UnityEngine.UIElements;
 
 namespace Titan.DialogueSystem.Data.Nodes
 {
+    /// <summary>
+    /// Any 조건을 위한 노드
+    /// </summary>
     public class DialogueAnyNodeView : DialougeLogicNodeView
     {
         [SerializeField] protected List<PortData> _conditionInputPortDataList = new List<PortData>();
@@ -78,7 +81,11 @@ namespace Titan.DialogueSystem.Data.Nodes
 
         public override Condition GetCondtion()
         {
-            throw new System.NotImplementedException();
+            return new Condition()
+            {
+                Type = Condition.ConditionType.Any,
+                ExpectedBool = GetExpectedBool(),
+            };
         }
     }
 }
