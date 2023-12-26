@@ -7,18 +7,25 @@ using Titan.Audio;
 namespace Titan.Character.Player
 {
     /// <summary>
-    /// Dash 행동
+    /// Dash 행동, 지정된 시간 동안, 지정된 속도로 대시한다.
     /// </summary>
     public class DashBehaviour : GenericBehaviour
     {
         #region Varaibles
         
+        [Tooltip("대시 속도")]
         [SerializeField] private float _dashSpeed = 5f;
+        [Tooltip("대시 지속 시간")]
         [SerializeField] private float _dashDuration = 1f;
+        [Tooltip("대시 속도 곡선, x축은 시간, y축 1은 DashSpeed")]
         [SerializeField] private AnimationCurve _dashSpeedCurve;
+        [Tooltip("대시 사운드")]
         [SerializeField] private SoundList _dashSfx = SoundList.None;
         
-        private float _dashTime = 0f;
+        /// <summary>
+        /// 현재 진행 중긴 대시 시간
+        /// </summary>
+        private float _dashTimer = 0f;
 
         #endregion Varaibles
 
@@ -33,8 +40,8 @@ namespace Titan.Character.Player
         public override void LocalUpdate()
         {
             // Move
-            _dashTime += Time.deltaTime;
-            if(_dashTime > _dashDuration)
+            _dashTimer += Time.deltaTime;
+            if(_dashTimer > _dashDuration)
             {
                 _controller.UnregisterBehaviour(BehaviourCode);
             }
@@ -43,7 +50,7 @@ namespace Titan.Character.Player
             {
                 _controller.PlayerMove.ResetFall();
             }
-            _controller.PlayerMove.Speed = _dashSpeed * _dashSpeedCurve.Evaluate(_dashTime / _dashDuration);
+            _controller.PlayerMove.Speed = _dashSpeed * _dashSpeedCurve.Evaluate(_dashTimer / _dashDuration);
         }
 
         public override void OnEnter()
@@ -62,7 +69,7 @@ namespace Titan.Character.Player
             }
             _controller.FaceDirection(_controller.PlayerMove.MoveDir, true);
 
-            _dashTime = 0f;
+            _dashTimer = 0f;
             _controller.Animator.SetTrigger(AnimatorKey.Player.DashTrigger);
             _controller.Animator.SetBool(AnimatorKey.Player.IsDash, true);
 
@@ -86,6 +93,7 @@ namespace Titan.Character.Player
 
         public void OnGroundExitHandler()
         {
+            // 현재 구현 상에서는 그냥 지정된 시간 동안 대시하는 것으로 정해져 있다.
             // _controller.UnregisterBehaviour(BehavriouCode);
         }
         

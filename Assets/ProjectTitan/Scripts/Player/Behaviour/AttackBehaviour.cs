@@ -7,6 +7,9 @@ using Titan.Battle;
 
 namespace Titan.Character.Player
 {
+    /// <summary>
+    /// 공격 행동, 공격 행동은 기본 공격, 스킬 공격, 궁극기 공격으로 나뉜다.
+    /// </summary>
     public abstract class AttackBehaviour : GenericBehaviour
     {
         // @Refactor
@@ -82,6 +85,9 @@ namespace Titan.Character.Player
         
         #endregion Unity Methods
 
+        /// <summary>
+        /// Controller를 통해서 UI 업데이트
+        /// </summary>
         private void InitStatus()
         {
             switch(_attackType)
@@ -102,6 +108,9 @@ namespace Titan.Character.Player
             UpdateStatus();
         }
 
+        /// <summary>
+        /// Controller를 통해서 UI 업데이트
+        /// </summary>
         private void UpdateStatus()
         {
             switch(_attackType)
@@ -132,6 +141,9 @@ namespace Titan.Character.Player
         
         // Charge, Range Attack이랑 구별 지어야 한다
         // 하지만 그러면 상속으로 처리하면 되지 않을까?
+        /// <summary>
+        /// Attack 애니메이션이 시작되었을 때 호출되는 함수
+        /// </summary>
         protected virtual void AttackPerformedHandler()
         {
             if(!CanAttack())
@@ -142,27 +154,42 @@ namespace Titan.Character.Player
             _controller.RegisterBehaviour(BehaviourCode);
         }
 
-        // Attack 애니메이션이 종료되었을 때 호출되는 함수
+        /// <summary>
+        /// Attack 애니메이션이 끝났을 때 호출되는 함수
+        /// </summary>
         protected virtual void AttackEndHandler()
         {
             _controller.UnregisterBehaviour(BehaviourCode);
         }
 
-        // Animation Event Callback
-        // Called attack impact time
-        // @To-DO
-        // 상속을 통해서 해결할 필요가 없다.
-        // 인자를 주고 받고 처리하면 될 것 같은데
+        /// <summary>
+        /// Animation event callback
+        /// 공격 실행 시점에 호출된다.
+        /// </summary>
         public void ExecuteAttack()
         {
             if(_controller.IsCurrentBehaviour(BehaviourCode))
             {
                 PerformAttack();
             }
-        }        
+        }       
+
+        // @To-DO
+        // 만약 공중 구현을 하게 되다면 이 함수를 가상 함수로 수정해야 한다.
+        /// <summary>
+        /// 공격이 가능한지 여부를 반환한다.
+        /// </summary>
+        /// <returns></returns>
+        protected bool CanAttack()
+        {
+            return _controller.IsGround && CanFire;
+        } 
         
         #endregion Callbacks
 
+        /// <summary>
+        /// 실질적인 공격 실행 함수, 상속을 통해서 세부적인 구현을 한다.
+        /// </summary>
         protected virtual void PerformAttack()
         {
             Debug.Log($"Perform Attack is not overided.");
@@ -184,6 +211,10 @@ namespace Titan.Character.Player
             };
         }
 
+        /// <summary>
+        /// 등록된 행동에 따라 Animator Trigger를 반환한다.
+        /// </summary>
+        /// <returns></returns>
         protected int GetAnimTriggerParam()
         {
             return _attackType switch
@@ -194,11 +225,9 @@ namespace Titan.Character.Player
             };
         }
 
-        protected bool CanAttack()
-        {
-            return _controller.IsGround && CanFire;
-        }
-
+        /// <summary>
+        /// 공격 대상을 찾아서 바라보게 한다.
+        /// </summary>
         public void FaceTarget()
         {
             var nearestGo = FindTarget();
@@ -212,22 +241,31 @@ namespace Titan.Character.Player
             _controller.FaceDirection(faceDir, true);
         }
 
+        private Collider[] colliders;
+
+        // @To-Do
+        // 매번 검사하는 것이 아니라, Target을 통일해서 관리하는 것 필요
+        /// <summary>
+        /// 공격 대상을 찾는다.
+        /// </summary>
+        /// <returns>찾을 경우 GameObject를 반환하고, 못 찾을 경우 null을 반환</returns>
         private GameObject FindTarget()
         {
-            var colliders = Physics.OverlapSphere(transform.position, 3f, _targetMask);
-            GameObject minGo = null;
-            float min = float.PositiveInfinity;
+            colliders ??= new Collider[10];
+            Physics.OverlapSphereNonAlloc(transform.position, 3f, colliders, _targetMask);
+            GameObject nearestGo = null;
+            float nearestDist = float.PositiveInfinity;
             foreach(Collider curCollider in colliders)
             {
                 float curDist = Vector3.Distance(transform.position, curCollider.transform.position);
-                if(curDist < min)
+                if(curDist < nearestDist)
                 {
-                    min = curDist;
-                    minGo = curCollider.gameObject;
+                    nearestDist = curDist;
+                    nearestGo = curCollider.gameObject;
                 }
             }
 
-            return minGo;
+            return nearestGo;
         }
         
         #endregion Utility Methods

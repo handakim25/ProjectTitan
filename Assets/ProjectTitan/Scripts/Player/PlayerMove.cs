@@ -15,8 +15,11 @@ namespace Titan.Character.Player
     [RequireComponent(typeof(CharacterController))]
     public class PlayerMove : MonoBehaviour
     {
+        [Tooltip("중력 가속도")]
         [SerializeField] private float _gravity = -9.8f;
+        [Tooltip("낙하 시의 중력 가속도 배율")]
         [SerializeField] private float _fallMultiplier = 2f;
+        [Tooltip("최고 낙하 속력")]
         [SerializeField] private float _terminalSpeed = 20f;
 
         // @refactor
