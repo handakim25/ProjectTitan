@@ -252,11 +252,12 @@ namespace Titan.Character.Player
         private GameObject FindTarget()
         {
             colliders ??= new Collider[10];
-            Physics.OverlapSphereNonAlloc(transform.position, 3f, colliders, _targetMask);
+            int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, 3f, colliders, _targetMask);
             GameObject nearestGo = null;
             float nearestDist = float.PositiveInfinity;
-            foreach(Collider curCollider in colliders)
+            for (int i = 0; i < colliderCount; i++)
             {
+                Collider curCollider = colliders[i];
                 float curDist = Vector3.Distance(transform.position, curCollider.transform.position);
                 if(curDist < nearestDist)
                 {
