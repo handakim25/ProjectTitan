@@ -489,21 +489,24 @@ namespace Titan.Character.Player
         // @Refactor
         // Draw ray in editor code
         /// <summary>
-        /// Get Move dir by camera.
+        /// 카메라를 기준으로 이동 방향을 계산한다.
         /// </summary>
         /// <returns></returns>
-        public Vector3 GetCameraFaceDir()
+        public Vector3 GetCameraRelativeMovement()
         {
             Transform cameraTr = Camera.transform;
-            // Direction from camera
-            // World 기준에서의 Transform의 forward를 구한다.
-            Vector3 cameraForward = new(cameraTr.forward.x, 0, cameraTr.forward.z);
-            Debug.DrawRay(transform.position, cameraForward, Color.blue);
-            Vector3 cameraRigth = new(cameraTr.right.x, 0, cameraTr.right.z);
-            Debug.DrawRay(transform.position, cameraRigth, Color.green); // Editor Code로 변경
 
-            // MoveDir.x : ad Input, go left or right            
-            // MoveDir.y : ws Input, go forward or backward
+            // World 기준에서의 Camera의 Forward, Right를 계산
+            Vector3 cameraForward = new(cameraTr.forward.x, 0, cameraTr.forward.z);
+            Vector3 cameraRigth = new(cameraTr.right.x, 0, cameraTr.right.z);
+
+            // @To-Do Editor 코드로 이동을 고려
+            // Camera Forward, Right를 그리기
+            Debug.DrawRay(transform.position, cameraForward, Color.blue);
+            Debug.DrawRay(transform.position, cameraRigth, Color.green);
+
+            // MoveDir.x : ad Input, 좌우 이동
+            // MoveDir.y : ws Input, 앞뒤 이동
             // PlayerInput에서 Normalize된 상태로 넘어오기 때문에 대각성 이동은 문제 없다.
             return cameraForward.normalized * PlayerInput.MoveDir.y + cameraRigth.normalized * PlayerInput.MoveDir.x;
         }

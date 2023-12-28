@@ -59,7 +59,7 @@ namespace Titan.Character.Player
             // 없을 경우 마지막 방향으로 이동한다.
             if(_controller.PlayerInput.MoveDir != Vector2.zero)
             {
-                _controller.PlayerMove.MoveDir = _controller.GetCameraFaceDir();
+                _controller.PlayerMove.MoveDir = _controller.GetCameraRelativeMovement();
             }
             else
             {
