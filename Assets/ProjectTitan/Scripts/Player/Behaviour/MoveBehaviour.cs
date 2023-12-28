@@ -108,7 +108,7 @@ namespace Titan.Character.Player
             Vector3 moveDir = _controller.GetCameraRelativeMovement();
             _controller.PlayerMove.MoveDir = moveDir;
             _controller.FaceDirection(moveDir, false, TurnSmoothingDamp);
-            _controller.SetLastDirection(moveDir); // @Refator : 입력 처리는 일괄적으로 해야한다. 이런 식이면 다른 비슷한 코드에서도 관리해야 된다.
+            _controller.SetLastDirection(moveDir);
 
             // Update Animation
             _controller.Animator.SetFloat(AnimatorKey.Player.MoveSpeed, _controller.PlayerMove.Speed);

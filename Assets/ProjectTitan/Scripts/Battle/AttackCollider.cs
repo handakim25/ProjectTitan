@@ -13,6 +13,11 @@ namespace Titan.Battle
         public Vector3 Center;
         public Vector3 Size;
 
+        /// <summary>
+        /// 정해진 박스에 따라 충돌 판정을 실행
+        /// </summary>
+        /// <param name="layerMask">충돌 판정을 할 layer mask </param>
+        /// <returns>충돌한 객체들</returns>
         public Collider[] CheckOverlap(LayerMask layerMask)
         {
             return Physics.OverlapBox(transform.TransformPoint(Center), Size * 0.5f, transform.rotation, layerMask);

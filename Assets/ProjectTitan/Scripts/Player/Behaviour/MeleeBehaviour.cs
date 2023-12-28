@@ -35,8 +35,8 @@ namespace Titan.Character.Player
         protected override void PerformAttack()
         {
             var attack = _attackList[0];
-            LayerMask target = LayerMask.GetMask("Enemy", "Destructable");
-            var colliders = attack.damageHitBox?.CheckOverlap(target) ?? new Collider[0];
+            LayerMask targetMask = LayerMask.GetMask("Enemy", "Destructable");
+            var colliders = attack.damageHitBox.CheckOverlap(targetMask) ?? new Collider[0];
             foreach(var collider in colliders)
             {
                 Debug.Log($"Collider : {collider.name}");

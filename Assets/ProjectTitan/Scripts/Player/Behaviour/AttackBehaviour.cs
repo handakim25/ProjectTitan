@@ -243,8 +243,6 @@ namespace Titan.Character.Player
 
         private Collider[] colliders;
 
-        // @To-Do
-        // 매번 검사하는 것이 아니라, Target을 통일해서 관리하는 것 필요
         /// <summary>
         /// 공격 대상을 찾는다.
         /// </summary>
