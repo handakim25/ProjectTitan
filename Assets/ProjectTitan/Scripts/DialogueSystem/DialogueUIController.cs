@@ -209,6 +209,7 @@ namespace Titan.DialogueSystem
         // 3. 선택지가 없으면 다음 대사를 출력한다.
 
         /// <summary>
+        /// 다음 대사를 입력 받을 경우 호출된다.
         /// <para> 호출 시점 </para>
         /// <para> - Input Callback </para>
         /// <para> - Auto Next Dialogue </para>
@@ -230,10 +231,11 @@ namespace Titan.DialogueSystem
             else
             {
                 // If Choice exists, wait selection.
-                if(!_choicePanel.activeSelf)
+                if (_choicePanel.activeSelf)
                 {
-                    OnNextDialogue?.Invoke();
+                    return;
                 }
+                OnNextDialogue?.Invoke();
             }
         }
 
