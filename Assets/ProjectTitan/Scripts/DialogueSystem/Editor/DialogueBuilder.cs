@@ -119,7 +119,7 @@ namespace Titan.DialogueSystem
             {
                 // Sentence Node는 Dialogue Node에서 넘어왔기 때문에 이전 노드를 찾으면 연결된 노드를 찾을 수 있다.
                 // 만약에 연결된 노드가 없으면 의미 없는 노드이다.
-                // nextNode의 경우 의미가 없ㅇ므으로 null로 설정한다.
+                // nextNode의 경우 의미가 없으므로 null로 설정한다.
                 var connectedFromSentenceView = FindNodeFromPortID(selectorNodeView.dialogueInputPortData.ConnectedPortID);
                 if (connectedFromSentenceView == null)
                 {
