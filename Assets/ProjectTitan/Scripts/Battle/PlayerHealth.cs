@@ -17,8 +17,8 @@ namespace Titan.Battle
         /// </summary>
         private void Start()
         {
-            _playerHealth.Value = 100f;
-            _plyaerMaxHealth.Value = 100f;
+            _playerHealth.Value = initHealth;
+            _plyaerMaxHealth.Value = initHealth;
         }
 
         public override void TakeDamage(Vector3 location, Vector3 direction, float damage, Collider bodyPart = null, GameObject attacker = null)

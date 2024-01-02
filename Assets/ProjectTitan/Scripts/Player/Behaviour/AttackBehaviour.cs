@@ -16,7 +16,9 @@ namespace Titan.Character.Player
         // Skill Data가 전체적으로 묶여서 저장이 되어야 될 것 같다.
         // 추후에 수정할 것
         [Header("Skill Data")]
+#pragma warning disable CS0414
         [SerializeField] private string _attackName = "AttackDefaultName";
+#pragma warning restore CS0414
         [SerializeField] private Sprite _iconSprite = null;
         [SerializeField] private AttackType _attackType = AttackType.Basic;
         [SerializeField] private float _coolTime = 10f;

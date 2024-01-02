@@ -96,6 +96,8 @@ namespace Titan.DialogueSystem
 
             _isAutoMode = false;
             _autoButton.image.color = _isAutoMode ? Color.yellow : Color.white;
+
+            SoundManager.Instance.PlayUISound((int)_dialogueStartSound);
         }
 
         private void OnDisable()
@@ -202,6 +204,7 @@ namespace Titan.DialogueSystem
 
             _dialogueTextCoroutine = null;
         }
+
 
         // Process Next Dialogue
         // 1. 다이얼로그가 진행 중이면, 진행을 중단하고 모든 텍스트를 출력한다.

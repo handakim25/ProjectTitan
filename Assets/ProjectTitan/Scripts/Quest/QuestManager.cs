@@ -113,7 +113,7 @@ namespace Titan.QuestSystem
         }
 
         /// <summary>
-        /// Accep 상태인 Quest를 반환한다.
+        /// Accept 상태인 Quest를 반환한다.
         /// </summary>
         /// <returns></returns>
         public List<QuestProgressData> GetAcceptedQuestList()
