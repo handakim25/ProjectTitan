@@ -7,31 +7,47 @@ using DG.Tweening;
 
 using Titan.Character.Player;
 
+// @Refacactor
+// 추후에 조금 더 Scalable한 구조로 변경 필요
+
 namespace Titan.UI
 {
+    /// <summary>
+    /// Hud를 관리하는 Controller
+    /// </summary>
     public class HudUIController : UIScene
     {
         [Header("UI")]
-        // 생각보다 이렇게 연결하는 것 불편하네
-        // 다음 프로젝트는 조금 더 스케일러블한 구조를 생각해 볼 것
-
-        // 이거 단순하게 사용되는 데 그냥 RectTransfrom을 받아오면 되지 않을까?
+        [Tooltip("상단바")]
         [SerializeField] GameObject _upperBar;
+        [Tooltip("상호작용 패널")]
         [SerializeField] GameObject _interactionPannel;
+        /// <summary>
+        /// 상호작용 패널의 초기 위치, 상호작용 패널이 열릴때 이 위치로 이동
+        /// </summary>
         private float _interactionStartAnchorX;
 
+        [Tooltip("체력 패널")]
         [SerializeField] GameObject _healthPannel;
+        [Tooltip("미니맵 패널")]
         [SerializeField] GameObject _minimapPannel;
+        [Tooltip("스킬 패널")]
         [SerializeField] GameObject _skillPannel;
+        /// <summary>
+        /// Skill Pannel을 관리하는 Controller
+        /// </summary>
         private SkillPannelController _skillPannelController;
 
         [Header("Animation")]
+        [Tooltip("UI가 열릴때 걸리는 시간")]
         [SerializeField] float _transitionTime;
+        [Tooltip("UI 열리는 Ease Type")]
         [SerializeField] Ease openEaseType;
+        [Tooltip("UI 닫히는 Ease Type")]
         [SerializeField] Ease closeEaseType;
 
-        #region UIScene
-
+        #region Unity Methods
+        
         private void Awake()
         {
             if(_skillPannel != null)
@@ -43,16 +59,21 @@ namespace Titan.UI
         {
             _interactionStartAnchorX = _interactionPannel.GetComponent<RectTransform>().anchoredPosition.x;
         }
+        
+        #endregion Unity Methods
+
+        #region UIScene
 
         public override void OpenUI()
         {
+            // move from top
             _upperBar.SetActive(true);
             var upperRect = _upperBar.GetComponent<RectTransform>();
             upperRect.DOAnchorPosY(0, _transitionTime)
                 .SetEase(openEaseType)
                 .SetUpdate(true);
 
-            // move to right
+            // move from right
             _interactionPannel.SetActive(true);
             var interactRect = _interactionPannel.GetComponent<RectTransform>();
             var interactCanvasGroup = _interactionPannel.GetComponent<CanvasGroup>();
@@ -60,7 +81,7 @@ namespace Titan.UI
             interactSequnce.Append(interactRect.DOAnchorPosX(_interactionStartAnchorX, _transitionTime).SetEase(openEaseType));
             interactSequnce.Join(interactCanvasGroup.DOFade(1, _transitionTime).SetEase(openEaseType)).SetUpdate(true);
             
-
+            // move from bottom
             _healthPannel.SetActive(true);
             var healthRect = _healthPannel.GetComponent<RectTransform>();
             healthRect.DOAnchorPosY(0, _transitionTime)
@@ -74,6 +95,7 @@ namespace Titan.UI
                 .SetEase(openEaseType)
                 .SetUpdate(true);
 
+            // move from right
             _skillPannel.SetActive(true);
             var skillRect = _skillPannel.GetComponent<RectTransform>();
             skillRect.DOAnchorPosX(0, _transitionTime)
@@ -83,13 +105,14 @@ namespace Titan.UI
 
         public override void CloseUI()
         {
+            // move to top
             var upperRect = _upperBar.GetComponent<RectTransform>();
             upperRect.DOAnchorPosY(upperRect.sizeDelta.y, _transitionTime)
                 .SetEase(closeEaseType)
                 .OnComplete( () => _upperBar.SetActive(false))
                 .SetUpdate(true);
 
-            // move from right
+            // move to right
             var interactRect = _interactionPannel.GetComponent<RectTransform>();
             var interactCanvasGroup = _interactionPannel.GetComponent<CanvasGroup>();
             var interactSequnce = DOTween.Sequence();
@@ -98,19 +121,21 @@ namespace Titan.UI
             interactSequnce.OnComplete(() => _interactionPannel.SetActive(false))
                             .SetUpdate(true);
 
+            // move to bottom
             var healthRect = _healthPannel.GetComponent<RectTransform>();
             healthRect.DOAnchorPosY(-healthRect.sizeDelta.y, _transitionTime)
                 .SetEase(closeEaseType)
                 .OnComplete(() => _healthPannel.SetActive(false))
                 .SetUpdate(true);
 
-            // move left
+            // move to left
             var minimapRct = _minimapPannel.GetComponent<RectTransform>();
             minimapRct.DOAnchorPosX(-minimapRct.sizeDelta.x, _transitionTime)
                 .SetEase(closeEaseType)
                 .OnComplete(() => _minimapPannel.SetActive(false))
                 .SetUpdate(true);
 
+            // move to right
             var skillRect = _skillPannel.GetComponent<RectTransform>();
             skillRect.DOAnchorPosX(skillRect.sizeDelta.x, _transitionTime)
                 .SetEase(closeEaseType)
@@ -118,6 +143,12 @@ namespace Titan.UI
                 .SetUpdate(true);
         }
 
+        #endregion UIScene
+
+        /// <summary>
+        /// Stage 이름을 변경
+        /// </summary>
+        /// <param name="stageName">바꿀 Stage 이름</param>
         public void UpdateStageName(string stageName)
         {
             if(_minimapPannel == null)
@@ -130,6 +161,10 @@ namespace Titan.UI
             {
                 text.text = stageName; 
             }
+            else
+            {
+                Debug.LogError("Cannot find stage name text");
+            }
         }
 
         public void InitPlayerView(PlayerStatus status)
@@ -137,6 +172,10 @@ namespace Titan.UI
             if(_skillPannelController != null)
             {
                 _skillPannelController.InitSkillData(status);
+            }
+            else
+            {
+                Debug.LogError("Skill Pannel Controller is not found");
             }
         }
 
@@ -151,8 +190,10 @@ namespace Titan.UI
             {
                 _skillPannelController.UpdateSkillData(status);
             }
+            else
+            {
+                Debug.LogError("Skill Pannel Controller is not found");
+            }
         }
-
-        #endregion UIScene
     }
 }
