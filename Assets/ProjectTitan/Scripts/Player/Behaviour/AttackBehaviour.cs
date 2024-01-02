@@ -230,7 +230,7 @@ namespace Titan.Character.Player
         /// <summary>
         /// 공격 대상을 찾아서 바라보게 한다.
         /// </summary>
-        public void FaceTarget()
+        protected void FaceTarget()
         {
             var nearestGo = FindTarget();
             if(nearestGo == null)
@@ -249,7 +249,7 @@ namespace Titan.Character.Player
         /// 공격 대상을 찾는다.
         /// </summary>
         /// <returns>찾을 경우 GameObject를 반환하고, 못 찾을 경우 null을 반환</returns>
-        private GameObject FindTarget()
+        protected GameObject FindTarget()
         {
             colliders ??= new Collider[10];
             int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, 3f, colliders, _targetMask);
