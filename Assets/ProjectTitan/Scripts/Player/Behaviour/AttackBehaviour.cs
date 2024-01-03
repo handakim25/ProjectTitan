@@ -268,6 +268,29 @@ namespace Titan.Character.Player
 
             return nearestGo;
         }
+
+        // @To-Do
+        // 경직 시스템 구현
+        /// <summary>
+        /// Collider에 Damage를 적용
+        /// </summary>
+        /// <param name="attackData"></param>
+        /// <param name="colliders"></param>
+        /// <returns>공격 대상이 있었을 경우 True, 없었을 경우 False</returns>
+        protected bool ApplyDamage(Collider[] colliders, AttackData attackData)
+        {
+            bool isHit = false;
+            foreach(var collider in colliders)
+            {
+                Debug.Log($"Collider : {collider.name}");
+                if(collider.TryGetComponent<UnitHealth>(out var targetHealth))
+                {
+                    targetHealth.TakeDamage(new Vector3(0, 0, 0), new Vector3(0, 0, 0), attackData.damageFactor);
+                    isHit = true;
+                }
+            }
+            return isHit;
+        }
         
         #endregion Utility Methods
     }

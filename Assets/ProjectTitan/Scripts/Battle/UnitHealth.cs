@@ -20,7 +20,9 @@ namespace Titan.Battle
         protected bool isAlive = true;
 
         // 추가적인 공격 데이터가 필요할 수도 있다.
-        // 
+        // - Knockback 정보 : 방향, 힘, 시간
+        // - 경직 정보 : 몬스터가 경직 저항치를 가지므로 몬스터가 처리해야 한다. 경직 파워를 지정해서 몬스터의 경직 저항치와 비교해서 처리
+        // - 상태 이상 정보
         /// <summary>
         /// 공통적인 피해 함수
         /// </summary>

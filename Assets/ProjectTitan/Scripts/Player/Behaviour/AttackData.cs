@@ -15,11 +15,29 @@ namespace Titan.Battle
     [System.Serializable]
     public class AttackData
     {
+        /// <summary>
+        /// Attack 범위를 지정하는 Collider
+        /// </summary>
         public AttackCollider damageHitBox;
+        /// <summary>
+        /// Projectile을 사용할 경우 생성할 Prefab
+        /// </summary>
         public GameObject projectilePrefab;
+        /// <summary>
+        /// 공격 시에 사용할 Sfx
+        /// </summary>
         public SoundList sfx = SoundList.None;
         public GameObject vfx; // 추후에 변경
+        /// <summary>
+        /// 재생할 Animation Index
+        /// </summary>
         public int animIndex;
+        /// <summary>
+        /// 적용할 데미지 Factor
+        /// </summary>
         public int damageFactor;
+        // public bool knockbackForce;
+        // public bool knockbackHeight;
+        // public float defenderStunDuration;
     }
 }
