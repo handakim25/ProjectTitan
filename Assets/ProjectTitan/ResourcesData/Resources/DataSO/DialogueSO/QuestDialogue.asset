@@ -94,16 +94,6 @@ MonoBehaviour:
         Type: 0
         ExpectedBool: 0
         Requirements: []
-  - NodeID: cc8918cc-89c9-4448-abc6-14ba76f0422d
-    NextNode: ca61ff9e-dc3d-4bf6-9e19-882d21002c91
-    SpeakerName: 
-    SentenceText: "\uC774\uACF3\uC740 \uB358\uC804\uC774\uB78D\uB2C8\uB2E4. \uC218\uB9CE\uC740
-      \uAE08\uC740 \uBCF4\uD654\uAC00 \uC788\uB294 \uACF3\uC774\uC8E0."
-    TriggerEventID: 
-    TriggerSetValue: 0
-    TriggerQuest: 
-    TriggerQuestState: Received
-    Choices: []
   - NodeID: ca61ff9e-dc3d-4bf6-9e19-882d21002c91
     NextNode: 9d881225-05a2-41ba-b0b0-d6f8179261f4
     SpeakerName: 
@@ -145,4 +135,14 @@ MonoBehaviour:
     TriggerSetValue: 0
     TriggerQuest: Test_Quest
     TriggerQuestState: Completed
+    Choices: []
+  - NodeID: cc8918cc-89c9-4448-abc6-14ba76f0422d
+    NextNode: ca61ff9e-dc3d-4bf6-9e19-882d21002c91
+    SpeakerName: 
+    SentenceText: "\uC774\uACF3\uC740 \uB358\uC804\uC774\uB78D\uB2C8\uB2E4. \uC218\uB9CE\uC740
+      \uAE08\uC740 \uBCF4\uD654\uAC00 \uC788\uB294 \uACF3\uC774\uC8E0."
+    TriggerEventID: 
+    TriggerSetValue: 0
+    TriggerQuest: 
+    TriggerQuestState: Received
     Choices: []
