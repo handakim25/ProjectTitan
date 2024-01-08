@@ -37,14 +37,7 @@ namespace Titan.Character.Player
             var attack = _attackList[0];
             LayerMask targetMask = LayerMask.GetMask("Enemy", "Destructable");
             var colliders = attack.damageHitBox.CheckOverlap(targetMask) ?? new Collider[0];
-            foreach(var collider in colliders)
-            {
-                Debug.Log($"Collider : {collider.name}");
-                if(collider.TryGetComponent<UnitHealth>(out var targetHealth))
-                {
-                    targetHealth.TakeDamage(new Vector3(0, 0, 0), new Vector3(0, 0, 0), attack.damageFactor);
-                }
-            }
+            ApplyDamage(colliders, attack);
 
             SoundManager.Instance.PlayEffectSound((int)attack.sfx);
         }

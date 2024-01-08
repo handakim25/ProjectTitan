@@ -19,7 +19,6 @@ namespace Titan.Effects
         public EffectClip[] EffectClips = new EffectClip[0];
 
         // Path
-        private string _clipPath = "Effects/";
         protected override string ResourcePath => "Data/EffectData";
         protected override string DataFileName => "EffectData.json";
 

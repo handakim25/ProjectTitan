@@ -47,10 +47,10 @@ namespace Titan.Audio
 
         private AudioMixer _mixer;
         // Volume : -80~0
-        private float _minVolume = -80.0f;
-        private float _maxVolume = 0f;
+        public const float MinVolume = -80.0f;
+        public const float MaxVolume = 0f;
 
-        private Transform _audioRoot;
+      private Transform _audioRoot;
         private AudioSource _bgmSourceA;
         private AudioSource _bgmSourceB;
         [SerializeField] private int _effectChanelCount = 5;
@@ -195,7 +195,7 @@ namespace Titan.Audio
             }
             else
             {
-                volume = _maxVolume;
+                volume = MaxVolume;
             }
             // 
             return Mathf.Pow(10, volume / 20);

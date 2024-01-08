@@ -24,23 +24,24 @@ namespace Titan.UI
             }
             if(_hyperIcon != null)
             {
-                _hyperIcon.InitSkillIcon(status.HyperIcon, status.HyperCooltime, 0f);
+                _hyperIcon.InitSkillIcon(status.HyperIcon, status.HyperCooltime, status.MaxEnergy);
             }
         }
 
         public void UpdateSkillData(PlayerStatus status)
         {
+            // 현재 궁극기만 Energy를 가지고 있다.
             if(_basicIcon != null)
             {
-                _basicIcon.UpdateUI(status.BasicCurCooltime, status.BasicCooltime);
+                _basicIcon.UpdateUI(status.BasicCurCooltime, 0f);
             }
             if(_skillIcon != null)
             {
-                _skillIcon.UpdateUI(status.SkillCurCooltime, status.SkillCooltime);
+                _skillIcon.UpdateUI(status.SkillCurCooltime, 0f);
             }
             if(_hyperIcon != null)
             {
-                _hyperIcon.UpdateUI(status.HyperCurCooltime, status.HyperCooltime);
+                _hyperIcon.UpdateUI(status.HyperCurCooltime, status.CurEnergy);
             }
         }
     }

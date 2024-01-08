@@ -23,7 +23,6 @@ namespace Titan.Audio
         public SoundClip[] SoundClips = new SoundClip[0];
 
         // Path
-        private string _clipPath = "Sound/";
         protected override string ResourcePath => "Data/SoundData";
         protected override string DataFileName => "SoundData.json";
 

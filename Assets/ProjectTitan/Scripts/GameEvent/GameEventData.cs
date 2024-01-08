@@ -22,7 +22,6 @@ namespace Titan.GameEventSystem
         /// <summary>
         /// Data file path. Resource 폴더 기준이다.
         /// </summary>
-        private string _dataPath = "Data/";
         protected override string ResourcePath => "Data/GameEventData";
         protected override string DataFileName => "GameEventData.json";
 

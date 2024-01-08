@@ -16,7 +16,9 @@ namespace Titan.Character.Player
         // Skill Data가 전체적으로 묶여서 저장이 되어야 될 것 같다.
         // 추후에 수정할 것
         [Header("Skill Data")]
+#pragma warning disable CS0414
         [SerializeField] private string _attackName = "AttackDefaultName";
+#pragma warning restore CS0414
         [SerializeField] private Sprite _iconSprite = null;
         [SerializeField] private AttackType _attackType = AttackType.Basic;
         [SerializeField] private float _coolTime = 10f;
@@ -228,7 +230,7 @@ namespace Titan.Character.Player
         /// <summary>
         /// 공격 대상을 찾아서 바라보게 한다.
         /// </summary>
-        public void FaceTarget()
+        protected void FaceTarget()
         {
             var nearestGo = FindTarget();
             if(nearestGo == null)
@@ -247,7 +249,7 @@ namespace Titan.Character.Player
         /// 공격 대상을 찾는다.
         /// </summary>
         /// <returns>찾을 경우 GameObject를 반환하고, 못 찾을 경우 null을 반환</returns>
-        private GameObject FindTarget()
+        protected GameObject FindTarget()
         {
             colliders ??= new Collider[10];
             int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, 3f, colliders, _targetMask);
@@ -265,6 +267,29 @@ namespace Titan.Character.Player
             }
 
             return nearestGo;
+        }
+
+        // @To-Do
+        // 경직 시스템 구현
+        /// <summary>
+        /// Collider에 Damage를 적용
+        /// </summary>
+        /// <param name="attackData"></param>
+        /// <param name="colliders"></param>
+        /// <returns>공격 대상이 있었을 경우 True, 없었을 경우 False</returns>
+        protected bool ApplyDamage(Collider[] colliders, AttackData attackData)
+        {
+            bool isHit = false;
+            foreach(var collider in colliders)
+            {
+                Debug.Log($"Collider : {collider.name}");
+                if(collider.TryGetComponent<UnitHealth>(out var targetHealth))
+                {
+                    targetHealth.TakeDamage(new Vector3(0, 0, 0), new Vector3(0, 0, 0), attackData.damageFactor);
+                    isHit = true;
+                }
+            }
+            return isHit;
         }
         
         #endregion Utility Methods

@@ -33,7 +33,6 @@ namespace Titan.Character.Player
         [SerializeField] private float JumpForce = 5f;
         [Tooltip("Jump 시작 시에 전진 속도")]
         [SerializeField] private float JumpForwardSpeed = 5f;
-        [SerializeField] private float JumpDeacceleration = 5f;
         [Tooltip("Jump 시에 재생할 사운드")]
         [SerializeField] private SoundList _jumpSfx = SoundList.None;
 

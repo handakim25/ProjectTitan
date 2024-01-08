@@ -116,6 +116,7 @@ namespace Titan.Character.Player
             // Get Animator Index
             BasicAnimatorLayerIndex = Animator.GetLayerIndex("Basic");
             SkillAnimatorLayerIndex = Animator.GetLayerIndex("Skill");
+            HyperAnimatorLayerIndex = Animator.GetLayerIndex("Hyper");
         }
         
         private void Start()
