@@ -35,6 +35,7 @@ namespace Titan.Core
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
             m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
+            m_UI_Quest = m_UI.FindAction("Quest", throwIfNotFound: true);
             m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
             m_UI_InteractScroll = m_UI.FindAction("InteractScroll", throwIfNotFound: true);
             m_UI_ShowCursor = m_UI.FindAction("ShowCursor", throwIfNotFound: true);
@@ -197,6 +198,7 @@ namespace Titan.Core
         private readonly InputActionMap m_UI;
         private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
         private readonly InputAction m_UI_Inventory;
+        private readonly InputAction m_UI_Quest;
         private readonly InputAction m_UI_Interact;
         private readonly InputAction m_UI_InteractScroll;
         private readonly InputAction m_UI_ShowCursor;
@@ -205,6 +207,7 @@ namespace Titan.Core
             private @MainAction m_Wrapper;
             public UIActions(@MainAction wrapper) { m_Wrapper = wrapper; }
             public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
+            public InputAction @Quest => m_Wrapper.m_UI_Quest;
             public InputAction @Interact => m_Wrapper.m_UI_Interact;
             public InputAction @InteractScroll => m_Wrapper.m_UI_InteractScroll;
             public InputAction @ShowCursor => m_Wrapper.m_UI_ShowCursor;
@@ -220,6 +223,9 @@ namespace Titan.Core
                 @Inventory.started += instance.OnInventory;
                 @Inventory.performed += instance.OnInventory;
                 @Inventory.canceled += instance.OnInventory;
+                @Quest.started += instance.OnQuest;
+                @Quest.performed += instance.OnQuest;
+                @Quest.canceled += instance.OnQuest;
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
@@ -236,6 +242,9 @@ namespace Titan.Core
                 @Inventory.started -= instance.OnInventory;
                 @Inventory.performed -= instance.OnInventory;
                 @Inventory.canceled -= instance.OnInventory;
+                @Quest.started -= instance.OnQuest;
+                @Quest.performed -= instance.OnQuest;
+                @Quest.canceled -= instance.OnQuest;
                 @Interact.started -= instance.OnInteract;
                 @Interact.performed -= instance.OnInteract;
                 @Interact.canceled -= instance.OnInteract;
@@ -339,6 +348,7 @@ namespace Titan.Core
         public interface IUIActions
         {
             void OnInventory(InputAction.CallbackContext context);
+            void OnQuest(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
             void OnInteractScroll(InputAction.CallbackContext context);
             void OnShowCursor(InputAction.CallbackContext context);

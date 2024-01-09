@@ -8,23 +8,26 @@ using UnityEngine.EventSystems;
 using Titan.Core;
 using Titan.Graphics.PostProcessing;
 
+// @Refactor
+// OpenUI, CloseUI 수정할 것
+// 1. UIScene에서 UIManager를 호출하는 것은 좋아 보이지 않는다.
+// 2. CloseUI()를 호출하는 것이 아니라, UIScene에서 CloseUI를 호출하는 것도 좋아 보이지 않는다.
+// 실수할 가능성이 높다. 아니면 메소드의 의미가 명확하지 않는 것으로 보인다.
+
 namespace Titan.UI
 {
-    // @To-Do
-    // Shortcut 구현
     public sealed class UIManager : MonoSingleton<UIManager>, MainAction.IUIActions
     {
         [SerializeField] private InputActionAsset _inputAsset;
         private MainAction _action;
-        // @Refactor
-        // 현재는 각각의 UI Scene을 직접 reference하고 있다.
-        // 이 부분은 Scalable하지 않다.
-        // 1. UI Scene Data를 추가로 지정
-        // 2. UI Scene이 자기 자신을 등록
-        [SerializeField] private UIScene inventoryUI;
 
+        [Header("UI")]
         [Tooltip("HUD Scene. 기본 진행 중에는 HUD가 표시되고 다른 UI를 열었을 경우 닫히게 된다. 다른 UI가 닫혔을 경우 다시 열린다.")]
         [SerializeField] private UIScene _HudScene;
+        [SerializeField] private UIScene inventoryUI;
+        [SerializeField] private UIScene _questUI;
+
+        [Space]
         [Tooltip("UI Scene List. 정상적으로 열리고 닫히기 위해서는 여기에 등록해야 한다.")]
         [SerializeField] private List<UIScene> _UIList = new List<UIScene>();
         public HudUIController HudUIController => _HudScene as HudUIController;
@@ -150,7 +153,18 @@ namespace Titan.UI
 
         public void OnInventory(InputAction.CallbackContext context)
         {
-            throw new System.NotImplementedException();
+            if(context.performed)
+            {
+                ToggleUI(inventoryUI);
+            }
+        }
+
+        public void OnQuest(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                ToggleUI(_questUI);
+            }
         }
 
         public void OnShowCursor(InputAction.CallbackContext context)
@@ -208,6 +222,26 @@ namespace Titan.UI
             _pointerEventData.position = position;
             EventSystem.current.RaycastAll(_pointerEventData, _raycastResults);
             return _raycastResults.Any(result => result.gameObject.GetComponent<Button>() != null);
+        }
+
+        private void ToggleUI(UIScene targetScene)
+        {
+            if(targetScene == null)
+            {
+                Debug.LogError("Target Scene is Null");
+                return;
+            }
+
+            if(targetScene.gameObject.activeSelf)
+            {
+                // CloseUIScene(scene);
+                targetScene.CloseUI();
+            }
+            else
+            {
+                // OpenUIScene(scene);
+                targetScene.OpenUI();
+            }
         }
         
         #endregion Utillity

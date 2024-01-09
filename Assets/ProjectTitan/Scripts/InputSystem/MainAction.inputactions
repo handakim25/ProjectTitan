@@ -218,6 +218,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Quest",
+                    "type": "Button",
+                    "id": "1b1e34a7-e778-471f-b52c-3b84ce650100",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "587bc301-e2a2-4a3b-bd02-7b275c46a21c",
@@ -287,6 +296,17 @@
                     "processors": "",
                     "groups": "PC",
                     "action": "ShowCursor",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c55af366-701c-4483-af80-98110d6672f2",
+                    "path": "<Keyboard>/j",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PC",
+                    "action": "Quest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
