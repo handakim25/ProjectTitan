@@ -87,5 +87,10 @@ namespace Titan.DialogueSystem.Data.Nodes
                 ExpectedBool = GetExpectedBool(),
             };
         }
+
+        public override List<PortData> GetConditionPortsData()
+        {
+            return new List<PortData>(_conditionInputPortDataList);
+        }
     }
 }

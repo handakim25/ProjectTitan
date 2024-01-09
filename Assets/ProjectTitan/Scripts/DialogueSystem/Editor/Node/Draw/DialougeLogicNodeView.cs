@@ -84,8 +84,10 @@ namespace Titan.DialogueSystem.Data.Nodes
         // 현재 Node가 Graph View에 접근할 수 있는 방법이 없다.
         // 추후에 구조를 개선할 것
         // 각각 노드에서 처리하는 것이 더 좋은 방법이다.
+
+        // Condition Port Data를 통해서 Conditon 데이터를 가져온다.
         /// <summary>
-        /// 자신의 Condition Port들을 반환
+        /// 자신의 Condition Port들을 반환한다. Condition Port Data를 수정하면 안 된다.
         /// </summary>
         /// <returns></returns>
         public virtual List<PortData> GetConditionPortsData()

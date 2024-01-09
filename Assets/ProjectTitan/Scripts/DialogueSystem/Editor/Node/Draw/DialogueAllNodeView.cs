@@ -8,6 +8,9 @@ namespace Titan.DialogueSystem.Data.Nodes
 {
     /// <summary>
     /// 모든 조건을 만족해야 하는 노드
+    /// <para> Input : Choice(선택지) </para>
+    /// <para> Conditions : 각각의 조건식 </para>
+    /// <para> Output : True(모든 조건을 만족할 경우) / False(하나라도 조건을 만족하지 못할 경우) </para>
     /// </summary>
     public class DialogueAllNodeView : DialougeLogicNodeView
     {
@@ -88,6 +91,11 @@ namespace Titan.DialogueSystem.Data.Nodes
                 Type = Condition.ConditionType.All,
                 ExpectedBool = GetExpectedBool(),
             };
+        }
+
+        public override List<PortData> GetConditionPortsData()
+        {
+            return new List<PortData>(_conditionInputPortDataList);
         }
     }
 }

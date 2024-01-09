@@ -148,6 +148,8 @@ namespace Titan.DialogueSystem.Data.Nodes
         }
 
         // Port 관련 데이터를 나중에 분리할 것
+        // Struct가 아니라 Class로 설계한 이유가 있었을 것이다.
+        // 생각나면 기술할 것
         
         /// <summary>
         /// Port를 직렬화하기 위한 데이터
