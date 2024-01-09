@@ -149,6 +149,10 @@ namespace Titan.UI.InventorySystem
             slot.SlotUI = null;
         }
 
+        /// <summary>
+        /// Slot이 업데이트가 되었을 때 Slot UI를 업데이트한다.
+        /// </summary>
+        /// <param name="slot">업데이트 되는 Slot</param>
         private void OnPostUpdate(InventorySlot slot)
         {
             if(slot == null || slot.SlotUI == null || slot.amount <= 0)
@@ -159,6 +163,7 @@ namespace Titan.UI.InventorySystem
             if(slot.SlotUI.TryGetComponent<SlotUI>(out var slotUi))
             {
                 slotUi.IconImage = itemObject.icon;
+                // slotUi.RarityColor = itemObject.rarity.getco
             }
             else
             {
@@ -196,10 +201,9 @@ namespace Titan.UI.InventorySystem
         public void OnClick(GameObject go, PointerEventData data)
         {
             Debug.Log($"Sibling index : {go.transform.GetSiblingIndex()}");
-            InventorySlot slot = slotUIs[go];
-            if(slot == null)
+            if(slotUIs.ContainsKey(go) == false)
             {
-                Debug.LogWarning($"Missing slot UI");
+                Debug.LogError($"Invalid GameObject");
                 return;
             }
 
@@ -209,6 +213,7 @@ namespace Titan.UI.InventorySystem
             }
         }   
 
+        // Slot 위에서 Scroll, Drag를 해도 ScrollRect가 동작하도록 한다.
         public void OnScroll(GameObject go, PointerEventData data)
         {
             _inventoryScroll.OnScroll(data);
@@ -234,9 +239,9 @@ namespace Titan.UI.InventorySystem
         #region public Methods
 
         /// <summary>
-        /// Get first slot Game object
+        /// 첫번째 Slot의 GameObject를 반환
         /// </summary>
-        /// <returns>First slot Object. If there is no slots, return null. </returns>
+        /// <returns>만약 없을 경우 null을 반환 </returns>
         public GameObject GetFirstSlotGo()
         {
             if(slotUIs.Count == 0)
@@ -252,6 +257,10 @@ namespace Titan.UI.InventorySystem
 
         public InventorySlot GetSlotByGo(GameObject slotGo) => slotUIs.GetValueOrDefault(slotGo);
 
+        /// <summary>
+        /// 해당 슬롯을 선택한다.
+        /// </summary>
+        /// <param name="selectedGo">null일 경우 아무것도 선택하지 않는다.</param>
         public void SelectSlot(GameObject selectedGo)
         {
             if(selectedGo == _selectedSlot || slotUIs.ContainsKey(selectedGo) == false)

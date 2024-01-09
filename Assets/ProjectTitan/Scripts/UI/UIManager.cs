@@ -46,7 +46,7 @@ namespace Titan.UI
         public HudUIController HudUIController => _HudScene as HudUIController;
 
         [System.Serializable]
-        public struct RarityColor
+        public class RarityColor
         {
             public Color Common;
             public Color Uncommon;

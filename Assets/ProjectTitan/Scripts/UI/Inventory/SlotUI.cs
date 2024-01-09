@@ -16,6 +16,14 @@ namespace Titan
             }
         }
 
+        public Color RarityColor{
+            set {
+                if(!_rarityBackground)
+                    return;
+                _rarityBackground.color = value;
+            }
+        }
+
         public string ItemNameText{
             set{
                 if(!_text)
@@ -41,6 +49,8 @@ namespace Titan
         }
 
         [SerializeField] private Image _icon;
+        [SerializeField] private Image _rarityBackground;
+        [SerializeField] private Color _rarityColor;
         [SerializeField] private TMP_Text _text;
         [SerializeField] private TMP_Text _desc;
         [SerializeField] private TMP_Text _type;

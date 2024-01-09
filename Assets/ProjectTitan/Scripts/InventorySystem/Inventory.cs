@@ -8,8 +8,7 @@ using Titan.InventorySystem.Items;
 namespace Titan.InventorySystem
 {
     /// <summary>
-    /// Wrapper of Inventory Container
-    /// Logic is on InventoryObject
+    /// 인벤토리 컨테이너의 Wrapper 클래스
     /// </summary>
     [System.Serializable]
     public class Inventory
