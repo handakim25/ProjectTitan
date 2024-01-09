@@ -52,7 +52,7 @@ MonoBehaviour:
     - ChoiceText: "\uC5F4\uC1E0\uB97C \uAC00\uC838\uC654\uC5B4."
       NextNode: 47d6422f-8776-49a4-919d-22aa9d5e8fa0
       Condition:
-        Type: 1
+        Type: 3
         ExpectedBool: 1
         Requirements:
         - Type: 1
@@ -60,6 +60,11 @@ MonoBehaviour:
           TargetID: 7
           TargetCount: 1
           QuestStatus: 0
+        - Type: 3
+          ExpectedBool: 1
+          TargetID: Test_Quest
+          TargetCount: 0
+          QuestStatus: 1
   - NodeID: 4d76cd99-42d5-4eb9-b268-6fef4b1db04e
     NextNode: 9d881225-05a2-41ba-b0b0-d6f8179261f4
     SpeakerName: 
