@@ -13,24 +13,31 @@ using Titan.InventorySystem.Items;
 namespace Titan.UI.InventorySystem
 {
     /// <summary>
-    /// Invenotry UI Scene 중에서 Inventory를 직접 관리하는 클래스
+    /// Inventory UI 중에서 Inventory Vierw만을 담당하는 클래스.
+    /// Detail Slot은 다른 클래스에서 담당한다.
     /// </summary>
     public class InventoryUI : MonoBehaviour
     {
         #region Variables
         
         [SerializeField] GameObject _slotPrefab;
-
         [SerializeField] ScrollRect _inventoryScroll;
-        // None : Show all
+        /// <summary>
+        /// 표시할 아이템 타입을 지정. None이면 모든 타입을 표시한다.
+        /// </summary>
+        [Tooltip("표시할 아이템 타입을 지정. None이면 모든 타입을 표시한다.")]
         [SerializeField] List<ItemType> _allowedType = new List<ItemType>();
 
         public Dictionary<GameObject, InventorySlot> slotUIs = new Dictionary<GameObject, InventorySlot>();
+        /// <summary>
+        /// 마지막으로 생성된 슬롯의 인덱스. Scene에서 구분하기 위해서 사용될 뿐이며 생성될 때마다 늘어나기만 한다.
+        /// </summary>
         private int _lastSlotIndex;
         private GameObject _selectedSlot;
 
         /// <summary>
-        /// Argument : If nothing is selected, slot is null.
+        /// Slot이 선택되었을 때 호출되는 이벤트
+        /// <para> 선택된 것이 없을 경우 null을 인자로 호출한다. </para>
         /// </summary>
         public System.Action<InventorySlot> OnSlotSelected;
         
@@ -38,35 +45,37 @@ namespace Titan.UI.InventorySystem
 
         #region Properties
         
+        /// <summary>
+        /// 현재 선택된 슬롯의 InventorySlot 객체를 반환. 선택된 슬롯이 없으면 null을 반환한다.
+        /// </summary>
         public InventorySlot SelectedSlot => _selectedSlot ? slotUIs[_selectedSlot] : null;
+        /// <summary>
+        /// 현재 UI의 모든 슬롯 개수를 반환. 비활성화된 슬롯도 포함한다.
+        /// </summary>
         public int SlotCount => _inventoryScroll.content.transform.childCount;
 
         #endregion Properties
 
         #region UnityMethods
         
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
         private void Awake()
         {
-            // Expect value is not null
             Assert.IsNotNull(_inventoryScroll, "Content is not assigned in the inspector");
             Assert.IsNotNull(_slotPrefab, "Slot prefab is not assigned in the inspector");
         }
 
         /// <summary>
-        /// 비활성화되면 초기화한다.
+        /// 비활성화되면 초기화한다. 
         /// </summary>
         private void OnDisable()
         {
             _lastSlotIndex = 0;
-            DestroySlots();
+            DestroyAllSlots();
         }
 
         #endregion UnityMethods
 
-        #region Methods
+        #region Slots
 
         public void CreateSlots(List<InventorySlot> slotList)
         {
@@ -75,58 +84,17 @@ namespace Titan.UI.InventorySystem
             foreach(InventorySlot slot in slotList)
             {
                 GameObject slotGo = CreateSlot(parent);
+                slotGo.name += $": {_lastSlotIndex++}";
 
                 slot.SlotUI = slotGo;
                 slot.OnPostUpdate += OnPostUpdate;
 
                 slotUIs.Add(slotGo, slot);
-                slotGo.name += $": {_lastSlotIndex++}";
                 slot.UpdateSlot(slot.item, slot.amount);
             }
+
             OrderSlot();
             ApplyFilter();
-        }
-
-        // First version : 효율성은 생각하지 않는다.
-        private void ApplyFilter()
-        {
-            if(_allowedType.Contains(ItemType.None) || _allowedType.Count == 0)
-            {
-                return;
-            }
-
-            foreach(var slot in slotUIs.Values)
-            {
-                bool isActive = IsFilteredSlot(slot);
-                slot.SlotUI.SetActive(isActive);
-            }
-        }
-
-        private void OrderSlot()
-        {
-            var slots = new List<InventorySlot>(slotUIs.Values);
-            slots.Sort((slotA, slotB) => ItemSort.CompareByID(slotA.item, slotB.item));
-            for(int i = 0; i < slots.Count; ++i)
-            {
-                slots[i].SlotUI.transform.SetSiblingIndex(i);
-            }
-        }
-
-        private void OnPostUpdate(InventorySlot slot)
-        {
-            if(slot == null || slot.SlotUI == null || slot.amount <= 0)
-                return;
-
-            ItemObject itemObject = DataManager.ItemDatabase.GetItemObject(slot.item.id);
-
-            if(slot.SlotUI.TryGetComponent<SlotUI>(out var slotUi))
-            {
-                slotUi.IconImage = itemObject.icon;
-            }
-            else
-            {
-                Debug.LogWarning($"Slot UI is missing");
-            }
         }
 
         private GameObject CreateSlot(Transform parent)
@@ -148,22 +116,18 @@ namespace Titan.UI.InventorySystem
         {
             foreach(InventorySlot slot in slotList)
             {
-                Debug.Log($"Destroy slot");
                 DestroySlot(slot);
             }
         }
 
-        protected void DestroySlots()
+        protected void DestroyAllSlots()
         {
             // key : SlotGo, value : InventorySlot
-            // Caution: Do not access slot dictionary from other classes during destruction
-            foreach(var pair in slotUIs)
+            // 주의 : 파괴 중에는 다른 클래스에서 slot dictionary에 접근하지 말 것.
+            foreach(var (slotGo, slot) in slotUIs)
             {
-                var slot = pair.Value;
                 slot.OnPostUpdate -= OnPostUpdate;
                 slot.SlotUI = null;
-
-                var slotGo = pair.Key;
                 Destroy(slotGo);
             }
 
@@ -185,23 +149,39 @@ namespace Titan.UI.InventorySystem
             slot.SlotUI = null;
         }
 
+        private void OnPostUpdate(InventorySlot slot)
+        {
+            if(slot == null || slot.SlotUI == null || slot.amount <= 0)
+                return;
+
+            ItemObject itemObject = DataManager.ItemDatabase.GetItemObject(slot.item.id);
+
+            if(slot.SlotUI.TryGetComponent<SlotUI>(out var slotUi))
+            {
+                slotUi.IconImage = itemObject.icon;
+            }
+            else
+            {
+                Debug.LogWarning($"Slot UI is missing");
+            }
+        }
+
         protected void AddEvent(GameObject go, EventTriggerType type, UnityAction<BaseEventData> action)
         {
-            EventTrigger trigger = go.GetComponent<EventTrigger>();
-            if(trigger == null)
+            if(go.TryGetComponent<EventTrigger>(out var trigger) == false)
             {
                 Debug.LogWarning($"No Event trigger component found!");
                 return;
             }
 
-            EventTrigger.Entry eventTrigger = new EventTrigger.Entry { eventID = type };   
+            EventTrigger.Entry eventTrigger = new() { eventID = type };   
             eventTrigger.callback.AddListener(action);
             trigger.triggers.Add(eventTrigger);
         }
 
-        #endregion Methods
+        #endregion Slots
 
-        #region Methods for Slot UI
+        #region Slot UI Event Callback
         
         public void OnEnter(GameObject go)
         {
@@ -249,7 +229,7 @@ namespace Titan.UI.InventorySystem
             _inventoryScroll.OnEndDrag(data);
         }
 
-        #endregion Methods for Slot UI
+        #endregion Slot UI Event Callback
 
         #region public Methods
 
@@ -262,8 +242,8 @@ namespace Titan.UI.InventorySystem
             if(slotUIs.Count == 0)
                 return null;
 
-            // I cannot find that linq gaurantees the order
-            // If there is a problem on order, change to for loop.
+            // Linq가 순서를 보장하는지 찾지 못했다.
+            // 만약에 순서가 보장되지 않는다면 for loop로 변경할 것.
             var slot = _inventoryScroll.content.Cast<Transform>()
                             .Select(child => child.gameObject)
                             .FirstOrDefault(slogGo => slogGo.activeSelf);
@@ -274,22 +254,21 @@ namespace Titan.UI.InventorySystem
 
         public void SelectSlot(GameObject selectedGo)
         {
+            if(selectedGo == _selectedSlot || slotUIs.ContainsKey(selectedGo) == false)
+            {
+                return;
+            }
             if(_selectedSlot != null)
             {
                 _selectedSlot.GetComponent<TweenButton>().Deselect();
             }
-            if(selectedGo == null)
-            {
-                _selectedSlot = null;
-                OnSlotSelected?.Invoke(null);
-                return;
-            }
-            if(!slotUIs.ContainsKey(selectedGo))
-                return;
 
             _selectedSlot = selectedGo;
-            _selectedSlot.GetComponent<TweenButton>().Select();
-            OnSlotSelected?.Invoke(slotUIs[selectedGo]);
+            if(_selectedSlot != null)
+            {
+                _selectedSlot.GetComponent<TweenButton>().Select();
+            }
+            OnSlotSelected?.Invoke(SelectedSlot);
         }
 
         public GameObject GetSlotByIndex(int index)
@@ -301,21 +280,17 @@ namespace Titan.UI.InventorySystem
 
         public bool IsValidSlot(GameObject slotUI)
         {
-            if(slotUI == null)
+            if(slotUI == null || slotUIs.ContainsKey(slotUI) == false)
             {
                 return false;
             }
-            if(!slotUIs.ContainsKey(slotUI))
-            {
-                return false;
-            }
-
-            InventorySlot slot = slotUIs[slotUI];
-            ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
             if(_allowedType.Contains(ItemType.None) || _allowedType.Count ==0)
             {
                 return true;
             }
+
+            InventorySlot slot = slotUIs[slotUI];
+            ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
             return _allowedType.Contains(item.type);
         }
 
@@ -336,12 +311,49 @@ namespace Titan.UI.InventorySystem
             ApplyFilter();
         }
 
+        #endregion Public Methods
+
+        #region Filter Slot
+        
+        /// <summary>
+        /// Item ID에 따라 정렬
+        /// </summary>
+        private void OrderSlot()
+        {
+            var slots = new List<InventorySlot>(slotUIs.Values);
+            slots.Sort((slotA, slotB) => ItemSort.CompareByID(slotA.item, slotB.item));
+            for(int i = 0; i < slots.Count; ++i)
+            {
+                slots[i].SlotUI.transform.SetSiblingIndex(i);
+            }
+        }
+
+        // First version : 효율성은 생각하지 않는다.
+        private void ApplyFilter()
+        {
+            if(_allowedType.Contains(ItemType.None) || _allowedType.Count == 0)
+            {
+                return;
+            }
+
+            foreach(var slot in slotUIs.Values)
+            {
+                bool isActive = IsFilteredSlot(slot);
+                slot.SlotUI.SetActive(isActive);
+            }
+        }
+
+        /// <summary>
+        /// 해당 슬롯이 허용된 타입인지 확인.
+        /// </summary>
+        /// <param name="slot"></param>
+        /// <returns></returns>
         private bool IsFilteredSlot(InventorySlot slot)
         {
             ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
             return _allowedType.Contains(item.type);
         }
-
-        #endregion Methods
+        
+        #endregion Filter Slot
     }
 }

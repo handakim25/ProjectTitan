@@ -10,7 +10,7 @@ using Titan.InventorySystem.Items;
 namespace Titan.UI.InventorySystem
 {
     /// <summary>
-    /// Invenotry UI Scene의 전체적인 작동을 관리하는 클래스
+    /// Invenotry UI의 Controller
     /// </summary>
     public class InventoryUIController : MonoBehaviour
     {
@@ -33,9 +33,6 @@ namespace Titan.UI.InventorySystem
 
         #region UnityMethods
 
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
         private void Awake()
         {
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryObject, "Inventory is not set");
@@ -162,7 +159,6 @@ namespace Titan.UI.InventorySystem
 
         private void OnDetailSlotPostUpdate(InventorySlot slot)
         {
-            // Debug.Log($"OnDetailSlotPostUpdate");
             // Empty Selected Slot
             if(!slot.IsValid)
             {

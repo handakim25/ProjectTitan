@@ -7,7 +7,7 @@ using DG.Tweening;
 namespace Titan.UI
 {
     /// <summary>
-    /// Inventory UI Scene을 관리하는 클래스
+    /// Scene 전체를 관리
     /// </summary>
     public class InventoryUIScene : UIScene
     {
