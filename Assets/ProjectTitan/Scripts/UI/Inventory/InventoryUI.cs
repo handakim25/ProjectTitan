@@ -263,15 +263,19 @@ namespace Titan.UI.InventorySystem
         /// <param name="selectedGo">null일 경우 아무것도 선택하지 않는다.</param>
         public void SelectSlot(GameObject selectedGo)
         {
-            if(selectedGo == _selectedSlot || slotUIs.ContainsKey(selectedGo) == false)
+            if(_selectedSlot == selectedGo
+                || (selectedGo != null && slotUIs.ContainsKey(selectedGo) == false))
             {
                 return;
             }
+
+            // Deselect current slot
             if(_selectedSlot != null)
             {
                 _selectedSlot.GetComponent<TweenButton>().Deselect();
             }
 
+            // Select current slot
             _selectedSlot = selectedGo;
             if(_selectedSlot != null)
             {
