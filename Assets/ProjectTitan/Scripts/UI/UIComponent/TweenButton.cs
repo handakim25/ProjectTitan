@@ -78,19 +78,21 @@ namespace Titan
             // Hover image
             if(_targetImage && !_isClicked)
             {
-                Sequence enterSequence = DOTween.Sequence();
-                enterSequence.Append(_targetImage.transform.DOScale(_highlightScale, TransitionTime));
-                enterSequence.Join(_targetImage.DOColor(_hightlightedColor, TransitionTime));
-                enterSequence.SetTarget(transform);
+                Sequence enterSequence = DOTween.Sequence()
+                    .Append(_targetImage.transform.DOScale(_highlightScale, TransitionTime))
+                    .Join(_targetImage.DOColor(_hightlightedColor, TransitionTime))
+                    .SetTarget(transform)
+                    .SetUpdate(true);
             }
             // Button was clicked before enter.
             // Go to clicked state
             else if(_targetImage && _isClicked)
             {
-                Sequence enterClickSequence = DOTween.Sequence();
-                enterClickSequence.Append(_targetImage.transform.DOScale(_pressedScale, TransitionTime));
-                enterClickSequence.Join(_targetImage.DOColor(_pressedColor, TransitionTime));
-                enterClickSequence.SetTarget(transform);
+                Sequence enterClickSequence = DOTween.Sequence()
+                    .Append(_targetImage.transform.DOScale(_pressedScale, TransitionTime))
+                    .Join(_targetImage.DOColor(_pressedColor, TransitionTime))
+                    .SetTarget(transform)
+                    .SetUpdate(true);
             }
         }
 
@@ -102,10 +104,11 @@ namespace Titan
             // Go to normal state
             if(_targetImage)
             {
-                Sequence exitSequence = DOTween.Sequence();
-                exitSequence.Append(_targetImage.transform.DOScale(_normalScale, TransitionTime));
-                exitSequence.Join(_targetImage.DOColor(_normalColor, TransitionTime));
-                exitSequence.SetTarget(transform);
+                Sequence exitSequence = DOTween.Sequence()
+                    .Append(_targetImage.transform.DOScale(_normalScale, TransitionTime))
+                    .Join(_targetImage.DOColor(_normalColor, TransitionTime))
+                    .SetTarget(transform)
+                    .SetUpdate(true);
             }
         }
 
@@ -119,10 +122,11 @@ namespace Titan
 
             if(_targetImage)
             {
-                Sequence pressedSequence = DOTween.Sequence();
-                pressedSequence.Append(_targetImage.transform.DOScale(_pressedScale, TransitionTime));
-                pressedSequence.Join(_targetImage.DOColor(_pressedColor, TransitionTime));
-                pressedSequence.SetTarget(transform);
+                Sequence pressedSequence = DOTween.Sequence()
+                    .Append(_targetImage.transform.DOScale(_pressedScale, TransitionTime))
+                    .Join(_targetImage.DOColor(_pressedColor, TransitionTime))
+                    .SetTarget(transform)
+                    .SetUpdate(true);
             }
         }
         
