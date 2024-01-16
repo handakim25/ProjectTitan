@@ -11,30 +11,38 @@ namespace Titan
 {
     public class TweenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
     {
-
+        #region Varaibles
+        
         [SerializeField] protected Image _targetImage; // image in child
 
+        [Tooltip("트위닝 되는 시간")]
         [field : SerializeField] public float TransitionTime {get; protected set;} = 1.0f;
 
+        [Header("Color")]
         [SerializeField] protected Color _normalColor = Color.white;
         [SerializeField] protected Color _hightlightedColor = Color.white;
         [SerializeField] protected Color _pressedColor = Color.white;
         [SerializeField] protected Color _selectedColor = Color.white;
 
+        [Header("Scale")]
+        [SerializeField] protected Vector3 _highlightScale = new(1, 1, 1);
+        [SerializeField] protected Vector3 _pressedScale = new(1, 1, 1);
+        [SerializeField] protected Vector3 _selectedScale = new(1, 1, 1);
         private Vector3 _normalScale;
-        [SerializeField] protected Vector3 _highlightScale = new Vector3(1, 1, 1);
-        [SerializeField] protected Vector3 _pressedScale = new Vector3(1, 1, 1);
-        [SerializeField] protected Vector3 _selectedScale = new Vector3(1, 1, 1);
 
+        [Space]
         public UnityEvent OnButtonSelected;
         public UnityEvent OnButtonDeslected;
 
-        bool _isClicked = false;
+        // button이 클릭 중인지 확인하는 변수
+        bool _isPressed = false;
+        // tab button, inventory 버튼 같이 선택된 상태를 위한 변수
         bool _isSelected = false;
+        
+        #endregion Varaibles
 
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
+        #region Unity Methods
+        
         private void Awake()
         {
             _normalScale = transform.localScale;
@@ -52,8 +60,10 @@ namespace Titan
         // 최대한 독립적으로 작동하도록 작성할 것.
         private void OnEnable()
         {
-            _isClicked = false;
+            _isPressed = false;
         }
+        
+        #endregion Unity Methods
 
         #region EventSystem Callback
         
@@ -69,14 +79,16 @@ namespace Titan
         public void OnPointerEnter(PointerEventData eventData)
         {
             if(_isSelected)
+            {
                 return;
+            }
 
             // 만약 PointerExit 등의 Tween이 있으면 취소
             DOTween.Kill(transform);
 
             // Button is not clicked yet.
             // Hover image
-            if(_targetImage && !_isClicked)
+            if(_targetImage && !_isPressed)
             {
                 Sequence enterSequence = DOTween.Sequence()
                     .Append(_targetImage.transform.DOScale(_highlightScale, TransitionTime))
@@ -86,7 +98,7 @@ namespace Titan
             }
             // Button was clicked before enter.
             // Go to clicked state
-            else if(_targetImage && _isClicked)
+            else if(_targetImage && _isPressed)
             {
                 Sequence enterClickSequence = DOTween.Sequence()
                     .Append(_targetImage.transform.DOScale(_pressedScale, TransitionTime))
@@ -118,7 +130,7 @@ namespace Titan
             if(_isSelected)
                 return;
 
-            _isClicked = true;
+            _isPressed = true;
 
             if(_targetImage)
             {
@@ -157,7 +169,7 @@ namespace Titan
         public virtual void Deselect()
         {
             _isSelected = false;
-            _isClicked = false;
+            _isPressed = false;
 
             if(_targetImage)
             {
@@ -171,7 +183,7 @@ namespace Titan
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _isClicked = false;
+            _isPressed = false;
         }
 
         #endregion Methods
