@@ -37,6 +37,17 @@ namespace Titan.UI
         /// Skill Pannel을 관리하는 Controller
         /// </summary>
         private SkillPannelController _skillPannelController;
+        private SkillPannelController SkillPannelController
+        {
+            get
+            {
+                if(_skillPannelController == null && _skillPannel != null)
+                {
+                    _skillPannelController = _skillPannel.GetComponent<SkillPannelController>();
+                }
+                return _skillPannelController;
+            }
+        }
 
         [Header("Animation")]
         [Tooltip("UI가 열릴때 걸리는 시간")]
@@ -167,16 +178,21 @@ namespace Titan.UI
             }
         }
 
-        public void InitPlayerView(PlayerStatus status)
+        /// <summary>
+        /// Player View를 초기화한다. 만약에 초기화에 실패하면 false를 반환한다.
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public bool InitPlayerView(PlayerStatus status)
         {
-            if(_skillPannelController != null)
-            {
-                _skillPannelController.InitSkillData(status);
-            }
-            else
+            if(SkillPannelController == null)
             {
                 Debug.LogError("Skill Pannel Controller is not found");
+                return false;
             }
+
+            SkillPannelController.InitSkillData(status);
+            return true;
         }
 
         /// <summary>
@@ -186,9 +202,9 @@ namespace Titan.UI
         public void UpdatePlayerData(PlayerStatus status)
         {
             // // Skill Control
-            if(_skillPannelController != null)
+            if(SkillPannelController != null)
             {
-                _skillPannelController.UpdateSkillData(status);
+                SkillPannelController.UpdateSkillData(status);
             }
             else
             {

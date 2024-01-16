@@ -4,21 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using TMPro;
 
 using Titan.Interaction;
-using Titan.Utility;
 
 namespace Titan.UI.Interaction
 {
-    // @Think
-    // Slot 객체가 필요한가?
-    // 없이 작업할려니까 조금 불편한데
-    // Note : Interact로 사라지는 것과 거리 밖으로 넘어가서 없어지는 것은 다르다.
-    // @refactor
-    // Selection 부분 개선할 것
-    // 문제점1. 순서에 너무 민감하게 작동하고 있는 점
-    // 문제점2. List가 과연 맞는 선택인가 하는 점
+    // @Further-Work
+    // 1. 처음부터 비활성화 시에 OnEnable 호출 순서가 바뀌는 문제로 객체 참조 문제가 발생. 안정적으로 동작하도록 수정할 것. Start로 일부 함수로 옮겨서 해결
+    // 1-2. 혹은 Interaction Controller에서 Interactoin View를 생성한다.
+    // 2. Slot을 매번 생성할 필요 없이 Object Pooling으로 수정
 
     /// <summary>
     /// Interaction Panel에서 View를 담당하는 클래스
@@ -34,7 +30,8 @@ namespace Titan.UI.Interaction
         [SerializeField] private Vector2 _interactIconOffset = Vector2.zero;
         [SerializeField] private RectTransform _interactCursor;
         private Color _normalColor;
-        [SerializeField] private Color _hightlightColor = Color.cyan;
+        [FormerlySerializedAs("_hightlightColor")]
+        [SerializeField] private Color _selectColor = Color.cyan;
 
         private ScrollRect _scrollRect;
         private RectTransform _contentRectTransform;
@@ -46,9 +43,7 @@ namespace Titan.UI.Interaction
         [SerializeField] private GameObject _selectedSlot = null;
         public GameObject SelectedSlot => _selectedSlot;
         public int SlotCount => _interactionUIs.Count;
-        public int ChildCount => _scrollRect.content.childCount;
-
-        private Canvas _canvas;
+        public int ChildCount => _scrollRect != null ? _scrollRect.content.childCount : 0;
         
         #endregion Varaibles
 
@@ -60,7 +55,6 @@ namespace Titan.UI.Interaction
             _scrollRect = GetComponent<ScrollRect>();
             _contentRectTransform = _scrollRect.content.GetComponent<RectTransform>();
 
-            _canvas = GetComponentInParent<Canvas>();
             _normalColor = _slotPrefab.GetComponent<Image>().color;
         }
         
@@ -68,13 +62,15 @@ namespace Titan.UI.Interaction
 
         #region Methods
         
-        public void AddSlot(GameObject[] interactObjects)
+        public void AddSlots(GameObject[] interactObjects)
         {
             Transform parent = _scrollRect.content.transform;
             foreach(GameObject interactObject in interactObjects)
             {
                 GameObject slotUI = CreateSlot(parent);
                 
+                // @Refactor
+                // InteractionUI가 필요 없을 수도 있다. 간략화시킬 수 있는 방향이 있다면 고려할 것
                 SetInteractSlot(slotUI, interactObject.GetComponentInParent<Interactable>());
                 var interactionUI = slotUI.GetComponent<InteractionUI>();
                 interactionUI.Interactable = interactObject;
@@ -82,7 +78,7 @@ namespace Titan.UI.Interaction
                 slotUI.name += $"_{interactObject.name}";
             }
 
-            // Slot이 추가됬으므로 적어도 하나는 선택된다.
+            // 비어있는 상태에서 처음 슬롯을 추가할 때
             if(_selectedSlot == null)
             {
                 for(int i = 0; i< parent.childCount; i++)
@@ -95,18 +91,18 @@ namespace Titan.UI.Interaction
                     }
                 }
             }
+            // 기존 슬롯이 있을 때
             else
             {
                 SetCursorPos();
             }
+
             if(_interactIconObject.activeSelf == false)
             {
                 _interactIconObject.SetActive(true);
             }
         }
 
-        // Think
-        // 유틸리티적으로 쓰는 함수는 클래스 상태에 의존하기 보다는 독립적으로 작동하도록 하자.
         private GameObject CreateSlot(Transform parent)
         {
             GameObject slotUI = Instantiate(_slotPrefab, parent);
@@ -181,7 +177,7 @@ namespace Titan.UI.Interaction
             _selectedSlot = selectedSlot;
             if(_selectedSlot != null && _selectedSlot.TryGetComponent<Image>(out var image))
             {
-                image.color = _hightlightColor;
+                image.color = _selectColor;
             }
             SetCursorPos();
         }
@@ -247,14 +243,14 @@ namespace Titan.UI.Interaction
         {
             if(index < 0)
             {
-                Debug.Log($"index invalid");
-                Debug.Log($"index : {index}");
+                Debug.Log($"Index invalid");
+                Debug.Log($"Index : {index}");
                 Debug.Log($"Count : {SlotCount}");
             }
             if(_scrollRect.content.transform.childCount <= index)
             {
                 Debug.Log($"Index invalid");
-                Debug.Log($"index : {index}");
+                Debug.Log($"Index : {index}");
                 Debug.Log($"Count : {SlotCount}");
             }
             return _scrollRect.content.transform.GetChild(index).gameObject;

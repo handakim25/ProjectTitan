@@ -22,12 +22,13 @@ namespace Titan.UI.Interaction
             UIManager.Instance.OnInteractScrollEvent += OnInteractScrollHandler;
             _interactionList.OnInteractChanged += InteractSlotChagned;
 
-            _view.AddSlot(_interactionList.interactObjects.ToArray());
+            _view.AddSlots(_interactionList.interactObjects.ToArray());
             StartCoroutine(WaitRebuild());
         }
 
         private void OnDisable()
         {
+            // 종료되는 시점에는 UIManager가 존재하지 않을 수 있다.
             if(UIManager.Instance != null)
             {
                 UIManager.Instance.OnInteractEvent -= OnInteractHandler;
@@ -37,6 +38,7 @@ namespace Titan.UI.Interaction
             _view.Clear();
         }
 
+        // 다른 UI 요소들이 업데이트 되는 것을 기다린다.
         IEnumerator WaitRebuild()
         {
             yield return new WaitForEndOfFrame();
@@ -45,7 +47,7 @@ namespace Titan.UI.Interaction
         }
 
         /// <summary>
-        /// InteractionList부터 Callback을 받는 함수.
+        /// Interaction List의 Slot이 변경되었을 때 호출되는 콜백 함수
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
@@ -78,7 +80,7 @@ namespace Titan.UI.Interaction
             }
             if(args.AddedObjects != null)
             {
-                _view.AddSlot(args.AddedObjects);
+                _view.AddSlots(args.AddedObjects);
             }
             _view.UpdateGuideIcon();
 
@@ -91,19 +93,23 @@ namespace Titan.UI.Interaction
         }
 
         /// <summary>
-        /// startIndex를 제외한 Slot을 선택한다.
+        /// startIndex를 제외한 Slot을 선택한다. start index 다음을 우선으로 찾고 없을 경우 start index의 역순으로 찾는다.
         /// </summary>
-        /// <param name="startIndex"></param>
-        /// <returns></returns>
+        /// <param name="startIndex">찾기 시작할 index, 해당 index를 제외하고 찾는다.</param>
+        /// <returns>찾지 못햇을 경우 null</returns>
         private GameObject FindNextSelect(int startIndex)
         {
+            if(startIndex < 0 || startIndex >= _view.ChildCount)
+            {
+                Debug.LogError($"Invalid Start Index : {startIndex}");
+                return null;
+            }
+
             // Bug Fix
             // Object는 Update 이후에 삭제가 되기 때문에
-            // 현재 Loop는 ChildCount만큼 순회를 해야한다.
-            for(int i = 0; i < _view.ChildCount; ++i)
-            {
-                GameObject interacionUI = _view.GetSlotUIByIndex(i);
-            }
+            // 현재 Loop는 interaction 개수가 아니라 ChildCount만큼 순회를 해야한다.
+
+            // 원래 slot 다음부터 찾는다.
             for(int i = startIndex + 1; i < _view.ChildCount; i++)
             {
                 GameObject interactionUI = _view.GetSlotUIByIndex(i);
@@ -112,6 +118,7 @@ namespace Titan.UI.Interaction
                     return interactionUI;
                 }
             }
+            // 찾지 못했을 경우 역순으로 찾는다.
             for(int i = startIndex - 1; i >= 0; --i)
             {
                 GameObject interactionUI = _view.GetSlotUIByIndex(i);
@@ -149,6 +156,7 @@ namespace Titan.UI.Interaction
             }
         }
 
+        // 마우스 휠 스크롤에 대한 콜백 함수
         public void OnInteractScrollHandler(Vector2 scroll)
         {
             if(_view.SelectedSlot == null)
