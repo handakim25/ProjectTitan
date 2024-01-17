@@ -11,7 +11,8 @@ using Titan.InventorySystem.Items;
 namespace Titan
 {
     /// <summary>
-    /// Data들을 가지고 있는 오브젝트
+    /// Data들을 가지고 있는 오브젝트, Start에서 데이터를 로드하므로 초기화 과정에서 데이터를 참조하지 않도록 주의
+    /// 또한, 게임 진행은 초기화를 거치도록 한다.
     /// </summary>
     public class DataManager : MonoBehaviour
     {
