@@ -352,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.86857384, b: 0.6179246, a: 1}
+  m_Color: {r: 1, g: 0.86666673, b: 0.61960787, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -395,6 +395,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _icon: {fileID: 4301413112453364714}
+  _rarityBackground: {fileID: 0}
+  _rarityColor: {r: 0, g: 0, b: 0, a: 0}
   _text: {fileID: 0}
   _desc: {fileID: 0}
   _type: {fileID: 0}
@@ -419,9 +421,9 @@ MonoBehaviour:
   _highlightScale: {x: 1.2, y: 1.2, z: 1.2}
   _pressedScale: {x: 1.2, y: 1.2, z: 1.2}
   _selectedScale: {x: 1.2, y: 1.2, z: 1.2}
-  OnTabSelected:
+  OnButtonSelected:
     m_PersistentCalls:
       m_Calls: []
-  OnTabDeslected:
+  OnButtonDeslected:
     m_PersistentCalls:
       m_Calls: []
