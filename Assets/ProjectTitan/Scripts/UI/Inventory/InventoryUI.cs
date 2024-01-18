@@ -12,6 +12,9 @@ using Titan.InventorySystem.Items;
 
 namespace Titan.UI.InventorySystem
 {
+    // @Refactor
+    // Tween Button으로 기능 분할
+
     /// <summary>
     /// Inventory UI 중에서 Inventory Vierw만을 담당하는 클래스.
     /// Detail Slot은 다른 클래스에서 담당한다.
@@ -159,6 +162,11 @@ namespace Titan.UI.InventorySystem
                 return;
 
             ItemObject itemObject = DataManager.ItemDatabase.GetItemObject(slot.item.id);
+            if(itemObject == null)
+            {
+                Debug.LogError($"ItemObject is null. id : {slot.item.id}");
+                return;
+            }
 
             if(slot.SlotUI.TryGetComponent<SlotUI>(out var slotUi))
             {
@@ -175,8 +183,7 @@ namespace Titan.UI.InventorySystem
         {
             if(go.TryGetComponent<EventTrigger>(out var trigger) == false)
             {
-                Debug.LogWarning($"No Event trigger component found!");
-                return;
+                trigger = go.AddComponent<EventTrigger>();
             }
 
             EventTrigger.Entry eventTrigger = new() { eventID = type };   
