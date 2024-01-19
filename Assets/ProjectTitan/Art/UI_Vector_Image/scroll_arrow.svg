@@ -77,6 +77,9 @@
        id="path2"
        sodipodi:nodetypes="ccccc"
        inkscape:path-effect="#path-effect2"
-       inkscape:original-d="M 16.933333,0 0,5.2916667 V 62.441667 l 16.933333,5.291665 z" />
+       inkscape:original-d="M 16.933333,0 0,5.2916667 V 62.441667 l 16.933333,5.291665 z"
+       inkscape:export-filename="..\..\ResourcesData\Resources\Textures\UI\scroll_arrow.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
   </g>
 </svg>
