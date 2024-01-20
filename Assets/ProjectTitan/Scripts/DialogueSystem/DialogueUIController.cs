@@ -160,7 +160,7 @@ namespace Titan.DialogueSystem
             var choiceContent = _choicePanel.GetComponent<ScrollRect>().content;
             foreach(var choice in choices)
             {
-                var choiceButton = Instantiate(Resources.Load<GameObject>("Prefabs/UI/DialogueChoiceButton"), choiceContent.transform);
+                var choiceButton = Instantiate(Resources.Load<GameObject>("Prefabs/UI/DialogueChoiceButtonPrefab"), choiceContent.transform);
                 choiceButton.GetComponentInChildren<TextMeshProUGUI>().text = choice;
                 choiceButton.GetComponent<Button>().onClick.AddListener(() => OnChoiceSelected?.Invoke(choice));
             }
