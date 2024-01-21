@@ -15,14 +15,11 @@ MonoBehaviour:
   Quest:
     QuestIndex: 0
     QuestID: Next_Quest
-    QuestName: 
-    QuestDescription: 
+    QuestName: "\uD14C\uC2A4\uD2B8 \uD018\uC2A4\uD2B8 \uC81C\uBAA9"
+    QuestDescription: "\uD14C\uC2A4\uD2B8\uC6A9 \uD018\uC2A4\uD2B8\uC785\uB2C8\uB2E4."
     Type: 0
-    QuestGoal:
-    - Type: 1
-      ExpectedBool: 0
-      RequireID: 
-      RequireCount: 0
+    QuestObjectDescription: []
+    QuestObjectRequirement: []
     QuestAcceptCondition: []
     QuestRewardGold: 0
     QuestRewardExp: 0
