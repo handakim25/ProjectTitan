@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +15,13 @@ namespace Titan.UI
     /// </summary>
     public class QuestUIController : MonoBehaviour
     {
-        [Header("UI")]
+        [Header("UI/퀘스트 선택")]
+        [Tooltip("퀘스트 목록을 표시하는 ScrollRect")]
         [SerializeField] private ScrollRect _questListScrollRect;
         [FormerlySerializedAs("_questItemPrefab")]
         [SerializeField] private GameObject _qusetSelectPrefab;
-        [Space]
+
+        [Header("UI/퀘스트 상세 정보")]
         [Tooltip("퀘스트 제목을 표시")]
         [SerializeField] private TextMeshProUGUI _questTitleText;
         [Tooltip("퀘스트 목표를 표시")]
@@ -26,26 +29,44 @@ namespace Titan.UI
         [Tooltip("퀘스트 설명을 표시")]
         [SerializeField] private TextMeshProUGUI _questDescriptionText;
 
+        [Space]
+        [SerializeField] private GameObject _noQuestImage;
+
         /// <summary>
         /// 현재 표시되고 있는 퀘스트의 진행 상황 데이터
         /// </summary>
         private List<QuestProgressData> curAcceptedQuestList;
+        private GameObject _selectedQuestButton;
+        // Select로 넘어온 시점에 Button은 Select된 상태이다.
+        private GameObject SelectedQuestButton
+        {
+            get => _selectedQuestButton;
+            set
+            {
+                if(_selectedQuestButton == value)
+                {
+                    return;
+                }
+                if(_selectedQuestButton != null)
+                {
+                    _selectedQuestButton.GetComponent<TweenButton>().Deselect();
+                }
+                _selectedQuestButton = value;
+            }
+        }
 
         private void OnEnable()
         {
             curAcceptedQuestList = QuestManager.Instance.GetAcceptedQuestList();            
             CreateQuestItems();
-            if(curAcceptedQuestList.Count > 0)
+            if(_questListScrollRect.content.childCount > 0)
             {
-                ShowQuestDetail(QuestManager.Instance.GetQuest(curAcceptedQuestList[0].QuestID));
+                var firstGo  = _questListScrollRect.content.GetChild(0).gameObject;
+                firstGo.GetComponent<TweenButton>().Select();
+                SelectedQuestButton = firstGo; // Tab Button과도 유사하다. Group 기능을 추가하는 것도 고려할 법하다.
             }
-            else
-            {
-                _questTitleText.text = "No Quest";
-                _questObjectText.text = "";
-                _questDescriptionText.text = "";
-            }
-
+            ShowNoQuestImage(curAcceptedQuestList.Count == 0);
+            
             // @To-Do
             // 만약에 퀘스트 진행 사항을 클리어하는 부분이 있어서 갱신이 되어야 되는 상황이 있을 수 있다.
             // 그럴 경우 QuestManager를 Subscribe해서 갱신을 해줘야 한다.
@@ -82,10 +103,11 @@ namespace Titan.UI
             questSelectButton.GetComponentInChildren<TextMeshProUGUI>().text = quest.QuestName;
             if(questSelectButton.TryGetComponent<TweenButton>(out var tweenButton))
             {
-                tweenButton.OnButtonSelected.AddListener(() => ShowQuestDetail(quest));
+                tweenButton.OnButtonSelected.AddListener(() => OnQuestButtonClicked(questSelectButton, quest));
             }
             else
             {
+                // Tween Button에서 Animation 정보가 가지고 있기 때문에 없을 때 Tween Button을 추가하는 식으로 해결하지 않는다.
                 Debug.LogError($"No TweenButton Component in {questSelectButton.name}");
             }
         }
@@ -99,18 +121,51 @@ namespace Titan.UI
         }
 
         /// <summary>
+        /// Quest 선택이 클릭됬을 때의 Callback 함수
+        /// </summary>
+        /// <param name="clickedButton"></param>
+        /// <param name="questObject"></param>
+        private void OnQuestButtonClicked(GameObject clickedButton, Quest questObject)
+        {
+            SelectedQuestButton = clickedButton;
+            ShowQuestDetail(questObject);
+        }
+
+        /// <summary>
         /// 클릭됬을 때 Quest의 상세 정보를 보여줌
         /// </summary>
         /// <param name="questObject"></param>
         private void ShowQuestDetail(Quest questObject)
         {
+            Debug.Log($"Show Quset Detail : {questObject.QuestName}");
             _questTitleText.text = questObject.QuestName;
             _questObjectText.text = "";
-            foreach(var quest in questObject.QuestObjectDescription)
+            foreach(var quest in questObject.QuestObjectDescription ?? Enumerable.Empty<string>())
             {
                 _questObjectText.text += quest + "\n";
             }
             _questDescriptionText.text = questObject.QuestDescription;
         }
+
+        private void ShowNoQuestImage(bool isShow)
+        {
+            if(_noQuestImage ==  null)
+            {
+                return;
+            }
+            _noQuestImage.SetActive(isShow);
+        }
+
+#if UNITY_EDITOR
+        [ContextMenu("Accept Test Quest")]
+        private void AcceptTestQuest()
+        {
+            EventBus.RaiseEvent(new QuestEvent
+            {
+                QuestID = "Next_Quest",
+                Status = QuestStatus.Received,
+            });
+        }
     }
+#endif
 }
