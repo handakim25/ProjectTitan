@@ -2,31 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Serialization;
 using TMPro;
 
 using Titan.QuestSystem;
 
 namespace Titan.UI
 {
+    /// <summary>
+    /// Quest UI를 실질적으로 그리는 클래스
+    /// </summary>
     public class QuestUIController : MonoBehaviour
     {
         [Header("UI")]
         [SerializeField] private ScrollRect _questListScrollRect;
-        [SerializeField] private GameObject _questItemPrefab;
+        [FormerlySerializedAs("_questItemPrefab")]
+        [SerializeField] private GameObject _qusetSelectPrefab;
         [Space]
+        [Tooltip("퀘스트 제목을 표시")]
         [SerializeField] private TextMeshProUGUI _questTitleText;
+        [Tooltip("퀘스트 목표를 표시")]
         [SerializeField] private TextMeshProUGUI _questObjectText;
+        [Tooltip("퀘스트 설명을 표시")]
         [SerializeField] private TextMeshProUGUI _questDescriptionText;
 
-        private List<QuestProgressData> currentQuestProgressData;
+        /// <summary>
+        /// 현재 표시되고 있는 퀘스트의 진행 상황 데이터
+        /// </summary>
+        private List<QuestProgressData> curAcceptedQuestList;
 
         private void OnEnable()
         {
-            currentQuestProgressData = QuestManager.Instance.GetAcceptedQuestList();            
+            curAcceptedQuestList = QuestManager.Instance.GetAcceptedQuestList();            
             CreateQuestItems();
-            if(currentQuestProgressData.Count > 0)
+            if(curAcceptedQuestList.Count > 0)
             {
-                ShowQuestDetail(QuestManager.Instance.GetQuest(currentQuestProgressData[0].QuestID));
+                ShowQuestDetail(QuestManager.Instance.GetQuest(curAcceptedQuestList[0].QuestID));
             }
             else
             {
@@ -34,11 +45,16 @@ namespace Titan.UI
                 _questObjectText.text = "";
                 _questDescriptionText.text = "";
             }
+
+            // @To-Do
+            // 만약에 퀘스트 진행 사항을 클리어하는 부분이 있어서 갱신이 되어야 되는 상황이 있을 수 있다.
+            // 그럴 경우 QuestManager를 Subscribe해서 갱신을 해줘야 한다.
+            // 혹은 기존에 사용되고 있는 Game Event System을 Subscribe할 것
         }
 
         private void OnDisable()
         {
-            currentQuestProgressData = null;
+            curAcceptedQuestList = null;
             DestroySlots();
         }
         
@@ -47,24 +63,24 @@ namespace Titan.UI
         /// </summary>
         private void CreateQuestItems()
         {
-            foreach(var progress in currentQuestProgressData)
+            foreach(var curQuestProgress in curAcceptedQuestList)
             {
-                if(QuestManager.Instance.TryGetQuest(progress.QuestID, out var quest))
+                if(QuestManager.Instance.TryGetQuest(curQuestProgress.QuestID, out var quest))
                 {
-                    var questItem = Instantiate(_questItemPrefab, _questListScrollRect.content);
-                    SetupQuestItem(quest, questItem);
+                    var questSelectButton = Instantiate(_qusetSelectPrefab, _questListScrollRect.content);
+                    SetupQuestSelectButton(quest, questSelectButton);
                 }
                 else
                 {
-                    Debug.LogError($"No quest {progress.QuestID}");
+                    Debug.LogError($"No quest {curQuestProgress.QuestID}");
                 }
             }
         }
 
-        private void SetupQuestItem(Quest quest, GameObject questItem)
+        private void SetupQuestSelectButton(Quest quest, GameObject questItem)
         {
-            questItem.GetComponent<Button>().onClick.AddListener(() => ShowQuestDetail(quest));
             questItem.GetComponentInChildren<TextMeshProUGUI>().text = quest.QuestName;
+            questItem.GetComponent<Button>().onClick.AddListener(() => ShowQuestDetail(quest));
         }
 
         private void DestroySlots()
