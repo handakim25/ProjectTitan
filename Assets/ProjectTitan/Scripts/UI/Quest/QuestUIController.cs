@@ -82,6 +82,7 @@ namespace Titan.UI
         private void ShowQuestDetail(Quest questObject)
         {
             _questTitleText.text = questObject.QuestName;
+            _questObjectText.text = "";
             foreach(var quest in questObject.QuestObjectDescription)
             {
                 _questObjectText.text += quest + "\n";
