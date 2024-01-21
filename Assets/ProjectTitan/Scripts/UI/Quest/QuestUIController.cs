@@ -77,10 +77,17 @@ namespace Titan.UI
             }
         }
 
-        private void SetupQuestSelectButton(Quest quest, GameObject questItem)
+        private void SetupQuestSelectButton(Quest quest, GameObject questSelectButton)
         {
-            questItem.GetComponentInChildren<TextMeshProUGUI>().text = quest.QuestName;
-            questItem.GetComponent<Button>().onClick.AddListener(() => ShowQuestDetail(quest));
+            questSelectButton.GetComponentInChildren<TextMeshProUGUI>().text = quest.QuestName;
+            if(questSelectButton.TryGetComponent<TweenButton>(out var tweenButton))
+            {
+                tweenButton.OnButtonSelected.AddListener(() => ShowQuestDetail(quest));
+            }
+            else
+            {
+                Debug.LogError($"No TweenButton Component in {questSelectButton.name}");
+            }
         }
 
         private void DestroySlots()
