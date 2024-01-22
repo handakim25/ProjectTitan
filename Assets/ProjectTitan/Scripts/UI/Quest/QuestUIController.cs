@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Serialization;
+using UnityEngine.Assertions;
 using TMPro;
 
 using Titan.QuestSystem;
@@ -53,6 +54,12 @@ namespace Titan.UI
                 }
                 _selectedQuestButton = value;
             }
+        }
+        
+        private void Awake()
+        {
+            Assert.IsNotNull(_questListScrollRect);
+            Assert.IsNotNull(_qusetSelectPrefab);
         }
 
         private void OnEnable()
