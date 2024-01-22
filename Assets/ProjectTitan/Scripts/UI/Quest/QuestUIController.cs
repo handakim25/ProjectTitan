@@ -27,6 +27,8 @@ namespace Titan.UI
         [SerializeField] private TextMeshProUGUI _questTitleText;
         [Tooltip("퀘스트 목표를 표시")]
         [SerializeField] private TextMeshProUGUI _questObjectText;
+        [SerializeField] private string _questObjectBulletStr = "•";
+        
         [Tooltip("퀘스트 설명을 표시")]
         [SerializeField] private TextMeshProUGUI _questDescriptionText;
 
@@ -146,11 +148,10 @@ namespace Titan.UI
         {
             Debug.Log($"Show Quset Detail : {questObject.QuestName}");
             _questTitleText.text = questObject.QuestName;
-            _questObjectText.text = "";
-            foreach(var quest in questObject.QuestObjectDescription ?? Enumerable.Empty<string>())
-            {
-                _questObjectText.text += quest + "\n";
-            }
+            _questObjectText.gameObject.SetActive(questObject.QuestObjectDescription != null && questObject.QuestObjectDescription.Length > 0);
+            var strWithBullet = questObject.QuestObjectDescription?
+                .Select(s => string.IsNullOrEmpty(_questObjectBulletStr) ? s : $"{_questObjectBulletStr} {s}") ?? Enumerable.Empty<string>();
+            _questObjectText.text = string.Join("\n", strWithBullet);
             _questDescriptionText.text = questObject.QuestDescription;
         }
 
