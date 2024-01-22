@@ -26,17 +26,8 @@ namespace Titan
         public float flexibleHeight => -1;
         public int layoutPriority => 1;
 
-        public void CalculateLayoutInputHorizontal() 
-        {
-            Debug.Log($"PreferredWidth: {preferredWidth}");
-            Debug.Log("CalculateLayoutInputHorizontal");
-        }
-        public void CalculateLayoutInputVertical() 
-        {
-            ScriptableObject test;
-            Debug.Log($"PreferredHeight: {preferredHeight}");
-            Debug.Log("CalculateLayoutInputVertical");
-        }
+        public void CalculateLayoutInputHorizontal() {}
+        public void CalculateLayoutInputVertical() {}
 
         protected override void OnEnable()
         {
