@@ -1211,7 +1211,7 @@ GameObject:
   - component: {fileID: 163471564}
   - component: {fileID: 163471563}
   m_Layer: 5
-  m_Name: QuestReference
+  m_Name: Quest_Starrail_Reference
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
