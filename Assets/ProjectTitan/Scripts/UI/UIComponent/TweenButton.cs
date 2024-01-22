@@ -9,7 +9,8 @@ using DG.Tweening;
 
 namespace Titan
 {
-    public class TweenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
+    // @Refactor : Click하고 Select 기능을 분리
+    public class TweenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         #region Varaibles
         
@@ -30,9 +31,13 @@ namespace Titan
         [SerializeField] protected Vector3 _selectedScale = new(1, 1, 1);
         private Vector3 _normalScale;
 
-        [Space]
+        [Header("Select Event")]
         public UnityEvent OnButtonSelected;
         public UnityEvent OnButtonDeslected;
+
+        [Header("Press Eventt")]
+        public UnityEvent OnButtonPressed;
+        public UnityEvent OnButtonReleased;
 
         // button이 클릭 중인지 확인하는 변수
         bool _isPressed = false;
@@ -140,7 +145,28 @@ namespace Titan
                     .SetTarget(transform)
                     .SetUpdate(true);
             }
+
+            OnButtonPressed?.Invoke();
         }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            _isPressed = false;
+            if(!_isSelected)
+            {
+                Debug.Log($"Button Up : {_isPressed}");
+                OnButtonReleased?.Invoke();
+            }
+        }
+
+        // Bug Fix
+        // 드래그 시에 OnPointerUp이 호출되는 버그가 있다.
+        // 이럴 경우 OnDrag 이벤트가 있다면 제대로 OnPointerUp이 호출된다.
+        // Reference : https://issuetracker.unity3d.com/issues/onpointerup-is-called-when-dragging-mouse-from-the-object-which-is-a-child-of-an-inputfield
+        public void OnDrag(PointerEventData eventData)
+        {
+
+        }        
         
         #endregion EventSystem Callback        
 
@@ -179,11 +205,6 @@ namespace Titan
             }
             
             OnButtonDeslected?.Invoke();
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            _isPressed = false;
         }
 
         #endregion Methods
