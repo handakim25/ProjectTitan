@@ -35,9 +35,13 @@ namespace Titan
         public UnityEvent OnButtonSelected;
         public UnityEvent OnButtonDeslected;
 
-        [Header("Press Eventt")]
+        [Header("Press Event")]
         public UnityEvent OnButtonPressed;
         public UnityEvent OnButtonReleased;
+
+        [Header("Hover Event")]
+        public UnityEvent OnPointerHoverEnter;
+        public UnityEvent OnPointerHoverExit;
 
         // button이 클릭 중인지 확인하는 변수
         bool _isPressed = false;
@@ -111,6 +115,7 @@ namespace Titan
                     .SetTarget(transform)
                     .SetUpdate(true);
             }
+            OnPointerHoverEnter?.Invoke();
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -127,6 +132,8 @@ namespace Titan
                     .SetTarget(transform)
                     .SetUpdate(true);
             }
+
+            OnPointerHoverExit?.Invoke();
         }
 
         // Change to pressed button
