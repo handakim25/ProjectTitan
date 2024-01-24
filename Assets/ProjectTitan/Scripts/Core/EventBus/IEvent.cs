@@ -33,6 +33,11 @@ namespace Titan
         
     }
 
+    /// <summary>
+    /// <para> QuestStatus : Received : 퀘스트를 수락한다.</para>
+    /// <para> QuestStatus : Completed : 퀘스트를 완료한다.</para>
+    /// <para> QuestStatus : Failed : 퀘스트를 실패한다.</para>
+    /// </summary>
     public struct QuestEvent : IEvent
     {
         public string QuestID;
