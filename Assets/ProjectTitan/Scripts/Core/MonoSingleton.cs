@@ -4,8 +4,13 @@ using UnityEngine;
 
 namespace Titan.Core
 {
+    /// <summary>
+    /// Singleton 중에서 MonoBehaviour를 상속 받은 Singleton Class.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
+        [SerializeField] private bool _dontDestroyOnLoad = false;
         private static T s_instance = null;
         private static bool appIsClosing = false;
 
@@ -13,6 +18,7 @@ namespace Titan.Core
         {
             get
             {
+                // app이 닫힐 때는 반환하지 않는다.
                 if(appIsClosing)
                 {
                     return null;
@@ -32,14 +38,16 @@ namespace Titan.Core
             }
         }
 
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
         private void Awake()
         {
+            Debug.Log($"Awake {typeof(T)}");
             if(s_instance == null)
             {
                 s_instance = this as T;
+                if(_dontDestroyOnLoad)
+                {
+                    DontDestroyOnLoad(gameObject);
+                }
             }
             else
             {
@@ -47,9 +55,6 @@ namespace Titan.Core
             }
         }
 
-        /// <summary>
-        /// Callback sent to all game objects before the application is quit.
-        /// </summary>
         private void OnApplicationQuit()
         {
             s_instance = null;
