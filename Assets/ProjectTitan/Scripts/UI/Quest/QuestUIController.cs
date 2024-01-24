@@ -170,7 +170,7 @@ namespace Titan.UI
         {
             EventBus.RaiseEvent(new QuestEvent
             {
-                QuestID = "Next_Quest",
+                QuestID = "Start_Quest",
                 Status = QuestStatus.Received,
             });
         }
