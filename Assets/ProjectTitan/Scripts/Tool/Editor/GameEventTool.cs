@@ -22,7 +22,7 @@ namespace Titan.Resource
         static int _selection = 0;
         UnityEditor.Editor _gameEventEditor = null;
 
-        static private string _defaultFilePath = "Assets/ProjectTitan/Scripts/ScriptableObjects/";
+        static private string _defaultFilePath = "Assets/ProjectTitan/Data/";
         static private string _defaultFileName = "GameEventData";
         private static GameEventData _gameEventData;
         private static ReorderableList _gameEventList;
@@ -147,7 +147,7 @@ namespace Titan.Resource
         private void FindAllUnregisteredEvents()
         {
             // Find All Unregistered Events
-            var assets = AssetDatabase.FindAssets("t:GameEventObject", new string[] { "Assets/ProjectTitan/Scripts/ScriptableObjects/GameEvent" });
+            var assets = AssetDatabase.FindAssets("t:GameEventObject", new string[] { "Assets/ProjectTitan/Data/GameEvent" });
             foreach(var guid in assets)
             {
                 var path = AssetDatabase.GUIDToAssetPath(guid);
