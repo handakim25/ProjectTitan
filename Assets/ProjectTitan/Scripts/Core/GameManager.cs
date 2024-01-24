@@ -21,23 +21,15 @@ namespace Titan.Core
         private GameStatus _status;
         public GameStatus Status => _status;
 
-        [SerializeField] private List<StageDataObject> StageList = new List<StageDataObject>();
+        // @To-Do
+        // Stage 기능을 따로 분리하는 것을 고려할 것
+        [SerializeField] private List<StageDataObject> StageList = new();
         private Dictionary<string, StageDataObject> StageDataDict;
         private StageDataObject _curStage;
 
         private const string StartPoint = "StartPoint";
 
-        private GameObject Player
-        {
-            get
-            {
-                if(_player == null)
-                {
-                    _player = GameObject.FindGameObjectWithTag("Player");
-                }
-                return _player;
-            }
-        }
+        private GameObject Player => _player != null ? _player : _player = GameObject.FindGameObjectWithTag("Player");
         private GameObject _player;
 
         private void Awake()
@@ -114,10 +106,23 @@ namespace Titan.Core
         {
             SetCameraStack();
             _curStage = stage;
-            
+
             InitPlayer();
             InitHudUI();
             InitCamera();
+            InitQuest(stage._startQuests);
+        }
+
+        private static void InitQuest(List<QuestSystem.QuestObject> startQuests)
+        {
+            foreach (var quest in startQuests ?? Enumerable.Empty<QuestSystem.QuestObject>())
+            {
+                EventBus.RaiseEvent(new QuestEvent()
+                {
+                    QuestID = quest.ID,
+                    Status = QuestSystem.QuestStatus.Received,
+                });
+            }
         }
 
         private void InitPlayer()

@@ -13,9 +13,11 @@ namespace Titan.QuestSystem
     /// Quest의 편집 데이터
     /// </summary>
     [CreateAssetMenu(fileName = "Quest", menuName = "Quest/Quest Object", order = 0)]
-    public class QuestObject : ScriptableObject
+    public class QuestObject : ScriptableObject, IRefereceable
     {
         public Quest Quest;
+
+        public string ID => Quest?.QuestID ?? "";
 
         // Json Test Method
         [ContextMenu("Show Json")]
