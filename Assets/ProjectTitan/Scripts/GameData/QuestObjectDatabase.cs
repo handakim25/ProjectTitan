@@ -74,6 +74,15 @@ namespace Titan.QuestSystem
             return quest != null;
         }
 
+        public bool Contains(string questID)
+        {
+            if(string.IsNullOrEmpty(questID))
+            {
+                return false;
+            }
+            return _questDictionary.ContainsKey(questID);
+        }
+
         [ContextMenu("Show Saved Json")]
         public void ShowJson()
         {

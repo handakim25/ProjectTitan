@@ -64,6 +64,16 @@ namespace Titan.UI
             Assert.IsNotNull(_qusetSelectPrefab);
         }
 
+        private void Start()
+        {
+            Debug.Log($"Quest Accept : Start_Quest");
+            EventBus.RaiseEvent(new QuestEvent
+            {
+                QuestID = "Start_Quest",
+                Status = QuestStatus.Received,
+            });
+        }
+
         private void OnEnable()
         {
             curAcceptedQuestList = QuestManager.Instance.GetAcceptedQuestList();            
@@ -174,6 +184,6 @@ namespace Titan.UI
                 Status = QuestStatus.Received,
             });
         }
-    }
 #endif
+    }
 }

@@ -40,7 +40,7 @@ namespace Titan.QuestSystem
                 Debug.LogWarning($"Already received quest {questID}");
                 return;
             }
-            if(!DataManager.QuestDatabase.TryGetQuest(questID, out var quest))
+            if(!DataManager.QuestDatabase.Contains(questID))
             {
                 Debug.LogWarning($"No quest {questID}");
                 return;
