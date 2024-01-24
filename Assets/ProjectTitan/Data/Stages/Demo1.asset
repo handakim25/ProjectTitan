@@ -15,3 +15,5 @@ MonoBehaviour:
   SceneName: Demo1
   StageName: "\uB358\uC804 1F"
   BGM: 0
+  _startQuests:
+  - {fileID: 11400000, guid: daac0e07a01a1bf4c8d8f8e2599bdd9a, type: 2}
