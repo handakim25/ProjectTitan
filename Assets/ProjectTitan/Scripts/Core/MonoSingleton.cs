@@ -40,7 +40,6 @@ namespace Titan.Core
 
         private void Awake()
         {
-            Debug.Log($"Awake {typeof(T)}");
             if(s_instance == null)
             {
                 s_instance = this as T;
