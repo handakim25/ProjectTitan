@@ -2,8 +2,8 @@
   {
     "QuestIndex": 0,
     "QuestID": "Test_Quest",
-    "QuestName": "던전에 빠져버렸다!",
-    "QuestDescription": "당신은 던전에 떨어졌다.\n이곳에서 나가기 위해서는 던전을 클리어하여야 한다.\n우선 장치를 활성화하여 최심부로 들어가자.",
+    "QuestName": "코어 에너지로 문을 열자",
+    "QuestDescription": "심층부로 이어지는 문은 굳건히 잠겨 있다.\n문을 열기 위해서는 몬스터의 코어 에너지가 필요하다. 서재로 가서 몬스터를 처치하고 코어 에너지를 수집하자.",
     "Type": "Main",
     "QuestObjectDescription": [
       "장치를 활성화 하자."
@@ -24,6 +24,22 @@
     "QuestDescription": "테스트용 퀘스트입니다.",
     "Type": "Main",
     "QuestObjectDescription": [],
+    "QuestObjectRequirement": [],
+    "QuestAcceptCondition": [],
+    "QuestRewardGold": 0,
+    "QuestRewardExp": 0,
+    "QuestRewardItems": [],
+    "QuestCompleteTriggerEvents": []
+  },
+  {
+    "QuestIndex": 2,
+    "QuestID": "Start_Quest",
+    "QuestName": "던전에 빠져버렸다!",
+    "QuestDescription": "당신은 던전의 어두운 심연에 떨어졌습니다.\n탈출을 위해서는 던전을 클리어하고 심층부로 진입해야 합니다.",
+    "Type": "Main",
+    "QuestObjectDescription": [
+      "심층부에서 보스를 처리하자."
+    ],
     "QuestObjectRequirement": [],
     "QuestAcceptCondition": [],
     "QuestRewardGold": 0,
