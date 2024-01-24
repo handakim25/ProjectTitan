@@ -34,7 +34,7 @@ namespace Titan.GameEventSystem
             serializedObject.ApplyModifiedProperties();
         }
 
-        [MenuItem("Assets/Create/ScriptableObjects/GameEvent")]
+        [MenuItem("Assets/Create/Game Play/GameEvent")]
         public static void CreateGameEvent()
         {
             var gameEvent = CreateInstance<GameEventObject>();

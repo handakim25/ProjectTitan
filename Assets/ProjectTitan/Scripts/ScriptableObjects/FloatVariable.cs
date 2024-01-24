@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace Titan
 {
-    [CreateAssetMenu(fileName = "FloatVariable", menuName = "ScriptableObjects/FloatVariable")]
+    [CreateAssetMenu(fileName = "FloatVariable", menuName = "Game Play/FloatVariable")]
     public class FloatVariable : ScriptableObject
     {
         public event System.Action<FloatVariable> OnValueChange;

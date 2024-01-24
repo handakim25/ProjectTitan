@@ -11,7 +11,7 @@ using Titan.Resource;
 
 namespace Titan.QuestSystem
 {
-    [CreateAssetMenu(fileName = "QuestObjectDatabase", menuName = "Titan/QuestObjectDatabase", order = 0)]
+    [CreateAssetMenu(fileName = "QuestObjectDatabase", menuName = "Quest/QuestObjectDatabase", order = 0)]
     public class QuestObjectDatabase : BaseData
     {
         public QuestObject[] QuestObjects = new QuestObject[0];

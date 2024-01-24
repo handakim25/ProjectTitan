@@ -12,7 +12,7 @@ namespace Titan.QuestSystem
     /// <summary>
     /// Quest의 편집 데이터
     /// </summary>
-    [CreateAssetMenu(fileName = "Quest", menuName = "Titan/Quest", order = 0)]
+    [CreateAssetMenu(fileName = "Quest", menuName = "Quest/Quest Object", order = 0)]
     public class QuestObject : ScriptableObject
     {
         public Quest Quest;

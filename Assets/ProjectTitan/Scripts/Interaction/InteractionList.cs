@@ -10,7 +10,7 @@ namespace Titan.Interaction
     // Player에서 Interaction List를 Update하고 Interaction List에서 Event를 발생시킨다.
     // Event를 발생하면 Interaction view가 Update 된다.
     // Interaction List는 Model이고 Interaction View는 View, Detector는 Controller인가?
-    [CreateAssetMenu(fileName = "InteractionList", menuName = "InteractionList")]
+    [CreateAssetMenu(fileName = "InteractionList", menuName = "Game Play/InteractionList")]
     public class InteractionList : ScriptableObject
     {
         [SerializeField] private int _maxInteractObjects = 10;
