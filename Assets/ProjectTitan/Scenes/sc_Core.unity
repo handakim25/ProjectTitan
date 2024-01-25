@@ -817,8 +817,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66e70a1f07dd0f3488d8e1d25dd4775d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _backgroundImage: {fileID: 0}
-  BackgroundSprite: {fileID: 0}
+  _backgroundImage: {fileID: 1629732093}
+  _progreeText: {fileID: 0}
+  _progressSlider: {fileID: 1096368338}
+  _tipTitle: {fileID: 2090041912}
+  _tipText: {fileID: 268685663}
+  _backgroudnSprite: {fileID: 0}
 --- !u!1 &1033127841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,9 +1427,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  defaultScene: {fileID: 11400000, guid: a4efa29e9c191144da63f971c3867595, type: 2}
-  CoreCamera: {fileID: 260618826}
-  LoadingScreen: {fileID: 883082334}
+  _defaultScene: {fileID: 11400000, guid: a4efa29e9c191144da63f971c3867595, type: 2}
+  _coreCamera: {fileID: 260618826}
+  _loadUIController: {fileID: 883082339}
 --- !u!1 &2067543842
 GameObject:
   m_ObjectHideFlags: 0
@@ -1514,7 +1518,7 @@ GameObject:
   - component: {fileID: 2090041913}
   - component: {fileID: 2090041912}
   m_Layer: 5
-  m_Name: TipName
+  m_Name: TipTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
