@@ -127,7 +127,7 @@ namespace Titan.Core.Scene
                     {
                         totalProgress += operation.progress;
                     }
-                    totalProgress = (totalProgress / scenesLoading.Count) * 100f;
+                    totalProgress /= scenesLoading.Count;
                     _loadUIController.SetProgress(totalProgress);
                     yield return null;
                 }
