@@ -92,6 +92,8 @@ namespace Titan.Core.Scene
 
             HideLoadScene();
 
+            // @Refactor
+            // 여기서 비동기로 처리해야 되는 부분이 있을 수 있다. 이 부분을 어떻게 처리할 것인지 파악할 것
             SceneLoaded?.Invoke();
             SceneStart?.Invoke();
         }
@@ -106,7 +108,6 @@ namespace Titan.Core.Scene
         {
             LoadingScreen.SetActive(false);
             CoreCamera.gameObject.SetActive(false);
-            
         }
 
         public void LoadDefaultScene()
@@ -130,10 +131,6 @@ namespace Titan.Core.Scene
             return loadedScenes;
         }
 
-        /// <summary>
-        /// Start is called on the frame when a script is enabled just before
-        /// any of the Update methods is called the first time.
-        /// </summary>
         private void Start()
         {
             UnitySceneManger.sceneLoaded += OnSceneLoaded;
