@@ -16,18 +16,11 @@ namespace Titan
         [SerializeField] private Image _backgroundImage;
         [SerializeField] private TextMeshProUGUI _progreeText;
         [SerializeField] private Slider _progressSlider;
+        [SerializeField] private TextMeshProUGUI _tipTitle;
         [SerializeField] private TextMeshProUGUI _tipText;
 
         [Header("Resource")]
         [SerializeField] private Sprite _backgroudnSprite;
-
-        private void Awake()
-        {
-            Assert.IsNotNull(_backgroundImage);
-            Assert.IsNotNull(_progreeText);
-            Assert.IsNotNull(_progressSlider);
-            Assert.IsNotNull(_tipText);
-        }
 
         public Sprite BackgroundSprite
         {
@@ -59,15 +52,15 @@ namespace Titan
             }
         }
 
-        public string TooltipText
+        public void SetTooltip(string title, string text)
         {
-            get => _tipText != null ? _tipText.text : "";
-            set
+            if(_tipTitle != null)
             {
-                if (_tipText != null)
-                {
-                    _tipText.text = value;
-                }
+                _tipTitle.text = title;
+            }
+            if(_tipText != null)
+            {
+                _tipText.text = text;
             }
         }
     }
