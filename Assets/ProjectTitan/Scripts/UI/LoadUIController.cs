@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Assertions;
 using TMPro;
 
-namespace Titan
+namespace Titan.Core.Scene
 {
     /// <summary>
     /// Load Scene에서 사용되는 UI를 관리하는 클래스
@@ -39,7 +39,7 @@ namespace Titan
         /// Progress UI를 설정한다. [0,1]
         /// </summary>
         /// <param name="progress">[0,1]</param>
-        private void SetProgress(float progress)
+        public void SetProgress(float progress)
         {
             progress = Mathf.Clamp01(progress);
             if (_progressSlider != null)
@@ -63,5 +63,15 @@ namespace Titan
                 _tipText.text = text;
             }
         }
+        
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if(_backgroundImage != null)
+            {
+                _backgroundImage.sprite = _backgroudnSprite;
+            }
+        }
+#endif
     }
 }
