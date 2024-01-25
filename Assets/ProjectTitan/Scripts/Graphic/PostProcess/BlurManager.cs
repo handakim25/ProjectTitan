@@ -9,7 +9,7 @@ using Titan.Core;
 namespace Titan.Graphics.PostProcessing
 {
     [RequireComponent(typeof(Volume))]
-    public class BlurManager : MonoSingleton<BlurManager>
+    sealed public class BlurManager : MonoSingleton<BlurManager>
     {
         [SerializeField] BlurSettings _settings;
         private float _defaultStrength;

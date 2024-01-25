@@ -10,7 +10,7 @@ namespace Titan.GameEventSystem
     /// <summary>
     /// Game의 사건을 기록하는 이벤트. 데이터는 <see cref="GameEventData"/>에 저장되어 있다.
     /// </summary>
-    public class GameEventManager : MonoSingleton<GameEventManager>
+    sealed public class GameEventManager : MonoSingleton<GameEventManager>
     {
         // Key : GameEvent Name, value : Game Event Listener
         private Dictionary<string, List<GameEventAction>> _gameEventActionDictionary = new();

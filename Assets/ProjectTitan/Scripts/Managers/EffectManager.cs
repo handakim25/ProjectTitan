@@ -6,7 +6,7 @@ using Titan.Core;
 
 namespace Titan.Effects
 {
-    public class EffectManager : MonoSingleton<EffectManager>
+    sealed public class EffectManager : MonoSingleton<EffectManager>
     {
         private const string EffectRootName = "EffectRoot";
         private Transform effectRoot = null;

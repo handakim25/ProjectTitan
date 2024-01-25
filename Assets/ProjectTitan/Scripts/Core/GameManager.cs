@@ -16,7 +16,7 @@ namespace Titan.Core
     /// <summary>
     /// Game 진행을 위함
     /// </summary>
-    public class GameManager : MonoSingleton<GameManager>
+    sealed public class GameManager : MonoSingleton<GameManager>
     {
         private GameStatus _status;
         public GameStatus Status => _status;

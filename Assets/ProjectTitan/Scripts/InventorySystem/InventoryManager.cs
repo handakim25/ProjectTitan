@@ -6,7 +6,7 @@ using Titan.Core;
 
 namespace Titan.InventorySystem.Items
 {
-    public class InventoryManager : MonoSingleton<InventoryManager>
+    sealed public class InventoryManager : MonoSingleton<InventoryManager>
     {
         [SerializeField] private InventoryObject _playerInventory;
 

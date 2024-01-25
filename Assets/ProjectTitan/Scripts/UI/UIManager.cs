@@ -23,7 +23,7 @@ namespace Titan.UI
     /// <summary>
     /// UI Scene을 관리하는 싱글톤 클래스
     /// </summary>
-    public sealed class UIManager : MonoSingleton<UIManager>, MainAction.IUIActions
+    sealed public class UIManager : MonoSingleton<UIManager>, MainAction.IUIActions
     {
         [SerializeField] private InputActionAsset _inputAsset;
         private MainAction _action;

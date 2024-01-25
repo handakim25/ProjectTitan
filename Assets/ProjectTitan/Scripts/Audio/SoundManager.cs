@@ -9,7 +9,7 @@ using Titan.Core;
 
 namespace Titan.Audio
 {
-    public class SoundManager : MonoSingleton<SoundManager>
+    sealed public class SoundManager : MonoSingleton<SoundManager>
     {
         // Audio Mixer
         private const string MixerName = "AudioMixer";

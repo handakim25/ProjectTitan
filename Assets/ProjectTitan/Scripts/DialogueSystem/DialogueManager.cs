@@ -17,7 +17,7 @@ namespace Titan.DialogueSystem
     /// Dialogue UI 가 Controller이므로 UI가 Dialogue Manager를 관리하고
     /// Dialogue Manager가 반응해서 UI를 업데이트한다.
     /// </summary>
-    public class DialogueManager : MonoSingleton<DialogueManager>
+    sealed public class DialogueManager : MonoSingleton<DialogueManager>
     {
         [SerializeField] private DialogueUIController _dialogueUI;
         [Tooltip("다이얼로그가 종료되면 다음 다이얼로그가 바로 켜지지 않도록 텀을 둔다.")]

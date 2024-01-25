@@ -9,7 +9,7 @@ using Titan.GameEventSystem;
 
 namespace Titan.QuestSystem
 {
-    public class QuestManager : MonoSingleton<QuestManager>
+    sealed public class QuestManager : MonoSingleton<QuestManager>
     {
         // @Refactor
         // 지금은 통합이지만 Received 만 남기고 completed는 따로 남기자.

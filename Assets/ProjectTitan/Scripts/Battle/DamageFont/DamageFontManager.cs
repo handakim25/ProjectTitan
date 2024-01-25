@@ -12,7 +12,7 @@ namespace Titan.Battle
     /// - Pooling을 이용
     /// - Event bus pattern을 이용해서 작동
     /// </summary>
-    public class DamageFontManager : MonoSingleton<DamageFontManager>
+    sealed public class DamageFontManager : MonoSingleton<DamageFontManager>
     {
         private const string RootName = "DamageFontRoot";
         private const string TextName = "DamageFont";
