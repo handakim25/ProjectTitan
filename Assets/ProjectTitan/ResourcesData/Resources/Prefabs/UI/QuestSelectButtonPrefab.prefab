@@ -319,6 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetImage: {fileID: 6648075072307531847}
+  _isSelectable: 1
   <TransitionTime>k__BackingField: 0.5
   _normalColor: {r: 0.31764707, g: 0.34509805, b: 0.40000004, a: 1}
   _hightlightedColor: {r: 0.31764707, g: 0.34509805, b: 0.4, a: 1}
@@ -381,6 +382,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnButtonClicked:
+    m_PersistentCalls:
+      m_Calls: []
   OnButtonPressed:
     m_PersistentCalls:
       m_Calls:
