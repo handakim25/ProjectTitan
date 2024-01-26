@@ -10,11 +10,15 @@ using DG.Tweening;
 namespace Titan
 {
     // @Refactor : Click하고 Select 기능을 분리
+    // Tab 기능도 분리하고
+    // Animation 부분을 따로 Component로 분리해도 되지 않을까?
+    // DotTween 기능을 이용하면 가능할 것으로 보인다.
     public class TweenButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
         #region Varaibles
         
         [SerializeField] protected Image _targetImage; // image in child
+        [SerializeField] private bool _isSelectable = true;
 
         [Tooltip("트위닝 되는 시간")]
         [field : SerializeField] public float TransitionTime {get; protected set;} = 1.0f;
@@ -35,6 +39,9 @@ namespace Titan
         public UnityEvent OnButtonSelected;
         public UnityEvent OnButtonDeslected;
 
+        [Header("Click Event")]
+        public UnityEvent OnButtonClicked;
+
         [Header("Press Event")]
         public UnityEvent OnButtonPressed;
         public UnityEvent OnButtonReleased;
@@ -47,21 +54,20 @@ namespace Titan
         bool _isPressed = false;
         // tab button, inventory 버튼 같이 선택된 상태를 위한 변수
         bool _isSelected = false;
+
+        private bool _isInitialized = false;
         
         #endregion Varaibles
 
         #region Unity Methods
         
-        private void Awake()
-        {
-            _normalScale = transform.localScale;
-        }
-
         protected virtual void Start()
         {
-            if(_targetImage)
+            if(!_isInitialized && _targetImage != null)
             {
                 _targetImage.color = _isSelected ? _selectedColor : _normalColor;
+                _normalScale = _targetImage.transform.localScale;
+                _isInitialized = true;
             }
         }
 
@@ -69,7 +75,18 @@ namespace Titan
         // 최대한 독립적으로 작동하도록 작성할 것.
         private void OnEnable()
         {
+            // Reset to normal state
+            if(_isInitialized && _targetImage != null)
+            {
+                _targetImage.color = _isSelected ? _selectedColor : _normalColor;
+                _targetImage.transform.localScale = _normalScale;
+            }
             _isPressed = false;
+        }
+
+        private void OnDisable()
+        {
+            DOTween.Kill(transform);
         }
         
         #endregion Unity Methods
@@ -80,7 +97,8 @@ namespace Titan
         {
             if(_isSelected)
                 return;
-            
+
+            OnButtonClicked?.Invoke();
             Select();
         }
 
@@ -161,7 +179,6 @@ namespace Titan
             _isPressed = false;
             if(!_isSelected)
             {
-                Debug.Log($"Button Up : {_isPressed}");
                 OnButtonReleased?.Invoke();
             }
         }
@@ -182,7 +199,7 @@ namespace Titan
         // Select can be called from outside
         public virtual void Select()
         {
-            if(_isSelected)
+            if(_isSelected || !_isSelectable)
             {
                 return;
             }
