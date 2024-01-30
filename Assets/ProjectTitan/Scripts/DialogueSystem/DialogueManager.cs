@@ -39,6 +39,35 @@ namespace Titan.DialogueSystem
         
         private ConditionEvaluator _conditionEvaluator;
 
+        private DialogueUIController DialogueUI
+        {
+            get => _dialogueUI;
+            set
+            {
+                if(_dialogueUI != null)
+                {
+                    _dialogueUI.OnNextDialogue -= OnNextDialogueHandler;
+                    _dialogueUI.OnDialougeEnd -= OnDialogueEndHandler;
+                    _dialogueUI.OnChoiceSelected -= OnChoiceSelectedHandler;
+                }
+                _dialogueUI = value;
+                if(_dialogueUI != null)
+                {
+                    _dialogueUI.OnNextDialogue += OnNextDialogueHandler;
+                    _dialogueUI.OnDialougeEnd += OnDialogueEndHandler;
+                    _dialogueUI.OnChoiceSelected += OnChoiceSelectedHandler;
+                }
+            }
+        }
+
+        private void Start() 
+        {
+            if(_dialogueUI == null)
+            {
+                DialogueUI = FindObjectOfType<DialogueUIController>(true);
+            }
+        }
+
         public void StartDialogue(string DialogueID)
         {
             if(_dialogueObjectDic.TryGetValue(DialogueID, out var dialogueObject))
@@ -60,12 +89,8 @@ namespace Titan.DialogueSystem
             }
             if(_dialogueUI == null)
             {
-                FindUI();
-                if(_dialogueUI == null)
-                {
-                    Debug.LogError("Unable to find UI");
-                    return;
-                }
+                Debug.LogError("Dialogue UI is not exist");
+                return;
             }
             _curDialogueInteractable = interactable;
             _onDialogueEnd = OnDialogueEnd;
