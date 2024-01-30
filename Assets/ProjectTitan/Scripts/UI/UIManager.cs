@@ -221,6 +221,18 @@ namespace Titan.UI
             }
         }
 
+        public void OnScreenshot(InputAction.CallbackContext context)
+        {
+            if(context.performed)
+            {
+                Debug.Log($"Status : {GameManager.Instance.Status}");
+                if(GameManager.Instance.Status == GameStatus.Play || GameManager.Instance.Status == GameStatus.Pause)
+                {
+                    Utility.Screenshot.Capture();
+                }
+            }
+        }
+
         #endregion Input Callback
 
         // Mouse Mode
@@ -285,7 +297,6 @@ namespace Titan.UI
                 targetScene.OpenUI();
             }
         }
-        
         #endregion Utillity
     }
 }

@@ -39,6 +39,7 @@ namespace Titan.Core
             m_UI_Interact = m_UI.FindAction("Interact", throwIfNotFound: true);
             m_UI_InteractScroll = m_UI.FindAction("InteractScroll", throwIfNotFound: true);
             m_UI_ShowCursor = m_UI.FindAction("ShowCursor", throwIfNotFound: true);
+            m_UI_Screenshot = m_UI.FindAction("Screenshot", throwIfNotFound: true);
             // Dialogue
             m_Dialogue = asset.FindActionMap("Dialogue", throwIfNotFound: true);
             m_Dialogue_NextDialogue = m_Dialogue.FindAction("NextDialogue", throwIfNotFound: true);
@@ -202,6 +203,7 @@ namespace Titan.Core
         private readonly InputAction m_UI_Interact;
         private readonly InputAction m_UI_InteractScroll;
         private readonly InputAction m_UI_ShowCursor;
+        private readonly InputAction m_UI_Screenshot;
         public struct UIActions
         {
             private @MainAction m_Wrapper;
@@ -211,6 +213,7 @@ namespace Titan.Core
             public InputAction @Interact => m_Wrapper.m_UI_Interact;
             public InputAction @InteractScroll => m_Wrapper.m_UI_InteractScroll;
             public InputAction @ShowCursor => m_Wrapper.m_UI_ShowCursor;
+            public InputAction @Screenshot => m_Wrapper.m_UI_Screenshot;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -235,6 +238,9 @@ namespace Titan.Core
                 @ShowCursor.started += instance.OnShowCursor;
                 @ShowCursor.performed += instance.OnShowCursor;
                 @ShowCursor.canceled += instance.OnShowCursor;
+                @Screenshot.started += instance.OnScreenshot;
+                @Screenshot.performed += instance.OnScreenshot;
+                @Screenshot.canceled += instance.OnScreenshot;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -254,6 +260,9 @@ namespace Titan.Core
                 @ShowCursor.started -= instance.OnShowCursor;
                 @ShowCursor.performed -= instance.OnShowCursor;
                 @ShowCursor.canceled -= instance.OnShowCursor;
+                @Screenshot.started -= instance.OnScreenshot;
+                @Screenshot.performed -= instance.OnScreenshot;
+                @Screenshot.canceled -= instance.OnScreenshot;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -352,6 +361,7 @@ namespace Titan.Core
             void OnInteract(InputAction.CallbackContext context);
             void OnInteractScroll(InputAction.CallbackContext context);
             void OnShowCursor(InputAction.CallbackContext context);
+            void OnScreenshot(InputAction.CallbackContext context);
         }
         public interface IDialogueActions
         {
