@@ -106,6 +106,7 @@ namespace Titan.Core
         {
             SetCameraStack();
             _curStage = stage;
+            _status = GameStatus.Play;
 
             InitPlayer();
             InitHudUI();
