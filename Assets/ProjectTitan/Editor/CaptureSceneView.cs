@@ -8,7 +8,7 @@ namespace Titan
     public class CaptureSceneView : EditorWindow
     {
         private Vector2Int _screenSize = new(1920, 1080);
-        private readonly Vector2Int _maxScreenSize = new(1920, 1080);
+        private readonly Vector2Int _maxScreenSize = new(8000, 8000);
         private Texture _capturedTexture;
 
         [MenuItem("Tools/Capture Scene View")]
@@ -21,7 +21,10 @@ namespace Titan
         private void OnGUI()
         {
             _screenSize = EditorGUILayout.Vector2IntField("Screen Size", _screenSize);
-            GUILayout.Label("Screenshot Image", EditorStyles.boldLabel);
+            _screenSize.x = Mathf.Clamp(_screenSize.x, 0, _maxScreenSize.x);
+            _screenSize.y = Mathf.Clamp(_screenSize.y, 0, _maxScreenSize.y);
+
+            GUILayout.Label("Screenshot Image");
             // if(_capturedTexture != null)
             // {
             //     GUILayout.BeginHorizontal();
@@ -36,10 +39,21 @@ namespace Titan
             GUILayout.Label(textureToDraw, GUILayout.Width(200), GUILayout.Height(200), GUILayout.ExpandHeight(true), GUILayout.ExpandWidth(true));
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+
             if (GUILayout.Button("Capture"))
             {
                 CaptureScene(_screenSize.x, _screenSize.y);
             }
+            // if (GUILayout.Button("Save"))
+            // {
+            //     var fileName = GetFileName();
+            //     var path = EditorUtility.SaveFilePanel("Save Screenshot", "", fileName, "png");
+            //     if(path.Length != 0)
+            //     {
+            //         var bytes = _capturedTexture.EncodeToPNG();
+            //         System.IO.File.WriteAllBytes(path, bytes);
+            //     }
+            // }
         }
 
         private void CaptureScene(int width, int height)
