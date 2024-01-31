@@ -20,7 +20,10 @@ namespace Titan.Core.Scene
         [SerializeField] private TextMeshProUGUI _tipText;
 
         [Header("Resource")]
+        [Tooltip("Load Scene에서 사용되는 Background Sprite")]
         [SerializeField] private Sprite _backgroudnSprite;
+        [Tooltip("중앙에 있는 이미지 Sprite")]
+        [SerializeField] private Sprite _centerImageSprite;
 
         public Sprite BackgroundSprite
         {

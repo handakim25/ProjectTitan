@@ -14,8 +14,6 @@ namespace Titan
         private GUIStyle _warningStyle;
         private GUIStyle WarningStyle => _warningStyle ??= new GUIStyle() { normal = { textColor = Color.red }, fontStyle = FontStyle.Bold };
 
-        private bool HasSelection => Selection.objects != null && Selection.objects.Length > 0;
-
         private string _prefix = "";
 
         [MenuItem("Tools/Rename Asset Util")]
@@ -30,21 +28,28 @@ namespace Titan
 
             _prefix = EditorGUILayout.TextField("Prefix", _prefix);
 
-            EditorGUI.BeginDisabledGroup(!HasSelection || string.IsNullOrEmpty(_prefix));
+            var objects = GetSelectedAssets();
+
+            EditorGUI.BeginDisabledGroup(objects == null || objects.Length == 0 || string.IsNullOrEmpty(_prefix));
             if (GUILayout.Button("Rename"))
             {
                 Rename(Selection.objects, _prefix);
             }
             EditorGUI.EndDisabledGroup();
 
-            if(!HasSelection)
+            if(objects == null || objects.Length == 0 )
             {
                 EditorGUILayout.HelpBox("No object selected", MessageType.Warning);
             }
             if(string.IsNullOrEmpty(_prefix))
             {
-                EditorGUILayout.HelpBox("No object selected", MessageType.Warning);
+                EditorGUILayout.HelpBox("Prefix is empty", MessageType.Warning);
             }
+        }
+
+        private Object[] GetSelectedAssets()
+        {
+            return Selection.GetFiltered<Object>(SelectionMode.Assets);
         }
 
         private void Rename(Object[] objects, string prefix)

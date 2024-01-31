@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: "\uD55C\uC190\uAC80"
   type: 1
+  rarity: 0
   stackable: 0
-  icon: {fileID: 21300000, guid: 4f4b3730cb977d144b41fcd8e14597c6, type: 3}
+  icon: {fileID: 21300000, guid: b6b3f9269f51dca40bfb8647c6040636, type: 3}
   description: "\uD3C9\uBC94\uD55C \uAC80\uC774\uB2E4."
   data:
     id: 8
