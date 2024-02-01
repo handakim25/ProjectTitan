@@ -16,7 +16,7 @@ namespace Titan
 
         enum TabIndex
         {
-            Rename,
+            AddPrefix,
             Replace,
         }
         private int _tabIndex = 0;
@@ -35,8 +35,8 @@ namespace Titan
 
             switch((TabIndex)_tabIndex)
             {
-                case TabIndex.Rename:
-                    DrawRenameTab();
+                case TabIndex.AddPrefix:
+                    DrawAddPrefixtab();
                     break;
                 case TabIndex.Replace:
                     DrawReplaceTab();
@@ -46,7 +46,7 @@ namespace Titan
 
         private string _renamePrefix = "";
 
-        private void DrawRenameTab()
+        private void DrawAddPrefixtab()
         {
             GUILayout.Label("Warning: Undo is not supported yet", WarningStyle);
 
@@ -55,9 +55,9 @@ namespace Titan
             var objects = GetSelectedAssets();
 
             EditorGUI.BeginDisabledGroup(objects == null || objects.Length == 0 || string.IsNullOrEmpty(_renamePrefix));
-            if (GUILayout.Button("Rename"))
+            if (GUILayout.Button("AddPrefix"))
             {
-                Rename(Selection.objects, _renamePrefix);
+                AddPrefix(Selection.objects, _renamePrefix);
             }
             EditorGUI.EndDisabledGroup();
 
@@ -71,7 +71,7 @@ namespace Titan
             }
         }
 
-        private void Rename(Object[] objects, string prefix)
+        private void AddPrefix(Object[] objects, string prefix)
         {
             if (string.IsNullOrEmpty(prefix))
             {
