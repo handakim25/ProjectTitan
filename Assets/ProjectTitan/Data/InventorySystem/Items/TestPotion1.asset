@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: "\uD3EC\uC158"
   type: 3
+  rarity: 0
   stackable: 0
-  icon: {fileID: 21300000, guid: 628d4a22608347044bc9feb9feb67c4c, type: 3}
-  description: "HP+50. \uD3C9\uBC94\uD55C \uD3EC\uC158\uC774\uB2E4."
+  icon: {fileID: 21300000, guid: 20b4bb4c94a59f542bbcf4d94ca804ef, type: 3}
+  description: "HP+100. \uD3C9\uBC94\uD55C \uD3EC\uC158\uC774\uB2E4."
   data:
     id: 5

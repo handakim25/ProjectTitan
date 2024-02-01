@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
   m_Name: TestFood
   m_EditorClassIdentifier: 
-  ItemName: "\uBD95\uB300"
+  ItemName: "\uB9DB\uC788\uB294 \uC2A4\uD14C\uC774\uD06C"
   type: 3
+  rarity: 0
   stackable: 1
-  icon: {fileID: 21300000, guid: 1cd2614aaca7e714cb1ddf893d142cea, type: 3}
-  description: "\uD68C\uBCF5+50. \uD3C9\uBC94\uD55C \uBD95\uB300\uC774\uB2E4."
+  icon: {fileID: 21300000, guid: 88df590d9fedb964ea645bc6f3ab057d, type: 3}
+  description: "\uD68C\uBCF5+50. \uD3C9\uBC94\uD55C \uACE0\uAE30\uC774\uB2E4."
   data:
     id: 2
