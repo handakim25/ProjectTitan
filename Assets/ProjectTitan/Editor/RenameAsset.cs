@@ -1,9 +1,7 @@
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System.Text.RegularExpressions;
 
 namespace Titan
 {
@@ -39,41 +37,43 @@ namespace Titan
 
             GUILayout.Label("Warning: Undo is not supported yet", WarningStyle);
 
+            var objects = GetSelectedAssets();
+
             switch((TabIndex)_tabIndex)
             {
                 case TabIndex.AddPrefix:
-                    DrawAddPrefixtab();
+                    DrawAddPrefixtab(objects);
                     break;
                 case TabIndex.Replace:
-                    DrawReplaceTab();
+                    DrawReplaceTab(objects);
                     break;
                 case TabIndex.Rename:
-                    DrawRenameTab();
+                    DrawRenameTab(objects);
                     break;
                 case TabIndex.Show:
-                    DrawShowTab();
+                    DrawShowTab(objects);
                     break;
             }
         }
 
         private string _renamePrefix = "";
 
-        private void DrawAddPrefixtab()
+        private void DrawAddPrefixtab(Object[] objects)
         {
             _renamePrefix = EditorGUILayout.TextField("Prefix", _renamePrefix);
 
-            var objects = GetSelectedAssets();
+            bool isObjectsValid = IsValidObjectsList(objects);
 
-            EditorGUI.BeginDisabledGroup(objects == null || objects.Length == 0 || string.IsNullOrEmpty(_renamePrefix));
+            EditorGUI.BeginDisabledGroup(!isObjectsValid || string.IsNullOrEmpty(_renamePrefix));
             if (GUILayout.Button("AddPrefix"))
             {
-                AddPrefix(Selection.objects, _renamePrefix);
+                RenameAssets(objects, name => _renamePrefix + name);
             }
             EditorGUI.EndDisabledGroup();
 
-            if(objects == null || objects.Length == 0 )
+            if(!isObjectsValid)
             {
-                EditorGUILayout.HelpBox("No object selected", MessageType.Warning);
+                EditorGUILayout.HelpBox("No assets selected", MessageType.Warning);
             }
             if(string.IsNullOrEmpty(_renamePrefix))
             {
@@ -81,49 +81,33 @@ namespace Titan
             }
         }
 
-        private void AddPrefix(Object[] objects, string prefix)
-        {
-            if (string.IsNullOrEmpty(prefix))
-            {
-                Debug.LogError("Prefix is empty");
-                return;
-            }
-            if (objects == null || objects.Length == 0)
-            {
-                Debug.LogError("No object selected");
-                return;
-            }
-
-            RenameAssets(objects, name => prefix + name);
-        }
-
         private string _replaceFrom = "";
         private string _replaceTo = "";
 
-        private void DrawReplaceTab()
+        private void DrawReplaceTab(Object[] objects)
         {
             _replaceFrom = EditorGUILayout.TextField("From", _replaceFrom);
             _replaceTo = EditorGUILayout.TextField("To", _replaceTo);
 
-            var objects = GetSelectedAssets();
+            bool isObjectsValid = IsValidObjectsList(objects);
 
-            EditorGUI.BeginDisabledGroup(objects == null || objects.Length == 0 || string.IsNullOrEmpty(_replaceFrom) || string.IsNullOrEmpty(_replaceTo));
+            EditorGUI.BeginDisabledGroup(!isObjectsValid || string.IsNullOrEmpty(_replaceFrom) || string.IsNullOrEmpty(_replaceTo));
             if(GUILayout.Button("Replace"))
             {
-                Replace(Selection.objects, _replaceFrom, _replaceTo);
+                RenameAssets(objects, name => name.Replace(_replaceFrom, _replaceTo));
             }
             EditorGUI.EndDisabledGroup();
 
-            if (objects == null || objects.Length == 0)
+            if (!isObjectsValid)
             {
-                EditorGUILayout.HelpBox("No object selected", MessageType.Warning);
+                EditorGUILayout.HelpBox("No assets selected", MessageType.Warning);
             }
             if(string.IsNullOrEmpty(_replaceFrom) || string.IsNullOrEmpty(_replaceTo))
             {
                 EditorGUILayout.HelpBox("From or To is empty", MessageType.Warning);
             }
 
-            if(objects != null && objects.Length > 0 && !string.IsNullOrEmpty(_replaceFrom) && !string.IsNullOrEmpty(_replaceTo))
+            if(isObjectsValid && !string.IsNullOrEmpty(_replaceFrom) && !string.IsNullOrEmpty(_replaceTo))
             {
                 Object curObj = objects[0];
                 string path = AssetDatabase.GetAssetPath(curObj);
@@ -133,42 +117,26 @@ namespace Titan
             }
         }
 
-        private void Replace(Object[] objects, string replaceFrom, string replaceTo)
-        {
-            if (string.IsNullOrEmpty(replaceFrom) || string.IsNullOrEmpty(replaceTo))
-            {
-                Debug.LogError("From or To is empty");
-                return;
-            }
-            if (objects == null || objects.Length == 0)
-            {
-                Debug.LogError("No object selected");
-                return;
-            }
-
-            RenameAssets(objects, name => name.Replace(replaceFrom, replaceTo));
-        }
-
         private string _renameNewName = "";
         private int _renameStartIndex = 0;
 
-        private void DrawRenameTab()
+        private void DrawRenameTab(Object[] objects)
         {
             _renameNewName = EditorGUILayout.TextField("New Name", _renameNewName);
             _renameStartIndex = EditorGUILayout.IntField("Start Index", _renameStartIndex);
 
-            var objects = GetSelectedAssets();
+            bool isObjectsValid = IsValidObjectsList(objects);
 
-            EditorGUI.BeginDisabledGroup(objects == null || objects.Length == 0 || string.IsNullOrEmpty(_renameNewName));
+            EditorGUI.BeginDisabledGroup(!isObjectsValid || string.IsNullOrEmpty(_renameNewName));
             if (GUILayout.Button("Rename"))
             {
-                Rename(Selection.objects, _renameNewName, _renameStartIndex);
+                RenameAssets(objects, name => $"{_renameNewName}{_renameStartIndex++}", new NaturalComparer());
             }
             EditorGUI.EndDisabledGroup();
 
-            if (objects == null || objects.Length == 0)
+            if (!isObjectsValid)
             {
-                EditorGUILayout.HelpBox("No object selected", MessageType.Warning);
+                EditorGUILayout.HelpBox("No assets selected", MessageType.Warning);
             }
             if (string.IsNullOrEmpty(_renameNewName))
             {
@@ -176,25 +144,8 @@ namespace Titan
             }
         }
 
-        private void Rename(Object[] objects, string renameNewName, int renameStartIndex)
+        private void DrawShowTab(Object[] objects)
         {
-            if (string.IsNullOrEmpty(renameNewName))
-            {
-                Debug.LogError("New Name is empty");
-                return;
-            }
-            if (objects == null || objects.Length == 0)
-            {
-                Debug.LogError("No object selected");
-                return;
-            }
-
-            RenameAssets(objects, name => $"{renameNewName}{renameStartIndex++}", new NaturalComparer());
-        }
-
-        private void DrawShowTab()
-        {
-            var objects = GetSelectedAssets();
             var paths = objects.Select(obj => AssetDatabase.GetAssetPath(obj)).Select(path => GetNameFromPath(path)).ToArray();
             paths = paths.OrderBy(x => x, new NaturalComparer()).ToArray();
             foreach(string path in paths)
@@ -202,7 +153,6 @@ namespace Titan
                 EditorGUILayout.LabelField(path);
             }
         }
-
 
         /// <summary>
         /// 에셋 이름을 변경. nameProcessor를 통해서 이름 변경 방법을 결정
@@ -231,7 +181,6 @@ namespace Titan
                     Debug.LogError(err);
                 }
             }
-
         }
 
         /// <summary>
@@ -243,6 +192,11 @@ namespace Titan
             return Selection.GetFiltered<Object>(SelectionMode.Assets);
         }
 
+        private bool IsValidObjectsList(Object[] objects)
+        {
+            return objects != null && objects.Length > 0;
+        }
+
         /// <summary>
         /// 경로로부터 확장자를 제외한 이름을 반환
         /// </summary>
@@ -252,67 +206,6 @@ namespace Titan
         {
             string name = path[(path.LastIndexOf('/') + 1)..];
             return name[..name.LastIndexOf('.')];
-        }
-
-        // Natural Sort
-        // 1. https://blog.codinghorror.com/sorting-for-humans-natural-sort-order/
-        // 2. https://stackoverflow.com/questions/1022203/sorting-strings-containing-numbers-in-a-user-friendly-way
-        // 일반적으로 구현할려면 굉장히 복잡해서 그나마 정규식 관련 함수를 찾음
-        // StrCmpLogicalW 함수는 Windows에 의존적인 함수라서 사용을 하지 않기로 결정
-        public class NaturalComparer : IComparer<string>
-        {
-            public int Compare(string x, string y)
-            {
-                return NaturalCompare(x, y);
-            }
-
-            public int NaturalCompare(string x, string y)
-            {
-                if(x == null && y == null)
-                {
-                    return 0;
-                }
-                if(x == null)
-                {
-                    return -1;
-                }
-                if(y == null)
-                {
-                    return 1;
-                }
-
-                // 문자열을 숫자와 문자열로 나눈다.
-                // \D는 숫자가 아닌 문자, \d는 숫자
-                // (?<=\D)(?=\d) : 숫자 앞에 문자가 있는 경우
-                // (?<=\d)(?=\D) : 문자 앞에 숫자가 있는 경우
-                var regex = new Regex(@"(?<=\D)(?=\d)|(?<=\d)(?=\D)");
-                var tokenX = regex.Split(x);
-                var tokenY = regex.Split(y);
-
-                for(int i = 0; i < Mathf.Min(tokenX.Length, tokenY.Length); i++)
-                {
-                    // 둘다 숫자일 경우
-                    if (long.TryParse(tokenX[i], out long resultX) && long.TryParse(tokenY[i], out long resultY))
-                    {
-                        if(resultX != resultY)
-                        {
-                            return resultX.CompareTo(resultY);
-                        }
-                    }
-                    // 일반 비교, 만약에 동일할 경우 다음 토큰으로 넘어간다.
-                    else
-                    {
-                        int stringCompare = string.Compare(tokenX[i], tokenY[i], System.StringComparison.OrdinalIgnoreCase);
-                        if(stringCompare != 0)
-                        {
-                            return stringCompare;
-                        }
-                    }
-                }
-
-                // 둘 중 하나가 끝났다면
-                return tokenX.Length.CompareTo(tokenY.Length);
-            }
         }
     }
 }
