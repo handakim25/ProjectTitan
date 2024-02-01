@@ -89,18 +89,7 @@ namespace Titan
                 return;
             }
 
-            var paths = objects.Select(obj => AssetDatabase.GetAssetPath(obj)).ToArray();
-            for (int i = 0; i < paths.Length; i++)
-            {
-                string path = paths[i];
-                string name = path[(path.LastIndexOf('/') + 1)..];
-                name = name[..name.LastIndexOf('.')];
-                string err = AssetDatabase.RenameAsset(path, prefix + name);
-                if (!string.IsNullOrEmpty(err))
-                {
-                    Debug.LogError(err);
-                }
-            }
+            RenameAssets(objects, name => prefix + name);
         }
 
         private string _replaceFrom = "";
@@ -145,15 +134,20 @@ namespace Titan
                 return;
             }
 
+            RenameAssets(objects, name => name.Replace(replaceFrom, replaceTo));
+        }
+
+        private void RenameAssets(Object[] objects, System.Func<string, string> nameProcessor)
+        {
             var paths = objects.Select(obj => AssetDatabase.GetAssetPath(obj)).ToArray();
-            for (int i = 0; i < paths.Length; i++)
+            for(int i = 0; i < paths.Length; i++)            
             {
                 string path = paths[i];
                 string name = path[(path.LastIndexOf('/') + 1)..];
                 name = name[..name.LastIndexOf('.')];
-                string newName = name.Replace(replaceFrom, replaceTo);
+                string newName = nameProcessor(name);
                 string err = AssetDatabase.RenameAsset(path, newName);
-                if (!string.IsNullOrEmpty(err))
+                if(!string.IsNullOrEmpty(err))
                 {
                     Debug.LogError(err);
                 }
