@@ -71,11 +71,6 @@ namespace Titan
             }
         }
 
-        private Object[] GetSelectedAssets()
-        {
-            return Selection.GetFiltered<Object>(SelectionMode.Assets);
-        }
-
         private void Rename(Object[] objects, string prefix)
         {
             if (string.IsNullOrEmpty(prefix))
@@ -119,6 +114,15 @@ namespace Titan
             {
                 EditorGUILayout.HelpBox("From or To is empty", MessageType.Warning);
             }
+
+            if(objects != null && objects.Length > 0 && !string.IsNullOrEmpty(_replaceFrom) && !string.IsNullOrEmpty(_replaceTo))
+            {
+                Object curObj = objects[0];
+                string path = AssetDatabase.GetAssetPath(curObj);
+                string name = GetNameFromPath(path);
+                string replaced = name.Replace(_replaceFrom, _replaceTo);
+                EditorGUILayout.LabelField($"Preview : {replaced}");                
+            }
         }
 
         private void Replace(Object[] objects, string replaceFrom, string replaceTo)
@@ -137,6 +141,11 @@ namespace Titan
             RenameAssets(objects, name => name.Replace(replaceFrom, replaceTo));
         }
 
+        /// <summary>
+        /// 에셋 이름을 변경. nameProcessor를 통해서 이름 변경 방법을 결정
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <param name="nameProcessor"></param>
         private void RenameAssets(Object[] objects, System.Func<string, string> nameProcessor)
         {
             var paths = objects.Select(obj => AssetDatabase.GetAssetPath(obj)).ToArray();
@@ -152,6 +161,26 @@ namespace Titan
                     Debug.LogError(err);
                 }
             }
+        }
+
+        /// <summary>
+        /// 선택된 에셋을 반환. 에셋이 아닌 것은 제외
+        /// </summary>
+        /// <returns></returns>
+        private Object[] GetSelectedAssets()
+        {
+            return Selection.GetFiltered<Object>(SelectionMode.Assets);
+        }
+
+        /// <summary>
+        /// 경로로부터 확장자를 제외한 이름을 반환
+        /// </summary>
+        /// <param name="path">경로</param>
+        /// <returns>이름</returns>
+        private string GetNameFromPath(string path)
+        {
+            string name = path[(path.LastIndexOf('/') + 1)..];
+            return name[..name.LastIndexOf('.')];
         }
     }
 }
