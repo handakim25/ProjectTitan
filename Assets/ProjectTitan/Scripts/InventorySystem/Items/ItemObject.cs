@@ -8,12 +8,14 @@ namespace Titan.InventorySystem.Items
     public class ItemObject : ScriptableObject
     {
         #region Variables
+        [SpritePreview]
         public string ItemName;
         public ItemType type;
         public ItemRarity rarity = ItemRarity.Common;
         public bool stackable;
 
         [Tooltip("인벤토리 UI에서 보여질 아이콘 이미지")]
+        [SpritePreview]
         public Sprite icon;
 
         [TextArea(5,20)]
