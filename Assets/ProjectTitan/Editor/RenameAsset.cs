@@ -33,6 +33,8 @@ namespace Titan
             _tabNames ??= System.Enum.GetNames(typeof(TabIndex));
             _tabIndex = GUILayout.Toolbar(_tabIndex, _tabNames);
 
+            GUILayout.Label("Warning: Undo is not supported yet", WarningStyle);
+
             switch((TabIndex)_tabIndex)
             {
                 case TabIndex.AddPrefix:
@@ -48,8 +50,6 @@ namespace Titan
 
         private void DrawAddPrefixtab()
         {
-            GUILayout.Label("Warning: Undo is not supported yet", WarningStyle);
-
             _renamePrefix = EditorGUILayout.TextField("Prefix", _renamePrefix);
 
             var objects = GetSelectedAssets();
@@ -92,8 +92,6 @@ namespace Titan
 
         private void DrawReplaceTab()
         {
-            GUILayout.Label("Warning: Undo is not supported yet", WarningStyle);
-
             _replaceFrom = EditorGUILayout.TextField("From", _replaceFrom);
             _replaceTo = EditorGUILayout.TextField("To", _replaceTo);
 
