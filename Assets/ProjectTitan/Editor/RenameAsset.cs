@@ -18,7 +18,6 @@ namespace Titan
             AddPrefix,
             Replace,
             Rename,
-            Show, // For Debugging
         }
 
         private int _tabIndex = 0;
@@ -49,9 +48,6 @@ namespace Titan
                     break;
                 case TabIndex.Rename:
                     DrawRenameTab(objects);
-                    break;
-                case TabIndex.Show:
-                    DrawShowTab(objects);
                     break;
             }
         }
@@ -141,16 +137,6 @@ namespace Titan
             if (string.IsNullOrEmpty(_renameNewName))
             {
                 EditorGUILayout.HelpBox("New Name is empty", MessageType.Warning);
-            }
-        }
-
-        private void DrawShowTab(Object[] objects)
-        {
-            var paths = objects.Select(obj => AssetDatabase.GetAssetPath(obj)).Select(path => GetNameFromPath(path)).ToArray();
-            paths = paths.OrderBy(x => x, new NaturalComparer()).ToArray();
-            foreach(string path in paths)
-            {
-                EditorGUILayout.LabelField(path);
             }
         }
 
