@@ -75,6 +75,13 @@ namespace Titan
             {
                 EditorGUILayout.HelpBox("Prefix is empty", MessageType.Warning);
             }
+            if(isObjectsValid && !string.IsNullOrEmpty(_renamePrefix))
+            {
+                Object curObj = objects[0];
+                string path = AssetDatabase.GetAssetPath(curObj);
+                string name = GetNameFromPath(path);
+                EditorGUILayout.LabelField($"Preview : {_renamePrefix}{name}");
+            }
         }
 
         private string _replaceFrom = "";
