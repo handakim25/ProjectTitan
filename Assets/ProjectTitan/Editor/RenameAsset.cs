@@ -14,7 +14,13 @@ namespace Titan
         private GUIStyle _warningStyle;
         private GUIStyle WarningStyle => _warningStyle ??= new GUIStyle() { normal = { textColor = Color.red }, fontStyle = FontStyle.Bold };
 
-        private string _prefix = "";
+        enum TabIndex
+        {
+            Rename,
+            Replace,
+        }
+        private int _tabIndex = 0;
+        private string[] _tabNames;
 
         [MenuItem("Tools/Rename Asset Util")]
         public static void ShowWindow()
@@ -24,16 +30,34 @@ namespace Titan
 
         private void OnGUI()
         {
+            _tabNames ??= System.Enum.GetNames(typeof(TabIndex));
+            _tabIndex = GUILayout.Toolbar(_tabIndex, _tabNames);
+
+            switch((TabIndex)_tabIndex)
+            {
+                case TabIndex.Rename:
+                    DrawRenameTab();
+                    break;
+                case TabIndex.Replace:
+                    DrawReplaceTab();
+                    break;
+            }
+        }
+
+        private string _renamePrefix = "";
+
+        private void DrawRenameTab()
+        {
             GUILayout.Label("Warning: Undo is not supported yet", WarningStyle);
 
-            _prefix = EditorGUILayout.TextField("Prefix", _prefix);
+            _renamePrefix = EditorGUILayout.TextField("Prefix", _renamePrefix);
 
             var objects = GetSelectedAssets();
 
-            EditorGUI.BeginDisabledGroup(objects == null || objects.Length == 0 || string.IsNullOrEmpty(_prefix));
+            EditorGUI.BeginDisabledGroup(objects == null || objects.Length == 0 || string.IsNullOrEmpty(_renamePrefix));
             if (GUILayout.Button("Rename"))
             {
-                Rename(Selection.objects, _prefix);
+                Rename(Selection.objects, _renamePrefix);
             }
             EditorGUI.EndDisabledGroup();
 
@@ -41,7 +65,7 @@ namespace Titan
             {
                 EditorGUILayout.HelpBox("No object selected", MessageType.Warning);
             }
-            if(string.IsNullOrEmpty(_prefix))
+            if(string.IsNullOrEmpty(_renamePrefix))
             {
                 EditorGUILayout.HelpBox("Prefix is empty", MessageType.Warning);
             }
@@ -66,13 +90,69 @@ namespace Titan
             }
 
             var paths = objects.Select(obj => AssetDatabase.GetAssetPath(obj)).ToArray();
-            Object[] newObjects = new Object[objects.Length];
             for (int i = 0; i < paths.Length; i++)
             {
                 string path = paths[i];
                 string name = path[(path.LastIndexOf('/') + 1)..];
                 name = name[..name.LastIndexOf('.')];
                 string err = AssetDatabase.RenameAsset(path, prefix + name);
+                if (!string.IsNullOrEmpty(err))
+                {
+                    Debug.LogError(err);
+                }
+            }
+        }
+
+        private string _replaceFrom = "";
+        private string _replaceTo = "";
+
+        private void DrawReplaceTab()
+        {
+            GUILayout.Label("Warning: Undo is not supported yet", WarningStyle);
+
+            _replaceFrom = EditorGUILayout.TextField("From", _replaceFrom);
+            _replaceTo = EditorGUILayout.TextField("To", _replaceTo);
+
+            var objects = GetSelectedAssets();
+
+            EditorGUI.BeginDisabledGroup(objects == null || objects.Length == 0 || string.IsNullOrEmpty(_replaceFrom) || string.IsNullOrEmpty(_replaceTo));
+            if(GUILayout.Button("Replace"))
+            {
+                Replace(Selection.objects, _replaceFrom, _replaceTo);
+            }
+            EditorGUI.EndDisabledGroup();
+
+            if (objects == null || objects.Length == 0)
+            {
+                EditorGUILayout.HelpBox("No object selected", MessageType.Warning);
+            }
+            if(string.IsNullOrEmpty(_replaceFrom) || string.IsNullOrEmpty(_replaceTo))
+            {
+                EditorGUILayout.HelpBox("From or To is empty", MessageType.Warning);
+            }
+        }
+
+        private void Replace(Object[] objects, string replaceFrom, string replaceTo)
+        {
+            if (string.IsNullOrEmpty(replaceFrom) || string.IsNullOrEmpty(replaceTo))
+            {
+                Debug.LogError("From or To is empty");
+                return;
+            }
+            if (objects == null || objects.Length == 0)
+            {
+                Debug.LogError("No object selected");
+                return;
+            }
+
+            var paths = objects.Select(obj => AssetDatabase.GetAssetPath(obj)).ToArray();
+            for (int i = 0; i < paths.Length; i++)
+            {
+                string path = paths[i];
+                string name = path[(path.LastIndexOf('/') + 1)..];
+                name = name[..name.LastIndexOf('.')];
+                string newName = name.Replace(replaceFrom, replaceTo);
+                string err = AssetDatabase.RenameAsset(path, newName);
                 if (!string.IsNullOrEmpty(err))
                 {
                     Debug.LogError(err);
