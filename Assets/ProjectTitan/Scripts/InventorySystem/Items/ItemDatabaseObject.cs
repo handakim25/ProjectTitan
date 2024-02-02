@@ -14,6 +14,11 @@ namespace Titan.InventorySystem.Items
     {
         public ItemObject[] itemObjects;
 
+        public string[] GetAllNames()
+        {
+            return itemObjects.Select(item => item.ItemName).ToArray();
+        }
+
 #region EditorCode
 #if UNITY_EDITOR
         public void OnValidate()

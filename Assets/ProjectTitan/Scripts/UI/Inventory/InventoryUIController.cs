@@ -218,16 +218,6 @@ namespace Titan.UI.InventorySystem
             selectedTab.GetComponent<TabButton>()?.Select();
         }
 
-        #endregion Button Callback
-    
-#region TestMethods
-    #if UNITY_EDITOR
-            // Test methods for testing
-            public void AddRandomItem()
-            {
-                _inventoryObject.AddRandomItem();
-            }
-    #endif
-#endregion TestMethods    
+        #endregion Button Callback 
     }
 }

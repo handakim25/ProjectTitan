@@ -79,6 +79,30 @@ namespace Titan.InventorySystem
             return true;
         }
 
+        public bool AddItem(ItemObject itemObject, int amount, bool notify = false)
+        {
+            if(itemObject == null)
+            {
+                return false;
+            }
+            var slot = FindItemInInventory(new Item(itemObject));
+            if(!itemObject.stackable || slot == null)
+            {
+                if(IsFull)
+                {
+                    return false;
+                }
+
+                inventory.AddItem(new Item(itemObject), amount);
+            }
+            else
+            {
+                slot.AddAmount(amount);
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Item ID와 일치하는 Item을 찾아서 반환한다. 가장 처음에 일치하는 Item을 반환한다.
         /// </summary>
@@ -138,24 +162,5 @@ namespace Titan.InventorySystem
         }
 
         #endregion Methods
-#if UNITY_EDITOR
-        #region TestMethods
-
-        public void AddRandomItem()
-        {
-            if (DataManager.ItemDatabase.Length == 0)
-            {
-                return;
-            }
-
-            int randomIndex = Random.Range(0, DataManager.ItemDatabase.Length);
-            ItemObject newItemObject = DataManager.ItemDatabase.GetItemObject(randomIndex);
-            Item newItem = new(newItemObject);
-            Debug.Log($"Create item / id : {newItem.id} / name : {newItemObject.ItemName}");
-            AddItem(newItem, 1);
-        }
-
-        #endregion TestMethods
-#endif
     }
 }
