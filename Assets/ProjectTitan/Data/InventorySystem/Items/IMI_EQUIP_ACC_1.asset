@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
-  m_Name: TestQuestItem
+  m_Name: IMI_EQUIP_ACC_1
   m_EditorClassIdentifier: 
-  ItemName: "\uC5F4\uC1E0"
-  type: 5
+  ItemName: "\uC544\uBBAC\uB81B"
+  type: 1
   rarity: 0
   stackable: 0
   icon: {fileID: 21300000, guid: 1cfe41388ae496140acda4557514adc7, type: 3}
-  description: "\uC911\uC559\uC758 \uAC70\uB300\uD55C \uBB38\uC744 \uC5F4\uAE30 \uC704\uD55C
-    \uC5F4\uC1E0."
+  description: "\uC544\uBB34 \uD6A8\uACFC\uAC00 \uC5C6\uB294 \uC7A5\uC2E0\uAD6C\uC774\uB2E4."
   data:
-    id: 7
+    id: 0

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
-  m_Name: TestFood
+  m_Name: IMI_MISC_POTION_1
   m_EditorClassIdentifier: 
-  ItemName: "\uB9DB\uC788\uB294 \uC2A4\uD14C\uC774\uD06C"
+  ItemName: "\uD3EC\uC158"
   type: 3
   rarity: 0
-  stackable: 1
-  icon: {fileID: 21300000, guid: 88df590d9fedb964ea645bc6f3ab057d, type: 3}
-  description: "\uD68C\uBCF5+50. \uD3C9\uBC94\uD55C \uACE0\uAE30\uC774\uB2E4."
+  stackable: 0
+  icon: {fileID: 21300000, guid: 1cfe41388ae496140acda4557514adc7, type: 3}
+  description: "HP+100. \uD3C9\uBC94\uD55C \uD3EC\uC158\uC774\uB2E4."
   data:
-    id: 2
+    id: 7
