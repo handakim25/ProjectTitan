@@ -90,43 +90,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc74702aee3c544cbb3d647b792180b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tabGroup: {fileID: 0}
   _targetImage: {fileID: 4521362239730531361}
+  _isSelectable: 1
   <TransitionTime>k__BackingField: 1
   _normalColor: {r: 0, g: 0, b: 0, a: 0}
   _hightlightedColor: {r: 0, g: 0, b: 0, a: 0}
   _pressedColor: {r: 0, g: 0, b: 0, a: 0}
   _selectedColor: {r: 0, g: 0, b: 0, a: 0}
-  OnTabSelected:
+  _highlightScale: {x: 1, y: 1, z: 1}
+  _pressedScale: {x: 1, y: 1, z: 1}
+  _selectedScale: {x: 1, y: 1, z: 1}
+  OnButtonSelected:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4521362237932334348}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnTabDeslected:
+      m_Calls: []
+  OnButtonDeslected:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4521362237932334348}
-        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
+  OnButtonClicked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonReleased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
+  tabGroup: {fileID: 0}
 --- !u!1 &4521362239730531375
 GameObject:
   m_ObjectHideFlags: 0
