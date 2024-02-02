@@ -197,8 +197,10 @@ namespace Titan
         /// <returns>이름</returns>
         private string GetNameFromPath(string path)
         {
-            string name = path[(path.LastIndexOf('/') + 1)..];
-            return name[..name.LastIndexOf('.')];
+            int lastSlashIndex = path.LastIndexOf('/');
+            int lastDotIndex = path.LastIndexOf('.');
+
+            return lastDotIndex > lastSlashIndex ? path[(lastSlashIndex + 1)..lastDotIndex] : path[(lastSlashIndex + 1)..];
         }
     }
 }
