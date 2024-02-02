@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace Titan
 {
-    public class RenameAsset : EditorWindow
+    public class RenameAssetTool : EditorWindow
     {
         // @Fix
         // EditorStyles.label을 이용해서 생성해버리면 click 상태나 focus 상태가 이미 들어가 있다.
@@ -26,7 +26,7 @@ namespace Titan
         [MenuItem("Tools/Rename Asset Util")]
         public static void ShowWindow()
         {
-            GetWindow<RenameAsset>(true, "Rename Asset");
+            GetWindow<RenameAssetTool>(true, "Rename Asset");
         }
 
         private void OnGUI()
