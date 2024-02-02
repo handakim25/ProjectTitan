@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Titan.InventorySystem.Items
 {
 #if UNITY_EDITOR
-        using UnityEditor;
+    using UnityEditor;
 #endif
 
     [CreateAssetMenu(fileName = "New ItemDatabase", menuName = "Inventory System/Items/Database")]
@@ -16,28 +16,24 @@ namespace Titan.InventorySystem.Items
 
 #region EditorCode
 #if UNITY_EDITOR
-        // @Refactor
-        // Refactoring to avoid potential issues with differing ids
-        // during saving and loading process.
         public void OnValidate()
         {
-            var assetList = new List<ItemObject>();
-            string[] guids = AssetDatabase.FindAssets($"t:{typeof(ItemObject)}");
-            foreach(var guid in guids)
-            {   
-                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                ItemObject asset = AssetDatabase.LoadAssetAtPath<ItemObject>(assetPath);
-                if(asset != null)
-                {
-                    assetList.Add(asset);
-                }
-            }
+            GetAllItemsInDatabase();
+        }
 
-            for(int i = 0; i < assetList.Count; ++i)
+        [ContextMenu("Get All Items")]
+        private void GetAllItemsInDatabase()
+        {
+            string[] guids = AssetDatabase.FindAssets($"t:{typeof(ItemObject)}");
+            itemObjects = guids.Select(guid => AssetDatabase.GUIDToAssetPath(guid))
+                .Select(path => AssetDatabase.LoadAssetAtPath<ItemObject>(path))
+                .Where(asset => asset != null)
+                .ToArray();
+
+            for(int i = 0; i < itemObjects.Length; ++i)
             {
-                assetList[i].data.id = i;
+                itemObjects[i].data.id = i;
             }
-            itemObjects = assetList.ToArray();
         }
 #endif
 #endregion EditorCode
