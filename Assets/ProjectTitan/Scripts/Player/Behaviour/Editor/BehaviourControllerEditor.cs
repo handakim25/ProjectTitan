@@ -4,7 +4,7 @@ using UnityEditor;
 namespace Titan.Character.Player
 {
     [CustomEditor(typeof(BehaviourController))]
-    public class BehaviourControllerEditor : UnityEditor.Editor
+    public class BehaviourControllerEditor : Editor
     {
         public override void OnInspectorGUI()
         {

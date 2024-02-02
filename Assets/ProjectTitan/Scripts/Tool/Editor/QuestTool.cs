@@ -82,7 +82,7 @@ namespace Titan.Resource
             EditorGUILayout.EndHorizontal();
         }  
 
-        private UnityEditor.Editor assetEditor;
+        private Editor assetEditor;
 
         private void EditorToolBodyLayer()
         {

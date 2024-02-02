@@ -7,7 +7,7 @@ using TMPro;
 namespace Titan.Character.Enemy
 {
     [CustomEditor(typeof(StateController))]
-    public class StateControllerEditor : UnityEditor.Editor
+    public class StateControllerEditor : Editor
     {
         static private bool _showPerceptionRadius = true;
         static private bool _showCombatRadius = true;

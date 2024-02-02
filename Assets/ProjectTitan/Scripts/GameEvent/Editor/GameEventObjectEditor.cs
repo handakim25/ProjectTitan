@@ -7,7 +7,7 @@ using Titan.Resource;
 namespace Titan.GameEventSystem
 {
     [CustomEditor(typeof(GameEventObject))]
-    public class GameEventObjectEditor : UnityEditor.Editor
+    public class GameEventObjectEditor : Editor
     {
         private GameEventObject _gameEventObject;
         private SerializedProperty _gameEventProperty;

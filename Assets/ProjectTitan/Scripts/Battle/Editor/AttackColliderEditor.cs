@@ -6,7 +6,7 @@ using UnityEditor;
 namespace Titan.Battle
 {
     [CustomEditor(typeof(AttackCollider))]    
-    public class AttackColliderEditor : UnityEditor.Editor
+    public class AttackColliderEditor : Editor
     {
         
     }

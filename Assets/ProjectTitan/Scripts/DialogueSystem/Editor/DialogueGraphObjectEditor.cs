@@ -14,7 +14,7 @@ namespace Titan.DialogueSystem.Data
     /// 실제 데이터 편집은 DialogueEidtorWindow에서 한다.
     /// </summary>
     [CustomEditor(typeof(DialogueGraphObject))]
-    public class DialogueGraphObjectEditor : UnityEditor.Editor
+    public class DialogueGraphObjectEditor : Editor
     {
         /// <summary>
         /// Dialgoue Graph Object를 선택할 시에 에디터로 열어주는 메뉴를 추가한다.

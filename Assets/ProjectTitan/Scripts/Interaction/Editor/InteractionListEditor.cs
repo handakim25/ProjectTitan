@@ -6,7 +6,7 @@ using UnityEditor;
 namespace Titan.Interaction
 {
     [CustomEditor(typeof(InteractionList))]
-    public class InteractionListEditor : UnityEditor.Editor
+    public class InteractionListEditor : Editor
     {
         public override void OnInspectorGUI()
         {

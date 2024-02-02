@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-namespace Titan.Editor.Scene
+namespace Titan.Scene
 {
     [CreateAssetMenu(fileName = "SceneCollectionObject", menuName = "")]
     public class SceneCollectionObject : ScriptableObject

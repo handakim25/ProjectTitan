@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Titan.Editor
+namespace Titan
 {
     public class GetTextFromParent : MonoBehaviour
     {

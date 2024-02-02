@@ -6,10 +6,10 @@ using UnityEditor;
 
 using Titan.Core.Scene;
 
-namespace Titan.Editor.Scene
+namespace Titan.Scene
 {
     [CustomEditor(typeof(SceneCollectionObject))]
-    public class SceneCollectionObjectEditor : UnityEditor.Editor
+    public class SceneCollectionObjectEditor : Editor
     {
         private static readonly string s_projectPath = "Assets/ProjectTitan/Scripts/ScriptableObjects/";
         public override void OnInspectorGUI()

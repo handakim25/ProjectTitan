@@ -5,7 +5,7 @@ using UnityEditor.SceneManagement;
 
 using Titan.Core.Scene;
 
-namespace Titan.Editor.Scene
+namespace Titan.Scene
 {
     using UnityEditor;
 

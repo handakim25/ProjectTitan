@@ -20,7 +20,7 @@ namespace Titan.Resource
         Vector2 _listScrollPos = Vector2.zero;
         Vector2 _contentScrollPos = Vector2.zero;
         static int _selection = 0;
-        UnityEditor.Editor _gameEventEditor = null;
+        Editor _gameEventEditor = null;
 
         static private string _defaultFilePath = "Assets/ProjectTitan/Data/";
         static private string _defaultFileName = "GameEventData";
@@ -192,13 +192,13 @@ namespace Titan.Resource
                             EditorGUILayout.Separator();
                             if(_gameEventEditor == null)
                             {
-                                _gameEventEditor = UnityEditor.Editor.CreateEditor(_gameEventData.GameEvents[_selection]);
+                                _gameEventEditor = Editor.CreateEditor(_gameEventData.GameEvents[_selection]);
                             }
                             else
                             {
                                 if(_gameEventEditor.target != _gameEventData.GameEvents[_selection])
                                 {
-                                    _gameEventEditor = UnityEditor.Editor.CreateEditor(_gameEventData.GameEvents[_selection]);
+                                    _gameEventEditor = Editor.CreateEditor(_gameEventData.GameEvents[_selection]);
                                 }
                             }
                             
