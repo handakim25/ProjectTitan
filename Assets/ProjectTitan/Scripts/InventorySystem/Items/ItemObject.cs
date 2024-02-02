@@ -8,7 +8,6 @@ namespace Titan.InventorySystem.Items
     public class ItemObject : ScriptableObject
     {
         #region Variables
-        [SpritePreview]
         public string ItemName;
         public ItemType type;
         public ItemRarity rarity = ItemRarity.Common;

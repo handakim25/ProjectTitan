@@ -16,7 +16,6 @@ namespace Titan
         {
             // See https://docs.unity3d.com/kr/current/Manual/editor-PropertyDrawers.html
             // https://docs.unity3d.com/ScriptReference/EditorGUI.ObjectField.html
-            
             if(!IsSprite(property))
             {
                 EditorGUI.PropertyField(position, property, label);
