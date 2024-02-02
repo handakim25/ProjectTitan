@@ -25,6 +25,7 @@ namespace Titan.UI
     /// </summary>
     sealed public class UIManager : MonoSingleton<UIManager>, MainAction.IUIActions
     {
+        [Header("Input")]
         [SerializeField] private InputActionAsset _inputAsset;
         private MainAction _action;
 

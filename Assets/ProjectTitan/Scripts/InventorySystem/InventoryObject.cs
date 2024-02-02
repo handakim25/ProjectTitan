@@ -7,6 +7,8 @@ using Titan.InventorySystem.Items;
 
 namespace Titan.InventorySystem
 {
+    // @TO-Do
+    // Save할 것이면 Index가 아니라 string id를 따로 가지게 할 것
     /// <summary>
     /// Inventory 데이터를 가지고 있는 ScriptableObject
     /// </summary>
