@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6039a77f5a2b695458ae958be0a9894e, type: 3}
   m_Name: IMI_EQUIP_SWORD_2
   m_EditorClassIdentifier: 
-  ItemName: "\uD55C\uC190\uAC80"
+  ItemName: "\uAC15\uD55C \uD55C\uC190\uAC80"
   type: 1
   rarity: 0
   stackable: 0
-  icon: {fileID: 21300000, guid: 1cfe41388ae496140acda4557514adc7, type: 3}
-  description: "\uD3C9\uBC94\uD55C \uAC80\uC774\uB2E4."
+  icon: {fileID: 21300000, guid: 0aac9f8472a3dda418801c0d3160a1d4, type: 3}
+  description: "\uAC15\uB825\uD55C \uAC80\uC774\uB2E4."
   data:
     id: 2
