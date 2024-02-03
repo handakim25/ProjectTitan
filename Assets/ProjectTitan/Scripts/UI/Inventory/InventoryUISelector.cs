@@ -25,10 +25,6 @@ namespace Titan.UI.InventorySystem
         }
 
 #if UNITY_EDITOR
-        /// <summary>
-        /// Called when the script is loaded or a value is changed in the
-        /// inspector (Called in the editor only).
-        /// </summary>
         private void OnValidate()
         {
             target = GetComponent<InventoryUI>();

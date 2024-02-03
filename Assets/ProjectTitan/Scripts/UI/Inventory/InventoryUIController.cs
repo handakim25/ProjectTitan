@@ -18,9 +18,16 @@ namespace Titan.UI.InventorySystem
         [Tooltip("Player Inventory")]
         [SerializeField] InventoryObject _inventoryObject;
 
-        [Header("UI")]
+        [Header("UI/Header")]
         [SerializeField] protected GameObject _cartegoryTab;
+        [SerializeField] protected TextMeshProUGUI _categoryText;
+        [Tooltip("용량을 표현하기 위한 Text")]
+        [SerializeField] protected FormatString _capacityText;
+
+        [Header("UI/Body")]
+        [Tooltip("Inventory 전체를 보여주는 UI")]
         [SerializeField] protected InventoryUI _inventoryUI;
+        [Tooltip("선택된 아이템의 상세 정보를 보여주는 UI")]
         [SerializeField] protected GameObject _detailSlotUI;
         /// <summary>
         /// 선택된 아이템의 상세 정보를 보여주는 슬롯
@@ -28,7 +35,8 @@ namespace Titan.UI.InventorySystem
         /// </summary>
         private InventorySlot _detailSlot = new InventorySlot();
         [SerializeField] protected GameObject _equipIndicatorUI;
-        [SerializeField] protected FormatString _capacityText;
+
+        [Header("UI/Footer")]
         [SerializeField] protected Button _interactButton;
 
         #region UnityMethods
@@ -38,6 +46,7 @@ namespace Titan.UI.InventorySystem
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryObject, "Inventory is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_cartegoryTab, "Cartegory is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_cartegoryTab.GetComponent<TabGroup>(), "Cartegory tab should have TabGroupd");
+            UnityEngine.Assertions.Assert.IsNotNull(_categoryText, "Category Text is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryUI, "Inventory ui is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_detailSlotUI, "Detail Slot Ui is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_equipIndicatorUI, "Equip Indicator Ui is not set");
