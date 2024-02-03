@@ -4,38 +4,40 @@ using UnityEngine;
 
 namespace Titan.UI
 {
-    // @Note
-    // Expand to general cases
-    // For instance multiple tab
     public class TabGroup : MonoBehaviour
     {
         private List<TabButton> tabButtons;
 
+        /// <summary>
+        /// 현재 선택된 TabButton
+        /// </summary>
         private TabButton _selectedTab;
+        public TabButton SelectedTab => _selectedTab;
+
         public System.Action<TabButton> OnTabSelectedEvent;
         public System.Action<TabButton> OnTabDeselectedEvent;
-
-        #region Property
         
-        public TabButton SelectedTab => _selectedTab;
-        
-        #endregion Property
-
         public void Subscribe(TabButton button)
         {
-            if(tabButtons == null)
-            {
-                tabButtons = new List<TabButton>();
-            }
+            tabButtons ??= new List<TabButton>();
 
             tabButtons.Add(button);
         }
 
+        public void Unsubscribe(TabButton button)
+        {
+            tabButtons?.Remove(button);
+        }
+
         #region UnityEventSystem Methods
 
-        public void OnTabSelected(TabButton button)
+        public void SelectTab(TabButton button)
         {
-            if(_selectedTab != null && button != _selectedTab)
+            if(_selectedTab == button)
+            {
+                return;
+            }
+            if(_selectedTab != null)
             {
                 _selectedTab.Deselect(); // button.Deselect -> OnTabDeselected -> OnTabDeselectedEvent
             }
@@ -51,9 +53,5 @@ namespace Titan.UI
         }
         
         #endregion UnityEventSystem Methods
-
-        #region Methods
-
-        #endregion Methods
     }
 }
