@@ -15,8 +15,8 @@ MonoBehaviour:
   ItemName: "\uD3C9\uBC94\uD55C \uD3EC\uC158"
   type: 3
   rarity: 0
-  stackable: 0
+  stackable: 1
   icon: {fileID: 21300000, guid: 0ae83fac370d849439754bd2b6300bd7, type: 3}
   description: "HP+100. \uD3C9\uBC94\uD55C \uD3EC\uC158\uC774\uB2E4."
   data:
-    id: 7
+    id: 10
