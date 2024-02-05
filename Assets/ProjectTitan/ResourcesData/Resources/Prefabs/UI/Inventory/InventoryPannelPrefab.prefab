@@ -1180,7 +1180,7 @@ GameObject:
   - component: {fileID: 101697217676044391}
   - component: {fileID: 101697217676044388}
   m_Layer: 5
-  m_Name: InventoryPannel
+  m_Name: InventoryPannelPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
