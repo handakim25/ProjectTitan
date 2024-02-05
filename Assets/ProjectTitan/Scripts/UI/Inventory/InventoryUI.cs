@@ -318,6 +318,7 @@ namespace Titan.UI.InventorySystem
         {
             if(_allowedType.Contains(type))
             {   
+                
                 return;
             }
 

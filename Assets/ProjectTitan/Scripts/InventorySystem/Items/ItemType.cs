@@ -9,10 +9,11 @@ namespace Titan.InventorySystem.Items
     {
         None,
         Weapon,
-        Core,
+        Acc,
+        Consumable,
         Food,
-        CrafitingMaterial,
         QuestItem,
+        Misc,
     }
 
     public static class ItemTypeExtension
@@ -22,10 +23,11 @@ namespace Titan.InventorySystem.Items
             return type switch
             {
                 ItemType.Weapon => "무기",
-                ItemType.Core => "코어",
+                ItemType.Acc => "장신구",
+                ItemType.Consumable => "소모품",
                 ItemType.Food => "음식",
-                ItemType.CrafitingMaterial => "제작 재료",
                 ItemType.QuestItem => "퀘스트 아이템",
+                ItemType.Misc => "기타",
                 _ => "없음",
             };
         }
