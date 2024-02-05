@@ -60,13 +60,17 @@ namespace Titan
         #endregion Varaibles
 
         #region Unity Methods
+
+        private void Awake()
+        {
+            _normalScale = _targetImage.transform.localScale;
+        }
         
         protected virtual void Start()
         {
             if(!_isInitialized && _targetImage != null)
             {
                 _targetImage.color = _isSelected ? _selectedColor : _normalColor;
-                _normalScale = _targetImage.transform.localScale;
                 _isInitialized = true;
             }
         }
