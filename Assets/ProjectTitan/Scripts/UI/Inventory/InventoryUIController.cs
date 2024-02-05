@@ -19,7 +19,8 @@ namespace Titan.UI.InventorySystem
         [SerializeField] InventoryObject _inventoryObject;
 
         [Header("UI/Header")]
-        [SerializeField] protected GameObject _cartegoryTab;
+        
+        [SerializeField] protected GameObject _categoryTab;
         [SerializeField] protected TextMeshProUGUI _categoryText;
         [Tooltip("용량을 표현하기 위한 Text")]
         [SerializeField] protected FormatString _capacityText;
@@ -44,8 +45,8 @@ namespace Titan.UI.InventorySystem
         private void Awake()
         {
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryObject, "Inventory is not set");
-            UnityEngine.Assertions.Assert.IsNotNull(_cartegoryTab, "Cartegory is not set");
-            UnityEngine.Assertions.Assert.IsNotNull(_cartegoryTab.GetComponent<TabGroup>(), "Cartegory tab should have TabGroupd");
+            UnityEngine.Assertions.Assert.IsNotNull(_categoryTab, "Cartegory is not set");
+            UnityEngine.Assertions.Assert.IsNotNull(_categoryTab.GetComponent<TabGroup>(), "Cartegory tab should have TabGroupd");
             UnityEngine.Assertions.Assert.IsNotNull(_categoryText, "Category Text is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_inventoryUI, "Inventory ui is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_detailSlotUI, "Detail Slot Ui is not set");
@@ -82,9 +83,31 @@ namespace Titan.UI.InventorySystem
             // tab button -> Select -> Filter Inventory UI 
             // ->  TabGroup.OntabSelected -> OnTabSelectedEvent -> Select Slot
             // 만약, Category가 바뀌면, 첫번째 슬롯을 선택한다.
-            _cartegoryTab.GetComponent<TabGroup>().OnTabSelectedEvent += (tabButton) => {
+            _categoryTab.GetComponent<TabGroup>().OnTabSelectedEvent += (tabButton) => {
+                if(tabButton.TryGetComponent<FilterSelector>(out var filterSelector))
+                {
+                    _categoryText.text = filterSelector.ItemType.ToText();
+                    _inventoryUI.SetFilter(filterSelector.ItemType);
+                }
+                else
+                {
+                    _categoryText.text = "All";
+                    _inventoryUI.RemoveFilter();
+                }
+
                 var firstSlot = _inventoryUI.GetFirstSlotGo();
                 _inventoryUI.SelectSlot(firstSlot);
+            };
+
+            _categoryTab.GetComponent<TabGroup>().OnTabDeselectedEvent += (tabButton) => {
+                if(tabButton.TryGetComponent<FilterSelector>(out var filterSelector))
+                {
+                    _inventoryUI.RemoveFilter(filterSelector.ItemType);
+                }
+                else
+                {
+                    _inventoryUI.RemoveFilter();
+                }
             };
         }
 
@@ -96,10 +119,13 @@ namespace Titan.UI.InventorySystem
             _inventoryUI.CreateSlots(_inventoryObject.Slots); // slots will be destroyed OnDisable
             _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
 
-            if(_cartegoryTab.transform.childCount > 0)
+            if(_categoryTab.transform.childCount > 0)
             {
-                var firstCartegoryGo = _cartegoryTab.transform.GetChild(0);
-                firstCartegoryGo.GetComponent<TabButton>()?.Select();
+                var firstCartegoryGo = _categoryTab.transform.GetChild(0);
+                if(firstCartegoryGo.TryGetComponent<TabButton>(out var tabButton))
+                {
+                    tabButton.Select();
+                }
             }
 
             _capacityText.Format(_inventoryObject.ItemCount, _inventoryObject.Capacity);
@@ -210,21 +236,24 @@ namespace Titan.UI.InventorySystem
 
         public void OnCartegoryButton(bool isLeft)
         {
-            int tabCount = _cartegoryTab.transform.childCount;
+            int tabCount = _categoryTab.transform.childCount;
             if(tabCount == 0)
             {
                 return;
             }
 
-            TabButton selectedButton = _cartegoryTab.GetComponent<TabGroup>().SelectedTab;
+            TabButton selectedButton = _categoryTab.GetComponent<TabGroup>().SelectedTab;
             int index = selectedButton.transform.GetSiblingIndex();
             int newIndex = index + (isLeft ? -1 : 1);
 
             if(newIndex < 0) newIndex = tabCount - 1;
             else if(newIndex >= tabCount) newIndex = 0;
 
-            GameObject selectedTab = _cartegoryTab.transform.GetChild(newIndex).gameObject;
-            selectedTab.GetComponent<TabButton>()?.Select();
+            GameObject selectedTab = _categoryTab.transform.GetChild(newIndex).gameObject;
+            if(selectedTab.TryGetComponent<TabButton>(out var tabButton))
+            {
+                tabButton.Select();
+            }
         }
 
         #endregion Button Callback 

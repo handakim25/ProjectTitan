@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Titan.UI
 {
+    /// <summary>
+    /// TabButton들의 선택을 관리한다.
+    /// Select Event가 발생하면 TabButton은 자신을 선택하고 TabGroup이 이전에 선택된 TabButton을 Deselect한다.
+    /// </summary>
     public class TabGroup : MonoBehaviour
     {
         private List<TabButton> tabButtons;

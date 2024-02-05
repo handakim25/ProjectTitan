@@ -318,7 +318,6 @@ namespace Titan.UI.InventorySystem
         {
             if(_allowedType.Contains(type))
             {   
-                
                 return;
             }
 
@@ -329,6 +328,13 @@ namespace Titan.UI.InventorySystem
         public void RemoveFilter(ItemType type)
         {
             _allowedType.Remove(type);
+            ApplyFilter();
+        }
+
+        public void RemoveFilter()
+        {
+            _allowedType.Clear();
+            _allowedType.Add(ItemType.None);
             ApplyFilter();
         }
 
@@ -350,6 +356,10 @@ namespace Titan.UI.InventorySystem
         }
 
         // First version : 효율성은 생각하지 않는다.
+        // @Refactor: 최적화
+        // 개선 방안 1.
+        // Dirty Flag를 사용하여 Filter를 한 번만 적용하도록 할 수 있다.
+        // 이럴 경우 Filter된 Slot을 바로 선택하는 Inventory UI에 주의할 것
         private void ApplyFilter()
         {
             if(_allowedType.Contains(ItemType.None) || _allowedType.Count == 0)
