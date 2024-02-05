@@ -37,14 +37,14 @@ namespace Titan.DialogueSystem
         /// 현재 대화를 진행중인 대화 상대
         /// </summary>
         private DialogInteractable _curDialogueInteractable;
-        private DialogueNode _currentDialogueNode;
+        private DialogueNode _curDialogueNode;
         /// <summary>
         /// Dialogue 종료 시에 호출되는 Callback
         /// </summary>
         private System.Action _onDialogueEnd;
 
         private string CurSpeaker => _curDialogueInteractable != null ? 
-            _curDialogueInteractable.InteractText : null ?? _currentDialogueNode.SpeakerName;
+            _curDialogueInteractable.InteractText : null ?? _curDialogueNode.SpeakerName;
         
         private ConditionEvaluator _conditionEvaluator;
 
@@ -105,15 +105,15 @@ namespace Titan.DialogueSystem
             _onDialogueEnd = OnDialogueEnd;
 
             _currentDialogueObject = dialogueObject;
-            _currentDialogueNode = dialogueObject.GetStartingNode();
-            if(_currentDialogueNode == null)
+            _curDialogueNode = dialogueObject.GetStartingNode();
+            if(_curDialogueNode == null)
             {
                 Debug.LogError("Dialogue Object is empty");
                 return;
             }
 
             DialogueUI.GetComponent<DialogueUIScene>().OpenUI();
-            DialogueUI.SetDialogue(CurSpeaker, _currentDialogueNode.SentenceText);
+            DialogueUI.SetDialogue(CurSpeaker, _curDialogueNode.SentenceText);
         }
 
         /// <summary>
@@ -122,9 +122,9 @@ namespace Titan.DialogueSystem
         /// <returns>대화를 다 가져왔으면 null을 반환</returns>
         private DialogueNode GetNextDialogue()
         {
-            if(_currentDialogueNode.NextNode != null)
+            if(_curDialogueNode.NextNode != null)
             {
-                return _currentDialogueObject.GetNode(_currentDialogueNode.NextNode);
+                return _currentDialogueObject.GetNode(_curDialogueNode.NextNode);
             }
 
             return null;
@@ -172,14 +172,14 @@ namespace Titan.DialogueSystem
                     QuestManager = QuestManager.Instance,
                     InventoryManager = InventoryManager.Instance,
                 };
-                var choiceTextList = _currentDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator))
+                var choiceTextList = _curDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator))
                     .Select(x => x.ChoiceText)
                     .ToList();
                 DialogueUI.ShowChoice(choiceTextList);
             }
         }
 
-        private bool HasChoices => _currentDialogueNode.Choices.Count > 0;
+        private bool HasChoices => _curDialogueNode.Choices.Count > 0;
 
         /// <summary>
         /// 선택지를 선택했을 때 처리한다.
@@ -188,7 +188,7 @@ namespace Titan.DialogueSystem
         private void OnChoiceSelectedHandler(string choiceStr)
         {
             // show next dialogue
-            var choiceNode = _currentDialogueNode.Choices.Find(x => x.ChoiceText == choiceStr);
+            var choiceNode = _curDialogueNode.Choices.Find(x => x.ChoiceText == choiceStr);
             if(choiceNode == null)
             {
                 Debug.LogError("Choice is not exist");
@@ -207,29 +207,29 @@ namespace Titan.DialogueSystem
         /// <param name="node"></param>
         private void ProcessDialogue(DialogueNode node)
         {
-            _currentDialogueNode = node;
-            if(_currentDialogueNode != null)
+            _curDialogueNode = node;
+            if(_curDialogueNode != null)
             {
-                if(!string.IsNullOrEmpty(_currentDialogueNode.TriggerEventID))
+                if(!string.IsNullOrEmpty(_curDialogueNode.TriggerEventID))
                 {
                     // Trigger Game Event
                     EventBus.RaiseEvent(new GameEventTriggeredEvent
                     {
-                        EventName = _currentDialogueNode.TriggerEventID,
-                        TriggerStatus = _currentDialogueNode.TriggerSetValue,
+                        EventName = _curDialogueNode.TriggerEventID,
+                        TriggerStatus = _curDialogueNode.TriggerSetValue,
                     });
                 }
-                if(!string.IsNullOrEmpty(_currentDialogueNode.TriggerQuest))
+                if(!string.IsNullOrEmpty(_curDialogueNode.TriggerQuest))
                 {
                     // Trigger Quest
                     EventBus.RaiseEvent(new QuestEvent
                     {
-                        QuestID = _currentDialogueNode.TriggerQuest,
-                        Status = System.Enum.Parse<QuestStatus>(_currentDialogueNode.TriggerQuestState),
+                        QuestID = _curDialogueNode.TriggerQuest,
+                        Status = System.Enum.Parse<QuestStatus>(_curDialogueNode.TriggerQuestState),
                     });
                 }
 
-                DialogueUI.SetDialogue(CurSpeaker, _currentDialogueNode.SentenceText);
+                DialogueUI.SetDialogue(CurSpeaker, _curDialogueNode.SentenceText);
             }
             else
             {
