@@ -291,7 +291,7 @@ MonoBehaviour:
   OnPointerHoverExit:
     m_PersistentCalls:
       m_Calls: []
-  tabGroup: {fileID: 0}
+  _tabGroup: {fileID: 0}
 --- !u!1 &4521362239730531375
 GameObject:
   m_ObjectHideFlags: 0
