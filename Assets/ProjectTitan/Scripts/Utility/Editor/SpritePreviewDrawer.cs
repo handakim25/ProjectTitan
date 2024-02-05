@@ -16,7 +16,7 @@ namespace Titan
         {
             // See https://docs.unity3d.com/kr/current/Manual/editor-PropertyDrawers.html
             // https://docs.unity3d.com/ScriptReference/EditorGUI.ObjectField.html
-            if(!IsSprite(property))
+            if(!IsSprite())
             {
                 EditorGUI.PropertyField(position, property, label);
                 return;
@@ -28,7 +28,7 @@ namespace Titan
         {
             // if the property is not a Sprite, use the default height
             // See https://forum.unity.com/threads/drawing-a-sprite-in-editor-window.419199/
-            if (!IsSprite(property))
+            if (!IsSprite())
             {
                 return base.GetPropertyHeight(property, label);
             }
@@ -36,9 +36,10 @@ namespace Titan
                 EditorGUIUtility.singleLineHeight : _previewHeight + _bottomMargin;
         }
 
-        private bool IsSprite(SerializedProperty property)
+        private bool IsSprite()
         {
-            return property.propertyType == SerializedPropertyType.ObjectReference && property.objectReferenceValue is Sprite;
+            // See https://discussions.unity.com/t/a-smarter-way-to-get-the-type-of-serializedproperty/186674/2
+            return fieldInfo.FieldType == typeof(Sprite);
         }
     }
 }
