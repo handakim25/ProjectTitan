@@ -52,7 +52,7 @@ namespace Titan.UI.InventorySystem
             UnityEngine.Assertions.Assert.IsNotNull(_detailSlotUI, "Detail Slot Ui is not set");
             UnityEngine.Assertions.Assert.IsNotNull(_equipIndicatorUI, "Equip Indicator Ui is not set");
 
-            // Detail Slot
+            // Setup Detail Slot
             _detailSlot.SlotUI = _detailSlotUI;
             _detailSlot.OnPostUpdate += OnDetailSlotPostUpdate;
             _detailSlot.UpdateSlot(new Item(), 0);
@@ -80,8 +80,7 @@ namespace Titan.UI.InventorySystem
                 // _equipIndicatorUI.SetActive(true);
             };
 
-            // tab button -> Select -> Filter Inventory UI 
-            // ->  TabGroup.OntabSelected -> OnTabSelectedEvent -> Select Slot
+            // tab button -> Select ->Deselect Other Tab -> OnTabDeselectedEvent -> Update Select tab -> OnTabSelectedEvent
             // 만약, Category가 바뀌면, 첫번째 슬롯을 선택한다.
             _categoryTab.GetComponent<TabGroup>().OnTabSelectedEvent += (tabButton) => {
                 if(tabButton.TryGetComponent<FilterSelector>(out var filterSelector))
@@ -119,16 +118,16 @@ namespace Titan.UI.InventorySystem
             _inventoryUI.CreateSlots(_inventoryObject.Slots); // slots will be destroyed OnDisable
             _inventoryObject.OnSlotCountChanged += OnSlotCountChangedHandler;
 
-            if(_categoryTab.transform.childCount > 0)
+            if (_categoryTab.transform.childCount > 0)
             {
                 var firstCartegoryGo = _categoryTab.transform.GetChild(0);
-                if(firstCartegoryGo.TryGetComponent<TabButton>(out var tabButton))
+                if (firstCartegoryGo.TryGetComponent<TabButton>(out var tabButton))
                 {
                     tabButton.Select();
                 }
             }
 
-            _capacityText.Format(_inventoryObject.ItemCount, _inventoryObject.Capacity);
+            UpdateCapacityText();
         }
 
         private void OnDisable()
@@ -137,6 +136,11 @@ namespace Titan.UI.InventorySystem
         }
 
         #endregion UnityMethods
+
+        private void UpdateCapacityText()
+        {
+            _capacityText.Format(_inventoryObject.ItemCount, _inventoryObject.Capacity);
+        }
 
         #region Callback
 
@@ -158,8 +162,7 @@ namespace Titan.UI.InventorySystem
                 }
             }
 
-            InventoryObject inventory = e as InventoryObject;
-            _capacityText.Format(inventory.ItemCount, inventory.Capacity);
+            UpdateCapacityText();
         }  
 
         /// <summary>
@@ -234,6 +237,10 @@ namespace Titan.UI.InventorySystem
                 _inventoryObject.RemoveItem(slectedSlot, 1);
         }
 
+        /// <summary>
+        /// Category Change Button Handler
+        /// </summary>
+        /// <param name="isLeft"></param>
         public void OnCartegoryButton(bool isLeft)
         {
             int tabCount = _categoryTab.transform.childCount;
