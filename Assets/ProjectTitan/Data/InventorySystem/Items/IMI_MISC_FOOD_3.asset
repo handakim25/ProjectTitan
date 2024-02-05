@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: IMI_MISC_FOOD_3
   m_EditorClassIdentifier: 
   ItemName: "\uB9E5\uC8FC"
-  type: 3
+  type: 4
   rarity: 0
   stackable: 1
-  icon: {fileID: 21300000, guid: 570870dfa66aa9144b109a99eca86665, type: 3}
+  icon: {fileID: 21300000, guid: fe842c2bbc81da546af218912900f8a0, type: 3}
   description: "\uC2DC\uC6D0\uD558\uC9C0\uB294 \uC54A\uC9C0\uB9CC \uB9E5\uC8FC\uB294
     \uB9E5\uC8FC\uB2E4."
   data:

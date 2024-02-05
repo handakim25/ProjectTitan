@@ -16,7 +16,7 @@ MonoBehaviour:
   type: 3
   rarity: 0
   stackable: 0
-  icon: {fileID: 21300000, guid: d77163eb2ffa3854bbd58e6e11cce159, type: 3}
+  icon: {fileID: 21300000, guid: 0ae83fac370d849439754bd2b6300bd7, type: 3}
   description: "HP+200. \uAC15\uD55C \uD3C9\uBC94\uD55C \uD3EC\uC158\uC774\uB2E4."
   data:
     id: 8

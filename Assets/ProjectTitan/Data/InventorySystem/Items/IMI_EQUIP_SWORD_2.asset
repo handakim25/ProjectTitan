@@ -16,7 +16,7 @@ MonoBehaviour:
   type: 1
   rarity: 0
   stackable: 0
-  icon: {fileID: 21300000, guid: 0aac9f8472a3dda418801c0d3160a1d4, type: 3}
+  icon: {fileID: 21300000, guid: fb9ee21c5c1646f4abf58b83ec6b7af7, type: 3}
   description: "\uAC15\uB825\uD55C \uAC80\uC774\uB2E4."
   data:
     id: 2
