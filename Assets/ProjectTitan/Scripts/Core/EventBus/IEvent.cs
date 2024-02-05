@@ -30,7 +30,7 @@ namespace Titan
     public struct GameEventTriggeredEvent : IEvent
     {
         public string EventName;
-        
+        public bool TriggerStatus;
     }
 
     /// <summary>

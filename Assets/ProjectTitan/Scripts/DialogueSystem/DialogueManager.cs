@@ -212,8 +212,12 @@ namespace Titan.DialogueSystem
             {
                 if(!string.IsNullOrEmpty(_currentDialogueNode.TriggerEventID))
                 {
-                    // Trigger Event
-
+                    // Trigger Game Event
+                    EventBus.RaiseEvent(new GameEventTriggeredEvent
+                    {
+                        EventName = _currentDialogueNode.TriggerEventID,
+                        TriggerStatus = _currentDialogueNode.TriggerSetValue,
+                    });
                 }
                 if(!string.IsNullOrEmpty(_currentDialogueNode.TriggerQuest))
                 {
@@ -224,7 +228,8 @@ namespace Titan.DialogueSystem
                         Status = System.Enum.Parse<QuestStatus>(_currentDialogueNode.TriggerQuestState),
                     });
                 }
-                _dialogueUI.SetDialogue(_curSpeaker, _currentDialogueNode.SentenceText);
+
+                DialogueUI.SetDialogue(CurSpeaker, _currentDialogueNode.SentenceText);
             }
             else
             {
