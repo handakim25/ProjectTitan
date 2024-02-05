@@ -263,7 +263,7 @@ namespace Titan.UI
         private PointerEventData _pointerEventData;
         private List<RaycastResult> _raycastResults = new();
         /// <summary>
-        /// UI에 Raycast가 되는지 확인
+        /// UI에 Raycast가 되는지 확인. Button은 제외한다.
         /// </summary>
         /// <param name="position">Screen Space Position</param>
         /// <returns>UI 검출 경우 True</returns>
