@@ -171,7 +171,7 @@ namespace Titan.UI.InventorySystem
             if(slot.SlotUI.TryGetComponent<SlotUI>(out var slotUi))
             {
                 slotUi.IconImage = itemObject.icon;
-                // slotUi.RarityColor = itemObject.rarity.getco
+                slotUi.ItemDescText = itemObject.type.IsEquipable() ? itemObject.subType.ToText() : slot.amount.ToString();
             }
             else
             {

@@ -60,6 +60,16 @@ namespace Titan.InventorySystem.Items
             };
         }
 
+        public static bool IsEquipable(this ItemType type)
+        {
+            return type switch
+            {
+                ItemType.Weapon => true,
+                ItemType.Acc => true,
+                _ => false,
+            };
+        }
+
         public static string ToText(this ItemSubType type)
         {
             return type switch
