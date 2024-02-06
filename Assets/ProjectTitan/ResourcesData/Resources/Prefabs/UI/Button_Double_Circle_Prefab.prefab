@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 1173986754281554487}
   - component: {fileID: 935117819662159424}
   m_Layer: 5
-  m_Name: CloseButtonPrefab
+  m_Name: Button_Double_Circle_Prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
