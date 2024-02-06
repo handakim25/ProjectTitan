@@ -8,6 +8,9 @@ namespace Titan
 {
     public class SlotUI : MonoBehaviour
     {
+        /// <summary>
+        /// 아이템의 아이콘 이미지
+        /// </summary>
         public Sprite IconImage{
             set {
                 if(!_icon)
@@ -16,6 +19,9 @@ namespace Titan
             }
         }
 
+        /// <summary>
+        /// 아이템 희귀도 색상
+        /// </summary>
         public Color RarityColor{
             set {
                 if(!_rarityBackground)
@@ -24,6 +30,9 @@ namespace Titan
             }
         }
 
+        /// <summary>
+        /// 아이템 이름 텍스트
+        /// </summary>
         public string ItemNameText{
             set{
                 if(!_text)
@@ -32,6 +41,9 @@ namespace Titan
             }
         }
 
+        /// <summary>
+        /// 아이템 설명 텍스트
+        /// </summary>
         public string ItemDescText {
             set {
                 if(!_desc)
@@ -40,7 +52,10 @@ namespace Titan
             }
         }
 
-        public string ItemTypeText {
+        /// <summary>
+        /// 아이템의 Subtype을 표시하는 텍스트
+        /// </summary>
+        public string ItemSubTypeText {
             set {
                 if(!_type)
                     return;
