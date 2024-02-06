@@ -358,7 +358,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 4}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -552,7 +552,7 @@ MonoBehaviour:
   _rarityBackground: {fileID: 0}
   _rarityColor: {r: 0, g: 0, b: 0, a: 0}
   _text: {fileID: 0}
-  _desc: {fileID: 0}
+  _desc: {fileID: 5553882990937082596}
   _type: {fileID: 0}
 --- !u!114 &7887897045094240211
 MonoBehaviour:
@@ -567,6 +567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetImage: {fileID: 6749776957093161452}
+  _isSelectable: 1
   <TransitionTime>k__BackingField: 0.25
   _normalColor: {r: 1, g: 0.86666673, b: 0.61960787, a: 1}
   _hightlightedColor: {r: 1, g: 0.86666673, b: 0.61960787, a: 1}
@@ -605,3 +606,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnButtonClicked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonReleased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
