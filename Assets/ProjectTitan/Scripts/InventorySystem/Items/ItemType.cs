@@ -72,7 +72,7 @@ namespace Titan.InventorySystem.Items
                 ItemSubType.Meal => "음식",
                 ItemSubType.Material => "재료",
                 ItemSubType.Trinket => "잡동사니",
-                _ => "없음",
+                _ => string.Empty,
             };
         }
 

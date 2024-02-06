@@ -68,7 +68,7 @@ namespace Titan.InventorySystem.Items
             ItemType curItemType = (ItemType)type.enumValueIndex;
             ItemSubType curSubType = (ItemSubType)filterSubType;
 
-            return curSubType.IsSubTypeOf(curItemType);
+            return curSubType.IsSubTypeOf(curItemType) || curSubType == ItemSubType.None;
         }
     }
 }
