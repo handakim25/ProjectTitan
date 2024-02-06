@@ -166,6 +166,8 @@ namespace Titan
 
             _isPressed = true;
 
+            DOTween.Kill(transform);
+
             if(_targetImage)
             {
                 Sequence pressedSequence = DOTween.Sequence()
@@ -183,6 +185,14 @@ namespace Titan
             _isPressed = false;
             if(!_isSelected)
             {
+                if(_targetImage)
+                {
+                    Sequence upSequence = DOTween.Sequence()
+                        .Append(_targetImage.transform.DOScale(_highlightScale, TransitionTime))
+                        .Join(_targetImage.DOColor(_hightlightedColor, TransitionTime))
+                        .SetTarget(transform)
+                        .SetUpdate(true);
+                }
                 OnButtonReleased?.Invoke();
             }
         }
