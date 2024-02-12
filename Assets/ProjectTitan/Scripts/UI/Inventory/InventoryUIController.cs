@@ -67,12 +67,20 @@ namespace Titan.UI.InventorySystem
                 }
                 _detailSlot.UpdateSlot(slot.item.Clone(), 0);
                 ItemObject item = DataManager.ItemDatabase.GetItemObject(slot.item.id);
-
-                _interactButton.gameObject.SetActive(true);
+                if(item == null)
+                {
+                    Debug.LogError($"Invalid Item ID: {slot.item.id}");
+                    return;
+                }
+                
+                bool isUsable = item.type.IsUsable();
+                _interactButton.gameObject.SetActive(isUsable);
                 TextMeshProUGUI text = _interactButton.GetComponentInChildren<TextMeshProUGUI>();
                 text.text = item.type switch
                     {
                         ItemType.Weapon => "착용",
+                        ItemType.Acc => "착용",
+                        ItemType.Consumable => "사용",
                         ItemType.Food => "사용",
                         _ => "상세",
                     };
