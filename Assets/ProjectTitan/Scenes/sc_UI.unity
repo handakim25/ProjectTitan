@@ -4268,7 +4268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.15, g: 0.15, b: 0.15, a: 0.4}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.4}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7959,7 +7959,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 98bc53d6954c52040a2bbaeab618b43c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3056b137898b15043bdae957f8215021, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9144,6 +9144,16 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -171
       objectReference: {fileID: 0}
+    - target: {fileID: 101697218087746751, guid: cf70144880bebbb43bed153acba6e582,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.61960787
+      objectReference: {fileID: 0}
+    - target: {fileID: 101697218087746751, guid: cf70144880bebbb43bed153acba6e582,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.8666667
+      objectReference: {fileID: 0}
     - target: {fileID: 101697218160205418, guid: cf70144880bebbb43bed153acba6e582,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -9153,6 +9163,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 684
+      objectReference: {fileID: 0}
+    - target: {fileID: 101697218339703377, guid: cf70144880bebbb43bed153acba6e582,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.61960787
+      objectReference: {fileID: 0}
+    - target: {fileID: 101697218339703377, guid: cf70144880bebbb43bed153acba6e582,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.8666667
       objectReference: {fileID: 0}
     - target: {fileID: 101697218858119099, guid: cf70144880bebbb43bed153acba6e582,
         type: 3}
