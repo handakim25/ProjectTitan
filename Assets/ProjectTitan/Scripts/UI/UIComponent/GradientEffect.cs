@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 namespace Titan
 {
+    /// <summary>
+    /// Graphic Component에 Gradient 효과를 적용하는 클래스
+    /// BaseMsehEffect이며 Veretex Color를 오버라이드해서 Gradient 효과를 적용한다.
+    /// </summary>
     public class GradientEffect : BaseMeshEffect
     {
         public Color topLeftColor = Color.white;
