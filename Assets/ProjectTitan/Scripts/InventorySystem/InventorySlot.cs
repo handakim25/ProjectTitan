@@ -27,7 +27,7 @@ namespace Titan.InventorySystem
         [NonSerialized] public Action<InventorySlot> OnEmpty;
 
         public Item item;
-        public int amount;    
+        public int amount; 
 
         #endregion Variables
 

@@ -70,6 +70,18 @@ namespace Titan.InventorySystem.Items
             };
         }
 
+        public static bool IsUsable(this ItemType type)
+        {
+            return type switch
+            {
+                ItemType.Weapon => true,
+                ItemType.Acc => true,
+                ItemType.Consumable => true,
+                ItemType.Food => true,
+                _ => false,
+            };
+        }
+
         public static string ToText(this ItemSubType type)
         {
             return type switch
@@ -105,10 +117,10 @@ namespace Titan.InventorySystem.Items
         public static ItemType GetItemType(this ItemSubType subType)
         {
             // @Fix
-            // 이 방식은 ItemSubType에 수식된 Attribute를 구하는 방식이다.
+            // 이 방식은 ItemSubType Type에 수식된 Attribute를 구하는 방식이다.
             // Type subTypeInfo = subType.GetType();
 
-            // Get member info for the enum value
+            // 수식된 enum 값에 대핸 MemberInfo를 구한다.
             var memberInfo = typeof(ItemSubType).GetMember(subType.ToString())
                 .First();
             var subTypeAttribute = (ItemSubCategoryOf)Attribute.GetCustomAttribute(memberInfo, typeof(ItemSubCategoryOf), false);
@@ -118,6 +130,14 @@ namespace Titan.InventorySystem.Items
                 return ItemType.None;
             }
             return subTypeAttribute.Type;
+        }
+
+        private static T GetAttribute<T>(Enum @enum) where T : Attribute
+        {
+            var type = @enum.GetType();
+            var memberInfo = type.GetMember(@enum.ToString())
+                .First();
+            return (T)Attribute.GetCustomAttribute(memberInfo, typeof(T), false);
         }
 
         /// <summary>
