@@ -1243,7 +1243,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shouldTimeStop: 1
-  shouldBlur: 0
+  shouldBlur: 1
   _transitionTime: 0.5
 --- !u!1 &101697217719374887
 GameObject:
@@ -1456,7 +1456,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4288601599
   m_fontColor: {r: 1, g: 0.8666667, b: 0.61960787, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
