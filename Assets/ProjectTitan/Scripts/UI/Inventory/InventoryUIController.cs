@@ -271,6 +271,15 @@ namespace Titan.UI.InventorySystem
             }
         }
 
+        public void OnDeleteButtonClick()
+        {
+            InventorySlot selectedSlot = _inventoryUI.SelectedSlot;
+            if(selectedSlot != null)
+            {
+                _inventoryObject.RemoveItem(selectedSlot, selectedSlot.amount);
+            }
+        }
+
         #endregion Button Callback 
     }
 }
