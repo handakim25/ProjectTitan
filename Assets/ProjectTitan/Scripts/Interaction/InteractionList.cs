@@ -15,13 +15,13 @@ namespace Titan.Interaction
     {
         [SerializeField] private int _maxInteractObjects = 10;
         public int MaxInteractObjects => _maxInteractObjects;
-        [System.NonSerialized] public List<GameObject> interactObjects;
+        [System.NonSerialized] public List<Interactable> interactObjects;
 
 
         public class InteractSlotChangedEventArgs : System.EventArgs
         {
-            public GameObject[] AddedObjects;
-            public GameObject[] RemovedObjects;
+            public Interactable[] AddedObjects;
+            public Interactable[] RemovedObjects;
         }
         public delegate void InteractSlotChangedEventHandler(Object sender, InteractSlotChangedEventArgs handler);
         [System.NonSerialized]
@@ -30,7 +30,7 @@ namespace Titan.Interaction
         // Scene에 불러왔을 때 List 생성
         private void OnEnable()
         {
-            interactObjects = new List<GameObject>();
+            interactObjects = new List<Interactable>();
         }
 
         public void Clear()
@@ -44,8 +44,9 @@ namespace Titan.Interaction
         /// </summary>
         /// <param name="detectedList">현재 검색한 물체들</param>
         /// <param name="count">검색한 물체의 개수</param>
-        public void UpdateInteractionList(GameObject[] detectedList, int count)
+        public void UpdateInteractionList(Interactable[] detectedList, int count)
         {
+            // @TODO : Linq를 사용하지 않도록 수정, 매 프레임은 아니지만 빈번하게 호출되는 함수이므로 최적화 필요
             var updateList = detectedList.Take(count);
 
             var removedObjects = interactObjects.Except(updateList);

@@ -6,11 +6,19 @@ using UnityEngine;
 namespace Titan.Interaction
 {
     // Interaction 가능 List를 찾기 위한 Detector
+    /// <summary>
+    /// Detect Interval마다 주변에 상호작용 가능한 Interactable을 찾아서 Interaction List를 Update한다.
+    /// </summary>
     public class InteractionDetector : MonoBehaviour
     {
+        [Tooltip("Interaction List")]
         [SerializeField] private InteractionList _interactionList;
+        [Tooltip("탐색 간격")]
         [SerializeField] private float _detectInterval = 0.1f;
+        [Tooltip("탐색 반경")]
+        [Range(0.1f, 10f)]
         [SerializeField] private float _detectRadius = 5f;
+        [Tooltip("탐색 대상 레이어")]
         [SerializeField] private LayerMask _targetMask;
         
         private Coroutine _detectCoroutine;
@@ -41,7 +49,7 @@ namespace Titan.Interaction
             if(isActive == IsAcitive)
                 return;
             IsAcitive = isActive;
-            if(!gameObject.activeInHierarchy) // 조건이 잘못 들어간 것으로 추정. 버그가 발생한다면 원복할 것
+            if(!gameObject.activeInHierarchy)
                 return;
 
             if(isActive)
@@ -59,21 +67,21 @@ namespace Titan.Interaction
         {
             var wait = new WaitForSeconds(_detectInterval);
             Collider[] colliders = new Collider[_interactionList.MaxInteractObjects];
-            GameObject[] interactObjects = new GameObject[_interactionList.MaxInteractObjects];
+            Interactable[] interactables = new Interactable[_interactionList.MaxInteractObjects];
             while(true)
             {
-                int numCollider = Physics.OverlapSphereNonAlloc(transform.position, _detectRadius, colliders, _targetMask);
-                int validCount = 0;
-                for(int i = 0; i < numCollider; i++)
+                int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, _detectRadius, colliders, _targetMask);
+                int interactableCount = 0;
+                for(int i = 0; i < colliderCount; i++)
                 {
                     if(colliders[i].gameObject.TryGetComponent<Interactable>(out var interactable)
                         && interactable.CanInteract)
                     {
-                            interactObjects[i] = colliders[i].gameObject;
-                            validCount++;
+                            interactables[i] = interactable;
+                            interactableCount++;
                     }
                 }
-                _interactionList.UpdateInteractionList(interactObjects, validCount);
+                _interactionList.UpdateInteractionList(interactables, interactableCount);
                 yield return wait;
             }
         }

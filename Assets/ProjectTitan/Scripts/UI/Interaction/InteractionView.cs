@@ -43,7 +43,7 @@ namespace Titan.UI.Interaction
         /// Key : Interactable Objects, Value : Interact UI.
         /// Slot UI는 InteractionUI를 참조해서 접근할 것
         /// </summary>
-        private Dictionary<GameObject, InteractionUI> _interactionUIs = new();
+        private Dictionary<Interactable, InteractionUI> _interactionUIs = new();
         [SerializeField] private GameObject _selectedSlot = null;
         public GameObject SelectedSlot => _selectedSlot;
         public int SlotCount => _interactionUIs.Count;
@@ -66,10 +66,10 @@ namespace Titan.UI.Interaction
 
         #region Methods
         
-        public void AddSlots(GameObject[] interactObjects)
+        public void AddSlots(Interactable[] interactObjects)
         {
             Transform parent = _scrollRect.content.transform;
-            foreach(GameObject interactObject in interactObjects)
+            foreach(Interactable interactObject in interactObjects)
             {
                 GameObject slotUI = CreateSlot(parent);
                 
@@ -127,16 +127,22 @@ namespace Titan.UI.Interaction
                 return;
             }
 
-            var interactText = slotUI.transform.Find("InteractText");
+            var interactText = slotUI.transform.Find("InteractionSlotBody/InteractText");
             if(interactText && interactText.TryGetComponent<TextMeshProUGUI>(out var text))
             {
                 text.text = interactable.InteractText;
             }
+
+            var interactIcon = slotUI.transform.Find("InteractionSlotBody/InteractIcon");
+            if(interactIcon && interactIcon.TryGetComponent<Image>(out var image))
+            {
+                // image.sprite = interactable.InteractIcon;
+            }
         }
 
-        public void RemoveSlot(GameObject[] interactObjects)
+        public void RemoveSlot(Interactable[] interactObjects)
         {
-            foreach(GameObject removedObject in interactObjects)
+            foreach(Interactable removedObject in interactObjects)
             {
                 if(_interactionUIs[removedObject].gameObject == _selectedSlot)
                 {
@@ -271,7 +277,7 @@ namespace Titan.UI.Interaction
         {
             if(slotUI == null)
                 return false;
-            GameObject slotInteracObject = slotUI.GetComponent<InteractionUI>().Interactable;
+            Interactable slotInteracObject = slotUI.GetComponent<InteractionUI>().Interactable;
             return _interactionUIs.ContainsKey(slotInteracObject);
         }
 
