@@ -7,7 +7,7 @@ using Titan.Interaction;
 namespace Titan.UI.Interaction
 {
     /// <summary>
-    /// Interaction UI Controller
+    /// Interactio UI의 Controller. InteractionList로 부터 Interaction을 받아서 View에 표시한다.
     /// </summary>
     public class InteractionPanel : MonoBehaviour
     {
@@ -22,6 +22,7 @@ namespace Titan.UI.Interaction
             UIManager.Instance.OnInteractScrollEvent += OnInteractScrollHandler;
             _interactionList.OnInteractChanged += InteractSlotChagned;
 
+            // 현재 Interaction List에 있는 Interaction을 View에 추가한다.
             _view.AddSlots(_interactionList.interactObjects.ToArray());
             StartCoroutine(WaitRebuild());
         }
@@ -162,6 +163,7 @@ namespace Titan.UI.Interaction
             if(_view.SelectedSlot == null)
                 return;
             int selectedIndex = _view.SelectedSlot.transform.GetSiblingIndex();
+            // 제일 상단이 0으로 시작하므로 Scroll이 위로 올라갈 경우 -1, 아래로 내려갈 경우 1을 더한다.
             selectedIndex += scroll.y > 0 ? -1 : 1;
             selectedIndex = Mathf.Clamp(selectedIndex, 0, _view.SlotCount - 1);
             _view.SelectSlot(_view.GetSlotUIByIndex(selectedIndex));

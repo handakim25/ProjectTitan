@@ -24,11 +24,15 @@ namespace Titan.UI.Interaction
     {
         #region Varaibles
         
+        [Tooltip("Interaction 하나를 표현하는 Slot Prefab")]
         [SerializeField] private GameObject _slotPrefab;
-        [Tooltip("Interact Guide Icon")]
+        [Tooltip("Interaction이 가능한 상태일 때 표시되는 Icon")]
         [SerializeField] private GameObject _interactIconObject;
         [SerializeField] private Vector2 _interactIconOffset = Vector2.zero;
         [SerializeField] private RectTransform _interactCursor;
+        /// <summary>
+        /// 원본 색상, Select Color에서 원복하기 위해서 저장
+        /// </summary>
         private Color _normalColor;
         [FormerlySerializedAs("_hightlightColor")]
         [SerializeField] private Color _selectColor = Color.cyan;
@@ -233,7 +237,9 @@ namespace Titan.UI.Interaction
             if (firstGo != null)
             {
                 Vector3 position = firstGo.transform.position;
-                _interactIconObject.transform.position = position;
+                Vector3 newPos = _interactIconObject.transform.position;
+                newPos.y = position.y;
+                _interactIconObject.transform.position = newPos;
                 _interactIconObject.GetComponent<RectTransform>().anchoredPosition += _interactIconOffset;
                 var firstRect = firstGo.transform as RectTransform;
             }
