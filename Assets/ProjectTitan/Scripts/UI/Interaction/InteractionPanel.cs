@@ -44,7 +44,7 @@ namespace Titan.UI.Interaction
         {
             yield return new WaitForEndOfFrame();
             _view.UpdateGuideIcon();
-            _view.SetCursorPos();
+            _view.UpdateCursorPos();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Titan.UI.Interaction
                     }
                 }
                 // Empty가 될 경우 Cursor Update하기 위함
-                _view.SetCursorPos();
+                _view.UpdateCursorPos();
             }
             if(args.AddedObjects != null)
             {

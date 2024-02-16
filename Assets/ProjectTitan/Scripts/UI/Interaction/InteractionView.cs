@@ -98,7 +98,7 @@ namespace Titan.UI.Interaction
             // 기존 슬롯이 있을 때
             else
             {
-                SetCursorPos();
+                UpdateCursorPos();
             }
 
             if(_interactIconObject.activeSelf == false)
@@ -155,7 +155,7 @@ namespace Titan.UI.Interaction
             {
                 _interactIconObject.SetActive(false);
             }
-            SetCursorPos();
+            UpdateCursorPos();
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Titan.UI.Interaction
         {
             if(selectedSlot == _selectedSlot)
             {
-                SetCursorPos();
+                UpdateCursorPos();
                 // Debug.Log($"SelectSlot : {selectedSlot}");
                 return;
             }
@@ -183,7 +183,7 @@ namespace Titan.UI.Interaction
             {
                 image.color = _selectColor;
             }
-            SetCursorPos();
+            UpdateCursorPos();
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Titan.UI.Interaction
         /// </summary>
         // @Refactor
         // 호출 위치를 줄일 수 있을 것 같은데?
-        public void SetCursorPos()
+        public void UpdateCursorPos()
         {
             if(_selectedSlot == null)
             {

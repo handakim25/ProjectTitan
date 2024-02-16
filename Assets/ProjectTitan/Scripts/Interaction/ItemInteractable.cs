@@ -7,6 +7,9 @@ using Titan.InventorySystem.Items;
 namespace Titan.Interaction
 {
     // Caution : Destroy를 위해서 Root Gameobject에 존재
+    /// <summary>
+    /// 필드에서 획득 가능한 Item을 나타내는 Interactable
+    /// </summary>
     public class ItemInteractable : Interactable
     {
         [SerializeField] private ItemObject _itemObject;
