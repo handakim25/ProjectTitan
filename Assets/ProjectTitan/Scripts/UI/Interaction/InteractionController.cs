@@ -9,7 +9,7 @@ namespace Titan.UI.Interaction
     /// <summary>
     /// Interactio UI의 Controller. InteractionList로 부터 Interaction을 받아서 View에 표시한다.
     /// </summary>
-    public class InteractionPanel : MonoBehaviour
+    public class InteractionController : MonoBehaviour
     {
         [SerializeField] private InteractionList _interactionList;
         [SerializeField] private InteractionView _view;
@@ -148,7 +148,6 @@ namespace Titan.UI.Interaction
             }
 
             var slot = _view.SelectedSlot;
-            Debug.Log($"Do some interaction with {slot.name}");
             var go = slot.GetComponent<InteractionUI>().Interactable;
             if(go != null && go.TryGetComponent<Interactable>(out var interactable))
             {
