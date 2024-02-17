@@ -24,18 +24,26 @@ namespace Titan.UI.Interaction
     {
         #region Varaibles
         
+        [Header("Interaction Slot")]
         [Tooltip("Interaction 하나를 표현하는 Slot Prefab")]
         [SerializeField] private GameObject _slotPrefab;
-        [Tooltip("Interaction이 가능한 상태일 때 표시되는 Icon")]
-        [SerializeField] private GameObject _interactIconObject;
-        [SerializeField] private Vector2 _interactIconOffset = Vector2.zero;
-        [SerializeField] private RectTransform _interactCursor;
         /// <summary>
         /// 원본 색상, Select Color에서 원복하기 위해서 저장
         /// </summary>
         private Color _normalColor;
         [FormerlySerializedAs("_hightlightColor")]
         [SerializeField] private Color _selectColor = Color.cyan;
+        [SerializeField] private Sprite _dialogueIcon;
+        [SerializeField] private Sprite _pickupIcon;
+        [SerializeField] private Sprite _useIcon;
+
+        [Header("Interaction Icon")]
+        [Tooltip("Interaction이 가능한 상태일 때 표시되는 Icon")]
+        [SerializeField] private GameObject _interactIconObject;
+        [Tooltip("Interaction Icon의 위치 Offset. Interaction View의 좌상단을 기준으로 한다.")]
+        [SerializeField] private Vector2 _interactIconOffset = Vector2.zero;
+        [Tooltip("현재 선택된 Slot을 가리키는 Cursor")]
+        [SerializeField] private RectTransform _interactCursor;
 
         private ScrollRect _scrollRect;
         private RectTransform _contentRectTransform;
@@ -75,7 +83,7 @@ namespace Titan.UI.Interaction
                 
                 // @Refactor
                 // InteractionUI가 필요 없을 수도 있다. 간략화시킬 수 있는 방향이 있다면 고려할 것
-                SetInteractSlot(slotUI, interactObject.GetComponentInParent<Interactable>());
+                InitInteractSlot(slotUI, interactObject.GetComponentInParent<Interactable>());
                 var interactionUI = slotUI.GetComponent<InteractionUI>();
                 interactionUI.Interactable = interactObject;
                 _interactionUIs[interactObject] = interactionUI;
@@ -119,7 +127,7 @@ namespace Titan.UI.Interaction
         /// </summary>
         /// <param name="slotUI">Slot</param>
         /// <param name="interactable">Interactable target</param>
-        private void SetInteractSlot(GameObject slotUI, Interactable interactable)
+        private void InitInteractSlot(GameObject slotUI, Interactable interactable)
         {
             if(interactable == null)
             {
@@ -136,7 +144,12 @@ namespace Titan.UI.Interaction
             var interactIcon = slotUI.transform.Find("InteractionSlotBody/InteractIcon");
             if(interactIcon && interactIcon.TryGetComponent<Image>(out var image))
             {
-                // image.sprite = interactable.InteractIcon;
+                image.sprite = interactable switch {
+                    ItemInteractable => _pickupIcon,
+                    DialogInteractable => _dialogueIcon,
+                    EventTriggerInteractable => _useIcon,
+                    _ => _useIcon,
+                };
             }
         }
 
