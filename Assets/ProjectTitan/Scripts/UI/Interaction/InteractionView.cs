@@ -40,8 +40,9 @@ namespace Titan.UI.Interaction
         [Header("Interaction Icon")]
         [Tooltip("Interaction이 가능한 상태일 때 표시되는 Icon")]
         [SerializeField] private GameObject _interactIconObject;
+        private RectTransform _interactIconRect;
         [Tooltip("Interaction Icon의 위치 Offset. Interaction View의 좌상단을 기준으로 한다.")]
-        [SerializeField] private Vector2 _interactIconOffset = Vector2.zero;
+        [SerializeField] private float _interactIconOffset = 0f;
         [Tooltip("현재 선택된 Slot을 가리키는 Cursor")]
         [SerializeField] private RectTransform _interactCursor;
 
@@ -66,6 +67,7 @@ namespace Titan.UI.Interaction
             Assert.IsNotNull(_slotPrefab);
             _scrollRect = GetComponent<ScrollRect>();
             _contentRectTransform = _scrollRect.content.GetComponent<RectTransform>();
+            _interactIconRect = _interactIconObject.GetComponent<RectTransform>();
 
             _normalColor = _slotPrefab.GetComponent<Image>().color;
         }
@@ -74,6 +76,10 @@ namespace Titan.UI.Interaction
 
         #region Methods
         
+        /// <summary>
+        /// Interaction Slot을 추가한다.
+        /// </summary>
+        /// <param name="interactObjects"></param>
         public void AddSlots(Interactable[] interactObjects)
         {
             Transform parent = _scrollRect.content.transform;
@@ -223,7 +229,6 @@ namespace Titan.UI.Interaction
                 _interactCursor.gameObject.SetActive(true);
             }
 
-            // Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(_contentRectTransform);
             
             // var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position);
@@ -231,6 +236,22 @@ namespace Titan.UI.Interaction
             _interactCursor.anchoredPosition = new Vector2(_interactCursor.anchoredPosition.x, size.y);
         }
 
+        private LayoutGroup _contentLayoutGroup;
+        private LayoutGroup ContentLayoutGroup
+        {
+            get
+            {
+                if(_contentLayoutGroup == null)
+                {
+                    _contentLayoutGroup = _scrollRect.content.GetComponent<LayoutGroup>();
+                }
+                return _contentLayoutGroup;
+            }
+        }
+        
+        /// <summary>
+        /// Guide Icon의 위치를 갱신한다. Layout 계산이 끝나지 않았을 경우 제대로 된 위치를 계산하지 못할 수 있으므로 Layout 계산이 끝난 후에 호출해야 한다.
+        /// </summary>
         public void UpdateGuideIcon()
         {
             if(SlotCount == 0)
@@ -240,28 +261,11 @@ namespace Titan.UI.Interaction
             }
             _interactIconObject.SetActive(true);
 
-            // LayoutRebuilder.ForceRebuildLayoutImmediate(_contentRectTransform);
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_scrollRect.content);
-
-            GameObject firstGo = null;
-            for(int i = 0; i < _scrollRect.content.childCount; ++i)
-            {
-                GameObject slotUI = _scrollRect.content.GetChild(i).gameObject;
-                if(IsValidSlot(slotUI))
-                {
-                    firstGo = slotUI;
-                    break;
-                }
-            }
-            if (firstGo != null)
-            {
-                Vector3 position = firstGo.transform.position;
-                Vector3 newPos = _interactIconObject.transform.position;
-                newPos.y = position.y;
-                _interactIconObject.transform.position = newPos;
-                _interactIconObject.GetComponent<RectTransform>().anchoredPosition += _interactIconOffset;
-                var firstRect = firstGo.transform as RectTransform;
-            }
+            // Content의 Child로 지정하지 않고 직접 위치를 계산하는 것은 Child 개수를 직접적으로 이용해서 관리하고 있는 부분이 있어서이다.
+            // 따라서 현재는 Content의 Child로 지정하지 않고 직접 계산한다.
+            Vector2 newPos = _interactIconRect.anchoredPosition;
+            newPos.y = ContentLayoutGroup.preferredHeight + _interactIconOffset;
+            _interactIconRect.anchoredPosition = newPos;
         }
 
         public GameObject GetSlotUIByIndex(int index)

@@ -39,6 +39,8 @@ namespace Titan.UI.Interaction
             _view.Clear();
         }
 
+        #endregion Unity Methods
+
         // 다른 UI 요소들이 업데이트 되는 것을 기다린다.
         IEnumerator WaitRebuild()
         {
@@ -56,7 +58,7 @@ namespace Titan.UI.Interaction
         {
             // Bug
             // Selected Slot을 제거할 때 오류가 발생
-            // 원인 : slot은 Update loop의 마지막에 삭제되기 때문에 child count를 루프의 마지막 값으로 설정해야 한다.
+            // 원인 : slot은 프레임 마지막에 삭제되기 때문에 child count를 루프의 마지막 값으로 설정해야 한다.
             if(args.RemovedObjects != null)
             {
                 if(_view.SelectedSlot == null)
@@ -66,6 +68,7 @@ namespace Titan.UI.Interaction
                     _view.SelectSlot(_view.GetSlotUIByIndex(0));
                     Debug.Log($"Selected Slot : {_view.SelectedSlot.name}");
                 }
+
                 int startIndex = _view.SelectedSlot.transform.GetSiblingIndex();
                 _view.RemoveSlot(args.RemovedObjects);
                 if(_view.SelectedSlot == null)
@@ -131,8 +134,6 @@ namespace Titan.UI.Interaction
             
             return null;
         }
-
-        #endregion Unity Methods
 
         #region InputSystem Callback
         
