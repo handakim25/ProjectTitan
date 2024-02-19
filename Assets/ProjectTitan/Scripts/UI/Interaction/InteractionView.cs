@@ -27,12 +27,6 @@ namespace Titan.UI.Interaction
         [Header("Interaction Slot")]
         [Tooltip("Interaction 하나를 표현하는 Slot Prefab")]
         [SerializeField] private GameObject _slotPrefab;
-        /// <summary>
-        /// 원본 색상, Select Color에서 원복하기 위해서 저장
-        /// </summary>
-        private Color _normalColor;
-        [FormerlySerializedAs("_hightlightColor")]
-        [SerializeField] private Color _selectColor = Color.cyan;
         [SerializeField] private Sprite _dialogueIcon;
         [SerializeField] private Sprite _pickupIcon;
         [SerializeField] private Sprite _useIcon;
@@ -51,6 +45,7 @@ namespace Titan.UI.Interaction
         /// <summary>
         /// Key : Interactable Objects, Value : Interact UI.
         /// Slot UI는 InteractionUI를 참조해서 접근할 것
+        /// Remove Slot을 할 때 Interactable로 넘어오기 때문에 이를 이용해서 삭제한다.
         /// </summary>
         private Dictionary<Interactable, InteractionUI> _interactionUIs = new();
         [SerializeField] private GameObject _selectedSlot = null;
@@ -68,8 +63,6 @@ namespace Titan.UI.Interaction
             _scrollRect = GetComponent<ScrollRect>();
             _contentRectTransform = _scrollRect.content.GetComponent<RectTransform>();
             _interactIconRect = _interactIconObject.GetComponent<RectTransform>();
-
-            _normalColor = _slotPrefab.GetComponent<Image>().color;
         }
         
         #endregion Unity Methods
@@ -196,16 +189,16 @@ namespace Titan.UI.Interaction
             }
 
             // 기존 선택된 SLot이 있다면 Slot의 색을 기본색으로 변경
-            if(_selectedSlot != null && _selectedSlot.TryGetComponent<Image>(out var prevImage))
+            if(_selectedSlot != null && _selectedSlot.TryGetComponent<InteractionUI>(out var prevInteractionUI))
             {
-                prevImage.color = _normalColor;
+                prevInteractionUI.Deselect();
             }
 
             // Slot을 선택하고 색을 변경
             _selectedSlot = selectedSlot;
-            if(_selectedSlot != null && _selectedSlot.TryGetComponent<Image>(out var image))
+            if(_selectedSlot != null && _selectedSlot.TryGetComponent<InteractionUI>(out var interactionUI))
             {
-                image.color = _selectColor;
+                interactionUI.Select();
             }
             UpdateCursorPos();
         }
