@@ -42,6 +42,8 @@ namespace Titan.UI.Interaction
         #endregion Unity Methods
 
         // 다른 UI 요소들이 업데이트 되는 것을 기다린다.
+        // Cursor Pos의 경우 Force Update를 이용하기 때문에 대부분의 경우 업데이트가 정상적으로 이루어진다.
+        // 하지만 OnEnable에서 
         IEnumerator WaitRebuild()
         {
             yield return new WaitForEndOfFrame();

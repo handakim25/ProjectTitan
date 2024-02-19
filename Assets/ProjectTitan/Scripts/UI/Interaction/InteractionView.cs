@@ -192,7 +192,6 @@ namespace Titan.UI.Interaction
             if(selectedSlot == _selectedSlot)
             {
                 UpdateCursorPos();
-                // Debug.Log($"SelectSlot : {selectedSlot}");
                 return;
             }
 
@@ -215,8 +214,6 @@ namespace Titan.UI.Interaction
         /// Interaction Cursor의 위치를 Update해주는 함수.
         /// 만약에 선택된 slot이 없다면 Marker를 비활성화한다.
         /// </summary>
-        // @Refactor
-        // 호출 위치를 줄일 수 있을 것 같은데?
         public void UpdateCursorPos()
         {
             if(_selectedSlot == null)
@@ -229,9 +226,10 @@ namespace Titan.UI.Interaction
                 _interactCursor.gameObject.SetActive(true);
             }
 
+            // Layout 완료 시점의 Callback은 존재하지 않기 때문에 강제로 Update를 하거나 Coroutine을 이용해야 한다.
+            // 현재는 강제로 Update를 호출한다.
             LayoutRebuilder.ForceRebuildLayoutImmediate(_contentRectTransform);
             
-            // var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position);
             var size = (Vector2)_scrollRect.transform.InverseTransformPoint(_selectedSlot.GetComponent<RectTransform>().position) - (Vector2)_scrollRect.transform.InverseTransformPoint(_scrollRect.content.position);
             _interactCursor.anchoredPosition = new Vector2(_interactCursor.anchoredPosition.x, size.y);
         }
@@ -268,15 +266,14 @@ namespace Titan.UI.Interaction
             _interactIconRect.anchoredPosition = newPos;
         }
 
+        /// <summary>
+        /// Child Index로 slot을 가져온다. 해당 Slot이 이번 루프에서 파괴됬을 경우 유효하지 않은 slot이다.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public GameObject GetSlotUIByIndex(int index)
         {
-            if(index < 0)
-            {
-                Debug.Log($"Index invalid");
-                Debug.Log($"Index : {index}");
-                Debug.Log($"Count : {SlotCount}");
-            }
-            if(_scrollRect.content.transform.childCount <= index)
+            if(index < 0 || index >= _scrollRect.content.transform.childCount)
             {
                 Debug.Log($"Index invalid");
                 Debug.Log($"Index : {index}");
@@ -286,7 +283,7 @@ namespace Titan.UI.Interaction
         }
 
         /// <summary>
-        /// 해당 Slot이 유효한지 검사한다.
+        /// 해당 Slot이 유효한지 검사한다. 유효하지 않다면 삭제된 Slot이다.
         /// </summary>
         /// <param name="slotUI"></param>
         /// <returns></returns>
