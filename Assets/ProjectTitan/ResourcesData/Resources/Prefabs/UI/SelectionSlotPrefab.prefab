@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 2435257098763532899}
   - component: {fileID: 6644157186555727065}
   m_Layer: 5
-  m_Name: InteractIcon
+  m_Name: SlotIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,7 +316,7 @@ GameObject:
   - component: {fileID: 8649465259637136393}
   - component: {fileID: 8649465259637136392}
   m_Layer: 5
-  m_Name: InteractText
+  m_Name: SlotText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -450,10 +450,10 @@ GameObject:
   - component: {fileID: 8649465260062327662}
   - component: {fileID: 8649465260062327660}
   - component: {fileID: 8649465260062327663}
-  - component: {fileID: 3296939567594373869}
   - component: {fileID: 7123148301088141848}
+  - component: {fileID: 6087139249188579621}
   m_Layer: 5
-  m_Name: InteractionSlotPrefab
+  m_Name: SelectionSlotPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -520,49 +520,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3296939567594373869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8649465260062327569}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1df5be0525ca8264282323b16e99b902, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsSelect>k__BackingField: 0
-  OnSelect:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1520542367242261868}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 1
-  OnDeselect:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1520542367242261868}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
 --- !u!114 &7123148301088141848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -576,6 +533,73 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &6087139249188579621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8649465260062327569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e33ec05d26f0fd49afab3d9f7097166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetImage: {fileID: 0}
+  _isSelectable: 1
+  <TransitionTime>k__BackingField: 1
+  _normalColor: {r: 1, g: 1, b: 1, a: 1}
+  _hightlightedColor: {r: 1, g: 1, b: 1, a: 1}
+  _pressedColor: {r: 1, g: 1, b: 1, a: 1}
+  _selectedColor: {r: 1, g: 1, b: 1, a: 1}
+  _highlightScale: {x: 1, y: 1, z: 1}
+  _pressedScale: {x: 1, y: 1, z: 1}
+  _selectedScale: {x: 1, y: 1, z: 1}
+  OnButtonSelected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1520542367242261868}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  OnButtonDeslected:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1520542367242261868}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnButtonClicked:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnButtonReleased:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerHoverEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPointerHoverExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8750871653526254785
 GameObject:
   m_ObjectHideFlags: 0
@@ -587,7 +611,7 @@ GameObject:
   - component: {fileID: 5105847797896620638}
   - component: {fileID: 6732611566494837852}
   m_Layer: 5
-  m_Name: InteractionSlotBody
+  m_Name: SlotBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
