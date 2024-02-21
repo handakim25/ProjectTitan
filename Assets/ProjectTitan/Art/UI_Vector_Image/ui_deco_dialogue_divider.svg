@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="384"
+   height="128"
+   viewBox="0 0 101.6 33.866666"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="ui_deco_dialogue_divider.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#111111"
+     bordercolor="#000000"
+     borderopacity="0.24705882"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.0686841"
+     inkscape:cx="251.60922"
+     inkscape:cy="97.404914"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       d="m 45.519185,16.987077 c 0.0034,0.676142 0.136385,1.345365 0.391708,1.971456 0.265975,0.642008 0.6558,1.22534 1.147217,1.716691 0.491351,0.491417 1.074683,0.881242 1.716691,1.147217 C 49.416884,22.08831 50.105049,22.2251 50.8,22.225 c 0.694951,10e-5 1.383116,-0.13669 2.025199,-0.402559 0.642008,-0.265975 1.22534,-0.6558 1.716691,-1.147217 0.491417,-0.491351 0.881242,-1.074683 1.147217,-1.716691 0.255323,-0.626091 0.388291,-1.295314 0.391708,-1.971456"
+       style="fill:none;stroke:#ffffff;stroke-width:1.32345"
+       id="path7"
+       sodipodi:nodetypes="ccccccccc" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.33064;stroke-dasharray:none;stroke-opacity:1"
+       d="M 2.1041611e-8,16.933333 C 46.157476,16.933333 46.157476,16.933333 46.157476,16.933333 Z"
+       id="path8" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:1.33292;stroke-dasharray:none;stroke-opacity:1"
+       d="m 55.416185,16.933333 c 46.315745,0 46.315745,0 46.315745,0 z"
+       id="path9" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.32345;stroke-dasharray:none;stroke-opacity:1"
+       id="path10"
+       cx="64.029167"
+       cy="16.933332"
+       r="2.6458333" />
+    <circle
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.32345;stroke-dasharray:none;stroke-opacity:1"
+       id="circle10"
+       cx="37.570831"
+       cy="16.933332"
+       r="2.6458333" />
+  </g>
+</svg>
