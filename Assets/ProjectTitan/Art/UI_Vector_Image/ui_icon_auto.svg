@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="128"
+   height="128"
+   viewBox="0 0 33.866666 33.866666"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="ui_icon_auto.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="true"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="2.9255612"
+     inkscape:cx="25.636107"
+     inkscape:cy="61.013936"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="42.550722,2.8953211"
+       end_point="11.927298,47.435543"
+       center_point="27.23901,25.165432"
+       id="path-effect8"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="vertical"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="true"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="42.550722,2.8953211"
+       end_point="11.927298,47.435543"
+       center_point="27.23901,25.165432"
+       id="path-effect7"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="vertical"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="45.004618,1.1890582"
+       end_point="12.27641,48.790582"
+       center_point="28.640514,24.98982"
+       id="path-effect6"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="vertical"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="powermask"
+       id="path-effect5"
+       is_visible="true"
+       lpeversion="1"
+       uri="#mask-powermask-path-effect5"
+       invert="false"
+       hide_mask="false"
+       background="true"
+       background_color="#ffffffff" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="42.550723,2.895321"
+       end_point="11.927298,47.435544"
+       center_point="27.239011,25.165433"
+       id="path-effect4"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="vertical"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <inkscape:path-effect
+       effect="mirror_symmetry"
+       start_point="42.550722,2.8953211"
+       end_point="11.927298,47.435543"
+       center_point="27.23901,25.165432"
+       id="path-effect2"
+       is_visible="true"
+       lpeversion="1.2"
+       lpesatellites=""
+       mode="vertical"
+       discard_orig_path="false"
+       fuse_paths="false"
+       oposite_fuse="false"
+       split_items="false"
+       split_open="false"
+       link_styles="false" />
+    <mask
+       maskUnits="userSpaceOnUse"
+       id="mask-powermask-path-effect5" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       sodipodi:type="star"
+       style="display:none;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.32345"
+       id="path2"
+       inkscape:flatsided="true"
+       sodipodi:sides="3"
+       sodipodi:cx="13.74665"
+       sodipodi:cy="13.384896"
+       sodipodi:r1="17.108179"
+       sodipodi:r2="8.5540895"
+       sodipodi:arg1="0.60119832"
+       sodipodi:arg2="1.6483959"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 27.855053,23.061814 -1.6880088,20.764673 15.072905,-3.6717986 Z m 1.127561,0.775249 12.722241,26.762174 16.815602,-24.398871 z"
+       inkscape:transform-center-x="-0.22736797"
+       inkscape:transform-center-y="-2.3564113"
+       transform="matrix(0.51629781,-0.35497818,0.35497818,0.51629781,-6.0632872,13.60973)"
+       inkscape:path-effect="#path-effect7"
+       inkscape:label="Origin" />
+    <path
+       id="path1"
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.829216"
+       inkscape:label="Cur"
+       inkscape:transform-center-x="0.22736821"
+       inkscape:transform-center-y="2.3564113"
+       d="M 33.430464,7.2916091 33.451255,25.857864 17.362011,16.592742 31.659329,8.3168201"
+       sodipodi:nodetypes="cccc" />
+    <path
+       id="path8"
+       style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.829216"
+       inkscape:label="Cur"
+       inkscape:transform-center-x="-0.22736797"
+       inkscape:transform-center-y="-2.3564113"
+       d="M 0.43620312,26.575057 0.41541192,8.0088026 16.595094,16.731293 2.2073384,25.549846"
+       sodipodi:nodetypes="cccc" />
+  </g>
+</svg>
