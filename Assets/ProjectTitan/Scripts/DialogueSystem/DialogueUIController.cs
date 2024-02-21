@@ -25,6 +25,7 @@ namespace Titan.DialogueSystem
         [Tooltip("선택지 패널 Object")]
         [SerializeField] private GameObject _choicePanel;
         [SerializeField] private Button _autoButton;
+        [SerializeField] private Color _autoButttonColor = Color.yellow;
 
         [Header("Sentence Settings")]
         [Tooltip("문자간 출력 간격")]
@@ -95,7 +96,7 @@ namespace Titan.DialogueSystem
             _action.UI.Disable();
 
             _isAutoMode = false;
-            _autoButton.image.color = _isAutoMode ? Color.yellow : Color.white;
+            _autoButton.image.color = _isAutoMode ? _autoButttonColor : Color.white;
 
             SoundManager.Instance.PlayUISound((int)_dialogueStartSound);
         }
@@ -246,7 +247,7 @@ namespace Titan.DialogueSystem
         {
             _isAutoMode = !_isAutoMode;
             
-            _autoButton.image.color = _isAutoMode ? Color.yellow : Color.white;
+            _autoButton.image.color = _isAutoMode ? _autoButttonColor : Color.white;
 
             // Auto mode이고 대사가 전부 출력됬다면 자동으로 다음 대사를 출력한다.
             if(_isAutoMode && _dialogueTextCoroutine == null)
