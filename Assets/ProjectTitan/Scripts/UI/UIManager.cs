@@ -272,7 +272,7 @@ namespace Titan.UI
             _pointerEventData ??= new PointerEventData(EventSystem.current);
             _pointerEventData.position = position;
             EventSystem.current.RaycastAll(_pointerEventData, _raycastResults);
-            return _raycastResults.Any(result => result.gameObject.GetComponent<Button>() != null);
+            return _raycastResults.Any(result => result.gameObject.GetComponent<Button>() != null || result.gameObject.GetComponent<TweenButton>() != null);
         }
 
         /// <summary>

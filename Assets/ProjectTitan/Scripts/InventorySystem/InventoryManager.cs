@@ -20,7 +20,11 @@ namespace Titan.InventorySystem.Items
         private void OnItemCollected(ItemCollectedEvent e)
         {
             Debug.Log($"Item Collecteded");
-
+            if(e.Count <= 0)
+            {
+                return;
+            }
+    
             var item = new Item() {id = e.ItemID};
             _playerInventory.AddItem(item, e.Count);
         }

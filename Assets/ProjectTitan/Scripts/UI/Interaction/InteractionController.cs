@@ -144,19 +144,13 @@ namespace Titan.UI.Interaction
         /// </summary>
         public void OnInteractHandler()
         {
-            if(_view.SelectedSlot == null)
+            if(_view.SelectedInteractable == null)
             {
                 Debug.Log($"Nothing selected");
                 return;
             }
 
-            var slot = _view.SelectedSlot;
-            var go = slot.GetComponent<InteractionUI>().Interactable;
-            if(go != null && go.TryGetComponent<Interactable>(out var interactable))
-            {
-                Debug.Log($"Interact with {interactable.name}");
-                interactable.Interact();
-            }
+            _view.SelectedInteractable.Interact();
         }
 
         // 마우스 휠 스크롤에 대한 콜백 함수

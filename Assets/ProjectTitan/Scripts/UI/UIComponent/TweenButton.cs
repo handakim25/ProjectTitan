@@ -63,7 +63,10 @@ namespace Titan
 
         private void Awake()
         {
-            _normalScale = _targetImage.transform.localScale;
+            if(_targetImage != null)
+            {
+                _normalScale = _targetImage.transform.localScale;
+            }
         }
         
         protected virtual void Start()

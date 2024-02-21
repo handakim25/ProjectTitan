@@ -17,6 +17,7 @@ namespace Titan.Interaction
 
         public override string InteractText =>
              _itemObject != null ? _itemObject.ItemName : name;
+        public int ItemID => _itemObject != null ? _itemObject.data.id : -1;
 
         public void Init(ItemObject itemObject, int dropCount)
         {
@@ -28,7 +29,7 @@ namespace Titan.Interaction
         {
             EventBus.RaiseEvent(new ItemCollectedEvent
             {
-                ItemID = _itemObject.data.id,
+                ItemID = ItemID,
                 Count = _dropCount,
             });
 

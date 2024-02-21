@@ -43,14 +43,31 @@ namespace Titan.UI.Interaction
         private ScrollRect _scrollRect;
         private RectTransform _contentRectTransform;
         /// <summary>
-        /// Key : Interactable Objects, Value : Interact UI.
-        /// Slot UI는 InteractionUI를 참조해서 접근할 것
-        /// Remove Slot을 할 때 Interactable로 넘어오기 때문에 이를 이용해서 삭제한다.
+        /// Key : Interactable Objects, Value : Slot Game Object
         /// </summary>
-        private Dictionary<Interactable, InteractionUI> _interactionUIs = new();
+        private Dictionary<Interactable, GameObject> _interactables = new();
         [SerializeField] private GameObject _selectedSlot = null;
         public GameObject SelectedSlot => _selectedSlot;
-        public int SlotCount => _interactionUIs.Count;
+        public Interactable SelectedInteractable
+        {
+            get
+            {
+                // Value에 잘못된 값이 들어가서 null이 들어가 있을 경우를 대비한다.
+                // _selectSlot이 null일 경우에는 null을 반환하도록 한다.
+                if (_selectedSlot == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    // FirstOrDefault의 값은 KeyValuePair이다. 만약에 해당되는 Key가 없다면 Key 부분에 Interactable의 Default가 들어갈 것이다.
+                    // 즉, 해당되는 Key가 없다면 null이 반환될 것이다.
+                    return _interactables.FirstOrDefault(x => x.Value == _selectedSlot).Key;
+                }
+            }
+        }
+
+        public int SlotCount => _interactables.Count;
         public int ChildCount => _scrollRect != null ? _scrollRect.content.childCount : 0;
         
         #endregion Varaibles
@@ -78,15 +95,14 @@ namespace Titan.UI.Interaction
             Transform parent = _scrollRect.content.transform;
             foreach(Interactable interactObject in interactObjects)
             {
-                GameObject slotUI = CreateSlot(parent);
+                GameObject slotGo = CreateSlot(parent);
                 
                 // @Refactor
                 // InteractionUI가 필요 없을 수도 있다. 간략화시킬 수 있는 방향이 있다면 고려할 것
-                InitInteractSlot(slotUI, interactObject.GetComponentInParent<Interactable>());
-                var interactionUI = slotUI.GetComponent<InteractionUI>();
-                interactionUI.Interactable = interactObject;
-                _interactionUIs[interactObject] = interactionUI;
-                slotUI.name += $"_{interactObject.name}";
+                InitInteractSlot(slotGo, interactObject);
+                
+                _interactables[interactObject] = slotGo;
+                slotGo.name += $"_{interactObject.name}";
             }
 
             // 비어있는 상태에서 처음 슬롯을 추가할 때
@@ -134,13 +150,13 @@ namespace Titan.UI.Interaction
                 return;
             }
 
-            var interactText = slotUI.transform.Find("InteractionSlotBody/InteractText");
+            var interactText = slotUI.transform.Find("SlotBody/SlotText");
             if(interactText && interactText.TryGetComponent<TextMeshProUGUI>(out var text))
             {
                 text.text = interactable.InteractText;
             }
 
-            var interactIcon = slotUI.transform.Find("InteractionSlotBody/InteractIcon");
+            var interactIcon = slotUI.transform.Find("SlotBody/SlotIcon");
             if(interactIcon && interactIcon.TryGetComponent<Image>(out var image))
             {
                 image.sprite = interactable switch {
@@ -150,26 +166,32 @@ namespace Titan.UI.Interaction
                     _ => _useIcon,
                 };
             }
+
+            if(!slotUI.TryGetComponent<TweenButton>(out var tweenButton))
+            {
+                tweenButton = slotUI.AddComponent<TweenButton>();
+            }
+            tweenButton.OnButtonClicked.AddListener(() => interactable.Interact());
         }
 
         public void RemoveSlot(Interactable[] interactObjects)
         {
             foreach(Interactable removedObject in interactObjects)
             {
-                if(_interactionUIs[removedObject].gameObject == _selectedSlot)
+                if(_interactables[removedObject] == _selectedSlot)
                 {
                     // Debug.Log($"Reset selected slot");
                     SelectSlot(null);
                 }
                 // SetCursorPos 계산을 위함
-                _interactionUIs[removedObject].gameObject.SetActive(false);
+                _interactables[removedObject].SetActive(false);
                 // Destroy 시점은 Update 이후에 이루어진다. 이번 Update 루프에서 삭제되는 것은 아니다.
                 // 따라서 InteractionUIs의 값들을 참조할 것
-                Destroy(_interactionUIs[removedObject].gameObject);
-                _interactionUIs.Remove(removedObject);
+                Destroy(_interactables[removedObject]);
+                _interactables.Remove(removedObject);
             }
 
-            if(_interactionUIs.Count == 0)
+            if(_interactables.Count == 0)
             {
                 _interactIconObject.SetActive(false);
             }
@@ -189,16 +211,16 @@ namespace Titan.UI.Interaction
             }
 
             // 기존 선택된 SLot이 있다면 Slot의 색을 기본색으로 변경
-            if(_selectedSlot != null && _selectedSlot.TryGetComponent<InteractionUI>(out var prevInteractionUI))
+            if(_selectedSlot != null && _selectedSlot.TryGetComponent<TweenButton>(out var prevTweenButton))
             {
-                prevInteractionUI.Deselect();
+                prevTweenButton.OnPointerHoverExit?.Invoke();
             }
 
             // Slot을 선택하고 색을 변경
             _selectedSlot = selectedSlot;
-            if(_selectedSlot != null && _selectedSlot.TryGetComponent<InteractionUI>(out var interactionUI))
+            if(_selectedSlot != null && _selectedSlot.TryGetComponent<TweenButton>(out var curTweenButton))
             {
-                interactionUI.Select();
+                curTweenButton.OnPointerHoverEnter?.Invoke();
             }
             UpdateCursorPos();
         }
@@ -284,17 +306,19 @@ namespace Titan.UI.Interaction
         {
             if(slotUI == null)
                 return false;
-            Interactable slotInteracObject = slotUI.GetComponent<InteractionUI>().Interactable;
-            return _interactionUIs.ContainsKey(slotInteracObject);
+            // @Memo
+            // Slot의 개수가 많지 않기 때문에 Linear Search를 사용해도 무리가 없다.
+            // 추후에 성능 문제가 생길 경우 수정할 것
+            return _interactables.ContainsValue(slotUI);
         }
 
         public void Clear()
         {
-            foreach(var interactionUI in _interactionUIs.Values)
+            foreach(var interactionUI in _interactables.Values)
             {
-                Destroy(interactionUI.gameObject);
+                Destroy(interactionUI);
             }
-            _interactionUIs.Clear();
+            _interactables.Clear();
             _selectedSlot = null;
             _interactIconObject.SetActive(false);
         }
