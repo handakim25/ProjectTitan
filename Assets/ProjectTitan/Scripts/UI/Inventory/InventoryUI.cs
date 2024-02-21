@@ -31,6 +31,9 @@ namespace Titan.UI.InventorySystem
         [Tooltip("표시할 아이템 타입을 지정. None이면 모든 타입을 표시한다.")]
         [SerializeField] List<ItemType> _allowedType = new List<ItemType>();
 
+        /// <summary>
+        /// Key : Slot GameObject, Value : InventorySlot
+        /// </summary>
         public Dictionary<GameObject, InventorySlot> slotUIs = new Dictionary<GameObject, InventorySlot>();
         /// <summary>
         /// 마지막으로 생성된 슬롯의 인덱스. Scene에서 구분하기 위해서 사용될 뿐이며 생성될 때마다 늘어나기만 한다.
