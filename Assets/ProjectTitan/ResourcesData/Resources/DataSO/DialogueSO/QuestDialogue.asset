@@ -36,12 +36,14 @@ MonoBehaviour:
           TargetID: Test_Quest
           TargetCount: 0
           QuestStatus: 0
+      ChoiceType: 2
     - ChoiceText: "\uC5EC\uAE30\uAC00 \uC5B4\uB514\uC57C?"
       NextNode: cc8918cc-89c9-4448-abc6-14ba76f0422d
       Condition:
         Type: 0
         ExpectedBool: 0
         Requirements: []
+      ChoiceType: 2
     - ChoiceText: "\uACE0\uB9C8\uC6CC. \uB2E4\uB978 \uACF3\uC744 \uB354 \uCC3E\uC544
         \uBCFC\uAC8C."
       NextNode: b20a14ee-a67d-402f-86c9-25bcdd588ea8
@@ -49,6 +51,7 @@ MonoBehaviour:
         Type: 0
         ExpectedBool: 0
         Requirements: []
+      ChoiceType: 0
     - ChoiceText: "\uC5F4\uC1E0\uB97C \uAC00\uC838\uC654\uC5B4."
       NextNode: 47d6422f-8776-49a4-919d-22aa9d5e8fa0
       Condition:
@@ -57,7 +60,7 @@ MonoBehaviour:
         Requirements:
         - Type: 1
           ExpectedBool: 1
-          TargetID: 7
+          TargetID: 9
           TargetCount: 1
           QuestStatus: 0
         - Type: 3
@@ -65,6 +68,7 @@ MonoBehaviour:
           TargetID: Test_Quest
           TargetCount: 0
           QuestStatus: 1
+      ChoiceType: 1
   - NodeID: 4d76cd99-42d5-4eb9-b268-6fef4b1db04e
     NextNode: 9d881225-05a2-41ba-b0b0-d6f8179261f4
     SpeakerName: 
@@ -93,12 +97,14 @@ MonoBehaviour:
         Type: 0
         ExpectedBool: 0
         Requirements: []
+      ChoiceType: 1
     - ChoiceText: "\uC815\uB9D0 \uD765\uBD84\uB418\uB294\uB370?"
       NextNode: a4532a3a-66f8-4574-ae80-91eaec7f0e70
       Condition:
         Type: 0
         ExpectedBool: 0
         Requirements: []
+      ChoiceType: 1
   - NodeID: ca61ff9e-dc3d-4bf6-9e19-882d21002c91
     NextNode: 9d881225-05a2-41ba-b0b0-d6f8179261f4
     SpeakerName: 
