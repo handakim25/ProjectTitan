@@ -106,7 +106,6 @@ namespace Titan.DialogueSystem
             // @Note
             // Player Input은 UI Manager가 관리해주고 있다.
             _action.Dialogue.Enable();
-            _action.UI.Disable();
 
             _isAutoMode = false;
             _autoButton.image.color = _isAutoMode ? _autoButttonColor : Color.white;
@@ -117,7 +116,6 @@ namespace Titan.DialogueSystem
         private void OnDisable()
         {
             _action.Dialogue.Disable();
-            _action.UI.Enable();
         }
 
         /// <summary>

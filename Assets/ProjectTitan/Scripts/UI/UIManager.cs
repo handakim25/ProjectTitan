@@ -46,6 +46,8 @@ namespace Titan.UI
         [SerializeField] private List<UIScene> _UIList = new List<UIScene>();
         public HudUIController HudUIController => _HudScene as HudUIController;
 
+        private bool IsUIOpen => _UIList.Any(scene => scene.gameObject.activeSelf);
+
         [System.Serializable]
         public class RarityColor
         {
@@ -284,6 +286,10 @@ namespace Titan.UI
             if(targetScene == null)
             {
                 Debug.LogError("Target Scene is Null");
+                return;
+            }
+            if(IsUIOpen)
+            {
                 return;
             }
 
