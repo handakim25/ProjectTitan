@@ -180,6 +180,7 @@ namespace Titan.DialogueSystem
             {
                 choice.ChoiceText = choiceNodeView.Sentence;
                 choice.NextNode = FindNodeFromPortID(portDataPair.outputPortData.ConnectedPortID)?.ID ?? null;
+                choice.ChoiceType = choiceNodeView.choiceType;
                 choices.Add(choice);
             }
         }

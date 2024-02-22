@@ -131,7 +131,8 @@ namespace Titan.DialogueSystem.Data.Nodes
         #endregion Container Structure
 
         /// <summary>
-        /// View를 생성
+        /// View를 생성한다. 초기화 과정에서 호출이 되어서 현재 데이터를 기반으로 View를 생성한다.
+        /// 세부적인 구현은 상속받은 클래스에서 구현한다.
         /// </summary>
         protected virtual void BuildView()
         {

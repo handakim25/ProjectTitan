@@ -172,12 +172,11 @@ namespace Titan.DialogueSystem
                     QuestManager = QuestManager.Instance,
                     InventoryManager = InventoryManager.Instance,
                 };
-                var choiceTextList = _curDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator))
-                    .Select(x => x.ChoiceText)
+                var choiceTupleList = _curDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator))
+                    .Select(x => (x.ChoiceText, x.ChoiceType))
                     .ToList();
-                var choices = _curDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator)).ToList();
                 
-                DialogueUI.ShowChoice(choiceTextList);
+                DialogueUI.ShowChoice(choiceTupleList);
             }
         }
 

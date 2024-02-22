@@ -18,13 +18,24 @@ namespace Titan.DialogueSystem
         [SerializeField] private InputActionAsset _inputAsset;
         private MainAction _action;
 
-        [Header("UI Components")]
+        [Header("Dialogue Body")]
         [SerializeField] private TextMeshProUGUI _speakerText;
         [UnityEngine.Serialization.FormerlySerializedAs("_dialogueText")]
         [SerializeField] private TextMeshProUGUI _sentenceText;
+
+        [Header("Choice Settings")]
         [Tooltip("선택지 패널 Object")]
         [SerializeField] private GameObject _choicePanel;
+        [Tooltip("선택지 버튼 Prefab")]
         [SerializeField] private GameObject _choiceButtonPrefab;
+        [Tooltip("대화 계속 선택지 Sprite, 분기점이 없는 선택지")]
+        [SerializeField] private Sprite _continueChoiceSprite;
+        [Tooltip("대화 종료 선택지 Sprite")]
+        [SerializeField] private Sprite _endChoiceSprite;
+        [Tooltip("대화를 하고 돌아오는 선택지 Sprite")]
+        [SerializeField] private Sprite _loopBackChoiceSprite;
+
+        [Header("Auto Mode")]
         [SerializeField] private Button _autoButton;
         [SerializeField] private Color _autoButttonColor = Color.yellow;
 
@@ -150,8 +161,8 @@ namespace Titan.DialogueSystem
         /// <summary>
         /// 선택지를 출력한다.
         /// </summary>
-        /// <param name="choices">선택지 내용</param>
-        public void ShowChoice(List<string> choices)
+        /// <param name="choiceTuple">(string: 선택지 내용, ChoiceType: 선택지 type)</param>
+        public void ShowChoice(List<(string, ChoiceType)> choiceTuple)
         {
             if(_choicePanel.activeSelf)
             {
@@ -159,13 +170,28 @@ namespace Titan.DialogueSystem
             }
 
             _choicePanel.SetActive(true);
-            
+
             var choiceContent = _choicePanel.GetComponent<ScrollRect>().content;
-            foreach(var choice in choices)
+            foreach(var choice in choiceTuple)
             {
+                string choiceText = choice.Item1;
+                ChoiceType choiceType = choice.Item2;
+
                 var choiceButton = Instantiate(_choiceButtonPrefab, choiceContent.transform);
-                choiceButton.GetComponentInChildren<TextMeshProUGUI>().text = choice;
-                choiceButton.GetComponent<TweenButton>().OnButtonClicked.AddListener(() => OnChoiceSelected?.Invoke(choice));
+
+                choiceButton.GetComponentInChildren<TextMeshProUGUI>().text = choice.Item1;
+                var slotIconGo = choiceButton.transform.Find("SlotBody/SlotIcon");
+                if(slotIconGo != null && slotIconGo.TryGetComponent(out Image slotIcon))
+                {
+                    slotIcon.sprite = choiceType switch
+                    {
+                        ChoiceType.ContinueChoice => _continueChoiceSprite,
+                        ChoiceType.EndChoice => _endChoiceSprite,
+                        ChoiceType.LoopBackChoice => _loopBackChoiceSprite,
+                        _ => null,
+                    };    
+                }
+                choiceButton.GetComponent<TweenButton>().OnButtonClicked.AddListener(() => OnChoiceSelected?.Invoke(choiceText));
             }
         }
         
