@@ -1,9 +1,12 @@
 # ProjectTitan
 
-## Project Overview
-
-## Project Setting
-- Unity Version : Unity 2021.3.22f1, 안드로이드, il2cpp 모듈 설정 link : unityhub://2021.3.22f1/b6c551784ba3
+## 작업 환경
+- Unity Version : Unity 2021.3.22f1
 - Visual Studio 2022 Community
-- Project Settings - Editor - Numbering Scheme - Prefab_1
-- git config core.autocrlf false
+
+## 주요 기능
+
+- 몬스터와 전투
+- 인벤토리 시스템
+- 다이얼로그 에디터
+- NPC와 대화하고 퀘스트 수락 받기
