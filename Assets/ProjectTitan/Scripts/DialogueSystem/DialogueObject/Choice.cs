@@ -23,4 +23,9 @@ namespace Titan.DialogueSystem
         /// </summary>
         public Condition Condition;
     }
+
+    public enum ChoiceType
+    {
+        EndChoice,
+    }
 }

@@ -24,6 +24,7 @@ namespace Titan.DialogueSystem
         [SerializeField] private TextMeshProUGUI _sentenceText;
         [Tooltip("선택지 패널 Object")]
         [SerializeField] private GameObject _choicePanel;
+        [SerializeField] private GameObject _choiceButtonPrefab;
         [SerializeField] private Button _autoButton;
         [SerializeField] private Color _autoButttonColor = Color.yellow;
 
@@ -76,6 +77,7 @@ namespace Titan.DialogueSystem
             Debug.Assert(_inputAsset != null, "Input Asset is null");
             Debug.Assert(_choicePanel != null, "Choice Panel is null");
             Debug.Assert(_autoButton != null, "Auto Button is null");
+            Debug.Assert(_choiceButtonPrefab != null, "Choice Button Prefab is null");
 
             _action = new MainAction(_inputAsset);
             _action.Dialogue.SetCallbacks(this);
@@ -161,9 +163,9 @@ namespace Titan.DialogueSystem
             var choiceContent = _choicePanel.GetComponent<ScrollRect>().content;
             foreach(var choice in choices)
             {
-                var choiceButton = Instantiate(Resources.Load<GameObject>("Prefabs/UI/DialogueChoiceButtonPrefab"), choiceContent.transform);
+                var choiceButton = Instantiate(_choiceButtonPrefab, choiceContent.transform);
                 choiceButton.GetComponentInChildren<TextMeshProUGUI>().text = choice;
-                choiceButton.GetComponent<Button>().onClick.AddListener(() => OnChoiceSelected?.Invoke(choice));
+                choiceButton.GetComponent<TweenButton>().OnButtonClicked.AddListener(() => OnChoiceSelected?.Invoke(choice));
             }
         }
         

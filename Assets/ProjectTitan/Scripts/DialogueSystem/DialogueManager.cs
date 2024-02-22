@@ -175,6 +175,8 @@ namespace Titan.DialogueSystem
                 var choiceTextList = _curDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator))
                     .Select(x => x.ChoiceText)
                     .ToList();
+                var choices = _curDialogueNode.Choices.Where(x => x.Condition.IsMet(_conditionEvaluator)).ToList();
+                
                 DialogueUI.ShowChoice(choiceTextList);
             }
         }
