@@ -46,7 +46,8 @@ namespace Titan.UI
         [SerializeField] private List<UIScene> _UIList = new List<UIScene>();
         public HudUIController HudUIController => _HudScene as HudUIController;
 
-        private bool IsUIOpen => _UIList.Any(scene => scene.gameObject.activeSelf);
+        // HUD가 열려있지 않으면 다른 UI가 열려 있다.
+        private bool IsUIOpen => !HudUIController.gameObject.activeSelf;
 
         /// <summary>
         /// 마우스 모드
