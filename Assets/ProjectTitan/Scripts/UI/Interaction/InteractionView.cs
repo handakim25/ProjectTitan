@@ -81,7 +81,7 @@ namespace Titan.UI.Interaction
             _contentRectTransform = _scrollRect.content.GetComponent<RectTransform>();
             _interactIconRect = _interactIconObject.GetComponent<RectTransform>();
         }
-        
+
         #endregion Unity Methods
 
         #region Methods
@@ -92,6 +92,14 @@ namespace Titan.UI.Interaction
         /// <param name="interactObjects"></param>
         public void AddSlots(Interactable[] interactObjects)
         {
+            // @Fix
+            // 처음 활성화 시점에서 호출될 때 비어있는 InteractionList를 받아올 경우 문제가 생긴다.
+            // 현재는 아무것도 안 하는 것으로 처리하고 Cursor, Icon Update를 해야할 경우 호출하도록 한다.
+            // 지금은 기본적으로 Active 상태가 아니므로 문제가 없다.
+            if(interactObjects == null || interactObjects.Length == 0)
+            {
+                return;
+            }
             Transform parent = _scrollRect.content.transform;
             foreach(Interactable interactObject in interactObjects)
             {

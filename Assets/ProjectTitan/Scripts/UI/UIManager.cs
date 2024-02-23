@@ -288,10 +288,6 @@ namespace Titan.UI
                 Debug.LogError("Target Scene is Null");
                 return;
             }
-            if(IsUIOpen)
-            {
-                return;
-            }
 
             if(targetScene.gameObject.activeSelf)
             {

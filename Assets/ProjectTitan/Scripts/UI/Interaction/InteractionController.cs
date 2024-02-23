@@ -13,9 +13,16 @@ namespace Titan.UI.Interaction
     {
         [SerializeField] private InteractionList _interactionList;
         [SerializeField] private InteractionView _view;
+        private bool _isInitialized = false;
 
         #region Unity Methods
         
+        private void Start()
+        {
+            _isInitialized = true;
+            _view.AddSlots(_interactionList.interactObjects.ToArray());
+        }
+
         private void OnEnable()
         {
             UIManager.Instance.OnInteractEvent += OnInteractHandler;
@@ -23,8 +30,15 @@ namespace Titan.UI.Interaction
             _interactionList.OnInteractChanged += InteractSlotChagned;
 
             // 현재 Interaction List에 있는 Interaction을 View에 추가한다.
+            // @Fix
+            // Interaction List의 Awake 호출을 기다린다.
+            // 첫 프레임에서는 Awake 단계에서 추가하는 것이 아니고 Start에서 추가한다.
+            // OnEnable/OnDisable은 호출 순서에 주의할 것
+            if(!_isInitialized)
+            {
+                return;
+            }
             _view.AddSlots(_interactionList.interactObjects.ToArray());
-            StartCoroutine(WaitRebuild());
         }
 
         private void OnDisable()
