@@ -48,25 +48,6 @@ namespace Titan.UI
 
         private bool IsUIOpen => _UIList.Any(scene => scene.gameObject.activeSelf);
 
-        [System.Serializable]
-        public class RarityColor
-        {
-            public Color Common;
-            public Color Uncommon;
-            public Color Rare;
-            public Color Epic;
-
-            // 강조하기 위해서 사용하는 색상. 조금 더 어두운 색상.
-            [Space]
-            public Color Commonintense;
-            public Color Uncommonintense;
-            public Color Rareintense;
-            public Color Epicintense;
-        }
-
-        [SerializeField] private RarityColor rarityColor;
-        public RarityColor RarityColorTable => rarityColor;
-
         /// <summary>
         /// 마우스 모드
         /// <para>1. UI가 열려있을 경우</para>
