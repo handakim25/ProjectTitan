@@ -12,6 +12,7 @@ namespace Titan.UI
     public class InventoryUIScene : UIScene
     {
         private CanvasGroup _canvasGroup;
+        [Space]
         [SerializeField] private float _transitionTime = 0.5f;
 
         /// <summary>
@@ -25,19 +26,15 @@ namespace Titan.UI
         }
 
         // Button Callback
-        public override void OpenUI()
+        protected override void HandleUIOpen()
         {
-            gameObject.SetActive(true);
-
-            UIManager.Instance.OpenUIScene(this);
-
             _canvasGroup.alpha = 0f;
             _canvasGroup.DOFade(1.0f, 0.0f)
                         .SetDelay(_transitionTime)
                         .SetUpdate(true);
         }
 
-        public override void CloseUI()
+        protected override void HandleUIClose()
         {
             gameObject.SetActive(false);
 

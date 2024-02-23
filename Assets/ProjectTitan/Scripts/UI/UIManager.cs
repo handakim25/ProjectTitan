@@ -31,9 +31,9 @@ namespace Titan.UI
 
         [Header("UI")]
         [Tooltip("HUD Scene. 기본 진행 중에는 HUD가 표시되고 다른 UI를 열었을 경우 닫히게 된다. 다른 UI가 닫혔을 경우 다시 열린다.")]
-        [SerializeField] private UIScene _HudScene;
-        [SerializeField] private UIScene inventoryUI;
-        [SerializeField] private UIScene _questUI;
+        public UIScene _HudScene;
+        public UIScene inventoryUI;
+        public UIScene _questUI;
 
         // @Refactor
         // UI Scene을 각 Scene이 등록을 하거나 아니면 UI Manager가 찾아서 등록하거나 하는 식으로 수정할 것
@@ -104,16 +104,15 @@ namespace Titan.UI
         // 각 Scene은 자기 자신을 닫는다.
         // 각각의 Scene은 독립적이다.
 
-        // UI Scene들이 이것을 이용해서 자기 자신을 열게 한다.
+        /// <summary>
+        /// 해당 Scene을 열게 한다. 다른 Scene은 닫히게 된다. 마우스 모드가 활성화 되고 Player Input이 비활성화 된다.
+        /// </summary>
+        /// <param name="targetScene"></param>
         public void OpenUIScene(UIScene targetScene)
         {
             foreach(UIScene scene in _UIList)
             {
-                if(scene == targetScene)
-                {
-                    continue;
-                }
-                if(scene.gameObject.activeSelf)
+                if(scene != targetScene && scene.gameObject.activeSelf)
                 {
                     scene.CloseUI();
                 }
@@ -124,6 +123,7 @@ namespace Titan.UI
             MouseModeOn();
             _action.Player.Disable();
 
+            // UI 오픈 뒤의 효과 처리
             if(targetScene.shouldTimeStop)
             {
                 GameManager.Instance.PauseGame();
@@ -134,18 +134,21 @@ namespace Titan.UI
             }
         }
         
+        /// <summary>
+        /// 해당 UIScene을 닫는다. 닫은 이후로는 HUD Scene을 열게 된고 마우스 모드를 종료한다.
+        /// </summary>
+        /// <param name="scene"></param>
         public void CloseUIScene(UIScene scene)
         {
-            if(scene.gameObject.activeSelf)
-            {
-                scene.CloseUI();
-            }
+            // HUD Scene을 열게 되면 다른 Scene이 닫히게 된다.
+            // 근데 코드의 흐름이 좋아보이지 않아.
+            // OpenUI -> OpenUIScene(_HudSene) -> Close Other scenes
+            _HudScene.OpenUI();
 
             // Input 처리
             isMouseMode = false;
             MouseModeOff();
             _action.Player.Enable();
-            _HudScene.OpenUI();
 
             GameManager.Instance.ResumeGame();
             BlurManager.Instance.BlurActive = false;
@@ -272,7 +275,6 @@ namespace Titan.UI
 
             if(targetScene.gameObject.activeSelf)
             {
-                // CloseUIScene(scene);
                 targetScene.CloseUI();
             }
             else

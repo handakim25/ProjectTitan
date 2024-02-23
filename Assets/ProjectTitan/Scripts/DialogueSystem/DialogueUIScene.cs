@@ -20,14 +20,11 @@ namespace Titan.UI
             dialogueUIConroller = GetComponent<DialogueUIController>();
 
             Debug.Assert(_canvasGroup != null, "CanvasGroup is null");
+            Debug.Log($"UI Manager : {UIManager.Instance}");
         }
 
-        public override void OpenUI()
+        protected override void HandleUIOpen()
         {
-            gameObject.SetActive(true);
-
-            UIManager.Instance.OpenUIScene(this);
-
             // @Fix
             // Game Stop이 구현되었으므로 SetUpdate를 true로 해야 애니메이션이 진행된다.
             _canvasGroup.alpha = 0f;
@@ -40,7 +37,7 @@ namespace Titan.UI
             });
         }
 
-        public override void CloseUI()
+        protected override void HandleUIClose()
         {
             gameObject.SetActive(false);
 

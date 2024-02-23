@@ -75,7 +75,7 @@ namespace Titan.UI
 
         #region UIScene
 
-        public override void OpenUI()
+        protected override void HandleUIOpen()
         {
             // move from top
             _upperBar.SetActive(true);
@@ -114,7 +114,7 @@ namespace Titan.UI
                 .SetUpdate(true);
         }
 
-        public override void CloseUI()
+        protected override void HandleUIClose()
         {
             // move to top
             var upperRect = _upperBar.GetComponent<RectTransform>();

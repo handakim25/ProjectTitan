@@ -16,19 +16,15 @@ namespace Titan.UI
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        public override void OpenUI()
+        protected override void HandleUIOpen()
         {
-            gameObject.SetActive(true);
-
-            UIManager.Instance.OpenUIScene(this);
-
             _canvasGroup.alpha = 0f;
             _canvasGroup.DOFade(1.0f, 0.0f)
                         .SetDelay(_transitionTime)
                         .SetUpdate(true);
         }
 
-        public override void CloseUI()
+        protected override void HandleUIClose()
         {
             gameObject.SetActive(false);
 
