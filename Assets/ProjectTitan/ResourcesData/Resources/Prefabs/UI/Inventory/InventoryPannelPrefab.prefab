@@ -1244,6 +1244,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldTimeStop: 1
   shouldBlur: 1
+  _openSound: 13
+  _closeSound: 14
   _transitionTime: 0.5
 --- !u!1 &101697217719374887
 GameObject:

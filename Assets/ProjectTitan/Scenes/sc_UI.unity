@@ -689,6 +689,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldTimeStop: 1
   shouldBlur: 0
+  _openSound: 13
+  _closeSound: 14
   _transitionTime: 0.5
 --- !u!114 &105679943
 MonoBehaviour:
@@ -857,15 +859,6 @@ MonoBehaviour:
   - {fileID: 407944320}
   - {fileID: 1445979887}
   - {fileID: 105679942}
-  rarityColor:
-    Common: {r: 0, g: 0, b: 0, a: 0}
-    Uncommon: {r: 0, g: 0, b: 0, a: 0}
-    Rare: {r: 0, g: 0, b: 0, a: 0}
-    Epic: {r: 0, g: 0, b: 0, a: 0}
-    Commonintense: {r: 0, g: 0, b: 0, a: 0}
-    Uncommonintense: {r: 0, g: 0, b: 0, a: 0}
-    Rareintense: {r: 0, g: 0, b: 0, a: 0}
-    Epicintense: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &163471561
 GameObject:
   m_ObjectHideFlags: 0
@@ -5297,6 +5290,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldTimeStop: 1
   shouldBlur: 1
+  _openSound: -1
+  _closeSound: -1
   _upperBar: {fileID: 583248942}
   _interactionPannel: {fileID: 1571133705}
   _healthPannel: {fileID: 1414595116}

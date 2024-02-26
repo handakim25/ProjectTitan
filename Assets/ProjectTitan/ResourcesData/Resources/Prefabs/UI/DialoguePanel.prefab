@@ -373,6 +373,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shouldTimeStop: 0
   shouldBlur: 0
+  _openSound: 13
+  _closeSound: -1
   _transitionTime: 0.5
 --- !u!114 &7183456176372414243
 MonoBehaviour:
@@ -404,7 +406,7 @@ MonoBehaviour:
   _autoWaitTime: 1
   _blockInputDuration: 0.5
   _dialogueStartSound: -1
-  _nextDialogueSound: -1
+  _nextDialogueSound: 13
   _isDialogueAnimating: 0
 --- !u!225 &7183456176372414429
 CanvasGroup:
