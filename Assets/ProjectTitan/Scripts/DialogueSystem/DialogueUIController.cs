@@ -97,6 +97,7 @@ namespace Titan.DialogueSystem
             _autoButton.onClick.AddListener(ToggleAuto);
 
             OnNextDialogue += () => SoundManager.Instance.PlayUISound((int)_nextDialogueSound);
+            OnChoiceSelected += (choice) => SoundManager.Instance.PlayUISound((int)_nextDialogueSound);
         }
 
         private void OnEnable()
