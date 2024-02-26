@@ -105,12 +105,15 @@ namespace Titan.UI
         // 각 Scene은 자기 자신을 닫는다.
         // 각각의 Scene은 독립적이다.
 
+        private bool _isOpening = false;
+
         /// <summary>
         /// 해당 Scene을 열게 한다. 다른 Scene은 닫히게 된다. 마우스 모드가 활성화 되고 Player Input이 비활성화 된다.
         /// </summary>
         /// <param name="targetScene"></param>
         public void OpenUIScene(UIScene targetScene)
         {
+            _isOpening = true;  
             foreach(UIScene scene in _UIList)
             {
                 if(scene != targetScene && scene.gameObject.activeSelf)
@@ -133,6 +136,7 @@ namespace Titan.UI
             {
                 BlurManager.Instance.BlurActive = true;
             }
+            _isOpening = false;
         }
         
         /// <summary>
@@ -141,10 +145,12 @@ namespace Titan.UI
         /// <param name="scene"></param>
         public void CloseUIScene(UIScene scene)
         {
-            // HUD Scene을 열게 되면 다른 Scene이 닫히게 된다.
-            // 근데 코드의 흐름이 좋아보이지 않아.
-            // OpenUI -> OpenUIScene(_HudSene) -> Close Other scenes
-            _HudScene.OpenUI();
+            if(_isOpening)
+            {
+                return;
+            }
+            // OnEnable에서 HUD의 Animation이 진행된다.
+            _HudScene.gameObject.SetActive(true);
 
             // Input 처리
             isMouseMode = false;

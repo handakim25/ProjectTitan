@@ -75,7 +75,7 @@ namespace Titan.UI
 
         #region UIScene
 
-        protected override void HandleUIOpen()
+        protected override void OnEnable()
         {
             // move from top
             _upperBar.SetActive(true);
@@ -116,12 +116,15 @@ namespace Titan.UI
 
         protected override void HandleUIClose()
         {
+            var closeSequnce = DOTween.Sequence();
+
             // move to top
             var upperRect = _upperBar.GetComponent<RectTransform>();
-            upperRect.DOAnchorPosY(upperRect.sizeDelta.y, _transitionTime)
+            var upperTween = upperRect.DOAnchorPosY(upperRect.sizeDelta.y, _transitionTime)
                 .SetEase(closeEaseType)
                 .OnComplete( () => _upperBar.SetActive(false))
                 .SetUpdate(true);
+            closeSequnce.Join(upperTween);
 
             // move to right
             var interactRect = _interactionPannel.GetComponent<RectTransform>();
@@ -131,27 +134,34 @@ namespace Titan.UI
             interactSequnce.Join(interactCanvasGroup.DOFade(0, _transitionTime).SetEase(closeEaseType));
             interactSequnce.OnComplete(() => _interactionPannel.SetActive(false))
                             .SetUpdate(true);
+            closeSequnce.Join(interactSequnce);
 
             // move to bottom
             var healthRect = _healthPannel.GetComponent<RectTransform>();
-            healthRect.DOAnchorPosY(-healthRect.sizeDelta.y, _transitionTime)
+            var healthTween = healthRect.DOAnchorPosY(-healthRect.sizeDelta.y, _transitionTime)
                 .SetEase(closeEaseType)
                 .OnComplete(() => _healthPannel.SetActive(false))
                 .SetUpdate(true);
+            closeSequnce.Join(healthTween);
 
             // move to left
             var minimapRct = _minimapPannel.GetComponent<RectTransform>();
-            minimapRct.DOAnchorPosX(-minimapRct.sizeDelta.x, _transitionTime)
+            var minimapTween = minimapRct.DOAnchorPosX(-minimapRct.sizeDelta.x, _transitionTime)
                 .SetEase(closeEaseType)
                 .OnComplete(() => _minimapPannel.SetActive(false))
                 .SetUpdate(true);
+            closeSequnce.Join(minimapTween);
 
             // move to right
             var skillRect = _skillPannel.GetComponent<RectTransform>();
-            skillRect.DOAnchorPosX(skillRect.sizeDelta.x, _transitionTime)
+            var skillTween = skillRect.DOAnchorPosX(skillRect.sizeDelta.x, _transitionTime)
                 .SetEase(closeEaseType)
                 .OnComplete(() => _skillPannel.SetActive(false))
                 .SetUpdate(true);
+            closeSequnce.Join(skillTween);
+
+            closeSequnce.SetUpdate(true)
+                .OnComplete(() => gameObject.SetActive(false));
         }
 
         #endregion UIScene

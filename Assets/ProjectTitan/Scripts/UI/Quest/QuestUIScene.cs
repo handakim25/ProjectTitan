@@ -16,7 +16,7 @@ namespace Titan.UI
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        protected override void HandleUIOpen()
+        protected override void OnEnable()
         {
             _canvasGroup.alpha = 0f;
             _canvasGroup.DOFade(1.0f, 0.0f)

@@ -23,7 +23,7 @@ namespace Titan.UI
             Debug.Log($"UI Manager : {UIManager.Instance}");
         }
 
-        protected override void HandleUIOpen()
+        protected override void OnEnable()
         {
             // @Fix
             // Game Stop이 구현되었으므로 SetUpdate를 true로 해야 애니메이션이 진행된다.

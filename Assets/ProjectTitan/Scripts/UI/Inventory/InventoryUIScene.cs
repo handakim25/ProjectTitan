@@ -12,21 +12,20 @@ namespace Titan.UI
     public class InventoryUIScene : UIScene
     {
         private CanvasGroup _canvasGroup;
+
+        // 상단에는 상속 받은 UI Scene의 설정이 있다.
         [Space]
         [SerializeField] private float _transitionTime = 0.5f;
 
-        /// <summary>
-        /// Awake is called when the script instance is being loaded.
-        /// </summary>
         private void Awake()
         {
-            // 활성화 되지 않은 오브젝트의 경우는
-            // Awake 호출이 늦게 될 수 있다.
+            // @Memo
+            // 비활성화 상태에서 Scene으로 로드되면 Awake는 호출되지 않는다.
+            // 만약에 다른 함수를 호출하고 싶다면 먼저 활성화 상태로 만들어서 초기화를 진행해야 한다.
             _canvasGroup = GetComponent<CanvasGroup>();
         }
 
-        // Button Callback
-        protected override void HandleUIOpen()
+        protected override void OnEnable()
         {
             _canvasGroup.alpha = 0f;
             _canvasGroup.DOFade(1.0f, 0.0f)

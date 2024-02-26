@@ -42,15 +42,12 @@ namespace Titan.Character
 
         public bool IsGround()
         {
-            switch(_detectMethod)
+            return _detectMethod switch
             {
-                case DetectMethod.Raycast:
-                    return IsGroundRay();
-                case DetectMethod.SpehereCast:
-                    return IsGroundSphere();
-                default:
-                    return IsGroundRay();
-            }
+                DetectMethod.Raycast => IsGroundRay(),
+                DetectMethod.SpehereCast => IsGroundSphere(),
+                _ => IsGroundRay(),
+            };
         }
 
         private bool IsGroundRay()
