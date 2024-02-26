@@ -12,7 +12,9 @@
         "Player_Hyper_01",
         "Player_Dash",
         "Player_Skill",
-        "Door_Open_Sound"
+        "Door_Open_Sound",
+        "UI_Open",
+        "UI_Close"
     ],
     "SoundClips": [
         {
@@ -211,6 +213,38 @@
             "index": 0,
             "clipName": "Secret door",
             "clipPath": "Free Pack/",
+            "playType": -1,
+            "maxVolume": 1.0,
+            "IsLoop": false,
+            "pitch": 1.0,
+            "dopplerLevel": 1.0,
+            "rolloffMode": 0,
+            "minDistance": 10000.0,
+            "maxDistance": 50000.0,
+            "spatialBlend": 1.0,
+            "setTime": [],
+            "checkTime": []
+        },
+        {
+            "index": 0,
+            "clipName": "ui_interface_sound_2",
+            "clipPath": "Audio/",
+            "playType": -1,
+            "maxVolume": 1.0,
+            "IsLoop": false,
+            "pitch": 1.0,
+            "dopplerLevel": 1.0,
+            "rolloffMode": 0,
+            "minDistance": 10000.0,
+            "maxDistance": 50000.0,
+            "spatialBlend": 1.0,
+            "setTime": [],
+            "checkTime": []
+        },
+        {
+            "index": 0,
+            "clipName": "ui_interface_sound_3",
+            "clipPath": "Audio/",
             "playType": -1,
             "maxVolume": 1.0,
             "IsLoop": false,

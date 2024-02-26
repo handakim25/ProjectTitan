@@ -14,5 +14,7 @@ public enum SoundList
     Player_Dash = 10,
     Player_Skill = 11,
     Door_Open_Sound = 12,
+    UI_Open = 13,
+    UI_Close = 14,
 
 }
