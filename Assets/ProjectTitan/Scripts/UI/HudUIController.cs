@@ -65,9 +65,6 @@ namespace Titan.UI
             {
                 _skillPannelController = _skillPannel.GetComponent<SkillPannelController>();
             }
-        }
-        private void Start()
-        {
             _interactionStartAnchorX = _interactionPannel.GetComponent<RectTransform>().anchoredPosition.x;
         }
         
