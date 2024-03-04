@@ -378,10 +378,7 @@ namespace Titan.Audio
 
         public void FadeOut(float time, Interpolate.EaseType ease)
         {
-            if(_currentSound != null)
-            {
-                _currentSound.FadeOut(time, ease);
-            }
+            _currentSound?.FadeOut(time, ease);
         }
 
         public void FadeTo(SoundClip clip, float time, Interpolate.EaseType ease)

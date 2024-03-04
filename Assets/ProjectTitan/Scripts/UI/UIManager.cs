@@ -8,16 +8,6 @@ using UnityEngine.EventSystems;
 using Titan.Core;
 using Titan.Graphics.PostProcessing;
 
-// @Refactor
-// OpenUI, CloseUI 수정할 것
-// 1. UIScene에서 UIManager를 호출하는 것은 좋아 보이지 않는다.
-// 2. CloseUI()를 호출하는 것이 아니라, UIScene에서 CloseUI를 호출하는 것도 좋아 보이지 않는다.
-// 실수할 가능성이 높다. 아니면 메소드의 의미가 명확하지 않는 것으로 보인다.
-// 3. 어쩌면 Input 처리도 각 Scene이 처리하는 것이 좋을 수도 있다. 가령, 겹치는 UI가 있을 경우에는 어떻게 처리할 것인가? 혹은 팝업 메뉴의 처리는? 가령 다른 게임에서는 toggle 시에 팝업을 닫는 방식으로 처리할 때도 있다.
-// 이런 케이스를 UIManager에서 다 처리하기에는 어려움이 있을 수 있다.
-// 각 Scene이 자신의 Input을 처리하고, UIManager에서는 각 Scene의 요청을 받아서 처리하는 것이 좋을 수도 있다.
-// 그렇다면 Input을 어떻게 넘겨줄 것인가?
-
 namespace Titan.UI
 {
     /// <summary>
