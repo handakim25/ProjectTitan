@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dontDestroyOnLoad: 0
-  _defaultScene: {fileID: 11400000, guid: a4efa29e9c191144da63f971c3867595, type: 2}
+  _defaultScene: {fileID: 11400000, guid: 34649425f5644bf48922021dd6f6dcd7, type: 2}
   _coreCamera: {fileID: 260618826}
   _loadUIController: {fileID: 883082339}
 --- !u!1001 &9110608699202271319
