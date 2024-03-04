@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.SceneManagement;
+    using UnityEditor;
 
 using Titan.Core.Scene;
 
 namespace Titan.Scene
 {
-    using UnityEditor;
-
+    /// <summary>
+    /// Scene Load하는 Editor. 툴바에 추가한다.
+    /// </summary>
     public class SceneLoadManagerEditor : Editor
     {
+        // @Note
+        // 현재까지 파악한 바로는 MenuItem을 이용할 때 동적으로 생성하는 것은 제한적이다.
+        // 일단은 동적으로 생성하지 않고 정적으로 이용하도록 한다.
+
         [MenuItem("ProjectTitan/Scene/Play")]
         private static void OpenPlayScene()
         {
@@ -21,6 +27,12 @@ namespace Titan.Scene
         private static void OpenEntryScene()
         {
             LoadScene("EntryScenes");
+        }
+
+        [MenuItem("ProjectTitan/Scene/Title")]
+        private static void OpenTitleScene()
+        {
+            LoadScene("TitleScenes");
         }
 
         private static void LoadScene(string sceneName)
