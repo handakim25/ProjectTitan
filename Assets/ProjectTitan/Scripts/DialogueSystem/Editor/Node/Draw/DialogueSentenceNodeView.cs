@@ -46,7 +46,7 @@ namespace Titan.DialogueSystem.Data.Nodes
             // Load Style sheet
             styleSheets.Add(AssetDatabase.LoadAssetAtPath<StyleSheet>(DialogueEditorWindow.StyleSheetsPath + "DialogueSentenceNodeView.uss"));
 
-            Debug.Log($"Build Sentence Node : {ID} / InputPort : {inputPortData.PortID} / OutputPort : {outputPortData.PortID}");
+            Debug.Log($"Build Sentence Node : {ID} / InputPort : {inputPortData?.PortID} / OutputPort : {outputPortData?.PortID}");
 
             // 같은 데이터를 여러 방식으로 사용하는 것은 좋은 설계가 아니다.
             // 추후에 View의 형식에 맞춰서 Slot으로 추상화해서 중복된 코드를 줄이고 데이터의 애매함을 줄여 표현성을 늘릴 것
