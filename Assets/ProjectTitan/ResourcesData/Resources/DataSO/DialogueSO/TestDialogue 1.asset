@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa5c1801b9579e4fac5200a63309961, type: 3}
+  m_Name: TestDialogue 1
+  m_EditorClassIdentifier: 
+  DialogueName: TestDialogue 1
+  StartingNodeID: 
+  Nodes:
+  - NodeID: 0e6e074a-f39a-48e7-b479-3afecd9e6fe9
+    NextNode: b4a4a1cf-5b08-4f7b-a2ed-7b9ebccbe8a2
+    SpeakerName: 
+    SentenceText: "\uB300\uC0AC1"
+    TriggerEventID: 
+    TriggerSetValue: 0
+    TriggerQuest: 
+    TriggerQuestState: NotReceived
+    Choices: []
+  - NodeID: b4a4a1cf-5b08-4f7b-a2ed-7b9ebccbe8a2
+    NextNode: 
+    SpeakerName: 
+    SentenceText: "\uB300\uC0AC2"
+    TriggerEventID: 
+    TriggerSetValue: 0
+    TriggerQuest: 
+    TriggerQuestState: NotReceived
+    Choices:
+    - ChoiceText: "\uC120\uD0DD\uC9C01"
+      NextNode: 0e6e074a-f39a-48e7-b479-3afecd9e6fe9
+      Condition:
+        Type: 0
+        ExpectedBool: 0
+        Requirements: []
+      ChoiceType: 1
+    - ChoiceText: "\uC870\uAC74 \uC120\uD0DD\uC9C0"
+      NextNode: 87ee7a00-33e7-431d-9cd3-e49c0cb273c4
+      Condition:
+        Type: 1
+        ExpectedBool: 1
+        Requirements:
+        - Type: 3
+          ExpectedBool: 1
+          TargetID: Test_Quest
+          TargetCount: 0
+          QuestStatus: 0
+      ChoiceType: 1
+  - NodeID: 87ee7a00-33e7-431d-9cd3-e49c0cb273c4
+    NextNode: 
+    SpeakerName: 
+    SentenceText: "\uC885\uB8CC \uC120\uD0DD\uC9C0"
+    TriggerEventID: 
+    TriggerSetValue: 0
+    TriggerQuest: 
+    TriggerQuestState: NotReceived
+    Choices: []
